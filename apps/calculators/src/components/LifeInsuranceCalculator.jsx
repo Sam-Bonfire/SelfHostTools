@@ -1,0 +1,420 @@
+import React, { useState, useEffect, useCallback } from 'react';
+import { Link } from 'react-router-dom';
+import { ShieldCheck, Heart, Umbrella, TrendingUp, ArrowLeft, Settings, Info, Briefcase, GraduationCap, Landmark, Coins, AlertCircle, PieChart as PieChartIcon, IndianRupee, Calendar, Percent, FileText, Table } from 'lucide-react';
+import { Button, Card, Input, Checkbox, Tooltip } from '@packages/styling';
+import { motion, AnimatePresence } from 'framer-motion';
+import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
+import Footer from './Footer';
+import SEO from './SEO';
+
+import { calculateLifeInsurance, generateLifeInsuranceSchedule } from '../lib/lifeInsuranceLogic';
+
+export default function LifeInsuranceCalculator() {
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "FinancialProduct",
+    "name": "Life Insurance (HLV) Calculator",
+    "description": "Calculate your true Life Insurance needs based on Human Life Value (HLV), liabilities, and future goals.",
+    "brand": { "@type": "Brand", "name": "Calculators Hub" }
+  };
+
+  // --- INPUTS ---
+  const [monthlyExpense, setMonthlyExpense] = useState(50000);
+  const [yearsToReplace, setYearsToReplace] = useState(25);
+  const [inflationRate, setInflationRate] = useState(6);
+  const [investmentReturn, setInvestmentReturn] = useState(7); // Safe debt return
+  const [personalShare, setPersonalShare] = useState(20); // Self-consumption deduction %
+
+  // --- LIABILITIES ---
+  const [liabilities, setLiabilities] = useState(5000000); // e.g. Home Loan
+
+  // --- GOALS ---
+  const [futureGoals, setGoals] = useState([
+    { id: 1, name: "Child Education", amount: 2000000, yearsAway: 15 },
+    { id: 2, name: "Child Marriage", amount: 1500000, yearsAway: 20 }
+  ]);
+
+  // --- EXISTING ASSETS ---
+  const [existingAssets, setAssets] = useState(1000000);
+  const [currentInsurance, setCurrentInsurance] = useState(2500000);
+
+  // --- RESULTS ---
+  const [results, setResults] = useState({
+    expenseCover: 0,
+    goalCover: 0,
+    totalRequired: 0,
+    gap: 0,
+    isAdequate: false
+  });
+
+  const calculate = useCallback(() => {
+    const calcResults = calculateLifeInsurance({
+      monthlyExpense,
+      yearsToReplace,
+      inflationRate,
+      investmentReturn,
+      personalShare,
+      liabilities,
+      futureGoals,
+      existingAssets,
+      currentInsurance
+    });
+
+    setResults(calcResults);
+
+  }, [monthlyExpense, yearsToReplace, inflationRate, investmentReturn, personalShare, liabilities, futureGoals, existingAssets, currentInsurance]);
+
+  useEffect(() => {
+    calculate();
+  }, [calculate]);
+
+  const updateGoal = (id, field, val) => {
+    setGoals(prev => prev.map(g => g.id === id ? { ...g, [field]: val } : g));
+  };
+
+  const formatCurrency = (val) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
+
+  const checkExports = (type) => {
+    const schedule = generateDrawdown();
+    const data = {
+      inputs: {
+        monthlyExpense,
+        yearsToReplace,
+        inflationRate,
+        liabilities,
+        futureGoals,
+        existingAssets,
+        currentInsurance
+      },
+      results,
+      schedule
+    };
+
+    if (type === 'pdf') {
+      downloadPDF(data);
+    } else {
+      downloadExcel(data);
+    }
+  };
+
+  const generateDrawdown = () => {
+    return generateLifeInsuranceSchedule({
+      expenseCover: results.expenseCover,
+      familyMonthlyNeed: results.familyMonthlyNeed,
+      yearsToReplace,
+      investmentReturn,
+      inflationRate
+    });
+  };
+
+  return (
+    <div className="min-h-screen bg-white text-black p-4 md:p-8 font-sans">
+      <SEO
+        title="Life Insurance HLV Calculator"
+        description="Find your true human life value. Don't settle for '10x salary' - calculate based on real liabilities and goals."
+        canonical={`${import.meta.env.VITE_SITE_URL}/life-insurance-calculator`}
+        structuredData={structuredData}
+      />
+      <div className="max-w-6xl mx-auto">
+
+        {/* Header */}
+        <header className="mb-8 flex justify-between items-center bg-yellow-300 p-4 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+          <div className="flex items-center gap-4">
+            <Tooltip content="Return to Hub" position="right">
+              <Link to="/" aria-label="Back" className="p-2 bg-white border-4 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all block">
+                <ArrowLeft className="w-5 h-5 text-black" />
+              </Link>
+            </Tooltip>
+            <h1 className="text-2xl md:text-3xl font-black flex items-center gap-3">
+              <Umbrella className="w-6 h-6 md:w-8 md:h-8" /> LIFE COVER (HLV)
+            </h1>
+          </div>
+        </header>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+          {/* INPUTS */}
+          <div className="lg:col-span-5 space-y-6">
+            <Card className="p-0 border-4 border-black">
+              <div className="bg-blue-100 p-4 border-b-4 border-black">
+                <h2 className="text-lg font-bold flex items-center gap-2">
+                  <Briefcase className="w-5 h-5" /> Financial Profile
+                </h2>
+              </div>
+              <div className="p-4 space-y-4">
+                <div>
+                  <label className="text-[10px] font-black uppercase mb-1 block">Monthly Household Expenses</label>
+                  <Tooltip content="Expenses needed for family survival (Groceries, bills, fees, etc.)" className="w-full">
+                    <div className="relative">
+                      <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
+                      <Input type="number" value={monthlyExpense} onChange={e => setMonthlyExpense(e.target.value)} onBlur={() => !monthlyExpense && setMonthlyExpense(0)} className="pl-8 font-black w-full" />
+                    </div>
+                  </Tooltip>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-[10px] font-black uppercase mb-1 block">Years to Replace</label>
+                    <Tooltip content="Years your family needs support (e.g. until youngest child starts earning)">
+                      <div className="relative">
+                        <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
+                        <Input type="number" value={yearsToReplace} onChange={e => setYearsToReplace(e.target.value)} onBlur={() => !yearsToReplace && setYearsToReplace(0)} className="pl-8 font-black" />
+                      </div>
+                    </Tooltip>
+                  </div>
+                  <div>
+                    <label className="text-[10px] font-black uppercase mb-1 block">Avg. Inflation (%)</label>
+                    <Tooltip content="Expected annual price rise (Standard is 6%)">
+                      <div className="relative">
+                        <Percent className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
+                        <Input type="number" value={inflationRate} onChange={e => setInflationRate(e.target.value)} onBlur={() => !inflationRate && setInflationRate(0)} className="pl-8 font-black" />
+                      </div>
+                    </Tooltip>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4 border-t-2 border-black/10 pt-4 mt-2">
+                  <div>
+                    <label className="text-[10px] font-black uppercase mb-1 block">Expected Return (%)</label>
+                    <Tooltip content="Safe return on the insurance money (e.g. FD/Debt Fund)">
+                      <div className="relative">
+                        <Percent className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
+                        <Input type="number" value={investmentReturn} onChange={e => setInvestmentReturn(e.target.value)} onBlur={() => !investmentReturn && setInvestmentReturn(0)} className="pl-8 font-black" />
+                      </div>
+                    </Tooltip>
+                  </div>
+                  <div>
+                    <label className="text-[10px] font-black uppercase mb-1 block">Self-Spend (%)</label>
+                    <Tooltip content="% of expense that is purely for YOU (stopped after death)">
+                      <div className="relative">
+                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-black text-gray-400 z-10">%</span>
+                        <Input type="number" value={personalShare} onChange={e => setPersonalShare(e.target.value)} onBlur={() => !personalShare && setPersonalShare(0)} className="pl-8 font-black" />
+                      </div>
+                    </Tooltip>
+                  </div>
+                </div>
+              </div>
+            </Card>
+
+            <Card className="p-0 border-4 border-black">
+              <div className="bg-orange-50 p-4 border-b-4 border-black">
+                <h2 className="text-lg font-bold flex items-center gap-2">
+                  <GraduationCap className="w-5 h-5" /> Future Big Goals
+                </h2>
+              </div>
+              <div className="p-4 space-y-4">
+                {futureGoals.map(g => (
+                  <div key={g.id} className="p-3 border-2 border-black bg-white space-y-2">
+                    <p className="text-xs font-black uppercase">{g.name}</p>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="relative">
+                        <Tooltip content="Current cost of this goal">
+                          <div className="relative">
+                            <IndianRupee className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
+                            <Input type="number" value={g.amount} onChange={e => updateGoal(g.id, 'amount', e.target.value)} onBlur={() => !g.amount && updateGoal(g.id, 'amount', 0)} className="h-8 text-xs pl-7 border-black font-black" />
+                          </div>
+                        </Tooltip>
+                      </div>
+                      <div className="relative">
+                        <Tooltip content="Years remaining until this goal is due">
+                          <div className="relative">
+                            <Calendar className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
+                            <Input type="number" value={g.yearsAway} onChange={e => updateGoal(g.id, 'yearsAway', e.target.value)} onBlur={() => !g.yearsAway && updateGoal(g.id, 'yearsAway', 0)} className="h-8 text-xs pl-7 border-black font-black" placeholder="Yrs" />
+                          </div>
+                        </Tooltip>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+
+            <Card className="p-0 border-4 border-black">
+              <div className="bg-red-50 p-4 border-b-4 border-black">
+                <h2 className="text-lg font-bold flex items-center gap-2">
+                  <Landmark className="w-5 h-5" /> Liabilities & Assets
+                </h2>
+              </div>
+              <div className="p-4 space-y-4">
+                <div>
+                  <label className="text-[10px] font-black uppercase mb-1 block">Total Loans (Home/Car/Edu)</label>
+                  <Tooltip content="Outstanding principal on all loans" className="w-full">
+                    <div className="relative">
+                      <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
+                      <Input type="number" value={liabilities} onChange={e => setLiabilities(e.target.value)} onBlur={() => !liabilities && setLiabilities(0)} className="pl-8 font-black w-full" />
+                    </div>
+                  </Tooltip>
+                </div>
+                <div>
+                  <label className="text-[10px] font-black uppercase mb-1 block">Current Liquid Assets (Fds/Gold/MF)</label>
+                  <Tooltip content="Money available immediately. Do NOT include property." className="w-full">
+                    <div className="relative">
+                      <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
+                      <Input type="number" value={existingAssets} onChange={e => setAssets(e.target.value)} onBlur={() => !existingAssets && setAssets(0)} className="pl-8 font-black w-full" />
+                    </div>
+                  </Tooltip>
+                </div>
+                <div className="pt-2 border-t-2 border-black/10">
+                  <label className="text-[10px] font-black uppercase text-blue-700 mb-1 block">Existing Life Insurance Policy</label>
+                  <Tooltip content="Sum Assured of all current Term/LIC policies" className="w-full">
+                    <div className="relative">
+                      <ShieldCheck className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-blue-600 z-10" />
+                      <Input type="number" value={currentInsurance} onChange={e => setCurrentInsurance(e.target.value)} onBlur={() => !currentInsurance && setCurrentInsurance(0)} className="border-blue-600 font-black text-blue-700 pl-8 w-full" />
+                    </div>
+                  </Tooltip>
+                </div>
+              </div>
+            </Card>
+
+            <Card className="p-0 border-4 border-black">
+              <div className="bg-yellow-50 p-4 border-b-4 border-black">
+                <h2 className="text-lg font-bold flex items-center gap-2">
+                  <Info className="w-5 h-5 text-gray-700" /> The Logic
+                </h2>
+              </div>
+              <div className="p-4 text-sm space-y-2">
+                <p>Your family needs <strong>{formatCurrency(results.familyMonthlyNeed)}/mo</strong> (adjusted for inflation) for <strong>{yearsToReplace} years</strong>.</p>
+                <p>We calculate the corpus needed TODAY which, if invested at <strong>{investmentReturn}%</strong>, will generate this rising income stream for them.</p>
+              </div>
+            </Card>
+          </div>
+
+          {/* RESULTS */}
+          <div className="lg:col-span-7 space-y-6">
+            <Card className="h-full flex flex-col border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] overflow-hidden">
+              <div className="bg-[#FFDE59] p-4 border-b-4 border-black flex justify-between items-center">
+                <h2 className="text-lg font-bold uppercase italic text-black">Protection Analysis</h2>
+                <span className={`text-xs font-black px-2 py-1 border-2 border-black ${results.isAdequate ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}>
+                  {results.isAdequate ? 'ADEQUATE' : 'UNDER-INSURED'}
+                </span>
+              </div>
+
+              <div className="p-6 space-y-6">
+                <div className="bg-black text-white p-6 border-4 border-black shadow-[4px_4px_0px_0px_rgba(255,222,89,1)]">
+                  <h3 className="text-xs font-black uppercase text-yellow-300 mb-2 tracking-widest">Recommended Total Cover</h3>
+                  <p className="text-4xl md:text-5xl font-black tracking-tighter">{formatCurrency(results.totalRequired)}</p>
+                  <p className="text-[10px] font-bold text-gray-400 mt-2 italic uppercase">Amount your family needs if you are not around</p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="bg-white border-4 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                    <p className="text-[10px] font-black text-gray-400 uppercase mb-1">Income Protection</p>
+                    <p className="text-xl font-black">{formatCurrency(results.expenseCover)}</p>
+                    <p className="text-[9px] font-bold text-gray-400 italic mt-1">Generates {formatCurrency(results.familyMonthlyNeed)}/mo</p>
+                  </div>
+                  <div className="bg-white border-4 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                    <p className="text-[10px] font-black text-gray-400 uppercase mb-1">Goals & Liabilities</p>
+                    <p className="text-xl font-black">{formatCurrency(results.goalCover + (parseFloat(liabilities) || 0))}</p>
+                    <p className="text-[9px] font-bold text-gray-400 italic mt-1">Future goals + Loan repayment</p>
+                  </div>
+                  <div className="bg-blue-50 border-4 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                    <p className="text-[10px] font-black text-blue-800 uppercase mb-1">Existing Assets</p>
+                    <p className="text-xl font-black text-blue-900">{formatCurrency(existingAssets)}</p>
+                    <p className="text-[9px] font-bold text-blue-700 italic mt-1">Reduces insurance need</p>
+                  </div>
+                  <div className={`border-4 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] ${results.isAdequate ? 'bg-green-50' : 'bg-red-50'}`}>
+                    <p className={`text-[10px] font-black uppercase mb-1 ${results.isAdequate ? 'text-green-800' : 'text-red-900'}`}>{results.isAdequate ? 'Surplus Cover' : 'Net Insurance Gap'}</p>
+                    <p className={`text-xl font-black ${results.isAdequate ? 'text-green-700' : 'text-red-600'}`}>{formatCurrency(results.gap)}</p>
+                    <p className={`text-[9px] font-bold italic mt-1 ${results.isAdequate ? 'text-green-600' : 'text-red-700'}`}>{results.isAdequate ? 'You are fully protected.' : 'Additional cover required.'}</p>
+                  </div>
+                </div>
+
+                <div className="border-4 border-black p-6 bg-gray-50">
+                  <h2 className="text-lg font-bold flex items-center gap-2 mb-6 uppercase">
+                    <PieChartIcon className="w-5 h-5" /> Coverage Breakdown
+                  </h2>
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between p-3 bg-white border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                      <span className="text-xs font-black uppercase">Gross Requirement</span>
+                      <span className="font-bold">{formatCurrency(results.expenseCover + results.goalCover + (parseFloat(liabilities) || 0))}</span>
+                    </div>
+                    <div className="flex items-center justify-between p-3 bg-blue-50 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                      <span className="text-xs font-black uppercase text-blue-800">Less: Assets & Investments</span>
+                      <span className="font-bold text-blue-900">-{formatCurrency(existingAssets)}</span>
+                    </div>
+                    <div className="flex items-center justify-between p-3 bg-blue-100 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                      <span className="text-xs font-black uppercase text-blue-800">Less: Current Insurance</span>
+                      <span className="font-bold text-blue-800">-{formatCurrency(currentInsurance)}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {results.expenseCover > 0 && (
+                  <div className="border-4 border-black p-6 bg-white">
+                    <h2 className="text-lg font-bold flex items-center gap-2 mb-4 uppercase">
+                      <TrendingUp className="w-5 h-5" /> Corpus Projection
+                    </h2>
+                    <p className="text-xs text-gray-600 mb-4">How your <strong>{formatCurrency(results.expenseCover)}</strong> Income Fund lasts for {yearsToReplace} years:</p>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-xs text-left border-2 border-black">
+                        <thead className="bg-yellow-300 text-black uppercase font-black border-b-2 border-black">
+                          <tr>
+                            <th className="p-2 border-r-2 border-black">Year</th>
+                            <th className="p-2 border-r-2 border-black">Balance (Start)</th>
+                            <th className="p-2 border-r-2 border-black">Withdrawal</th>
+                            <th className="p-2">Balance (End)</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {generateDrawdown().map((row, idx) => (
+                            <tr key={idx} className="border-b border-black/10 hover:bg-yellow-50">
+                              <td className="p-2 border-r border-black/10 font-bold">Year {row.year}</td>
+                              <td className="p-2 border-r border-black/10">{formatCurrency(row.start)}</td>
+                              <td className="p-2 border-r border-black/10 text-red-600 font-bold">-{formatCurrency(row.withdrawal)}</td>
+                              <td className="p-2 font-bold text-green-700">{formatCurrency(row.end)}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+
+                <div className="bg-blue-50 border-4 border-black p-6">
+                  <h2 className="text-lg font-bold flex items-center gap-2 mb-4 uppercase">
+                    <ShieldCheck className="w-5 h-5 text-blue-700" /> Smart Buyer's Checklist
+                  </h2>
+                  <ul className="space-y-2 text-xs font-bold text-gray-700">
+                    <li className="flex items-center gap-2">
+                      <div className="w-4 h-4 rounded-full bg-green-500 flex items-center justify-center text-white text-[10px]">✓</div>
+                      Claim Settlement Ratio (CSR) &gt; 97%
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <div className="w-4 h-4 rounded-full bg-green-500 flex items-center justify-center text-white text-[10px]">✓</div>
+                      Solvency Ratio &gt; 1.5 (Checks financial health)
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <div className="w-4 h-4 rounded-full bg-green-500 flex items-center justify-center text-white text-[10px]">✓</div>
+                      Detailed Medical Declartion (Don't hide habits!)
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <div className="w-4 h-4 rounded-full bg-green-500 flex items-center justify-center text-white text-[10px]">✓</div>
+                      Add <a href="https://www.tataaia.com/blogs/life-insurance/a-complete-guide-to-married-womens-property-act-mwpa.html#:~:text=What%20is%20the%20MWPA%20in%20Insurance" target="_blank" rel="noopener noreferrer" className="underline text-blue-600 hover:text-blue-800">MWPA (Married Women's Property Act)</a> addendum
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="flex flex-col md:flex-row gap-4 mt-6">
+                  <Tooltip content="Download PDF report" className="w-full">
+                    <Button variant="secondary" onClick={() => checkExports('pdf')} className="w-full text-sm font-bold flex items-center justify-center gap-2 border-2 border-black">
+                      <FileText className="w-4 h-4" /> Download PDF Report
+                    </Button>
+                  </Tooltip>
+                  <Tooltip content="Download Excel report" className="w-full">
+                    <Button variant="primary" onClick={() => checkExports('excel')} className="w-full text-sm font-bold flex items-center justify-center gap-2 border-2 border-black">
+                      <Table className="w-4 h-4" /> Download Excel Report
+                    </Button>
+                  </Tooltip>
+                </div>
+              </div>
+            </Card>
+          </div>
+        </div>
+
+        <Footer>
+          <p className="text-gray-600 font-medium">
+            <strong>Note:</strong> HLV (Human Life Value) is a scientific way to calculate insurance cover. Ensure you buy a <strong>Term Insurance</strong> plan for high cover at low cost, and avoid mixing insurance with investment.
+          </p>
+        </Footer>
+      </div >
+    </div >
+  );
+}
