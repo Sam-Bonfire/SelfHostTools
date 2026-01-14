@@ -35,11 +35,18 @@ export default function Root() {
           <motion.div
             whileHover={{ scale: 1.02, rotate: 0 }}
             transition={{ type: "spring", stiffness: 400, damping: 10 }}
-            className="inline-block p-6 bg-yellow-300 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] mb-8 transform -rotate-2 cursor-default"
+            className="inline-block p-6 bg-yellow-300 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] mb-8 transform -rotate-2 cursor-default relative"
           >
-            <h1 className="text-5xl md:text-6xl font-black text-black uppercase tracking-tight">
-              Calculators Hub
-            </h1>
+            <div className="flex items-center gap-6">
+              <img
+                src="/favicon.png"
+                alt="Mascot"
+                className="w-16 h-16 md:w-20 md:h-20 drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]"
+              />
+              <h1 className="text-5xl md:text-6xl font-black text-black uppercase tracking-tight">
+                Calculators Hub
+              </h1>
+            </div>
           </motion.div>
           <p className="text-xl md:text-2xl font-bold text-gray-700 max-w-2xl mx-auto mb-8">
             Simple tools for complex decisions.
