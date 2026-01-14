@@ -144,6 +144,7 @@ export default function App() {
       <SEO
         title="Education Loan Calculator"
         description="Calculate your education loan EMI, interest, and repayment schedule. Plan your studies and future finances with ease."
+        keywords="education loan, student loan, emi calculator, moratorium interest, study loan, india student loan, repayment planner"
         canonical={`${import.meta.env.VITE_SITE_URL}/education-loan`}
         structuredData={structuredData}
       />

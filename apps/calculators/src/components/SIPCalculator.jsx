@@ -129,6 +129,7 @@ export default function SIPCalculator() {
       <SEO
         title="SIP Calculator & Goal Planner"
         description="Calculate SIP returns or find the investment needed to reach your financial goals. Includes Step-Up, Inflation, and Tax factors."
+        keywords="sip calculator, mutual fund calculator, investment planner, wealth growth, step-up sip, financial goals, compound interest"
         canonical={`${import.meta.env.VITE_SITE_URL}/sip-calculator`}
         structuredData={structuredData}
       />

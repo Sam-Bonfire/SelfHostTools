@@ -25,6 +25,7 @@ export default function Root() {
       <SEO
         title="Calculators Hub"
         description="A hub for various calculators, including financial, educational, and more. Plan your future with our easy-to-use tools."
+        keywords="calculators, financial planning, money tools, retirement, education, investment, savings, wealth growth"
         canonical={`${import.meta.env.VITE_SITE_URL}`}
         structuredData={structuredData}
       />

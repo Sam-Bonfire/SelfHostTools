@@ -162,8 +162,9 @@ export default function GoldenHandcuffsCalculator() {
     return (
         <div className="min-h-screen bg-white text-black p-4 md:p-8 font-sans">
             <SEO
-                title="Golden Handcuffs & RSU Calculator"
-                description="Should you quit? Calculate the true cost of unvested equity and clawbacks."
+                title="Golden Handcuffs Calculator"
+                description="Determine the true financial cost of leaving your job by factoring in unvested equity, bonuses, and clawbacks."
+                keywords="golden handcuffs, rsu calculator, unvested equity, cost of leaving job, employee benefits, stock options, ESOP valuation"
                 canonical={`${import.meta.env.VITE_SITE_URL}/golden-handcuffs`}
                 structuredData={structuredData}
             />

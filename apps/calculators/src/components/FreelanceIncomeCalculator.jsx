@@ -140,8 +140,9 @@ export default function FreelanceIncomeCalculator() {
   return (
     <div className="min-h-screen bg-white text-black p-4 md:p-8 font-sans">
       <SEO
-        title="Freelance Real Income Calculator"
-        description="Are you underpricing yourself? Calculate your true take-home pay after accounting for the 'cost of doing business'."
+        title="Freelance 'Real' Pay Calculator"
+        description="Calculate your true take-home pay as a freelancer after overheads, taxes, and unpaid admin time."
+        keywords="freelance income calculator, hourly rate, take home pay, freelance overheads, 44ADA tax, project fee estimator"
         canonical={`${import.meta.env.VITE_SITE_URL}/freelance-calculator`}
         structuredData={structuredData}
       />

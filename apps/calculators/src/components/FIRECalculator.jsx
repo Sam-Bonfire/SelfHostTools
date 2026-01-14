@@ -117,8 +117,9 @@ export default function FIRECalculator() {
   return (
     <div className="min-h-screen bg-white text-black p-4 md:p-8 font-sans">
       <SEO
-        title="FIRE / Retirement Calculator"
-        description="Calculate your path to financial freedom. Includes healthcare inflation and post-retirement reality checks."
+        title="FIRE & Retirement Planner"
+        description="Calculate your path to financial independence. Factor in inflation, taxes, and healthcare to find your true freedom number."
+        keywords="fire calculator, financial independence retire early, retirement calculator, fire movement, retirement planning india, early retirement"
         canonical={`${import.meta.env.VITE_SITE_URL}/fire-calculator`}
         structuredData={structuredData}
       />

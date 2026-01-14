@@ -96,8 +96,9 @@ export default function HomeOwnerRealistCalculator() {
     return (
         <div className="min-h-screen bg-white text-black p-4 md:p-8 font-sans">
             <SEO
-                title="Home Owner Realist | The True Cost of Buying"
-                description="Don't just look at the mortgage. Calculate the Sinking Funds, Maintenance Bombs, and Opportunity Costs of home ownership."
+                title="Home Maintenance Sinking Fund Calculator"
+                description="The hidden cost of home ownership. Calculate your required sinking fund for repairs, painting, and maintenance."
+                keywords="home maintenance cost, sinking fund calculator, true cost of home ownership, house repair fund, property maintenance"
                 canonical={`${import.meta.env.VITE_SITE_URL}/home-owner-realist`}
                 structuredData={structuredData}
             />

@@ -81,6 +81,7 @@ export default function HomeLoanRentCalculator() {
       <SEO
         title="Home Loan vs Rent Calculator"
         description="The 'Buy or Bye' Reality Check. Compare buying vs renting while accounting for opportunity costs and maintenance."
+        keywords="buy vs rent, rent vs buy calculator, home ownership cost, real estate investment, home loan calculator, renting vs buying india"
         canonical={`${import.meta.env.VITE_SITE_URL}/home-loan-vs-rent`}
         structuredData={structuredData}
       />

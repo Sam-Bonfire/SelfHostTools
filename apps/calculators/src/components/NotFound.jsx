@@ -12,6 +12,7 @@ export default function NotFound() {
         title="Page Not Found"
         description="The page you are looking for does not exist."
         canonical={`${import.meta.env.VITE_SITE_URL}/404`}
+        robots="noindex, nofollow"
       />
 
       <div className="max-w-2xl mx-auto w-full flex-1 flex flex-col justify-center items-center text-center">

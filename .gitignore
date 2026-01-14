@@ -46,3 +46,4 @@ Thumbs.db
 .env.production.local
 .env.development
 .env.test
+apps/calculators/public/sitemap.xml

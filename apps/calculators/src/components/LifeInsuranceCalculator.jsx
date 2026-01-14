@@ -110,8 +110,9 @@ export default function LifeInsuranceCalculator() {
   return (
     <div className="min-h-screen bg-white text-black p-4 md:p-8 font-sans">
       <SEO
-        title="Life Insurance HLV Calculator"
-        description="Find your true human life value. Don't settle for '10x salary' - calculate based on real liabilities and goals."
+        title="Human Life Value (HLV) Calculator"
+        description="Calculate how much life insurance coverage you actually need based on your income, liabilities, and family goals."
+        keywords="life insurance calculator, human life value, insurance coverage, hlv calculator, term insurance planner, life cover india"
         canonical={`${import.meta.env.VITE_SITE_URL}/life-insurance-calculator`}
         structuredData={structuredData}
       />

@@ -128,6 +128,7 @@ export default function DegreeROICalculator() {
             <SEO
                 title="Degree ROI Analyzer"
                 description="Is college worth it? Compare the long-term ROI of a degree vs entering the workforce effectively."
+                keywords="degree roi, education return on investment, college value, degree vs work, cost of education, study investment"
                 canonical={`${import.meta.env.VITE_SITE_URL}/degree-roi`}
                 structuredData={structuredData}
             />

@@ -96,7 +96,8 @@ export default function TrueHourlyWageCalculator() {
         <div className="min-h-screen bg-white text-black p-4 md:p-8 font-sans">
             <SEO
                 title="True Hourly Wage Calculator"
-                description="Find out your real hourly rate after commute, taxes, and life costs."
+                description="What do you really earn? Calculate your real profit per hour after accounting for commute, taxes, and work-related expenses."
+                keywords="true hourly wage, real salary, commute cost, work life balance, net earnings per hour, employment overheads"
                 canonical={`${import.meta.env.VITE_SITE_URL}/true-hourly-wage`}
                 structuredData={structuredData}
             />
