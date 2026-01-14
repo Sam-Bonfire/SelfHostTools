@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Calculator, ArrowRight, TrendingUp, Home, Umbrella, Flame, Briefcase } from 'lucide-react';
+import { Calculator, ArrowRight, TrendingUp, Home, Umbrella, Flame, Briefcase, Lock, GraduationCap, Hammer } from 'lucide-react';
 import { Card } from '@packages/styling';
 import { motion } from 'framer-motion';
 import Footer from './Footer';
@@ -11,7 +11,7 @@ export default function Root() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Calculators Hub",
-    "url": `${import.meta.env.VITE_SITE_URL}`,
+    "url": `${import.meta.env.VITE_SITE_URL} `,
     "description": "A hub for various calculators, including financial, educational, and more.",
     "potentialAction": {
       "@type": "SearchAction",
@@ -114,6 +114,26 @@ export default function Root() {
             </Card>
           </Link>
 
+          <Link to="/home-owner-realist" className="group block h-full decoration-transparent">
+            <Card className="h-full hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200 cursor-pointer flex flex-col">
+              <div className="bg-[#FF9900] p-6 border-b-4 border-black flex items-center justify-between">
+                <Hammer className="w-8 h-8 text-black" />
+                <ArrowRight className="w-6 h-6 opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1" />
+              </div>
+              <div className="p-6 flex-1 flex flex-col">
+                <h2 className="text-2xl font-black text-black mb-3 group-hover:underline decoration-4 decoration-black underline-offset-4 tracking-tight">
+                  Home Warning
+                </h2>
+                <p className="text-gray-700 font-medium mb-6 flex-1">
+                  The 'Sinking Fund' Realist. Calculate the hidden maintenance bombs and true cost of ownership.
+                </p>
+                <div className="mt-auto">
+                  <span className="inline-block px-3 py-1 bg-black text-white text-sm font-bold uppercase tracking-wider">Housing</span>
+                </div>
+              </div>
+            </Card>
+          </Link>
+
           <Link to="/fire-calculator" className="group block h-full decoration-transparent">
             <Card className="h-full hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200 cursor-pointer flex flex-col">
               <div className="bg-orange-400 p-6 border-b-4 border-black flex items-center justify-between">
@@ -154,6 +174,27 @@ export default function Root() {
             </Card>
           </Link>
 
+
+          <Link to="/golden-handcuffs" className="group block h-full decoration-transparent">
+            <Card className="h-full hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200 cursor-pointer flex flex-col">
+              <div className="bg-yellow-300 p-6 border-b-4 border-black flex items-center justify-between">
+                <Lock className="w-8 h-8 text-black" />
+                <ArrowRight className="w-6 h-6 opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1" />
+              </div>
+              <div className="p-6 flex-1 flex flex-col">
+                <h2 className="text-2xl font-black text-black mb-3 group-hover:underline decoration-4 decoration-black underline-offset-4 tracking-tight">
+                  Golden Handcuffs
+                </h2>
+                <p className="text-gray-700 font-medium mb-6 flex-1">
+                  Should you quit? Calculate the true financial cost of walking away from unvested equity and clawbacks.
+                </p>
+                <div className="mt-auto">
+                  <span className="inline-block px-3 py-1 bg-black text-white text-sm font-bold uppercase tracking-wider">Career</span>
+                </div>
+              </div>
+            </Card>
+          </Link>
+
           <Link to="/freelance-calculator" className="group block h-full decoration-transparent">
             <Card className="h-full hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200 cursor-pointer flex flex-col">
               <div className="bg-purple-400 p-6 border-b-4 border-black flex items-center justify-between">
@@ -169,6 +210,46 @@ export default function Root() {
                 </p>
                 <div className="mt-auto">
                   <span className="inline-block px-3 py-1 bg-black text-white text-sm font-bold uppercase tracking-wider">Business</span>
+                </div>
+              </div>
+            </Card>
+          </Link>
+
+          <Link to="/true-hourly-wage" className="group block h-full decoration-transparent">
+            <Card className="h-full hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200 cursor-pointer flex flex-col">
+              <div className="bg-red-400 p-6 border-b-4 border-black flex items-center justify-between">
+                <Briefcase className="w-8 h-8 text-black" />
+                <ArrowRight className="w-6 h-6 opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1" />
+              </div>
+              <div className="p-6 flex-1 flex flex-col">
+                <h2 className="text-2xl font-black text-black mb-3 group-hover:underline decoration-4 decoration-black underline-offset-4 tracking-tight">
+                  True Hourly Wage
+                </h2>
+                <p className="text-gray-700 font-medium mb-6 flex-1">
+                  The 'Wake Up Call'. Calculate your real earnings per hour after commute, taxes, and life maintenance costs.
+                </p>
+                <div className="mt-auto">
+                  <span className="inline-block px-3 py-1 bg-black text-white text-sm font-bold uppercase tracking-wider">Career</span>
+                </div>
+              </div>
+            </Card>
+          </Link>
+
+          <Link to="/degree-roi" className="group block h-full decoration-transparent">
+            <Card className="h-full hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200 cursor-pointer flex flex-col">
+              <div className="bg-blue-600 p-6 border-b-4 border-black flex items-center justify-between">
+                <GraduationCap className="w-8 h-8 text-white" />
+                <ArrowRight className="w-6 h-6 text-white opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1" />
+              </div>
+              <div className="p-6 flex-1 flex flex-col">
+                <h2 className="text-2xl font-black text-black mb-3 group-hover:underline decoration-4 decoration-black underline-offset-4 tracking-tight">
+                  Degree ROI
+                </h2>
+                <p className="text-gray-700 font-medium mb-6 flex-1">
+                  Is college worth it? Compare the 20-year ROI of a degree vs entering the workforce immediately.
+                </p>
+                <div className="mt-auto">
+                  <span className="inline-block px-3 py-1 bg-black text-white text-sm font-bold uppercase tracking-wider">Education</span>
                 </div>
               </div>
             </Card>

@@ -7,7 +7,8 @@
   ],
   "scripts": {
     "build": "npm run build --workspaces --if-present",
-    "build:style": "npm run build --workspace=@packages/styling"
+    "build:style": "npm run build --workspace=@packages/styling",
+    "clean": "npx rimraf node_modules apps/*/node_modules packages/*/node_modules apps/*/dist packages/*/dist coverage"
   },
   "devDependencies": {},
   "dependencies": {

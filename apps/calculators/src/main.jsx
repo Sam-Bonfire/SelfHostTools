@@ -9,6 +9,10 @@ import HomeLoanRentCalculator from './components/HomeLoanRentCalculator.jsx';
 import LifeInsuranceCalculator from './components/LifeInsuranceCalculator.jsx';
 import FIRECalculator from './components/FIRECalculator.jsx';
 import FreelanceIncomeCalculator from './components/FreelanceIncomeCalculator.jsx';
+import GoldenHandcuffsCalculator from './components/GoldenHandcuffsCalculator.jsx';
+import DegreeROICalculator from './components/DegreeROICalculator.jsx';
+import HomeOwnerRealistCalculator from './components/HomeOwnerRealistCalculator.jsx';
+import TrueHourlyWageCalculator from './components/TrueHourlyWageCalculator.jsx';
 import NotFound from './components/NotFound.jsx';
 import '../../../packages/styling/src/index.css';
 
@@ -40,6 +44,22 @@ const router = createHashRouter([
   {
     path: '/freelance-calculator',
     element: <FreelanceIncomeCalculator />,
+  },
+  {
+    path: '/degree-roi',
+    element: <DegreeROICalculator />,
+  },
+  {
+    path: '/golden-handcuffs',
+    element: <GoldenHandcuffsCalculator />,
+  },
+  {
+    path: '/true-hourly-wage',
+    element: <TrueHourlyWageCalculator />,
+  },
+  {
+    path: '/home-owner-realist',
+    element: <HomeOwnerRealistCalculator />,
   },
   {
     path: '*',

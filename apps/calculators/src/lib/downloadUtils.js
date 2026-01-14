@@ -85,6 +85,38 @@ export const downloadPDF = async (data) => {
       ['Net Take-Home Pay', `INR ${formatCurrency(results.netTakeHome, true)}`],
       ['Real Hourly Rate', `INR ${formatCurrency(results.realHourlyRate, true)}`]
     ];
+  } else if (inputs.currentBaseSalary !== undefined) {
+    // GOLDEN HANDCUFFS
+    summaryData = [
+      ['Current Base Salary', `INR ${formatCurrency(inputs.currentBaseSalary, true)}`],
+      ['Current Bonus', `INR ${formatCurrency(inputs.currentBonus, true)}`],
+      ['Current Annual Equity', `INR ${formatCurrency(inputs.currentAnnualEquity, true)}`],
+      ['Total Comp (Current)', `INR ${formatCurrency(inputs.currentTotalComp, true)}`],
+      ['New Base Salary', `INR ${formatCurrency(inputs.newBaseSalary, true)}`],
+      ['New Bonus', `INR ${formatCurrency(inputs.newBonus, true)}`],
+      ['New Annual Equity', `INR ${formatCurrency(inputs.newAnnualEquity, true)}`],
+      ['Total Comp (New)', `INR ${formatCurrency(inputs.newTotalComp, true)}`],
+      ['The Freedom Tax (Exit Cost)', `INR ${formatCurrency(results.freedomTax, true)}`],
+      ['Break Even Year', results.breakEvenYear ? `Year ${results.breakEvenYear}` : 'Never in 4 years'],
+      ['Verdict', results.isNewJobBetter ? 'SWITCH (Financially)' : 'STAY (Financially)']
+    ];
+  } else if (inputs.annualGrossSalary !== undefined) {
+    // TRUE HOURLY WAGE CALCULATOR
+    summaryData = [
+      ['Annual Gross Salary', `INR ${formatCurrency(inputs.annualGrossSalary, true)}`],
+      ['Tax Rate', `${inputs.taxRate}%`],
+      ['Standard Hours/Week', inputs.standardHoursPerWeek],
+      ['Commute (One Way)', `${inputs.commuteOneWayMinutes} mins`],
+      ['Daily Commute Cost', `INR ${formatCurrency(inputs.commuteDailyCost, true)}`],
+      ['Monthly Convenience', `INR ${formatCurrency(inputs.monthlyConvenienceRen, true)}`],
+      ['Monthly Health', `INR ${formatCurrency(inputs.monthlyHealthren, true)}`],
+      ['Annual Tax', `INR ${formatCurrency(results.annualTax, true)}`],
+      ['Annual Net Income', `INR ${formatCurrency(results.annualNet, true)}`],
+      ['Effective Net Income', `INR ${formatCurrency(results.effectiveNet, true)}`],
+      ['Total Work Hours', `${results.totalHours} hrs`],
+      ['Nominal Hourly Rate', `INR ${formatCurrency(results.nominalHourly, true)}`],
+      ['True Hourly Rate', `INR ${formatCurrency(results.trueHourly, true)}`]
+    ];
   } else if (inputs.loanAmount !== undefined) {
     // LOAN or SIP
     if (inputs.repaymentTenure !== undefined && inputs.stepUp === undefined) {
@@ -98,6 +130,21 @@ export const downloadPDF = async (data) => {
         ['Total Interest', `INR ${formatCurrency(results.totalInterest, true)}`],
         ['Total Payable', `INR ${formatCurrency(results.totalAmount, true)}`]
       ];
+    } else if (inputs.currentBaseSalary !== undefined) {
+      // GOLDEN HANDCUFFS
+      summaryRows = [
+        ['Current Base Salary', inputs.currentBaseSalary],
+        ['Current Bonus', inputs.currentBonus],
+        ['Current Annual Equity', inputs.currentAnnualEquity],
+        ['Total Comp (Current)', inputs.currentTotalComp],
+        ['New Base Salary', inputs.newBaseSalary],
+        ['New Bonus', inputs.newBonus],
+        ['New Annual Equity', inputs.newAnnualEquity],
+        ['Total Comp (New)', inputs.newTotalComp],
+        ['The Freedom Tax (Exit Cost)', results.freedomTax],
+        ['Break Even Year', results.breakEvenYear || 'Never'],
+        ['Verdict', results.isNewJobBetter ? 'SWITCH' : 'STAY']
+      ];
     } else {
       // SIP CALCULATOR
       summaryData = [
@@ -110,6 +157,22 @@ export const downloadPDF = async (data) => {
         ['Maturity Value', `INR ${formatCurrency(results.totalAmount, true)}`]
       ];
     }
+  } else if (inputs.tuitionPerYear !== undefined) {
+    // DEGREE ROI CALCULATOR
+    summaryData = [
+      ['Tuition / Yr', `INR ${formatCurrency(inputs.tuitionPerYear, true)}`],
+      ['Living Expenses / Yr', `INR ${formatCurrency(inputs.livingExpensesPerYear, true)}`],
+      ['Degree Duration', `${inputs.durationYears} Years`],
+      ['Grant Total / Yr', `INR ${formatCurrency(inputs.grantsTotal, true)}`],
+      ['Starting Salary (Degree)', `INR ${formatCurrency(inputs.startingSalaryDegree, true)}`],
+      ['Salary Growth (Degree)', `${inputs.salaryGrowthDegree}%`],
+      ['Starting Salary (Alt)', `INR ${formatCurrency(inputs.startingSalaryAlt, true)}`],
+      ['Salary Growth (Alt)', `${inputs.salaryGrowthAlt}%`],
+      ['Break-Even Year (Age)', results.breakEvenYear ? `${18 + parseInt(inputs.durationYears) + (results.breakEvenYear - parseInt(inputs.durationYears))}` : 'NEVER'],
+      ['Slave Ratio', `${results.slaveRatio}%`],
+      ['Final Net Worth (Degree)', `INR ${formatCurrency(results.finalDegreeNW, true)}`],
+      ['Final Net Worth (Alt)', `INR ${formatCurrency(results.finalAltNW, true)}`]
+    ];
   }
 
   autoTable(doc, {
@@ -213,6 +276,54 @@ export const downloadExcel = async (data) => {
       ['Gross Monthly Income', results.grossMonthly],
       ['Net Take-Home Pay', results.netTakeHome],
       ['Real Hourly Rate', results.realHourlyRate]
+    ];
+  } else if (inputs.currentBaseSalary !== undefined) {
+    // GOLDEN HANDCUFFS
+    summaryRows = [
+      ['Current Base Salary', inputs.currentBaseSalary],
+      ['Current Bonus', inputs.currentBonus],
+      ['Current Annual Equity', inputs.currentAnnualEquity],
+      ['Total Comp (Current)', inputs.currentTotalComp],
+      ['New Base Salary', inputs.newBaseSalary],
+      ['New Bonus', inputs.newBonus],
+      ['New Annual Equity', inputs.newAnnualEquity],
+      ['Total Comp (New)', inputs.newTotalComp],
+      ['The Freedom Tax (Exit Cost)', results.freedomTax],
+      ['Break Even Year', results.breakEvenYear || 'Never'],
+      ['Verdict', results.isNewJobBetter ? 'SWITCH' : 'STAY']
+    ];
+  } else if (inputs.annualGrossSalary !== undefined) {
+    // TRUE HOURLY WAGE
+    summaryRows = [
+      ['Annual Gross Salary', inputs.annualGrossSalary],
+      ['Tax Rate (%)', inputs.taxRate],
+      ['Standard Hours/Week', inputs.standardHoursPerWeek],
+      ['Commute One Way (mins)', inputs.commuteOneWayMinutes],
+      ['Daily Commute Cost', inputs.commuteDailyCost],
+      ['Monthly Convenience', inputs.monthlyConvenienceRen],
+      ['Monthly Health', inputs.monthlyHealthren],
+      ['Annual Tax', results.annualTax],
+      ['Annual Net Income', results.annualNet],
+      ['Effective Net Income', results.effectiveNet],
+      ['Total Work Hours', results.totalHours],
+      ['Nominal Hourly Rate', results.nominalHourly],
+      ['True Hourly Rate', results.trueHourly]
+    ];
+  } else if (inputs.tuitionPerYear !== undefined) {
+    // DEGREE ROI
+    summaryRows = [
+      ['Tuition / Yr', inputs.tuitionPerYear],
+      ['Living Expenses / Yr', inputs.livingExpensesPerYear],
+      ['Degree Duration', inputs.durationYears],
+      ['Grant Total / Yr', inputs.grantsTotal],
+      ['Starting Salary (Degree)', inputs.startingSalaryDegree],
+      ['Salary Growth (Degree)', inputs.salaryGrowthDegree],
+      ['Starting Salary (Alt)', inputs.startingSalaryAlt],
+      ['Salary Growth (Alt)', inputs.salaryGrowthAlt],
+      ['Break-Even Age', results.breakEvenYear ? (18 + parseInt(inputs.durationYears) + (results.breakEvenYear - parseInt(inputs.durationYears))) : 'NEVER'],
+      ['Slave Ratio (%)', results.slaveRatio],
+      ['Final Net Worth (Degree)', results.finalDegreeNW],
+      ['Final Net Worth (Alt)', results.finalAltNW]
     ];
   } else {
     // LOAN
