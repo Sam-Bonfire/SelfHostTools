@@ -157,7 +157,22 @@ function main() {
     fs.writeFileSync(OUTPUT_PATH, sitemap, 'utf-8');
 
     console.log(`✅ Sitemap generated successfully at: ${OUTPUT_PATH}`);
-    console.log(`   Total URLs: ${allRoutes.length}`);
+
+    // Generate robots.txt
+    generateRobotsTxt();
+}
+
+function generateRobotsTxt() {
+    const robotsPath = path.join(__dirname, '../public/robots.txt');
+    console.log('🤖 Generating robots.txt...');
+
+    const content = `User-agent: *
+Allow: /
+
+Sitemap: ${SITE_URL}/sitemap.xml`;
+
+    fs.writeFileSync(robotsPath, content, 'utf-8');
+    console.log(`✅ robots.txt generated successfully at: ${robotsPath}`);
 }
 
 // Run if called directly
