@@ -165,6 +165,7 @@ export default function GoldenHandcuffsCalculator() {
                 description="Determine the true financial cost of leaving your job by factoring in unvested equity, bonuses, and clawbacks."
                 keywords="golden handcuffs, rsu calculator, unvested equity, cost of leaving job, employee benefits, stock options, ESOP valuation"
                 canonical={`${import.meta.env.VITE_SITE_URL}/golden-handcuffs`}
+                ogImage={`${import.meta.env.VITE_SITE_URL}/og/golden_handcuffs.png`}
                 structuredData={structuredData}
             />
 

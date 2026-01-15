@@ -174,7 +174,8 @@ export default function JobRelocationCalculator() {
                 title="Job Relocation Realist Calculator"
                 description="Calculate the true financial impact of moving for a job. Factor in hidden costs, lifestyle changes, and the value of your current setup."
                 keywords="job relocation calculator, cost of living calculator, moving for job, relocation cost calculator, job offer comparison, salary comparison"
-                canonical={`${import.meta.env.VITE_SITE_URL}/job-relocation-calculator`}
+                canonical={`${import.meta.env.VITE_SITE_URL}/job-relocation`}
+                ogImage={`${import.meta.env.VITE_SITE_URL}/og/job_relocation.png`}
                 structuredData={structuredData}
             />
 

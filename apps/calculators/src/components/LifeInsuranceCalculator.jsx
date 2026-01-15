@@ -123,6 +123,7 @@ export default function LifeInsuranceCalculator() {
         description="Calculate how much life insurance coverage you actually need based on your income, liabilities, and family goals."
         keywords="life insurance calculator, human life value, insurance coverage, hlv calculator, term insurance planner, life cover india"
         canonical={`${import.meta.env.VITE_SITE_URL}/life-insurance-calculator`}
+        ogImage={`${import.meta.env.VITE_SITE_URL}/og/life_insurance.png`}
         structuredData={structuredData}
       />
 

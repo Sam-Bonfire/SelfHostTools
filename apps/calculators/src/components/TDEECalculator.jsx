@@ -177,6 +177,7 @@ export default function TDEECalculator() {
                 description="Advanced TDEE calculator that fixes common errors. Supports Katch-McArdle formula, Body Fat %, and Macro Splits for accurate results."
                 keywords="tdee calculator, bmr calculator, katch mcardle calculator, macro calculator, calorie deficit"
                 canonical={`${import.meta.env.VITE_SITE_URL}/tdee-calculator`}
+                ogImage={`${import.meta.env.VITE_SITE_URL}/og/tdee_calculator.png`}
                 structuredData={structuredData}
             />
 

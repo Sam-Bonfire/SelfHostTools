@@ -97,6 +97,7 @@ export default function TrueHourlyWageCalculator() {
                 description="What do you really earn? Calculate your real profit per hour after accounting for commute, taxes, and work-related expenses."
                 keywords="true hourly wage, real salary, commute cost, work life balance, net earnings per hour, employment overheads"
                 canonical={`${import.meta.env.VITE_SITE_URL}/true-hourly-wage`}
+                ogImage={`${import.meta.env.VITE_SITE_URL}/og/true_hourly_wage.png`}
                 structuredData={structuredData}
             />
 

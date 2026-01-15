@@ -96,6 +96,7 @@ export default function App() {
                 description="Should you invest or pay off loans? Use our calculator to simulate net worth outcomes with tax and inflation adjustments."
                 keywords="invest vs debt, loan payoff calculator, debt snowball vs investing, mortgage payoff vs invest"
                 canonical={`${import.meta.env.VITE_SITE_URL}/invest-vs-payoff`}
+                ogImage={`${import.meta.env.VITE_SITE_URL}/og/invest_vs_payoff.png`}
                 structuredData={structuredData}
             />
 

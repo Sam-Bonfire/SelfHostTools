@@ -130,6 +130,7 @@ export default function DegreeROICalculator() {
                 description="Is college worth it? Compare the long-term ROI of a degree vs entering the workforce effectively."
                 keywords="degree roi, education return on investment, college value, degree vs work, cost of education, study investment"
                 canonical={`${import.meta.env.VITE_SITE_URL}/degree-roi`}
+                ogImage={`${import.meta.env.VITE_SITE_URL}/og/degree_roi.png`}
                 structuredData={structuredData}
             />
 

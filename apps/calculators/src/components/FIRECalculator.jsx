@@ -117,6 +117,7 @@ export default function FIRECalculator() {
         description="Calculate your path to financial independence. Factor in inflation, taxes, and healthcare to find your true freedom number."
         keywords="fire calculator, financial independence retire early, retirement calculator, fire movement, retirement planning india, early retirement"
         canonical={`${import.meta.env.VITE_SITE_URL}/fire-calculator`}
+        ogImage={`${import.meta.env.VITE_SITE_URL}/og/fire_calculator.png`}
         structuredData={structuredData}
       />
 

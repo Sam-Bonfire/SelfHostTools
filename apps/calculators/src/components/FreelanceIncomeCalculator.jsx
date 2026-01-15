@@ -143,6 +143,7 @@ export default function FreelanceIncomeCalculator() {
         description="Calculate your true take-home pay as a freelancer after overheads, taxes, and unpaid admin time."
         keywords="freelance income calculator, hourly rate, take home pay, freelance overheads, 44ADA tax, project fee estimator"
         canonical={`${import.meta.env.VITE_SITE_URL}/freelance-calculator`}
+        ogImage={`${import.meta.env.VITE_SITE_URL}/og/freelance_calculator.png`}
         structuredData={structuredData}
       />
 

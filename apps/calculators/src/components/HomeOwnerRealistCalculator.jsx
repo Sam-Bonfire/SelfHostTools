@@ -102,6 +102,7 @@ export default function HomeOwnerRealistCalculator() {
                 description="The hidden cost of home ownership. Calculate your required sinking fund for repairs, painting, and maintenance."
                 keywords="home maintenance cost, sinking fund calculator, true cost of home ownership, house repair fund, property maintenance"
                 canonical={`${import.meta.env.VITE_SITE_URL}/home-owner-realist`}
+                ogImage={`${import.meta.env.VITE_SITE_URL}/og/home_owner.png`}
                 structuredData={structuredData}
             />
 
