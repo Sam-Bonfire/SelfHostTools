@@ -8,15 +8,6 @@ export default defineConfig({
     outDir: 'dist',
     emptyOutDir: true,
     chunkSizeWarningLimit: 1000,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          'vendor': ['react', 'react-dom', 'react-router-dom', 'react-helmet-async'],
-          'pdf-libs': ['jspdf', 'jspdf-autotable'],
-          'excel-libs': ['xlsx'],
-          'icons': ['lucide-react']
-        }
-      }
-    }
+
   }
 })

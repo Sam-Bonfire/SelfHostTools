@@ -40,11 +40,25 @@ export default function Root() {
             className="inline-block p-4 md:p-6 bg-yellow-300 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] mb-8 cursor-default relative w-full md:w-auto mx-auto"
           >
             <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
-              <img
-                src="/mascot_256.webp"
-                alt="Mascot"
-                className="w-16 h-16 md:w-20 md:h-20 drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]"
-              />
+              <picture>
+                <source
+                  type="image/webp"
+                  srcSet="/images/mascot/mascot_64.webp 64w, /images/mascot/mascot_128.webp 128w, /images/mascot/mascot_256.webp 256w"
+                  sizes="(max-width: 768px) 64px, 80px"
+                />
+                <source
+                  type="image/png"
+                  srcSet="/images/mascot/mascot_64.png 64w, /images/mascot/mascot_128.png 128w, /images/mascot/mascot_256.png 256w"
+                  sizes="(max-width: 768px) 64px, 80px"
+                />
+                <img
+                  src="/images/mascot/mascot_128.png"
+                  alt="Mascot"
+                  width={100}
+                  height={100}
+                  className="w-16 h-16 md:w-20 md:h-20 drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] object-contain"
+                />
+              </picture>
               <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-black uppercase tracking-tight text-center md:text-left">
                 Calculators Hub
               </h1>

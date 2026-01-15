@@ -1,34 +1,43 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
-import { createHashRouter, RouterProvider } from 'react-router-dom';
+import { createHashRouter, RouterProvider, Outlet } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import Root from './components/Root.jsx';
-import EducationLoan from './components/EducationLoan.jsx';
-import SIPCalculator from './components/SIPCalculator.jsx';
-import HomeLoanRentCalculator from './components/HomeLoanRentCalculator.jsx';
-import LifeInsuranceCalculator from './components/LifeInsuranceCalculator.jsx';
-import FIRECalculator from './components/FIRECalculator.jsx';
-import FreelanceIncomeCalculator from './components/FreelanceIncomeCalculator.jsx';
-import GoldenHandcuffsCalculator from './components/GoldenHandcuffsCalculator.jsx';
-import DegreeROICalculator from './components/DegreeROICalculator.jsx';
-import HomeOwnerRealistCalculator from './components/HomeOwnerRealistCalculator.jsx';
-import TrueHourlyWageCalculator from './components/TrueHourlyWageCalculator.jsx';
-import JobRelocationCalculator from './components/JobRelocationCalculator.jsx';
-import TDEECalculator from './components/TDEECalculator.jsx';
-import InvestVsLoanCalculator from './components/InvestVsLoanCalculator.jsx';
 import NotFound from './components/NotFound.jsx';
 import Forbidden from './components/Forbidden.jsx';
+import ScrollToTop from './components/ScrollToTop.jsx';
 import '../../../packages/styling/src/index.css';
 
-import ScrollToTop from './components/ScrollToTop.jsx';
-import { Outlet } from 'react-router-dom';
+// Lazy Load Calculators
+const EducationLoan = React.lazy(() => import('./components/EducationLoan.jsx'));
+const SIPCalculator = React.lazy(() => import('./components/SIPCalculator.jsx'));
+const HomeLoanRentCalculator = React.lazy(() => import('./components/HomeLoanRentCalculator.jsx'));
+const LifeInsuranceCalculator = React.lazy(() => import('./components/LifeInsuranceCalculator.jsx'));
+const FIRECalculator = React.lazy(() => import('./components/FIRECalculator.jsx'));
+const FreelanceIncomeCalculator = React.lazy(() => import('./components/FreelanceIncomeCalculator.jsx'));
+const GoldenHandcuffsCalculator = React.lazy(() => import('./components/GoldenHandcuffsCalculator.jsx'));
+const DegreeROICalculator = React.lazy(() => import('./components/DegreeROICalculator.jsx'));
+const HomeOwnerRealistCalculator = React.lazy(() => import('./components/HomeOwnerRealistCalculator.jsx'));
+const TrueHourlyWageCalculator = React.lazy(() => import('./components/TrueHourlyWageCalculator.jsx'));
+const JobRelocationCalculator = React.lazy(() => import('./components/JobRelocationCalculator.jsx'));
+const TDEECalculator = React.lazy(() => import('./components/TDEECalculator.jsx'));
+const InvestVsLoanCalculator = React.lazy(() => import('./components/InvestVsLoanCalculator.jsx'));
+
+// Loading Spinner
+const Loading = () => (
+  <div className="min-h-screen flex items-center justify-center bg-[#FFDE59]">
+    <div className="animate-spin rounded-full h-12 w-12 border-4 border-black border-t-transparent"></div>
+  </div>
+);
 
 const router = createHashRouter([
   {
     element: (
       <>
         <ScrollToTop />
-        <Outlet />
+        <Suspense fallback={<Loading />}>
+          <Outlet />
+        </Suspense>
       </>
     ),
     children: [
