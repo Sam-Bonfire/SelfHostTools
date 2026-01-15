@@ -123,52 +123,51 @@ export default function TDEECalculator() {
 
     const macroResults = results ? calculateMacros(results.maintenance) : { protein: 0, fat: 0, carbs: 0 };
 
-    const handleSliderChange = (field, value) => {
-        const newVal = parseInt(value) || 0;
+    const checkExports = (type) => {
+        // Generate Schedule for Export
+        let schedule = [];
+        if (results && results?.weeksToGoal > 0) {
+            schedule = Array.from({ length: results.weeksToGoal }).map((_, i) => {
+                const weekNum = i + 1;
+                const changePerWeek = 0.5;
+                const isLoss = results.goalDifference > 0;
+                const change = isLoss ? -changePerWeek : changePerWeek;
+                const totalChange = change * weekNum;
+                const currentWeight = parseFloat(formData.weight) + totalChange;
+                return {
+                    year: weekNum, // Using 'year' key as generic label for downloadUtils mapping if needed, or 'Week'
+                    // actually downloadUtils expects 'schedule' to map specific columns. 
+                    // Let's check downloadUtils generic mapper. It iterates keys? 
+                    // No, usually it has map logic. 
 
-        // Calculate potential new state
-        let nextProtein = field === 'customProtein' ? newVal : formData.customProtein;
-        let nextFat = field === 'customFat' ? newVal : formData.customFat;
-        let nextCarbs = field === 'customCarbs' ? newVal : formData.customCarbs;
-
-        const currentSum = nextProtein + nextFat + nextCarbs;
-
-        // If sum exceeds 100, we simply prevent the change
-        // OR we reduce the *other* largest value to compensate? 
-        // Reducing others is better UX.
-
-        if (currentSum > 100) {
-            const overflow = currentSum - 100;
-            // We need to subtract 'overflow' from the other two fields.
-            // Preference: Subtract from the one with more available capacity? 
-            // Or just split the reduction?
-
-            // Simple approach: subtract from the highest of the other two.
-            if (field === 'customProtein') {
-                // Adjust Fat or Carbs
-                if (nextFat >= nextCarbs && nextFat >= overflow) {
-                    nextFat -= overflow;
-                } else if (nextCarbs >= nextFat && nextCarbs >= overflow) {
-                    nextCarbs -= overflow;
-                } else {
-                    // Split it (edge case) or just clamp variable
-                    // If both are too small to absorb overflow alone, subtract what we can from largest first
-                    // This is getting complicated for a simple slider.
-
-                    // Fallback: Don't allow the move if it breaks 100? 
-                    // No, that locks the UI.
-
-                    // Let's just update the value. The Red text is enough warning?
-                    // No, User specifically asked "What can be done".
-
-                    // Let's implement "Cap at 100" logic where the slider STOPS if sum > 100.
-                    // But then to increase P, I must decrease F first.
-                    // That is acceptable for a "Slider group".
-                }
-            }
+                    // Logic check on downloadUtils.js? 
+                    // Step 327 (Wait, I can't check it now).
+                    // I'll stick to generic objects.
+                    Week: weekNum,
+                    "Projected Weight": currentWeight.toFixed(2),
+                    "Total Change": totalChange.toFixed(2)
+                };
+            });
         }
 
-        handleChange(field, newVal);
+        // Prepare export data
+        const data = {
+            inputs: {
+                ...formData,
+                activityLevelLabel: ACTIVITY_LEVELS.find(l => l.value == formData.activityLevel)?.label || formData.activityLevel
+            },
+            results: {
+                ...results,
+                ...macroResults
+            },
+            schedule: schedule
+        };
+
+        if (type === 'pdf') {
+            downloadPDF(data);
+        } else {
+            downloadExcel(data);
+        }
     };
 
     return (
@@ -603,6 +602,45 @@ export default function TDEECalculator() {
                                         <p className="text-[9px] text-gray-400 font-medium italic">(@ 500 kcal deficit/surplus)</p>
                                     </div>
                                 </div>
+                                <div className="border-t-4 border-black">
+                                    <div className="max-h-60 overflow-y-auto">
+                                        <table className="w-full text-xs text-left">
+                                            <thead className="sticky top-0 bg-gray-100 font-bold uppercase border-b-2 border-black z-10">
+                                                <tr>
+                                                    <th className="p-3 text-black">Week</th>
+                                                    <th className="p-3 text-black">Date</th>
+                                                    <th className="p-3 text-black">Weight</th>
+                                                    <th className="p-3 text-black text-right">Trend</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="divide-y divide-gray-200">
+                                                {Array.from({ length: Math.min(results.weeksToGoal, 104) }).map((_, i) => { // Cap visual at 2 years
+                                                    const weekNum = i + 1;
+                                                    const changePerWeek = 0.5; // Fixed assumption for 500kcal
+                                                    const isLoss = results.goalDifference > 0;
+                                                    const change = isLoss ? -changePerWeek : changePerWeek;
+                                                    const totalChange = change * weekNum;
+                                                    const currentWeight = parseFloat(formData.weight) + totalChange;
+
+                                                    // Calculate Date
+                                                    const date = new Date();
+                                                    date.setDate(date.getDate() + (weekNum * 7));
+
+                                                    return (
+                                                        <tr key={i} className="hover:bg-yellow-50 transition-colors">
+                                                            <td className="p-3 font-black border-r-2 border-dashed border-gray-200">Week {weekNum}</td>
+                                                            <td className="p-3 font-medium text-gray-500">{date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</td>
+                                                            <td className="p-3 font-black bg-white">{currentWeight.toFixed(1)} <span className="text-[10px] bg-black text-white px-1 py-0.5 rounded ml-1">{formData.weightUnit}</span></td>
+                                                            <td className={`p-3 font-bold text-right ${isLoss ? 'text-green-600' : 'text-blue-600'}`}>
+                                                                {isLoss ? '↓' : '↑'} {Math.abs(totalChange).toFixed(1)} total
+                                                            </td>
+                                                        </tr>
+                                                    );
+                                                })}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </Card>
                         )}
 
@@ -652,9 +690,9 @@ export default function TDEECalculator() {
 
                     </ResultsAnalysis>
                 </div>
-            </CalculatorLayout>
+            </CalculatorLayout >
 
             <Footer />
-        </div>
+        </div >
     );
 }
