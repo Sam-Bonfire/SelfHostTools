@@ -78,10 +78,14 @@ Standard calculators often mislead users by using gross numbers. This suite adhe
 *   **Tests**: `src/tests/trueHourlyWageLogic.test.js`
 *   **Features**: Real income per hour after commute, taxes, and prep.
 
-### 10. Degree ROI Calculator
-*   **Logic**: `src/lib/degreeROILogic.js`
-*   **Tests**: `src/tests/degreeROILogic.test.js`
-*   **Features**: 30-year ROI comparison of degrees vs entering workforce.
+### 11. Job Relocation Calculator
+*   **Logic**: `src/lib/relocationLogic.js`
+*   **Tests**: `src/tests/relocationLogic.test.js`
+*   **Features**:
+    *   **Total Compensation Analysis**: Compares Salary + Benefits (Health, PF, Stock).
+    *   **Friction Costs**: Friction cost estimator for moving logistics.
+    *   **Commute Impact**: Side-by-side analysis of commute time and cost.
+    *   **Expense Granularity**: Detailed breakdown of current vs new city expenses.
 
 ---
 
@@ -109,3 +113,28 @@ Starting from Phase 6, all calculators use a unified layout system from `@packag
 ### Navigation & UX
 *   **ScrollToTop**: Automatically resets scroll position when navigating between calculators.
 *   **Local Persistence**: All inputs are auto-saved to `localStorage` to preserve progress.
+
+---
+
+## 🚀 Build & Deployment
+
+### Dynamic Sitemap Generation
+The application features an automated sitemap generator script (`scripts/generate-sitemap.js`) that:
+1.  **Scans Routes**: Parses `src/main.jsx` to find all active calculator routes.
+2.  **Generates XML**: Creates a standard `sitemap.xml` in the `public/` directory.
+3.  **Prioritization**: Assigns default priorities (0.8 for tools, 1.0 for home).
+
+### Environment Variables
+The build process **requires** the `VITE_SITE_URL` environment variable to prevent leaking testing URLs into production sitemaps.
+*   **Source**: Reads from `.env.local` or system environment variables.
+*   **Mandatory**: The build will fail if this variable is missing.
+
+### Build Command
+The standard build pipeline is:
+```bash
+npm run build
+# Chains:
+# 1. npm run test (Validate Logic)
+# 2. npm run generate-sitemap (Update SEO)
+# 3. vite build (Compile App)
+```

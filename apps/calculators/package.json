@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "test": "vitest run",
-    "build": "npm run test && vite build",
+    "generate-sitemap": "node scripts/generate-sitemap.js",
+    "build": "npm run test && npm run generate-sitemap && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
