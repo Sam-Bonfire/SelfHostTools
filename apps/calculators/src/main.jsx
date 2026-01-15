@@ -16,6 +16,7 @@ import TrueHourlyWageCalculator from './components/TrueHourlyWageCalculator.jsx'
 import JobRelocationCalculator from './components/JobRelocationCalculator.jsx';
 import TDEECalculator from './components/TDEECalculator.jsx';
 import NotFound from './components/NotFound.jsx';
+import Forbidden from './components/Forbidden.jsx';
 import '../../../packages/styling/src/index.css';
 
 import ScrollToTop from './components/ScrollToTop.jsx';
@@ -81,6 +82,10 @@ const router = createHashRouter([
       {
         path: '/tdee-calculator',
         element: <TDEECalculator />,
+      },
+      {
+        path: '/403',
+        element: <Forbidden />,
       },
       {
         path: '*',
