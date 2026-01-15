@@ -80,7 +80,6 @@ export default function TDEECalculator() {
             weightUnit: formData.weightUnit,
             heightUnit: formData.heightUnit,
             activityLevel: formData.activityLevel,
-            activityLevel: formData.activityLevel,
             bodyFat: formData.bodyFat,
             useBodyFat: formData.useBodyFat,
             goalWeight: formData.goalWeight
