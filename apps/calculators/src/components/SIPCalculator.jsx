@@ -279,7 +279,28 @@ export default function SIPCalculator() {
                 {useTax && (
                   <div className="pl-8 space-y-6 animate-in zoom-in-95 duration-200">
                     <div className="space-y-4">
-                      <p className="text-[10px] font-black uppercase border-b-2 border-black pb-1">Allocation & Custom Tax Rates</p>
+                      <p className="text-[10px] font-black uppercase border-b-2 border-black pb-1">Quick Allocation</p>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => { setAssetMix({ equity: 80, debt: 10, gold: 10 }); }}
+                          className="flex-1 py-1 text-[8px] font-black border-2 border-black bg-blue-100 hover:bg-blue-200 uppercase"
+                        >
+                          Aggressive
+                        </button>
+                        <button
+                          onClick={() => { setAssetMix({ equity: 50, debt: 35, gold: 15 }); }}
+                          className="flex-1 py-1 text-[8px] font-black border-2 border-black bg-orange-100 hover:bg-orange-200 uppercase"
+                        >
+                          Balanced
+                        </button>
+                        <button
+                          onClick={() => { setAssetMix({ equity: 20, debt: 70, gold: 10 }); }}
+                          className="flex-1 py-1 text-[8px] font-black border-2 border-black bg-green-100 hover:bg-green-200 uppercase"
+                        >
+                          Safe
+                        </button>
+                      </div>
+                      <p className="text-[10px] font-black uppercase border-b-2 border-black pb-1">Custom Allocation & Tax Rates</p>
                       <div className="space-y-2 p-2 bg-blue-50/50 border border-blue-200">
                         <div className="flex justify-between items-center"><span className="text-[10px] font-black uppercase text-blue-700">Equity (%)</span></div>
                         <div className="flex gap-2">

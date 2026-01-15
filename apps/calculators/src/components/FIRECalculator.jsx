@@ -31,6 +31,7 @@ export default function FIRECalculator() {
   const [medicalInflation, setMedicalInflation] = useState(12); // Healthcare inflation > General
   const [preRetirementReturn, setPreReturn] = useState(12);
   const [postRetirementReturn, setPostReturn] = useState(8);
+  const [lifestyleInflation, setLifestyleInflation] = useState(2); // New: Lifestyle inflation rate
 
   // --- RESULTS ---
   const [results, setResults] = useState({
@@ -56,12 +57,13 @@ export default function FIRECalculator() {
       inflationRate,
       medicalInflation,
       preRetirementReturn,
-      postRetirementReturn
+      postRetirementReturn,
+      lifestyleInflation
     });
 
     setResults(calcResults);
 
-  }, [currentAge, retirementAge, currentMonthlyExpenses, currentSavings, monthlyInvestment, inflationRate, medicalInflation, preRetirementReturn, postRetirementReturn]);
+  }, [currentAge, retirementAge, currentMonthlyExpenses, currentSavings, monthlyInvestment, inflationRate, medicalInflation, preRetirementReturn, postRetirementReturn, lifestyleInflation]);
 
   const generateSchedule = useCallback(() => {
     const { schedule } = calculateFIRE({
@@ -73,10 +75,11 @@ export default function FIRECalculator() {
       inflationRate,
       medicalInflation,
       preRetirementReturn,
-      postRetirementReturn
+      postRetirementReturn,
+      lifestyleInflation
     });
     return schedule;
-  }, [currentAge, retirementAge, currentMonthlyExpenses, currentSavings, monthlyInvestment, inflationRate, medicalInflation, preRetirementReturn, postRetirementReturn]);
+  }, [currentAge, retirementAge, currentMonthlyExpenses, currentSavings, monthlyInvestment, inflationRate, medicalInflation, preRetirementReturn, postRetirementReturn, lifestyleInflation]);
 
   useEffect(() => {
     calculate();
@@ -93,7 +96,8 @@ export default function FIRECalculator() {
         inflationRate,
         medicalInflation,
         preRetirementReturn,
-        postRetirementReturn
+        postRetirementReturn,
+        lifestyleInflation
       },
       results,
       schedule: generateSchedule()
@@ -197,6 +201,20 @@ export default function FIRECalculator() {
                       <Input type="number" value={medicalInflation} onChange={e => setMedicalInflation(e.target.value)} onBlur={() => !medicalInflation && setMedicalInflation(0)} className="border-red-700 font-black text-red-700 pl-8" />
                     </div>
                   </Tooltip>
+                </div>
+
+                <div className="pt-4 border-t-2 border-black/10">
+                  <label className="block text-[10px] font-black uppercase mb-1 text-purple-600">Lifestyle Inflation (%)</label>
+                  <div className="flex gap-2 mb-3">
+                    <button onClick={() => setLifestyleInflation(0)} className={`flex-1 py-1 text-[8px] font-black border-2 border-black uppercase ${lifestyleInflation == 0 ? 'bg-black text-white' : 'bg-white text-black hover:bg-gray-100'}`}>Minimal</button>
+                    <button onClick={() => setLifestyleInflation(2)} className={`flex-1 py-1 text-[8px] font-black border-2 border-black uppercase ${lifestyleInflation == 2 ? 'bg-black text-white' : 'bg-white text-black hover:bg-gray-100'}`}>Standard</button>
+                    <button onClick={() => setLifestyleInflation(5)} className={`flex-1 py-1 text-[8px] font-black border-2 border-black uppercase ${lifestyleInflation == 5 ? 'bg-black text-white' : 'bg-white text-black hover:bg-gray-100'}`}>High</button>
+                  </div>
+                  <div className="relative">
+                    <TrendingUp className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-purple-400 z-10" />
+                    <Input type="number" value={lifestyleInflation} onChange={e => setLifestyleInflation(e.target.value)} onBlur={() => !lifestyleInflation && setLifestyleInflation(0)} className="pl-9 font-black border-purple-200" />
+                  </div>
+                  <p className="text-[9px] text-gray-400 font-bold uppercase mt-1 leading-tight">Tendency to spend more as you earn more. 2-3% is standard.</p>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">

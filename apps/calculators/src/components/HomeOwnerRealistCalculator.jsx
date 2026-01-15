@@ -1,10 +1,11 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { IndianRupee, Home, Hammer, AlertTriangle, Calendar, TrendingUp, DollarSign, ArrowLeft, Trash2, Plus, AlertOctagon, Info, Percent, Currency } from 'lucide-react';
+import { IndianRupee, Home, Hammer, AlertTriangle, Calendar, TrendingUp, DollarSign, ArrowLeft, Trash2, Plus, AlertOctagon, Info, Percent, Currency, Table as TableIcon } from 'lucide-react';
 import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 import { calculateHomeOwnerRealism, generateTimelineEvents } from '../lib/homeOwnerLogic';
+import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import Footer from './Footer';
 import SEO from './SEO';
 
@@ -32,6 +33,7 @@ export default function HomeOwnerRealistCalculator() {
     const [loanTerm, setLoanTerm] = useState(20);
     const [opportunityCostRate, setOpportunityCostRate] = useState(10); // Market return
     const [appreciationRate, setAppreciationRate] = useState(3);
+    const [maintenanceInflation, setMaintenanceInflation] = useState(7); // Default maintenance inflation rate
 
     // --- Audit Items (The Bomb List) ---
     const [auditItems, setAuditItems] = useState([
@@ -44,6 +46,7 @@ export default function HomeOwnerRealistCalculator() {
     // --- Results ---
     const [results, setResults] = useState(null);
     const [timelineEvents, setTimelineEvents] = useState([]);
+    const [showSchedule, setShowSchedule] = useState(false);
 
     const calculate = useCallback(() => {
         const res = calculateHomeOwnerRealism({
@@ -53,17 +56,16 @@ export default function HomeOwnerRealistCalculator() {
             loanTermYears: parseFloat(loanTerm) || 0,
             auditItems,
             appreciationRate: parseFloat(appreciationRate) || 0,
-            opportunityCostRate: parseFloat(opportunityCostRate) || 0
+            opportunityCostRate: parseFloat(opportunityCostRate) || 0,
+            maintenanceInflation: parseFloat(maintenanceInflation) || 0
         });
         setResults(res);
 
         // Generate Timeline
-        // We filter items that have remaining life > 0 for the timeline initially, 
-        // but the generator handles 0 life items as 'immediate'.
         const events = generateTimelineEvents(res.items, 15);
         setTimelineEvents(events);
 
-    }, [propertyPrice, downPayment, interestRate, loanTerm, auditItems, appreciationRate, opportunityCostRate]);
+    }, [propertyPrice, downPayment, interestRate, loanTerm, auditItems, appreciationRate, opportunityCostRate, maintenanceInflation]);
 
     useEffect(() => {
         calculate();
@@ -168,6 +170,15 @@ export default function HomeOwnerRealistCalculator() {
                                         <TrendingUp className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-green-400 z-10" />
                                         <Input type="number" value={appreciationRate} onChange={(e) => setAppreciationRate(e.target.value)} className="pl-9 font-black border-green-200 bg-green-50" />
                                     </div>
+                                </div>
+                                <div>
+                                    <label className="block text-[10px] font-black uppercase mb-1 text-red-700">Maint. Inflation (%)</label>
+                                    <Tooltip content="Annual increase in the cost of labor and materials for repairs.">
+                                        <div className="relative">
+                                            <TrendingUp className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-red-400 z-10" />
+                                            <Input type="number" value={maintenanceInflation} onChange={(e) => setMaintenanceInflation(e.target.value)} className="pl-9 font-black" />
+                                        </div>
+                                    </Tooltip>
                                 </div>
                             </div>
                         </div>
@@ -315,36 +326,129 @@ export default function HomeOwnerRealistCalculator() {
                             </motion.div>
                         )}
 
-                        {/* 3. Timeline of Doom */}
-                        <Card className="border-4 border-black p-0 bg-white">
-                            <div className="bg-gray-100 p-4 border-b-4 border-black">
-                                <h2 className="text-lg font-bold flex items-center gap-2">
-                                    <Calendar className="w-5 h-5" /> 15-Year Horror Timeline
-                                </h2>
-                            </div>
-                            <div className="p-4">
-                                {timelineEvents.length === 0 ? (
-                                    <div className="text-center py-8 text-gray-400 font-bold uppercase">No major repairs predicted in 15 years. You are lucky.</div>
-                                ) : (
-                                    <div className="relative border-l-4 border-black ml-4 my-4 space-y-8">
-                                        {timelineEvents.map((event, idx) => (
-                                            <div key={idx} className="relative pl-8">
-                                                {/* Dot on timeline */}
-                                                <div className={`absolute -left-[10px] top-0 w-4 h-4 rounded-full border-2 border-black ${event.type === 'immediate' ? 'bg-red-600' : 'bg-yellow-400'}`}></div>
+                        {/* 2. Wealth Projection Snapshot */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <Card className="border-4 border-black p-4 bg-green-50 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                                <p className="text-[10px] font-black uppercase text-green-700 mb-1">Projected Home Equity ({loanTerm}y)</p>
+                                <p className="text-2xl font-black text-black">{formatCurrency(results?.financials.finalEquity || 0)}</p>
+                                <p className="text-[9px] font-bold text-green-600 uppercase mt-1">Property Value - Loan Balance</p>
+                            </Card>
+                            <Card className="border-4 border-black p-4 bg-purple-50 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                                <p className="text-[10px] font-black uppercase text-purple-700 mb-1">Opp. Cost Fund ({loanTerm}y)</p>
+                                <p className="text-2xl font-black text-black">{formatCurrency(results?.financials.finalOppCost || 0)}</p>
+                                <p className="text-[9px] font-bold text-purple-600 uppercase mt-1">If Down Payment was invested at {opportunityCostRate}%</p>
+                            </Card>
+                        </div>
 
-                                                <div className="bg-white border-2 border-black p-3 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] inline-block">
-                                                    <span className="text-[10px] font-black uppercase bg-black text-white px-2 py-0.5 mb-1 inline-block">
-                                                        {event.year === 0 ? 'NOW' : `Year ${event.year}`}
+                        {/* EXPORT SECTION */}
+                        <div className="flex flex-col md:flex-row gap-4 mb-6">
+                            <Button
+                                variant="secondary"
+                                className="flex-1 border-4 border-black font-black uppercase"
+                                onClick={() => downloadPDF({
+                                    inputs: {
+                                        propertyPrice, downPayment, interestRate, loanTermYears: loanTerm,
+                                        opportunityCostRate, appreciationRate, maintenanceInflation
+                                    },
+                                    results,
+                                    schedule: results.schedule
+                                })}
+                            >
+                                Download PDF Analysis
+                            </Button>
+                            <Button
+                                variant="primary"
+                                className="flex-1 border-4 border-black font-black uppercase"
+                                onClick={() => downloadExcel({
+                                    inputs: {
+                                        propertyPrice, downPayment, interestRate, loanTermYears: loanTerm,
+                                        opportunityCostRate, appreciationRate, maintenanceInflation
+                                    },
+                                    results,
+                                    schedule: results.schedule
+                                })}
+                            >
+                                Download Excel Data
+                            </Button>
+                        </div>
+
+                        {/* 3. Timeline of Doom */}
+                        <Card className="border-4 border-black p-0 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                            <div className="bg-gray-100 p-4 border-b-4 border-black flex justify-between items-center text-black">
+                                <h3 className="text-lg font-bold flex items-center gap-2">
+                                    <AlertOctagon className="w-5 h-5 text-red-600" /> Timeline of Doom
+                                </h3>
+                                <Tooltip content="When things are likely to break and hit your wallet">
+                                    <Info className="w-4 h-4 text-gray-400" />
+                                </Tooltip>
+                            </div>
+                            <div className="p-6">
+                                <div className="relative border-l-4 border-black ml-4 space-y-8 pb-4">
+                                    {timelineEvents.map((event, idx) => (
+                                        <div key={idx} className="relative pl-8">
+                                            {/* The Dot */}
+                                            <div className={`absolute -left-[14px] top-1 w-6 h-6 rounded-full border-4 border-black ${event.year === 0 ? 'bg-red-500 animate-pulse' : 'bg-yellow-400'}`}></div>
+
+                                            <div className="bg-white border-2 border-black p-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all cursor-default group">
+                                                <div className="flex justify-between items-start mb-1">
+                                                    <span className="text-[10px] font-black uppercase bg-black text-white px-2 py-0.5">
+                                                        {event.year === 0 ? 'Urgent: Year 0' : `Year ${event.year}`}
                                                     </span>
-                                                    <h4 className="font-bold text-md leading-tight">{event.item} Fails</h4>
-                                                    <p className="text-red-600 font-black mt-1">{formatCurrency(event.cost)}</p>
+                                                    <span className="text-xs font-black text-red-600 group-hover:scale-110 transition-transform">{formatCurrency(event.cost)}</span>
                                                 </div>
+                                                <h4 className="font-bold text-sm text-black">{event.item} Renewal</h4>
                                             </div>
-                                        ))}
-                                    </div>
-                                )}
+                                        </div>
+                                    ))}
+                                    {timelineEvents.length === 0 && (
+                                        <div className="text-center py-6 text-gray-400 font-bold uppercase">Great maintenance. No hits in 15 years.</div>
+                                    )}
+                                </div>
                             </div>
                         </Card>
+
+                        {/* 4. Detailed Wealth Schedule */}
+                        <div className="mt-6">
+                            <Button
+                                variant="outline"
+                                className="w-full border-4 border-black font-black uppercase flex items-center justify-center gap-2 h-12"
+                                onClick={() => setShowSchedule(!showSchedule)}
+                            >
+                                <TableIcon className="w-4 h-4" />
+                                {showSchedule ? 'Hide Detailed Schedule' : 'View Year-by-Year Wealth'}
+                            </Button>
+
+                            {showSchedule && results?.schedule && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    className="mt-4 border-4 border-black overflow-x-auto"
+                                >
+                                    <table className="w-full text-[10px] text-left">
+                                        <thead className="bg-black text-white uppercase font-black">
+                                            <tr>
+                                                <th className="p-2 text-white">Year</th>
+                                                <th className="p-2 text-white">Property Value</th>
+                                                <th className="p-2 text-white">Loan Balance</th>
+                                                <th className="p-2 text-white">Home Equity</th>
+                                                <th className="p-2 text-white">Opp. Cost Fund</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="divide-y-2 divide-gray-100 bg-white">
+                                            {results.schedule.map((row, idx) => (
+                                                <tr key={idx} className="hover:bg-yellow-50">
+                                                    <td className="p-2 font-black text-black">{row.label}</td>
+                                                    <td className="p-2 font-bold text-black">{formatCurrency(row.propertyValue)}</td>
+                                                    <td className="p-2 font-bold text-red-600">{formatCurrency(row.loanBalance)}</td>
+                                                    <td className="p-2 font-black text-green-600">{formatCurrency(row.homeEquity)}</td>
+                                                    <td className="p-2 font-black text-purple-600">{formatCurrency(row.opportunityCostWealth)}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </motion.div>
+                            )}
+                        </div>
                     </ResultsAnalysis>
                 </div>
             </CalculatorLayout>

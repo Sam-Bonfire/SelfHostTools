@@ -72,6 +72,15 @@ export default function LifeInsuranceCalculator() {
     setGoals(prev => prev.map(g => g.id === id ? { ...g, [field]: val } : g));
   };
 
+  const addGoal = (name, amount, yearsAway) => {
+    const newId = Math.max(...futureGoals.map(g => g.id), 0) + 1;
+    setGoals([...futureGoals, { id: newId, name, amount, yearsAway }]);
+  };
+
+  const removeGoal = (id) => {
+    setGoals(futureGoals.filter(g => g.id !== id));
+  };
+
   const formatCurrency = (val) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
 
   const checkExports = (type) => {
@@ -192,9 +201,46 @@ export default function LifeInsuranceCalculator() {
               </h2>
             </div>
             <div className="p-4 space-y-4">
+              <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1">
+                <button
+                  onClick={() => addGoal('Child Education', 2000000, 15)}
+                  className="whitespace-nowrap px-2 py-1 text-[9px] font-black border-2 border-black bg-blue-100 hover:bg-blue-200 uppercase flex items-center gap-1"
+                >
+                  <GraduationCap className="w-3 h-3" /> + Edu
+                </button>
+                <button
+                  onClick={() => addGoal('Child Marriage', 1500000, 20)}
+                  className="whitespace-nowrap px-2 py-1 text-[9px] font-black border-2 border-black bg-orange-100 hover:bg-orange-200 uppercase flex items-center gap-1"
+                >
+                  <Heart className="w-3 h-3" /> + Marriage
+                </button>
+                <button
+                  onClick={() => addGoal('Home Renovation', 1000000, 10)}
+                  className="whitespace-nowrap px-2 py-1 text-[9px] font-black border-2 border-black bg-green-100 hover:bg-green-200 uppercase flex items-center gap-1"
+                >
+                  <Landmark className="w-3 h-3" /> + Reno
+                </button>
+                <button
+                  onClick={() => addGoal('Car/Asset', 800000, 5)}
+                  className="whitespace-nowrap px-2 py-1 text-[9px] font-black border-2 border-black bg-purple-100 hover:bg-purple-200 uppercase flex items-center gap-1"
+                >
+                  <Coins className="w-3 h-3" /> + Asset
+                </button>
+              </div>
+
               {futureGoals.map(g => (
-                <div key={g.id} className="p-3 border-2 border-black bg-white space-y-2">
-                  <p className="text-xs font-black uppercase">{g.name}</p>
+                <div key={g.id} className="p-3 border-2 border-black bg-white space-y-2 relative group">
+                  <button
+                    onClick={() => removeGoal(g.id)}
+                    className="absolute -top-2 -right-2 w-5 h-5 bg-red-600 text-white border-2 border-black flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    ×
+                  </button>
+                  <Input
+                    value={g.name}
+                    onChange={e => updateGoal(g.id, 'name', e.target.value)}
+                    className="h-6 text-[10px] font-black border-none uppercase p-0 focus:ring-0"
+                  />
                   <div className="grid grid-cols-2 gap-2">
                     <div className="relative">
                       <Tooltip content="Current cost of this goal">
@@ -382,26 +428,26 @@ export default function LifeInsuranceCalculator() {
             </div>
 
             <div className="flex flex-col md:flex-row gap-4 mt-6">
-              <Tooltip content="Download PDF report" className="w-full">
-                <Button variant="secondary" onClick={() => checkExports('pdf')} className="w-full text-sm font-bold flex items-center justify-center gap-2 border-4 border-black h-12 uppercase">
-                  <FileText className="w-5 h-5" /> Download PDF Report
-                </Button>
-              </Tooltip>
-              <Tooltip content="Download Excel report" className="w-full">
-                <Button variant="primary" onClick={() => checkExports('excel')} className="w-full text-sm font-bold flex items-center justify-center gap-2 border-4 border-black h-12 uppercase">
-                  <Table className="w-5 h-5" /> Download Excel Report
-                </Button>
-              </Tooltip>
+              <Button
+                variant="secondary"
+                onClick={() => checkExports('pdf')}
+                className="flex-1 text-sm font-bold flex items-center justify-center gap-2 border-4 border-black h-12 uppercase"
+              >
+                <FileText className="w-5 h-5" /> Download PDF Report
+              </Button>
+              <Button
+                variant="primary"
+                onClick={() => checkExports('excel')}
+                className="flex-1 text-sm font-bold flex items-center justify-center gap-2 border-4 border-black h-12 uppercase"
+              >
+                <Table className="w-5 h-5" /> Download Excel Report
+              </Button>
             </div>
           </ResultsAnalysis>
         </div>
       </CalculatorLayout>
 
-      <Footer>
-        <p className="text-gray-600 font-medium">
-          <strong>Note:</strong> HLV (Human Life Value) is a scientific way to calculate insurance cover. Ensure you buy a <strong>Term Insurance</strong> plan for high cover at low cost, and avoid mixing insurance with investment.
-        </p>
-      </Footer>
+      <Footer />
     </div>
   );
 }

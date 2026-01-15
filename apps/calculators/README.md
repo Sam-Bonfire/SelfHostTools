@@ -27,6 +27,7 @@ Standard calculators often mislead users by using gross numbers. This suite adhe
 *   **Features**:
     *   **"Years to Freedom"**: Countdowns based on savings rate.
     *   **Inflation Adjustment**: All future corpora shown in today's value.
+    *   **Lifestyle Inflation**: Guided presets (Minimal to High) to model spending growth over time.
     *   **Safety Checks**: Alerts if withdrawal rate exceeds safe limits.
 
 ### 3. SIP (Systematic Investment Plan) Calculator
@@ -34,14 +35,15 @@ Standard calculators often mislead users by using gross numbers. This suite adhe
 *   **Tests**: `src/tests/sipLogic.test.js`
 *   **Features**:
     *   **Step-Up**: Annual contribution increase modeling.
+    *   **Quick Allocation**: Presets for Aggressive (80% Equity), Balanced (50%), and Safe (20%) profiles.
     *   **Reality Deductions**: Calculates "Real Maturity Value" after Inflation, Expense Ratio, and LTCG Tax.
 
 ### 4. Life Insurance (HLV) Calculator
 *   **Logic**: `src/lib/lifeInsuranceLogic.js`
 *   **Tests**: `src/tests/lifeInsuranceLogic.test.js`
 *   **Features**:
+    *   **Goal Wizard**: Quick-add presets for Education, Marriage, and Assets.
     *   **Expense Replacement**: Calculates corpus needed to replace earner's contribution forever.
-    *   **Goal Protection**: Adds PV of future goals (Education, Marriage).
     *   **Gap Analysis**: `Required Cover - Existing Assets`.
 
 ### 5. Education Loan Calculator
@@ -50,35 +52,36 @@ Standard calculators often mislead users by using gross numbers. This suite adhe
 *   **Features**:
     *   **Advanced Mode**: Supports multi-tranche disbursements with varying dates.
     *   **Moratorium**: Calculates interest accrual during study + grace period.
-    *   **Capitalization**: Option to capitalize interest or pay it off.
 
 ### 6. Buy vs Rent Calculator
 *   **Logic**: `src/lib/homeLoanRentLogic.js`
 *   **Tests**: `src/tests/homeLoanRentLogic.test.js`
 *   **Features**:
     *   **Opportunity Cost**: Models investing the difference (EMI - Rent) into equity.
-    *   **Maintenance & Tax**: Includes maintenance/inflation for owners, rent inflation for tenants.
-    *   **"Verdict"**: Declares a clear winner based on Net Worth at the end of tenure.
+    *   **Detailed Schedules**: Exportable side-by-side comparison of wealth growth.
 
 ### 7. Golden Handcuffs Calculator
 *   **Logic**: `src/lib/goldenHandcuffsLogic.js`
 *   **Tests**: `src/tests/goldenHandcuffsLogic.test.js`
-*   **Features**: Calculates the true cost of leaving a job by factoring in unvested RSUs, Options, and joining/retention clawbacks.
+*   **Features**: Calculates true cost of leaving (RSUs, Benefits, Clawbacks).
 
 ### 8. Home Owner Realist Calculator
-*   **Logic**: `src/lib/homeOwnerRealistLogic.js`
-*   **Tests**: `src/tests/homeOwnerRealistLogic.test.js`
-*   **Features**: Focuses on the "Hidden Costs" of home ownership, including sinking funds for maintenance, insurance, and long-term repairs.
+*   **Logic**: `src/lib/homeOwnerLogic.js`
+*   **Tests**: `src/tests/homeOwnerLogic.test.js`
+*   **Features**: 
+    *   **Maintenance Audit**: Comprehensive list of repairs with inflation-adjusted sinking funds.
+    *   **Timeline of Doom**: Visual vertical timeline of future big-ticket repairs.
+    *   **Equity Projection**: Projects net worth vs. opportunity cost of down payment.
 
 ### 9. True Hourly Wage Calculator
 *   **Logic**: `src/lib/trueHourlyWageLogic.js`
 *   **Tests**: `src/tests/trueHourlyWageLogic.test.js`
-*   **Features**: Reveals your real income per hour after accounting for commute time, taxes, work-related expenses, and unpaid prep time.
+*   **Features**: Real income per hour after commute, taxes, and prep.
 
 ### 10. Degree ROI Calculator
 *   **Logic**: `src/lib/degreeROILogic.js`
 *   **Tests**: `src/tests/degreeROILogic.test.js`
-*   **Features**: Compares the 20-30 year ROI of pursuing a degree vs. entering the workforce immediately, accounting for loan interest and opportunity costs.
+*   **Features**: 30-year ROI comparison of degrees vs entering workforce.
 
 ---
 

@@ -7,18 +7,19 @@ export const calculateFIRE = ({
     inflationRate,
     medicalInflation,
     preRetirementReturn,
-    postRetirementReturn
+    postRetirementReturn,
+    lifestyleInflation = 0
 }) => {
     const yearsToInvest = parseFloat(retirementAge || 0) - parseFloat(currentAge || 0);
     const monthsToInvest = yearsToInvest * 12;
 
     // 1. Calculate Expenses at Retirement
-    // Assuming 20% of expenses are medical (subject to higher inflation)
     const medicalExpenseRatio = 0.20;
+    const totalInflation = (parseFloat(inflationRate) || 0) + (parseFloat(lifestyleInflation) || 0);
     const standardExpenses = (parseFloat(currentMonthlyExpenses) || 0) * (1 - medicalExpenseRatio);
     const medicalExpenses = (parseFloat(currentMonthlyExpenses) || 0) * medicalExpenseRatio;
 
-    const futureStandardExpenses = standardExpenses * Math.pow(1 + ((parseFloat(inflationRate) || 0) / 100), yearsToInvest);
+    const futureStandardExpenses = standardExpenses * Math.pow(1 + (totalInflation / 100), yearsToInvest);
     const futureMedicalExpenses = medicalExpenses * Math.pow(1 + ((parseFloat(medicalInflation) || 0) / 100), yearsToInvest);
     const totalMonthlyExpenseAtRetirement = futureStandardExpenses + futureMedicalExpenses;
 

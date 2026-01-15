@@ -58,6 +58,12 @@ This document records the user-driven evolution of the **SelfHostTools** project
 *   **Typography**: Adopted **"Outfit"** as the primary typeface for a modern, high-premium look while maintaining Neo-Brutalist sharpness.
     *   *Global Application*: Configured via Tailwind and implemented in `index.html`.
 
+### Phase 7: Depth & Visual Storytelling
+*   **Guided Inputs**: Added "Quick Presets" and "Goal Wizards" to SIP, FIRE, and Life Insurance calculators to reduce cognitive load and provide industry benchmarks (e.g., Aggressive vs. Safe asset mix).
+*   **Visual Analysis**: Introduced the **"Timeline of Doom"** — a visual vertical timeline in the Home Owner Realist calculator to map future maintenance hits chronologically rather than as a flat list.
+*   **Wealth Projections**: Enhanced results with year-by-year wealth schedules and snapshot comparisons (e.g., Home Equity vs. Opportunity Cost Fund).
+*   **Export Parity**: Finalized PDF and Excel export logic for Home Owner and Buy vs. Rent calculators, ensuring offline reports match the high-fidelity UI.
+
 ---
 
 ## 🧭 Current Trajectory

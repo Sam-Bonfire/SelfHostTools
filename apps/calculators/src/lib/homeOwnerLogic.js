@@ -19,31 +19,21 @@ export const calculateMortgage = (principal, rate, years) => {
 /**
  * Calculates the sinking fund requirements for a list of items.
  * @param {Array} items - List of items with { name, replacementCost, lifespanYears, currentAgeYears }.
+ * @param {number} inflationRate - Annual maintenance inflation rate.
  * @returns {Object} Sinking fund details including total monthly cost and item breakdown.
  */
-export const calculateSinkingFund = (items) => {
+export const calculateSinkingFund = (items, inflationRate = 5) => {
     let totalMonthlySinkingFund = 0;
     const itemDetails = items.map(item => {
         const remainingYears = Math.max(0, item.lifespanYears - item.currentAgeYears);
         const remainingMonths = remainingYears * 12;
 
+        // Inflate the replacement cost based on when it will occur
+        const inflatedCost = item.replacementCost * Math.pow(1 + (inflationRate / 100), remainingYears);
+
         let monthlyCost = 0;
         if (remainingMonths > 0) {
-            monthlyCost = item.replacementCost / remainingMonths;
-        } else {
-            // If lifespan exceeded, assume immediate replacement needed (spread over 1 month? or treated as immediate liability)
-            // For monthly recurring cost context, this is tricky. 
-            // Let's assume a "Catch-up" mode where if it's dead, you should have saved it already.
-            // But for forward looking "Cashflow", we might just show a high warning.
-            // For the specific "Sinking Fund Cost" metric (saving for *future*), 
-            // if it is 0 years left, the cost is effectively infinite or immediate. 
-            // However, to keep the calculator usable, let's treat it as "Time to Bomb" = 0.
-            // The PRD says: "CRITICAL. 0 years life. Budget $8k immediately."
-            // So this doesn't add to the *monthly* sinking fund unless we assume a loan for it.
-            // Let's explicitly separate "Immediate Cash Needed" vs "Monthly Saving for Future".
-            // But to simplify the "Monthly Cost" metric, we probably shouldn't add a $8000/mo charge.
-            // We will return a separate flag or value for "Immediate Liability".
-            monthlyCost = 0;
+            monthlyCost = inflatedCost / remainingMonths;
         }
 
         totalMonthlySinkingFund += monthlyCost;
@@ -51,6 +41,7 @@ export const calculateSinkingFund = (items) => {
         return {
             ...item,
             remainingYears,
+            inflatedCost,
             monthlyCost
         };
     });
@@ -64,14 +55,6 @@ export const calculateSinkingFund = (items) => {
 
 /**
  * Calculates the comprehensive cost of home ownership.
- * @param {number} propertyPrice - Total price of the property.
- * @param {number} downPayment - Down payment amount.
- * @param {number} interestRate - Annual mortgage interest rate (%).
- * @param {number} loanTermYears - Mortgage term in years.
- * @param {Array} auditItems - List of maintenance items.
- * @param {number} appreciationRate - Annual property appreciation rate (%).
- * @param {number} opportunityCostRate - Annual return rate on investing down payment (%).
- * @returns {Object} Detailed cost breakdown.
  */
 export const calculateHomeOwnerRealism = ({
     propertyPrice,
@@ -80,7 +63,8 @@ export const calculateHomeOwnerRealism = ({
     loanTermYears,
     auditItems,
     appreciationRate = 3,
-    opportunityCostRate = 7
+    opportunityCostRate = 7,
+    maintenanceInflation = 5
 }) => {
     const loanAmount = propertyPrice - downPayment;
     const monthlyMortgage = calculateMortgage(loanAmount, interestRate, loanTermYears);
@@ -88,12 +72,44 @@ export const calculateHomeOwnerRealism = ({
     // Opportunity Cost: What the down payment would earn if invested
     const monthlyOpportunityCost = (downPayment * (opportunityCostRate / 100)) / 12;
 
-    const { totalMonthlySinkingFund, itemDetails, immediateLiability } = calculateSinkingFund(auditItems);
+    const { totalMonthlySinkingFund, itemDetails, immediateLiability } = calculateSinkingFund(auditItems, maintenanceInflation);
 
     // Total "Real" Monthly Cost
     const trueMonthlyCost = monthlyMortgage + totalMonthlySinkingFund + monthlyOpportunityCost;
 
-    // Projected Equity (simplified) could be added here later
+    // Projected Equity & Wealth Schedule
+    const schedule = [];
+    const monthlyRate = interestRate / 100 / 12;
+    const months = loanTermYears * 12;
+    let currentLoanBalance = loanAmount;
+    let totalSinkingFundSaved = 0;
+    let alternativeInvestedDP = downPayment;
+
+    for (let m = 1; m <= months; m++) {
+        const interestPaid = currentLoanBalance * monthlyRate;
+        const principalPaid = monthlyMortgage - interestPaid;
+        currentLoanBalance = Math.max(0, currentLoanBalance - principalPaid);
+
+        totalSinkingFundSaved += totalMonthlySinkingFund;
+        alternativeInvestedDP *= (1 + (opportunityCostRate / 100 / 12));
+
+        if (m % 12 === 0) {
+            const year = m / 12;
+            const currentPropertyValue = propertyPrice * Math.pow(1 + (appreciationRate / 100), year);
+            const homeEquity = currentPropertyValue - currentLoanBalance;
+
+            schedule.push({
+                year,
+                label: `Year ${year}`,
+                propertyValue: Math.round(currentPropertyValue),
+                loanBalance: Math.round(currentLoanBalance),
+                homeEquity: Math.round(homeEquity), // Asset - Liability
+                sinkingFundAccrued: Math.round(totalSinkingFundSaved),
+                opportunityCostWealth: Math.round(alternativeInvestedDP), // What you'd have if you didn't buy
+                balance: Math.round(homeEquity) // Using balance for standard schedule display
+            });
+        }
+    }
 
     return {
         financials: {
@@ -102,9 +118,12 @@ export const calculateHomeOwnerRealism = ({
             monthlyOpportunityCost: Math.round(monthlyOpportunityCost),
             totalMonthlySinkingFund: Math.round(totalMonthlySinkingFund),
             trueMonthlyCost: Math.round(trueMonthlyCost),
-            immediateLiability: Math.round(immediateLiability)
+            immediateLiability: Math.round(immediateLiability),
+            finalEquity: schedule[schedule.length - 1]?.homeEquity || 0,
+            finalOppCost: schedule[schedule.length - 1]?.opportunityCostWealth || 0
         },
-        items: itemDetails
+        items: itemDetails,
+        schedule
     };
 };
 

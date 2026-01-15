@@ -213,12 +213,12 @@ export default function HomeLoanRentCalculator() {
               <div className="bg-white border-4 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                 <p className="text-[10px] font-black text-gray-400 uppercase mb-1">Buy Wealth (Net)</p>
                 <p className="text-2xl font-black text-black">{formatCurrency(results.buyNetWealth)}</p>
-                <p className="text-[9px] font-bold text-gray-400 italic font-medium">Property Value - Remaining Loan</p>
+                <p className="text-[9px] font-bold text-gray-400 italic">Property Value - Remaining Loan</p>
               </div>
               <div className="bg-white border-4 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                 <p className="text-[10px] font-black text-gray-400 uppercase mb-1">Rent Wealth (Net)</p>
                 <p className="text-2xl font-black text-black">{formatCurrency(results.rentNetWealth)}</p>
-                <p className="text-[9px] font-bold text-gray-400 italic font-medium">Invested DP + Invested Savings</p>
+                <p className="text-[9px] font-bold text-gray-400 italic">Invested DP + Invested Savings</p>
               </div>
             </div>
 
@@ -234,6 +234,45 @@ export default function HomeLoanRentCalculator() {
             </div>
 
             <div>
+              <div className="flex flex-col md:flex-row gap-4 mb-4">
+                <Button
+                  variant="secondary"
+                  className="flex-1 border-4 border-black font-black uppercase"
+                  onClick={() => downloadPDF({
+                    inputs: {
+                      propertyPrice: propertyValue, interestRate, monthlyRent, rentInflation, tenure: loanTenure
+                    },
+                    results,
+                    schedule: schedule.map(s => ({
+                      label: s.label,
+                      principal: s.buyWealth, // Mapping Buy Wealth to Principal slot
+                      interest: s.rentWealth, // Mapping Rent Wealth to Interest slot
+                      balance: s.buyWealth - s.rentWealth // Difference
+                    }))
+                  })}
+                >
+                  Download Report (PDF)
+                </Button>
+                <Button
+                  variant="primary"
+                  className="flex-1 border-4 border-black font-black uppercase"
+                  onClick={() => downloadExcel({
+                    inputs: {
+                      propertyPrice: propertyValue, interestRate, monthlyRent, rentInflation, tenure: loanTenure
+                    },
+                    results,
+                    schedule: schedule.map(s => ({
+                      label: s.label,
+                      principal: s.buyWealth,
+                      interest: s.rentWealth,
+                      balance: s.buyWealth - s.rentWealth
+                    }))
+                  })}
+                >
+                  Download Analysis (Excel)
+                </Button>
+              </div>
+
               <Button
                 onClick={() => setShowSchedule(!showSchedule)}
                 variant="outline"

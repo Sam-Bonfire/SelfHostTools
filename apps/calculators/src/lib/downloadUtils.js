@@ -85,6 +85,33 @@ export const downloadPDF = async (data) => {
       ['Net Take-Home Pay', `INR ${formatCurrency(results.netTakeHome, true)}`],
       ['Real Hourly Rate', `INR ${formatCurrency(results.realHourlyRate, true)}`]
     ];
+  } else if (inputs.appreciationRate !== undefined && inputs.maintenanceInflation !== undefined) {
+    // HOME OWNER REALIST
+    summaryData = [
+      ['Property Price', `INR ${formatCurrency(inputs.propertyPrice, true)}`],
+      ['Down Payment', `INR ${formatCurrency(inputs.downPayment, true)}`],
+      ['Mortgage Rate', `${inputs.interestRate}%`],
+      ['Loan Tenure', `${inputs.loanTermYears} Years`],
+      ['Monthly Mortgage', `INR ${formatCurrency(results.financials.monthlyMortgage, true)}`],
+      ['Sinking Fund /mo', `INR ${formatCurrency(results.financials.totalMonthlySinkingFund, true)}`],
+      ['Opportunity Cost /mo', `INR ${formatCurrency(results.financials.monthlyOpportunityCost, true)}`],
+      ['TRUE Monthly Cost', `INR ${formatCurrency(results.financials.trueMonthlyCost, true)}`],
+      ['Immediate Liability', `INR ${formatCurrency(results.financials.immediateLiability, true)}`],
+      ['Final Property Equity', `INR ${formatCurrency(results.financials.finalEquity, true)}`]
+    ];
+  } else if (inputs.monthlyRent !== undefined && inputs.propertyPrice !== undefined) {
+    // BUY VS RENT
+    summaryData = [
+      ['Property Price', `INR ${formatCurrency(inputs.propertyPrice, true)}`],
+      ['Interest Rate', `${inputs.interestRate}%`],
+      ['Monthly Rent', `INR ${formatCurrency(inputs.monthlyRent, true)}`],
+      ['Rent Inflation', `${inputs.rentInflation}%`],
+      ['Tenure', `${inputs.tenure} Years`],
+      ['Buy Wealth (Net)', `INR ${formatCurrency(results.buyNetWealth, true)}`],
+      ['Rent Wealth (Net)', `INR ${formatCurrency(results.rentNetWealth, true)}`],
+      ['Winner', results.winner.toUpperCase()],
+      ['Wealth Difference', `INR ${formatCurrency(Math.abs(results.buyNetWealth - results.rentNetWealth), true)}`]
+    ];
   } else if (inputs.currentBaseSalary !== undefined) {
     // GOLDEN HANDCUFFS
     summaryData = [
@@ -129,21 +156,6 @@ export const downloadPDF = async (data) => {
         ['Monthly EMI', `INR ${formatCurrency(results.monthlyEMI, true)}`],
         ['Total Interest', `INR ${formatCurrency(results.totalInterest, true)}`],
         ['Total Payable', `INR ${formatCurrency(results.totalAmount, true)}`]
-      ];
-    } else if (inputs.currentBaseSalary !== undefined) {
-      // GOLDEN HANDCUFFS
-      summaryRows = [
-        ['Current Base Salary', inputs.currentBaseSalary],
-        ['Current Bonus', inputs.currentBonus],
-        ['Current Annual Equity', inputs.currentAnnualEquity],
-        ['Total Comp (Current)', inputs.currentTotalComp],
-        ['New Base Salary', inputs.newBaseSalary],
-        ['New Bonus', inputs.newBonus],
-        ['New Annual Equity', inputs.newAnnualEquity],
-        ['Total Comp (New)', inputs.newTotalComp],
-        ['The Freedom Tax (Exit Cost)', results.freedomTax],
-        ['Break Even Year', results.breakEvenYear || 'Never'],
-        ['Verdict', results.isNewJobBetter ? 'SWITCH' : 'STAY']
       ];
     } else {
       // SIP CALCULATOR
@@ -277,6 +289,33 @@ export const downloadExcel = async (data) => {
       ['Net Take-Home Pay', results.netTakeHome],
       ['Real Hourly Rate', results.realHourlyRate]
     ];
+  } else if (inputs.appreciationRate !== undefined && inputs.maintenanceInflation !== undefined) {
+    // HOME OWNER REALIST
+    summaryRows = [
+      ['Property Price', inputs.propertyPrice],
+      ['Down Payment', inputs.downPayment],
+      ['Mortgage Rate (%)', inputs.interestRate],
+      ['Loan Tenure (Years)', inputs.loanTermYears],
+      ['Monthly Mortgage', results.financials.monthlyMortgage],
+      ['Sinking Fund /mo', results.financials.totalMonthlySinkingFund],
+      ['Opportunity Cost /mo', results.financials.monthlyOpportunityCost],
+      ['TRUE Monthly Cost', results.financials.trueMonthlyCost],
+      ['Immediate Liability', results.financials.immediateLiability],
+      ['Final Property Equity', results.financials.finalEquity]
+    ];
+  } else if (inputs.monthlyRent !== undefined && inputs.propertyPrice !== undefined) {
+    // BUY VS RENT
+    summaryRows = [
+      ['Property Price', inputs.propertyPrice],
+      ['Interest Rate (%)', inputs.interestRate],
+      ['Monthly Rent', inputs.monthlyRent],
+      ['Rent Inflation (%)', inputs.rentInflation],
+      ['Tenure (Years)', inputs.tenure],
+      ['Buy Wealth (Net)', results.buyNetWealth],
+      ['Rent Wealth (Net)', results.rentNetWealth],
+      ['Winner', results.winner],
+      ['Wealth Difference', Math.abs(results.buyNetWealth - results.rentNetWealth)]
+    ];
   } else if (inputs.currentBaseSalary !== undefined) {
     // GOLDEN HANDCUFFS
     summaryRows = [
@@ -326,15 +365,29 @@ export const downloadExcel = async (data) => {
       ['Final Net Worth (Alt)', results.finalAltNW]
     ];
   } else {
-    // LOAN
-    summaryRows = [
-      ['Loan Amount', inputs.loanAmount],
-      ['Interest Rate (%)', inputs.interestRate],
-      ['Tenure (Years)', inputs.repaymentTenure],
-      ['Monthly EMI', results.monthlyEMI],
-      ['Total Interest', results.totalInterest],
-      ['Total Payable', results.totalAmount]
-    ];
+    // LOAN or SIP
+    if (inputs.repaymentTenure !== undefined && inputs.stepUp === undefined) {
+      // EDUCATION LOAN
+      summaryRows = [
+        ['Loan Amount', inputs.loanAmount],
+        ['Interest Rate (%)', inputs.interestRate],
+        ['Tenure (Years)', inputs.repaymentTenure],
+        ['Monthly EMI', results.monthlyEMI],
+        ['Total Interest', results.totalInterest],
+        ['Total Payable', results.totalAmount]
+      ];
+    } else {
+      // SIP
+      summaryRows = [
+        ['Monthly Investment', inputs.loanAmount],
+        ['Return Rate (%)', inputs.interestRate],
+        ['Period (Years)', inputs.repaymentTenure],
+        ['Step Up (%)', inputs.stepUp],
+        ['Total Invested', results.monthlyEMI],
+        ['Wealth Gained', results.totalInterest],
+        ['Maturity Value', results.totalAmount]
+      ];
+    }
   }
 
   const wsSummary = XLSX.utils.aoa_to_sheet([['REPORT SUMMARY'], ...summaryRows]);
