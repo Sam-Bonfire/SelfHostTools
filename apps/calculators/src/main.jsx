@@ -13,6 +13,7 @@ import GoldenHandcuffsCalculator from './components/GoldenHandcuffsCalculator.js
 import DegreeROICalculator from './components/DegreeROICalculator.jsx';
 import HomeOwnerRealistCalculator from './components/HomeOwnerRealistCalculator.jsx';
 import TrueHourlyWageCalculator from './components/TrueHourlyWageCalculator.jsx';
+import JobRelocationCalculator from './components/JobRelocationCalculator.jsx';
 import NotFound from './components/NotFound.jsx';
 import '../../../packages/styling/src/index.css';
 
@@ -71,6 +72,10 @@ const router = createHashRouter([
       {
         path: '/home-owner-realist',
         element: <HomeOwnerRealistCalculator />,
+      },
+      {
+        path: '/job-relocation',
+        element: <JobRelocationCalculator />,
       },
       {
         path: '*',

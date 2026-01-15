@@ -380,11 +380,12 @@ export default function TrueHourlyWageCalculator() {
 
             </CalculatorLayout>
 
-            <Footer>
-                <p className="text-gray-600 font-medium">
-                    <strong>Reality Check:</strong> If your True Hourly Wage is lower than your local fast-food rate, it might be time to discuss remote work or a raise.
+            {/* REALIST'S NOTE */}
+            <div className="mt-8 p-6 border-4 border-black bg-yellow-50 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                <p className="text-sm font-bold text-gray-800">
+                    <strong className="text-black">Reality Check:</strong> If your True Hourly Wage is lower than your local fast-food rate, it might be time to discuss remote work or a raise.
                 </p>
-            </Footer>
+            </div>
         </div>
     );
 }
