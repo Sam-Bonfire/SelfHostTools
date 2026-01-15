@@ -6,11 +6,11 @@ import React from 'react';
  */
 const CalculatorLayout = ({ children, className = "" }) => {
     return (
-        <div className={`max-w-6xl mx-auto ${className}`}>
+        <main className={`max-w-6xl mx-auto ${className}`} role="main">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                 {children}
             </div>
-        </div>
+        </main>
     );
 };
 

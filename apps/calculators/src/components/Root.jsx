@@ -41,7 +41,7 @@ export default function Root() {
           >
             <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
               <img
-                src="/favicon.png"
+                src="/mascot_256.webp"
                 alt="Mascot"
                 className="w-16 h-16 md:w-20 md:h-20 drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]"
               />
@@ -58,7 +58,7 @@ export default function Root() {
         </header>
 
         {/* Calculators Grid */}
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" role="main">
 
           <Link to="/education-loan" className="group block h-full decoration-transparent">
             <Card className="h-full hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200 cursor-pointer flex flex-col">
@@ -340,7 +340,7 @@ export default function Root() {
             </div>
           </Card>
 
-        </section>
+        </main>
 
         <Footer />
       </div>
