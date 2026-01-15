@@ -24,9 +24,22 @@ describe('Home Owner Realist Logic', () => {
             // Remaining: 5 years (60 months)
             // Monthly: 12000 / 60 = 200
 
-            const result = calculateSinkingFund(items);
+            const result = calculateSinkingFund(items, 0);
             expect(Math.round(result.totalMonthlySinkingFund)).toBe(200);
             expect(result.itemDetails[0].remainingYears).toBe(5);
+        });
+
+        it('should calculate monthly saving with inflation', () => {
+            const items = [
+                { name: 'Roof', replacementCost: 10000, lifespanYears: 10, currentAgeYears: 0 }
+            ];
+            // Remaining: 10 years (120 months)
+            // Inflation: 10% (for easy math)
+            // Inflated Cost: 10000 * (1.1)^10 ≈ 25937.42
+            // Monthly: 25937.42 / 120 ≈ 216.14
+
+            const result = calculateSinkingFund(items, 10);
+            expect(Math.round(result.totalMonthlySinkingFund)).toBe(216);
         });
 
         it('should handle expired items as immediate liability, not monthly cost', () => {
@@ -37,7 +50,7 @@ describe('Home Owner Realist Logic', () => {
             // Monthly Cost: 0 (It's too late to save)
             // Immediate Liability: 8000
 
-            const result = calculateSinkingFund(items);
+            const result = calculateSinkingFund(items, 0);
             expect(result.totalMonthlySinkingFund).toBe(0);
             expect(result.immediateLiability).toBe(8000);
         });
@@ -54,7 +67,8 @@ describe('Home Owner Realist Logic', () => {
                     { name: 'Roof', replacementCost: 12000, lifespanYears: 20, currentAgeYears: 15 } // $200/mo
                 ],
                 appreciationRate: 3,
-                opportunityCostRate: 6 // 6% on 80k = 4800/yr = 400/mo
+                opportunityCostRate: 6, // 6% on 80k = 4800/yr = 400/mo
+                maintenanceInflation: 0
             };
 
             // Loan: 320,000
@@ -81,7 +95,7 @@ describe('Home Owner Realist Logic', () => {
             // Fails at Year 2.
             // Next failure at Year 12 (2 + 10).
 
-            const itemDetails = calculateSinkingFund(items).itemDetails;
+            const itemDetails = calculateSinkingFund(items, 0).itemDetails;
             const events = generateTimelineEvents(itemDetails, 15);
 
             expect(events).toHaveLength(2);
@@ -98,7 +112,7 @@ describe('Home Owner Realist Logic', () => {
             // Next fail at Year 10.
             // Next fail at Year 15.
 
-            const itemDetails = calculateSinkingFund(items).itemDetails;
+            const itemDetails = calculateSinkingFund(items, 0).itemDetails;
             const events = generateTimelineEvents(itemDetails, 15);
 
             expect(events[0].year).toBe(0);
