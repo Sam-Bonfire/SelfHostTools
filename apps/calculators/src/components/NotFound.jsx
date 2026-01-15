@@ -7,7 +7,7 @@ import SEO from './SEO';
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-white text-black p-4 md:p-8 font-sans flex flex-col">
+    <div className="min-h-screen bg-white text-black p-4 md:p-8 flex flex-col">
       <SEO
         title="Page Not Found"
         description="The page you are looking for does not exist."

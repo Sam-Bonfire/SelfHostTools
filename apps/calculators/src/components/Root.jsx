@@ -21,7 +21,7 @@ export default function Root() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-black p-4 md:p-8 font-sans">
+    <div className="min-h-screen bg-white text-black p-4 md:p-8">
       <SEO
         title="Calculators Hub"
         description="A hub for various calculators, including financial, educational, and more. Plan your future with our easy-to-use tools."

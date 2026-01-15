@@ -60,6 +60,26 @@ Standard calculators often mislead users by using gross numbers. This suite adhe
     *   **Maintenance & Tax**: Includes maintenance/inflation for owners, rent inflation for tenants.
     *   **"Verdict"**: Declares a clear winner based on Net Worth at the end of tenure.
 
+### 7. Golden Handcuffs Calculator
+*   **Logic**: `src/lib/goldenHandcuffsLogic.js`
+*   **Tests**: `src/tests/goldenHandcuffsLogic.test.js`
+*   **Features**: Calculates the true cost of leaving a job by factoring in unvested RSUs, Options, and joining/retention clawbacks.
+
+### 8. Home Owner Realist Calculator
+*   **Logic**: `src/lib/homeOwnerRealistLogic.js`
+*   **Tests**: `src/tests/homeOwnerRealistLogic.test.js`
+*   **Features**: Focuses on the "Hidden Costs" of home ownership, including sinking funds for maintenance, insurance, and long-term repairs.
+
+### 9. True Hourly Wage Calculator
+*   **Logic**: `src/lib/trueHourlyWageLogic.js`
+*   **Tests**: `src/tests/trueHourlyWageLogic.test.js`
+*   **Features**: Reveals your real income per hour after accounting for commute time, taxes, work-related expenses, and unpaid prep time.
+
+### 10. Degree ROI Calculator
+*   **Logic**: `src/lib/degreeROILogic.js`
+*   **Tests**: `src/tests/degreeROILogic.test.js`
+*   **Features**: Compares the 20-30 year ROI of pursuing a degree vs. entering the workforce immediately, accounting for loan interest and opportunity costs.
+
 ---
 
 ## 🛠 Shared Utilities & Architecture
@@ -76,3 +96,13 @@ A centralized export engine located in `src/lib/`.
 
 ### SEO Component (`src/components/SEO.jsx`)
 Injects `react-helmet-async` tags for Title, Description, Canonical URLs (via `VITE_SITE_URL`), and JSON-LD Structured Data Schema.
+
+### UI Standardization
+Starting from Phase 6, all calculators use a unified layout system from `@packages/styling`:
+*   `CalculatorLayout`: Standardized grid and spacing.
+*   `CalculatorHeader`: Consistent title/icon/description block.
+*   `ResultsAnalysis`: A unified container for displaying the primary "verdict" and detailed breakdowns.
+
+### Navigation & UX
+*   **ScrollToTop**: Automatically resets scroll position when navigating between calculators.
+*   **Local Persistence**: All inputs are auto-saved to `localStorage` to preserve progress.

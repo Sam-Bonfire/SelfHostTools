@@ -16,54 +16,67 @@ import TrueHourlyWageCalculator from './components/TrueHourlyWageCalculator.jsx'
 import NotFound from './components/NotFound.jsx';
 import '../../../packages/styling/src/index.css';
 
+import ScrollToTop from './components/ScrollToTop.jsx';
+import { Outlet } from 'react-router-dom';
+
 const router = createHashRouter([
   {
-    path: '/',
-    element: <Root />,
-  },
-  {
-    path: '/education-loan',
-    element: <EducationLoan />,
-  },
-  {
-    path: '/sip-calculator',
-    element: <SIPCalculator />,
-  },
-  {
-    path: '/home-loan-vs-rent',
-    element: <HomeLoanRentCalculator />,
-  },
-  {
-    path: '/life-insurance-calculator',
-    element: <LifeInsuranceCalculator />,
-  },
-  {
-    path: '/fire-calculator',
-    element: <FIRECalculator />,
-  },
-  {
-    path: '/freelance-calculator',
-    element: <FreelanceIncomeCalculator />,
-  },
-  {
-    path: '/degree-roi',
-    element: <DegreeROICalculator />,
-  },
-  {
-    path: '/golden-handcuffs',
-    element: <GoldenHandcuffsCalculator />,
-  },
-  {
-    path: '/true-hourly-wage',
-    element: <TrueHourlyWageCalculator />,
-  },
-  {
-    path: '/home-owner-realist',
-    element: <HomeOwnerRealistCalculator />,
-  },
-  {
-    path: '*',
-    element: <NotFound />,
+    element: (
+      <>
+        <ScrollToTop />
+        <Outlet />
+      </>
+    ),
+    children: [
+      {
+        path: '/',
+        element: <Root />,
+      },
+      {
+        path: '/education-loan',
+        element: <EducationLoan />,
+      },
+      {
+        path: '/sip-calculator',
+        element: <SIPCalculator />,
+      },
+      {
+        path: '/home-loan-vs-rent',
+        element: <HomeLoanRentCalculator />,
+      },
+      {
+        path: '/life-insurance-calculator',
+        element: <LifeInsuranceCalculator />,
+      },
+      {
+        path: '/fire-calculator',
+        element: <FIRECalculator />,
+      },
+      {
+        path: '/freelance-calculator',
+        element: <FreelanceIncomeCalculator />,
+      },
+      {
+        path: '/degree-roi',
+        element: <DegreeROICalculator />,
+      },
+      {
+        path: '/golden-handcuffs',
+        element: <GoldenHandcuffsCalculator />,
+      },
+      {
+        path: '/true-hourly-wage',
+        element: <TrueHourlyWageCalculator />,
+      },
+      {
+        path: '/home-owner-realist',
+        element: <HomeOwnerRealistCalculator />,
+      },
+      {
+        path: '*',
+        element: <NotFound />,
+      },
+    ],
   },
 ]);
 

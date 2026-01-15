@@ -51,17 +51,26 @@ This document records the user-driven evolution of the **SelfHostTools** project
     *   **Buy vs Rent**: Added sophisticated "Opportunity Cost" analysis (investing the difference).
     *   **PRDs**: Drafted "Golden Handcuffs" (Stock Options/RSUs) calculator specs.
 
+### Phase 6: UI Standardization & Shared Components
+*   **Component Extraction**: Standardized page layouts across all calculators to reduce boilerplate and ensure visual parity.
+    *   *Action*: Created `CalculatorLayout`, `CalculatorHeader`, and `ResultsAnalysis` in `@packages/styling`.
+    *   *Goal*: Ensure every tool feels like part of a single suite, with consistent header geometry and result containers.
+*   **Typography**: Adopted **"Outfit"** as the primary typeface for a modern, high-premium look while maintaining Neo-Brutalist sharpness.
+    *   *Global Application*: Configured via Tailwind and implemented in `index.html`.
+
 ---
 
 ## 🧭 Current Trajectory
 The project is currently focused on **refinement and depth**:
 1.  **Educational UI**: We are moving away from simple inputs to "Guided Inputs" (e.g., the Admin Time Estimator).
 2.  **Professional Output**: The PDF/Excel reports are crucial for the user's "offline" planning.
-3.  **Self-Contained**: The deployment script aims to make this a reliable, set-and-forget tool on the user's home server.
+3.  **Core Consistency**: Finishing the refactor of all legacy calculators to use the Phase 6 shared components.
 
 ## 📝 Critical Directives for AI
-*   **Design**: NEVER deviate from the Neo-Brutalist styling (Bold borders, hard shadows) without asking.
+*   **Design**: NEVER deviate from the Neo-Brutalist styling (Bold borders, hard shadows). Use the **Outfit** font for all UI elements.
+*   **Layout**: Always use `CalculatorLayout`, `CalculatorHeader`, and `ResultsAnalysis` from `@packages/styling` when building or refactoring calculators.
 *   **Logic**: Always prioritize "Real/Net" numbers over "Gross" numbers. Adjust for inflation/tax by default or offer the option.
 *   **Structure**: Respect the Monorepo boundary. Shared logic goes in `packages`, shared UI in `styling`, specific logic in components.
-*   **Testing**: typically, every new calculator MUST have its logic extracted to `lib/` and tests written in `tests/` before the UI is finalized.
+*   **Testing**: Typically, every new calculator MUST have its logic extracted to `lib/` and tests written in `tests/` before the UI is finalized.
+*   **Documentation**: Whenever a new significant feature is added, a calculator is refactored, or a new component is added to `@packages/styling`, YOU MUST update the relevant `README.md` files (App-specific, Package-specific, or Root) to reflect these changes.
 

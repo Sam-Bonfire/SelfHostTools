@@ -29,6 +29,26 @@ Informational overlays used to explain complex financial terms or input requirem
 ### `Checkbox`
 Custom-styled selection control that matches the thick-border aesthetic of the rest of the application.
 
+### Layout Components
+
+To reduce boilerplate and ensure visual consistency across the "Calculators Hub", a set of layout-specific components are provided:
+
+#### `CalculatorLayout`
+A grid-based container responsive enough for both detailed inputs and complex result visualizations.
+
+#### `CalculatorHeader`
+A pre-styled header block that includes:
+- A prominent icon.
+- A bold title.
+- A brief description.
+- A "highlight" secondary description for extra context.
+
+#### `ResultsAnalysis`
+The standardized container for calculation outputs. It enforces:
+- An italicized "Results Analysis" title (customizable).
+- A slots-based `headerElements` section for badges or secondary info.
+- Consistent padding and internal spacing for results cards and tables.
+
 ## Technologies
 *   **TailwindCSS**: The utility-first CSS framework drives all styling.
 *   **React**: Components are functional React components.
