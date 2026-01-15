@@ -185,6 +185,23 @@ export const downloadPDF = async (data) => {
       ['Final Net Worth (Degree)', `INR ${formatCurrency(results.finalDegreeNW, true)}`],
       ['Final Net Worth (Alt)', `INR ${formatCurrency(results.finalAltNW, true)}`]
     ];
+  } else if (inputs.activityLevel !== undefined) {
+    // TDEE CALCULATOR
+    summaryData = [
+      ['Gender', inputs.gender],
+      ['Age', inputs.age],
+      ['Weight', `${inputs.weight} ${inputs.weightUnit}`],
+      ['Height', inputs.heightUnit === 'cm' ? `${inputs.height} cm` : `${inputs.height.ft}' ${inputs.height.in}"`],
+      ['Activity Level', inputs.activityLevel],
+      ['Body Fat %', inputs.useBodyFat ? `${inputs.bodyFat}%` : 'N/A'],
+      ['Formula Used', inputs.useBodyFat ? 'Katch-McArdle' : 'Mifflin-St Jeor'],
+      ['BMR', `${results.bmr} kcal`],
+      ['Maintenance (TDEE)', `${results.maintenance} kcal`],
+      ['Fat Loss Target', `${results.weightLoss} kcal`],
+      ['Bulking Target', `${results.bulking} kcal`],
+      ['Goal Weight', inputs.goalWeight ? `${inputs.goalWeight} ${inputs.weightUnit}` : 'N/A'],
+      ['Weeks to Goal', results.weeksToGoal > 0 ? results.weeksToGoal : 'N/A']
+    ];
   }
 
   autoTable(doc, {
@@ -363,6 +380,23 @@ export const downloadExcel = async (data) => {
       ['Slave Ratio (%)', results.slaveRatio],
       ['Final Net Worth (Degree)', results.finalDegreeNW],
       ['Final Net Worth (Alt)', results.finalAltNW]
+    ];
+  } else if (inputs.activityLevel !== undefined) {
+    // TDEE CALCULATOR
+    summaryRows = [
+      ['Gender', inputs.gender],
+      ['Age', inputs.age],
+      ['Weight', `${inputs.weight} ${inputs.weightUnit}`],
+      ['Height', inputs.heightUnit === 'cm' ? `${inputs.height} cm` : `${inputs.height.ft}' ${inputs.height.in}"`],
+      ['Activity Level', inputs.activityLevel],
+      ['Body Fat %', inputs.useBodyFat ? inputs.bodyFat : 'N/A'],
+      ['Formula Used', inputs.useBodyFat ? 'Katch-McArdle' : 'Mifflin-St Jeor'],
+      ['BMR (kcal)', results.bmr],
+      ['Maintenance (kcal)', results.maintenance],
+      ['Fat Loss Target (kcal)', results.weightLoss],
+      ['Bulking Target (kcal)', results.bulking],
+      ['Goal Weight', inputs.goalWeight || 'N/A'],
+      ['Weeks to Goal', results.weeksToGoal || 'N/A']
     ];
   } else {
     // LOAN or SIP

@@ -87,6 +87,14 @@ Standard calculators often mislead users by using gross numbers. This suite adhe
     *   **Commute Impact**: Side-by-side analysis of commute time and cost.
     *   **Expense Granularity**: Detailed breakdown of current vs new city expenses.
 
+### 12. TDEE Calculator
+*   **Logic**: `src/lib/tdeeLogic.js`
+*   **Tests**: `src/tests/tdeeLogic.test.js`
+*   **Features**:
+    *   **Mifflin-St Jeor Equation**: Gold standard for accuracy.
+    *   **Goal Targets**: Maintenance, Cutting (-500), Extreme Cut (-1000), Bulking (+500).
+    *   **Unit Agnostic**: Seamless toggle between Metric (kg/cm) and Imperial (lbs/ft+in).
+
 ---
 
 ## 🛠 Shared Utilities & Architecture

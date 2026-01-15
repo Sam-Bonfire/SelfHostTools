@@ -14,6 +14,7 @@ import DegreeROICalculator from './components/DegreeROICalculator.jsx';
 import HomeOwnerRealistCalculator from './components/HomeOwnerRealistCalculator.jsx';
 import TrueHourlyWageCalculator from './components/TrueHourlyWageCalculator.jsx';
 import JobRelocationCalculator from './components/JobRelocationCalculator.jsx';
+import TDEECalculator from './components/TDEECalculator.jsx';
 import NotFound from './components/NotFound.jsx';
 import '../../../packages/styling/src/index.css';
 
@@ -76,6 +77,10 @@ const router = createHashRouter([
       {
         path: '/job-relocation',
         element: <JobRelocationCalculator />,
+      },
+      {
+        path: '/tdee-calculator',
+        element: <TDEECalculator />,
       },
       {
         path: '*',

@@ -284,6 +284,26 @@ export default function Root() {
             </Card>
           </Link>
 
+          <Link to="/tdee-calculator" className="group block h-full decoration-transparent">
+            <Card className="h-full hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200 cursor-pointer flex flex-col">
+              <div className="bg-pink-400 p-6 border-b-4 border-black flex items-center justify-between">
+                <Flame className="w-8 h-8 text-black" />
+                <ArrowRight className="w-6 h-6 opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1" />
+              </div>
+              <div className="p-6 flex-1 flex flex-col">
+                <h2 className="text-2xl font-black text-black mb-3 group-hover:underline decoration-4 decoration-black underline-offset-4 tracking-tight">
+                  TDEE & BMR
+                </h2>
+                <p className="text-gray-700 font-medium mb-6 flex-1">
+                  Fitness starts here. Calculate your maintenance calories and get custom targets for cutting or bulking.
+                </p>
+                <div className="mt-auto">
+                  <span className="inline-block px-3 py-1 bg-black text-white text-sm font-bold uppercase tracking-wider">Health</span>
+                </div>
+              </div>
+            </Card>
+          </Link>
+
           {/* Placeholder for future calculators */}
           <Card className="h-full opacity-60 flex flex-col">
             <div className="bg-gray-200 p-6 border-b-4 border-black">
