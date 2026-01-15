@@ -207,7 +207,7 @@ export default function App() {
                 <div className="mb-6 space-y-4">
                   <div className="flex justify-between items-center">
                     <label className="text-sm font-bold">Disbursements</label>
-                    <span className="text-xs px-2 py-1 bg-yellow-200 border-2 border-black font-bold">
+                    <span className="text-xs px-2 py-1 bg-yellow-200 border-2 border-black font-bold" aria-live="polite">
                       Total: {formatCurrency(originalDisbursedValue)}
                     </span>
                   </div>
@@ -216,6 +216,8 @@ export default function App() {
                       <div key={d.id} className="flex items-center gap-2">
                         <div className="w-36 flex-shrink-0">
                           <Input
+                            id={`disbursement-date-${d.id}`}
+                            aria-label={`Disbursement Date ${d.id}`}
                             type="date"
                             value={d.date}
                             onChange={(e) => updateDisbursement(d.id, 'date', e.target.value)}
@@ -225,6 +227,8 @@ export default function App() {
                         <div className="relative flex-1">
                           <IndianRupee className="absolute left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-500 z-10" />
                           <Input
+                            id={`disbursement-amount-${d.id}`}
+                            aria-label={`Disbursement Amount ${d.id}`}
                             type="number"
                             value={d.amount}
                             onChange={(e) => updateDisbursement(d.id, 'amount', e.target.value)}

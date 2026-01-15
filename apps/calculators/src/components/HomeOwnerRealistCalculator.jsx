@@ -125,58 +125,58 @@ export default function HomeOwnerRealistCalculator() {
                         </div>
                         <div className="p-4 space-y-4">
                             <div>
-                                <label className="block text-[10px] font-black uppercase mb-1">Property Price</label>
+                                <label htmlFor="property-price" className="block text-[10px] font-black uppercase mb-1">Property Price</label>
                                 <div className="relative">
                                     <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                                    <Input type="number" value={propertyPrice} onChange={(e) => setPropertyPrice(parseFloat(e.target.value) || 0)} className="pl-9 font-black" />
+                                    <Input id="property-price" type="number" value={propertyPrice} onChange={(e) => setPropertyPrice(parseFloat(e.target.value) || 0)} className="pl-9 font-black" />
                                 </div>
                             </div>
                             <div>
-                                <label className="block text-[10px] font-black uppercase mb-1">Down Payment</label>
+                                <label htmlFor="down-payment" className="block text-[10px] font-black uppercase mb-1">Down Payment</label>
                                 <div className="relative">
                                     <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                                    <Input type="number" value={downPayment} onChange={(e) => setDownPayment(parseFloat(e.target.value) || 0)} className="pl-9 font-black" />
+                                    <Input id="down-payment" type="number" value={downPayment} onChange={(e) => setDownPayment(parseFloat(e.target.value) || 0)} className="pl-9 font-black" />
                                 </div>
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-[10px] font-black uppercase mb-1">Interest Rate (%)</label>
+                                    <label htmlFor="interest-rate" className="block text-[10px] font-black uppercase mb-1">Interest Rate (%)</label>
                                     <div className="relative">
                                         <Percent className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                                        <Input type="number" value={interestRate} onChange={(e) => setInterestRate(e.target.value)} className="pl-9 font-black" />
+                                        <Input id="interest-rate" type="number" value={interestRate} onChange={(e) => setInterestRate(e.target.value)} className="pl-9 font-black" />
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="block text-[10px] font-black uppercase mb-1">Loan Term (Yrs)</label>
+                                    <label htmlFor="loan-term" className="block text-[10px] font-black uppercase mb-1">Loan Term (Yrs)</label>
                                     <div className="relative">
                                         <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                                        <Input type="number" value={loanTerm} onChange={(e) => setLoanTerm(e.target.value)} className="pl-9 font-black" />
+                                        <Input id="loan-term" type="number" value={loanTerm} onChange={(e) => setLoanTerm(e.target.value)} className="pl-9 font-black" />
                                     </div>
                                 </div>
                             </div>
                             <div className="pt-4 border-t-2 border-black/10 grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-[10px] font-black uppercase mb-1 text-purple-700">Opp. Cost Rate (%)</label>
+                                    <label htmlFor="opp-cost-rate" className="block text-[10px] font-black uppercase mb-1 text-purple-700">Opp. Cost Rate (%)</label>
                                     <Tooltip content="Return you could get if you invested the Down Payment in the market instead.">
                                         <div className="relative">
                                             <TrendingUp className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-purple-400 z-10" />
-                                            <Input type="number" value={opportunityCostRate} onChange={(e) => setOpportunityCostRate(e.target.value)} className="pl-9 font-black border-purple-200 bg-purple-50" />
+                                            <Input id="opp-cost-rate" type="number" value={opportunityCostRate} onChange={(e) => setOpportunityCostRate(e.target.value)} className="pl-9 font-black border-purple-200 bg-purple-50" />
                                         </div>
                                     </Tooltip>
                                 </div>
                                 <div>
-                                    <label className="block text-[10px] font-black uppercase mb-1 text-green-700">Appreciation (%)</label>
+                                    <label htmlFor="appreciation-rate" className="block text-[10px] font-black uppercase mb-1 text-green-700">Appreciation (%)</label>
                                     <div className="relative">
                                         <TrendingUp className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-green-400 z-10" />
-                                        <Input type="number" value={appreciationRate} onChange={(e) => setAppreciationRate(e.target.value)} className="pl-9 font-black border-green-200 bg-green-50" />
+                                        <Input id="appreciation-rate" type="number" value={appreciationRate} onChange={(e) => setAppreciationRate(e.target.value)} className="pl-9 font-black border-green-200 bg-green-50" />
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="block text-[10px] font-black uppercase mb-1 text-red-700">Maint. Inflation (%)</label>
+                                    <label htmlFor="maint-inflation" className="block text-[10px] font-black uppercase mb-1 text-red-700">Maint. Inflation (%)</label>
                                     <Tooltip content="Annual increase in the cost of labor and materials for repairs.">
                                         <div className="relative">
                                             <TrendingUp className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-red-400 z-10" />
-                                            <Input type="number" value={maintenanceInflation} onChange={(e) => setMaintenanceInflation(e.target.value)} className="pl-9 font-black" />
+                                            <Input id="maint-inflation" type="number" value={maintenanceInflation} onChange={(e) => setMaintenanceInflation(e.target.value)} className="pl-9 font-black" />
                                         </div>
                                     </Tooltip>
                                 </div>
@@ -203,32 +203,34 @@ export default function HomeOwnerRealistCalculator() {
                                         <div className="relative">
                                             <Hammer className="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
                                             <Input
+                                                id={`audit-name-${item.id}`}
                                                 value={item.name}
                                                 onChange={(e) => updateAuditItem(item.id, 'name', e.target.value)}
                                                 className="font-black text-sm border-none bg-transparent pl-6 focus:ring-0 placeholder-gray-400 uppercase w-full"
                                                 placeholder="Item Name (e.g. Roof)"
+                                                aria-label="Maintenance Item Name"
                                             />
                                         </div>
                                         <div className="grid grid-cols-3 gap-2">
                                             <div>
-                                                <label className="text-[8px] font-black uppercase text-gray-500">Repl. Cost</label>
+                                                <label htmlFor={`audit-cost-${item.id}`} className="text-[8px] font-black uppercase text-gray-500">Repl. Cost</label>
                                                 <div className="relative">
                                                     <IndianRupee className="absolute left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                                    <Input type="number" value={item.replacementCost} onChange={(e) => updateAuditItem(item.id, 'replacementCost', parseFloat(e.target.value) || 0)} className="h-7 text-xs font-bold pl-5" />
+                                                    <Input id={`audit-cost-${item.id}`} type="number" value={item.replacementCost} onChange={(e) => updateAuditItem(item.id, 'replacementCost', parseFloat(e.target.value) || 0)} className="h-7 text-xs font-bold pl-5" />
                                                 </div>
                                             </div>
                                             <div>
-                                                <label className="text-[8px] font-black uppercase text-gray-500">Lifespan (Yr)</label>
+                                                <label htmlFor={`audit-lifespan-${item.id}`} className="text-[8px] font-black uppercase text-gray-500">Lifespan (Yr)</label>
                                                 <div className="relative">
                                                     <Calendar className="absolute left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                                    <Input type="number" value={item.lifespanYears} onChange={(e) => updateAuditItem(item.id, 'lifespanYears', parseFloat(e.target.value) || 0)} className="h-7 text-xs font-bold pl-5" />
+                                                    <Input id={`audit-lifespan-${item.id}`} type="number" value={item.lifespanYears} onChange={(e) => updateAuditItem(item.id, 'lifespanYears', parseFloat(e.target.value) || 0)} className="h-7 text-xs font-bold pl-5" />
                                                 </div>
                                             </div>
                                             <div>
-                                                <label className="text-[8px] font-black uppercase text-gray-500">Age (Yr)</label>
+                                                <label htmlFor={`audit-age-${item.id}`} className="text-[8px] font-black uppercase text-gray-500">Age (Yr)</label>
                                                 <div className="relative">
                                                     <Calendar className="absolute left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                                    <Input type="number" value={item.currentAgeYears} onChange={(e) => updateAuditItem(item.id, 'currentAgeYears', parseFloat(e.target.value) || 0)} className="h-7 text-xs font-bold pl-5" />
+                                                    <Input id={`audit-age-${item.id}`} type="number" value={item.currentAgeYears} onChange={(e) => updateAuditItem(item.id, 'currentAgeYears', parseFloat(e.target.value) || 0)} className="h-7 text-xs font-bold pl-5" />
                                                 </div>
                                             </div>
                                         </div>

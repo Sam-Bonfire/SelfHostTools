@@ -21,6 +21,7 @@ Interactive elements with hover/active states that mimic physical pressing (tran
 ### `Input`
 Form controls styled with bold fonts and clear borders.
 *   **Features**: Supports standard HTML input props. Often used in conjunction with absolute positioned icons in the calculator forms.
+*   **Accessibility**: Always requires an `id` prop to be associated with a label via `htmlFor`.
 
 ### `Tooltip`
 Informational overlays used to explain complex financial terms or input requirements.
@@ -28,6 +29,7 @@ Informational overlays used to explain complex financial terms or input requirem
 
 ### `Checkbox`
 Custom-styled selection control that matches the thick-border aesthetic of the rest of the application.
+*   **Accessibility**: Should be wrapped in a `<label>` element for proper hit-area size and assistive text association.
 
 ### Layout Components
 
@@ -48,6 +50,7 @@ The standardized container for calculation outputs. It enforces:
 - An italicized "Results Analysis" title (customizable).
 - A slots-based `headerElements` section for badges or secondary info.
 - Consistent padding and internal spacing for results cards and tables.
+- **Accessibility**: Includes `aria-live="polite"` on the content wrapper to ensure screen readers announce dynamic result updates.
 
 ## Technologies
 *   **TailwindCSS**: The utility-first CSS framework drives all styling.

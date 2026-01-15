@@ -143,50 +143,50 @@ export default function LifeInsuranceCalculator() {
             </div>
             <div className="p-4 space-y-4">
               <div>
-                <label className="text-[10px] font-black uppercase mb-1 block">Monthly Household Expenses</label>
+                <label htmlFor="monthlyExpense" className="text-[10px] font-black uppercase mb-1 block">Monthly Household Expenses</label>
                 <Tooltip content="Expenses needed for family survival (Groceries, bills, fees, etc.)" className="w-full">
                   <div className="relative">
                     <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                    <Input type="number" value={monthlyExpense} onChange={e => setMonthlyExpense(e.target.value)} onBlur={() => !monthlyExpense && setMonthlyExpense(0)} className="pl-8 font-black w-full" />
+                    <Input id="monthlyExpense" type="number" value={monthlyExpense} onChange={e => setMonthlyExpense(e.target.value)} onBlur={() => !monthlyExpense && setMonthlyExpense(0)} className="pl-8 font-black w-full" />
                   </div>
                 </Tooltip>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-[10px] font-black uppercase mb-1 block">Years to Replace</label>
+                  <label htmlFor="yearsToReplace" className="text-[10px] font-black uppercase mb-1 block">Years to Replace</label>
                   <Tooltip content="Years your family needs support (e.g. until youngest child starts earning)">
                     <div className="relative">
                       <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                      <Input type="number" value={yearsToReplace} onChange={e => setYearsToReplace(e.target.value)} onBlur={() => !yearsToReplace && setYearsToReplace(0)} className="pl-8 font-black" />
+                      <Input id="yearsToReplace" type="number" value={yearsToReplace} onChange={e => setYearsToReplace(e.target.value)} onBlur={() => !yearsToReplace && setYearsToReplace(0)} className="pl-8 font-black" />
                     </div>
                   </Tooltip>
                 </div>
                 <div>
-                  <label className="text-[10px] font-black uppercase mb-1 block">Avg. Inflation (%)</label>
+                  <label htmlFor="inflationRate" className="text-[10px] font-black uppercase mb-1 block">Avg. Inflation (%)</label>
                   <Tooltip content="Expected annual price rise (Standard is 6%)">
                     <div className="relative">
                       <Percent className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                      <Input type="number" value={inflationRate} onChange={e => setInflationRate(e.target.value)} onBlur={() => !inflationRate && setInflationRate(0)} className="pl-8 font-black" />
+                      <Input id="inflationRate" type="number" value={inflationRate} onChange={e => setInflationRate(e.target.value)} onBlur={() => !inflationRate && setInflationRate(0)} className="pl-8 font-black" />
                     </div>
                   </Tooltip>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4 border-t-2 border-black/10 pt-4 mt-2">
                 <div>
-                  <label className="text-[10px] font-black uppercase mb-1 block">Expected Return (%)</label>
+                  <label htmlFor="investmentReturn" className="text-[10px] font-black uppercase mb-1 block">Expected Return (%)</label>
                   <Tooltip content="Safe return on the insurance money (e.g. FD/Debt Fund)">
                     <div className="relative">
                       <Percent className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                      <Input type="number" value={investmentReturn} onChange={e => setInvestmentReturn(e.target.value)} onBlur={() => !investmentReturn && setInvestmentReturn(0)} className="pl-8 font-black" />
+                      <Input id="investmentReturn" type="number" value={investmentReturn} onChange={e => setInvestmentReturn(e.target.value)} onBlur={() => !investmentReturn && setInvestmentReturn(0)} className="pl-8 font-black" />
                     </div>
                   </Tooltip>
                 </div>
                 <div>
-                  <label className="text-[10px] font-black uppercase mb-1 block">Self-Spend (%)</label>
+                  <label htmlFor="personalShare" className="text-[10px] font-black uppercase mb-1 block">Self-Spend (%)</label>
                   <Tooltip content="% of expense that is purely for YOU (stopped after death)">
                     <div className="relative">
                       <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-black text-gray-400 z-10">%</span>
-                      <Input type="number" value={personalShare} onChange={e => setPersonalShare(e.target.value)} onBlur={() => !personalShare && setPersonalShare(0)} className="pl-8 font-black" />
+                      <Input id="personalShare" type="number" value={personalShare} onChange={e => setPersonalShare(e.target.value)} onBlur={() => !personalShare && setPersonalShare(0)} className="pl-8 font-black" />
                     </div>
                   </Tooltip>
                 </div>
@@ -233,20 +233,23 @@ export default function LifeInsuranceCalculator() {
                   <button
                     onClick={() => removeGoal(g.id)}
                     className="absolute -top-2 -right-2 w-5 h-5 bg-red-600 text-white border-2 border-black flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                    aria-label={`Remove ${g.name}`}
                   >
                     ×
                   </button>
                   <Input
+                    id={`goal-name-${g.id}`}
                     value={g.name}
                     onChange={e => updateGoal(g.id, 'name', e.target.value)}
                     className="h-6 text-[10px] font-black border-none uppercase p-0 focus:ring-0"
+                    aria-label={`Goal Name ${g.id}`}
                   />
                   <div className="grid grid-cols-2 gap-2">
                     <div className="relative">
                       <Tooltip content="Current cost of this goal">
                         <div className="relative">
                           <IndianRupee className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                          <Input type="number" value={g.amount} onChange={e => updateGoal(g.id, 'amount', e.target.value)} onBlur={() => !g.amount && updateGoal(g.id, 'amount', 0)} className="h-8 text-xs pl-7 border-black font-black" />
+                          <Input id={`goal-amount-${g.id}`} aria-label={`Cost for ${g.name}`} type="number" value={g.amount} onChange={e => updateGoal(g.id, 'amount', e.target.value)} onBlur={() => !g.amount && updateGoal(g.id, 'amount', 0)} className="h-8 text-xs pl-7 border-black font-black" />
                         </div>
                       </Tooltip>
                     </div>
@@ -254,7 +257,7 @@ export default function LifeInsuranceCalculator() {
                       <Tooltip content="Years remaining until this goal is due">
                         <div className="relative">
                           <Calendar className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                          <Input type="number" value={g.yearsAway} onChange={e => updateGoal(g.id, 'yearsAway', e.target.value)} onBlur={() => !g.yearsAway && updateGoal(g.id, 'yearsAway', 0)} className="h-8 text-xs pl-7 border-black font-black" placeholder="Yrs" />
+                          <Input id={`goal-years-${g.id}`} aria-label={`Years away for ${g.name}`} type="number" value={g.yearsAway} onChange={e => updateGoal(g.id, 'yearsAway', e.target.value)} onBlur={() => !g.yearsAway && updateGoal(g.id, 'yearsAway', 0)} className="h-8 text-xs pl-7 border-black font-black" placeholder="Yrs" />
                         </div>
                       </Tooltip>
                     </div>
@@ -272,29 +275,29 @@ export default function LifeInsuranceCalculator() {
             </div>
             <div className="p-4 space-y-4">
               <div>
-                <label className="text-[10px] font-black uppercase mb-1 block text-black">Total Loans (Home/Car/Edu)</label>
+                <label htmlFor="liabilities" className="text-[10px] font-black uppercase mb-1 block text-black">Total Loans (Home/Car/Edu)</label>
                 <Tooltip content="Outstanding principal on all loans" className="w-full">
                   <div className="relative">
                     <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                    <Input type="number" value={liabilities} onChange={e => setLiabilities(e.target.value)} onBlur={() => !liabilities && setLiabilities(0)} className="pl-8 font-black w-full" />
+                    <Input id="liabilities" type="number" value={liabilities} onChange={e => setLiabilities(e.target.value)} onBlur={() => !liabilities && setLiabilities(0)} className="pl-8 font-black w-full" />
                   </div>
                 </Tooltip>
               </div>
               <div>
-                <label className="text-[10px] font-black uppercase mb-1 block text-black">Current Liquid Assets (Fds/Gold/MF)</label>
+                <label htmlFor="existingAssets" className="text-[10px] font-black uppercase mb-1 block text-black">Current Liquid Assets (Fds/Gold/MF)</label>
                 <Tooltip content="Money available immediately. Do NOT include property." className="w-full">
                   <div className="relative">
                     <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                    <Input type="number" value={existingAssets} onChange={e => setAssets(e.target.value)} onBlur={() => !existingAssets && setAssets(0)} className="pl-8 font-black w-full" />
+                    <Input id="existingAssets" type="number" value={existingAssets} onChange={e => setAssets(e.target.value)} onBlur={() => !existingAssets && setAssets(0)} className="pl-8 font-black w-full" />
                   </div>
                 </Tooltip>
               </div>
               <div className="pt-2 border-t-2 border-black/10">
-                <label className="text-[10px] font-black uppercase text-blue-700 mb-1 block">Existing Life Insurance Policy</label>
+                <label htmlFor="currentInsurance" className="text-[10px] font-black uppercase text-blue-700 mb-1 block">Existing Life Insurance Policy</label>
                 <Tooltip content="Sum Assured of all current Term/LIC policies" className="w-full">
                   <div className="relative">
                     <ShieldCheck className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-blue-600 z-10" />
-                    <Input type="number" value={currentInsurance} onChange={e => setCurrentInsurance(e.target.value)} onBlur={() => !currentInsurance && setCurrentInsurance(0)} className="border-blue-600 font-black text-blue-700 pl-8 w-full" />
+                    <Input id="currentInsurance" type="number" value={currentInsurance} onChange={e => setCurrentInsurance(e.target.value)} onBlur={() => !currentInsurance && setCurrentInsurance(0)} className="border-blue-600 font-black text-blue-700 pl-8 w-full" />
                   </div>
                 </Tooltip>
               </div>

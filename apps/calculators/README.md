@@ -116,7 +116,13 @@ Injects `react-helmet-async` tags for Title, Description, Canonical URLs (via `V
 Starting from Phase 6, all calculators use a unified layout system from `@packages/styling`:
 *   `CalculatorLayout`: Standardized grid and spacing.
 *   `CalculatorHeader`: Consistent title/icon/description block.
+*   `CalculatorHeader`: Consistent title/icon/description block.
 *   `ResultsAnalysis`: A unified container for displaying the primary "verdict" and detailed breakdowns.
+
+### Accessibility Standards (A11y)
+*   **Labeling**: Every `Input`, `Select`, and `Checkbox` MUST have a unique `id` and a corresponding `label` with `htmlFor`.
+*   **Dynamic Content**: The `ResultsAnalysis` component uses `aria-live="polite"` to announce result updates to screen readers.
+*   **Keyboard Navigation**: All interactive elements are reachable via keyboard, with logical tab orders maintained even for dynamic lists.
 
 ### Navigation & UX
 *   **ScrollToTop**: Automatically resets scroll position when navigating between calculators.

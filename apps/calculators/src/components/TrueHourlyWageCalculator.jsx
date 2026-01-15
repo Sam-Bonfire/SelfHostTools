@@ -120,25 +120,25 @@ export default function TrueHourlyWageCalculator() {
                         </div>
                         <div className="p-4 space-y-4">
                             <div>
-                                <label className="text-[10px] font-black uppercase mb-1 block">Annual Gross Salary</label>
+                                <label htmlFor="annual-gross-salary" className="text-[10px] font-black uppercase mb-1 block">Annual Gross Salary</label>
                                 <div className="relative">
                                     <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                    <Input type="number" value={annualGrossSalary} onChange={e => setAnnualGross(e.target.value)} className="pl-8 font-black w-full" />
+                                    <Input id="annual-gross-salary" type="number" value={annualGrossSalary} onChange={e => setAnnualGross(e.target.value)} className="pl-8 font-black w-full" />
                                 </div>
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="text-[10px] font-black uppercase mb-1 block">Yearly Bonus</label>
+                                    <label htmlFor="annual-bonus" className="text-[10px] font-black uppercase mb-1 block">Yearly Bonus</label>
                                     <div className="relative">
                                         <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input type="number" value={annualBonus} onChange={e => setBonus(e.target.value)} className="pl-8 font-black w-full" />
+                                        <Input id="annual-bonus" type="number" value={annualBonus} onChange={e => setBonus(e.target.value)} className="pl-8 font-black w-full" />
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="text-[10px] font-black uppercase mb-1 block">Tax Rate (%)</label>
+                                    <label htmlFor="tax-rate" className="text-[10px] font-black uppercase mb-1 block">Tax Rate (%)</label>
                                     <div className="relative">
                                         <Percent className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input type="number" value={taxRate} onChange={e => setTaxRate(e.target.value)} className="pl-8 font-black w-full" />
+                                        <Input id="tax-rate" type="number" value={taxRate} onChange={e => setTaxRate(e.target.value)} className="pl-8 font-black w-full" />
                                     </div>
                                 </div>
                             </div>
@@ -155,58 +155,58 @@ export default function TrueHourlyWageCalculator() {
                         <div className="p-4 space-y-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="text-[10px] font-black uppercase mb-1 block">Commute (One Way)</label>
+                                    <label htmlFor="commute-minutes" className="text-[10px] font-black uppercase mb-1 block">Commute (One Way)</label>
                                     <div className="relative">
                                         <Car className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input type="number" value={commuteOneWayMinutes} onChange={e => setCommuteMinutes(e.target.value)} className="pl-8 font-black w-full" placeholder="Mins" />
+                                        <Input id="commute-minutes" type="number" value={commuteOneWayMinutes} onChange={e => setCommuteMinutes(e.target.value)} className="pl-8 font-black w-full" placeholder="Mins" />
                                     </div>
                                     <span className="text-[9px] text-gray-500 font-bold uppercase">Minutes per trip</span>
                                 </div>
                                 <div>
-                                    <label className="text-[10px] font-black uppercase mb-1 block">Unpaid Overtime</label>
+                                    <label htmlFor="unpaid-overtime" className="text-[10px] font-black uppercase mb-1 block">Unpaid Overtime</label>
                                     <div className="relative">
                                         <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input type="number" value={unpaidOvertimeHoursPerWeek} onChange={e => setUnpaidOvertime(e.target.value)} className="pl-8 font-black w-full" placeholder="Hrs" />
+                                        <Input id="unpaid-overtime" type="number" value={unpaidOvertimeHoursPerWeek} onChange={e => setUnpaidOvertime(e.target.value)} className="pl-8 font-black w-full" placeholder="Hrs" />
                                     </div>
                                     <span className="text-[9px] text-gray-500 font-bold uppercase">Hours per week</span>
                                 </div>
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="text-[10px] font-black uppercase mb-1 block">Grooming/Prep</label>
+                                    <label htmlFor="grooming-minutes" className="text-[10px] font-black uppercase mb-1 block">Grooming/Prep</label>
                                     <div className="relative">
                                         <Scissors className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input type="number" value={groomingMinutesDaily} onChange={e => setGroomingMinutes(e.target.value)} className="pl-8 font-black w-full" placeholder="Mins/day" />
+                                        <Input id="grooming-minutes" type="number" value={groomingMinutesDaily} onChange={e => setGroomingMinutes(e.target.value)} className="pl-8 font-black w-full" placeholder="Mins/day" />
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="text-[10px] font-black uppercase mb-1 block">Decompression</label>
+                                    <label htmlFor="decompression-minutes" className="text-[10px] font-black uppercase mb-1 block">Decompression</label>
                                     <div className="relative">
                                         <Wind className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input type="number" value={decompressionMinutesDaily} onChange={e => setDecompressionMinutes(e.target.value)} className="pl-8 font-black w-full" placeholder="Mins/day" />
+                                        <Input id="decompression-minutes" type="number" value={decompressionMinutesDaily} onChange={e => setDecompressionMinutes(e.target.value)} className="pl-8 font-black w-full" placeholder="Mins/day" />
                                     </div>
                                 </div>
                             </div>
                             <div className="grid grid-cols-3 gap-2 border-t-2 border-black/10 pt-4">
                                 <div>
-                                    <label className="text-[9px] font-black uppercase block">Week Days</label>
+                                    <label htmlFor="working-days" className="text-[9px] font-black uppercase block">Week Days</label>
                                     <div className="relative">
                                         <Calendar className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input type="number" value={workingDaysPerWeek} onChange={e => setWorkingDays(e.target.value)} className="pl-7 h-8 font-black text-sm w-full" />
+                                        <Input id="working-days" type="number" value={workingDaysPerWeek} onChange={e => setWorkingDays(e.target.value)} className="pl-7 h-8 font-black text-sm w-full" />
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="text-[9px] font-black uppercase block">Std Hours</label>
+                                    <label htmlFor="standard-hours" className="text-[9px] font-black uppercase block">Std Hours</label>
                                     <div className="relative">
                                         <Clock className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input type="number" value={standardHoursPerWeek} onChange={e => setStandardHours(e.target.value)} className="pl-7 h-8 font-black text-sm w-full" />
+                                        <Input id="standard-hours" type="number" value={standardHoursPerWeek} onChange={e => setStandardHours(e.target.value)} className="pl-7 h-8 font-black text-sm w-full" />
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="text-[9px] font-black uppercase block">Vacation Wks</label>
+                                    <label htmlFor="vacation-weeks" className="text-[9px] font-black uppercase block">Vacation Wks</label>
                                     <div className="relative">
                                         <Palmtree className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input type="number" value={vacationWeeksPerYear} onChange={e => setVacationWeeks(e.target.value)} className="pl-7 h-8 font-black text-sm w-full" />
+                                        <Input id="vacation-weeks" type="number" value={vacationWeeksPerYear} onChange={e => setVacationWeeks(e.target.value)} className="pl-7 h-8 font-black text-sm w-full" />
                                     </div>
                                 </div>
                             </div>
@@ -222,27 +222,27 @@ export default function TrueHourlyWageCalculator() {
                         </div>
                         <div className="p-4 space-y-4">
                             <div>
-                                <label className="text-[10px] font-black uppercase mb-1 block">Daily Commute Cost</label>
+                                <label htmlFor="commute-cost" className="text-[10px] font-black uppercase mb-1 block">Daily Commute Cost</label>
                                 <div className="relative">
                                     <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                    <Input type="number" value={commuteDailyCost} onChange={e => setCommuteCost(e.target.value)} className="pl-8 font-black w-full" />
+                                    <Input id="commute-cost" type="number" value={commuteDailyCost} onChange={e => setCommuteCost(e.target.value)} className="pl-8 font-black w-full" />
                                 </div>
                                 <span className="text-[9px] text-gray-500 font-bold uppercase">Gas, Train, Parking</span>
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="text-[10px] font-black uppercase mb-1 block">Convenience Tax</label>
+                                    <label htmlFor="convenience-cost" className="text-[10px] font-black uppercase mb-1 block">Convenience Tax</label>
                                     <div className="relative">
                                         <Coffee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input type="number" value={monthlyConvenienceRen} onChange={e => setConvenienceCost(e.target.value)} className="pl-8 font-black w-full" />
+                                        <Input id="convenience-cost" type="number" value={monthlyConvenienceRen} onChange={e => setConvenienceCost(e.target.value)} className="pl-8 font-black w-full" />
                                     </div>
                                     <span className="text-[9px] text-gray-500 font-bold uppercase">Per Month (Takeout, Maid)</span>
                                 </div>
                                 <div>
-                                    <label className="text-[10px] font-black uppercase mb-1 block">Health/Sanity</label>
+                                    <label htmlFor="health-cost" className="text-[10px] font-black uppercase mb-1 block">Health/Sanity</label>
                                     <div className="relative">
                                         <Heart className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input type="number" value={monthlyHealthren} onChange={e => setHealthCost(e.target.value)} className="pl-8 font-black w-full" />
+                                        <Input id="health-cost" type="number" value={monthlyHealthren} onChange={e => setHealthCost(e.target.value)} className="pl-8 font-black w-full" />
                                     </div>
                                     <span className="text-[9px] text-gray-500 font-bold uppercase">Per Month (Therapy, Physio)</span>
                                 </div>

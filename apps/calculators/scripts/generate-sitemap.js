@@ -18,23 +18,41 @@ const __dirname = path.dirname(__filename);
 function loadEnv() {
     try {
         const envPath = path.join(__dirname, '../.env.local');
+        const rootEnvPath = path.join(__dirname, '../../../.env.local');
+
+        // Try package-level .env.local first
         if (fs.existsSync(envPath)) {
-            const content = fs.readFileSync(envPath, 'utf-8');
-            const env = {};
-            content.split('\n').forEach(line => {
-                const match = line.match(/^([^=]+)=(.*)$/);
-                if (match) {
-                    const key = match[1].trim();
-                    const value = match[2].trim().replace(/^["']|["']$/g, '');
-                    env[key] = value;
-                }
-            });
-            return env;
+            return parseEnvFile(envPath);
+        }
+        // Try root-level .env.local fallback
+        else if (fs.existsSync(rootEnvPath)) {
+            console.log('Using root .env.local');
+            return parseEnvFile(rootEnvPath);
         }
     } catch (e) {
         // Ignore error
     }
     return {};
+}
+
+function parseEnvFile(filePath) {
+    const content = fs.readFileSync(filePath, 'utf-8');
+    console.log(`Parsing ${filePath}, size: ${content.length}`);
+    const env = {};
+    content.split(/\r?\n/).forEach(line => { // Handle \r\n or \n
+        const trimmed = line.trim();
+        if (!trimmed || trimmed.startsWith('#')) return; // Skip comments and empty lines
+
+        const match = trimmed.match(/^([^=]+)=(.*)$/);
+        if (match) {
+            const key = match[1].trim();
+            const value = match[2].trim().replace(/^["']|["']$/g, '');
+            env[key] = value;
+        } else {
+            // console.log('No match for line:', trimmed);
+        }
+    });
+    return env;
 }
 
 const env = loadEnv();

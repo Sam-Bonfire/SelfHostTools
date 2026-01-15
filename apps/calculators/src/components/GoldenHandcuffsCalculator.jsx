@@ -185,17 +185,17 @@ export default function GoldenHandcuffsCalculator() {
                         <div className="p-4 space-y-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="text-[10px] font-black uppercase mb-1 block text-black">Base Salary</label>
+                                    <label htmlFor="current-base" className="text-[10px] font-black uppercase mb-1 block text-black">Base Salary</label>
                                     <div className="relative">
                                         <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input type="number" value={currentBase} onChange={e => setCurrentBase(e.target.value)} className="pl-8 font-black" />
+                                        <Input id="current-base" type="number" value={currentBase} onChange={e => setCurrentBase(e.target.value)} className="pl-8 font-black" />
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="text-[10px] font-black uppercase mb-1 block text-black">Annual Bonus</label>
+                                    <label htmlFor="current-bonus" className="text-[10px] font-black uppercase mb-1 block text-black">Annual Bonus</label>
                                     <div className="relative">
                                         <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input type="number" value={currentBonus} onChange={e => setCurrentBonus(e.target.value)} className="pl-8 font-black" />
+                                        <Input id="current-bonus" type="number" value={currentBonus} onChange={e => setCurrentBonus(e.target.value)} className="pl-8 font-black" />
                                     </div>
                                 </div>
                             </div>
@@ -210,28 +210,34 @@ export default function GoldenHandcuffsCalculator() {
                                         <div key={grant.id} className="bg-blue-50 p-2 border-2 border-black relative">
                                             <button onClick={() => removeEquity(setCurrentEquity, grant.id)} className="absolute -top-2 -right-2 bg-red-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold border-2 border-black hover:bg-red-600">×</button>
                                             <div className="grid grid-cols-3 gap-2 mb-2">
-                                                <select value={grant.type} onChange={e => updateEquity(setCurrentEquity, grant.id, 'type', e.target.value)} className="border-2 border-black text-xs font-bold p-1 bg-white text-black">
+                                                <select
+                                                    id={`current-equity-type-${grant.id}`}
+                                                    aria-label="Equity Type"
+                                                    value={grant.type}
+                                                    onChange={e => updateEquity(setCurrentEquity, grant.id, 'type', e.target.value)}
+                                                    className="border-2 border-black text-xs font-bold p-1 bg-white text-black"
+                                                >
                                                     <option value="RSU">RSU</option>
                                                     <option value="Option">Option</option>
                                                 </select>
                                                 <div className="relative">
                                                     <Hash className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                                    <Input placeholder="Count" type="number" value={grant.count} onChange={e => updateEquity(setCurrentEquity, grant.id, 'count', e.target.value)} className="h-8 text-xs pl-7 font-black" />
+                                                    <Input id={`current-equity-count-${grant.id}`} aria-label="Units Count" placeholder="Count" type="number" value={grant.count} onChange={e => updateEquity(setCurrentEquity, grant.id, 'count', e.target.value)} className="h-8 text-xs pl-7 font-black" />
                                                 </div>
                                                 <div className="relative">
                                                     <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                                    <Input placeholder="Vesting Yrs" type="number" value={grant.vestingYears} onChange={e => updateEquity(setCurrentEquity, grant.id, 'vestingYears', e.target.value)} className="h-8 text-xs pl-7 font-black" />
+                                                    <Input id={`current-equity-vesting-${grant.id}`} aria-label="Vesting Years" placeholder="Vesting Yrs" type="number" value={grant.vestingYears} onChange={e => updateEquity(setCurrentEquity, grant.id, 'vestingYears', e.target.value)} className="h-8 text-xs pl-7 font-black" />
                                                 </div>
                                             </div>
                                             <div className="grid grid-cols-2 gap-2">
                                                 <div className="relative">
                                                     <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                                    <Input placeholder={grant.type === 'RSU' ? 'Price' : 'Current Price'} type="number" value={grant.price} onChange={e => updateEquity(setCurrentEquity, grant.id, 'price', e.target.value)} className="h-8 text-xs pl-7 font-black" />
+                                                    <Input id={`current-equity-price-${grant.id}`} aria-label="Grant Price" placeholder={grant.type === 'RSU' ? 'Price' : 'Current Price'} type="number" value={grant.price} onChange={e => updateEquity(setCurrentEquity, grant.id, 'price', e.target.value)} className="h-8 text-xs pl-7 font-black" />
                                                 </div>
                                                 {grant.type === 'Option' && (
                                                     <div className="relative">
                                                         <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                                        <Input placeholder="Strike Price" type="number" value={grant.strike} onChange={e => updateEquity(setCurrentEquity, grant.id, 'strike', e.target.value)} className="h-8 text-xs pl-7 font-black" />
+                                                        <Input id={`current-equity-strike-${grant.id}`} aria-label="Strike Price" placeholder="Strike Price" type="number" value={grant.strike} onChange={e => updateEquity(setCurrentEquity, grant.id, 'strike', e.target.value)} className="h-8 text-xs pl-7 font-black" />
                                                     </div>
                                                 )}
                                             </div>
@@ -243,10 +249,10 @@ export default function GoldenHandcuffsCalculator() {
                             <div className="border-t-2 border-dashed border-gray-300 pt-4">
                                 <h3 className="text-[10px] font-black uppercase text-red-600 mb-2 flex items-center gap-1"><AlertCircle className="w-3 h-3" /> The Clause (Clawbacks)</h3>
                                 <div>
-                                    <label className="text-[10px] font-black uppercase mb-1 block text-black">Total Liability Amount</label>
+                                    <label htmlFor="clawback-amount" className="text-[10px] font-black uppercase mb-1 block text-black">Total Liability Amount</label>
                                     <div className="relative">
                                         <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-red-600 z-10" />
-                                        <Input type="number" value={clawback} onChange={e => setClawback(e.target.value)} className="border-red-600 font-black text-red-600 pl-8" />
+                                        <Input id="clawback-amount" type="number" value={clawback} onChange={e => setClawback(e.target.value)} className="border-red-600 font-black text-red-600 pl-8" />
                                     </div>
                                     <p className="text-[9px] text-gray-500 mt-1">Sign-on bonus repayment, relocation costs, etc.</p>
                                 </div>
@@ -262,17 +268,17 @@ export default function GoldenHandcuffsCalculator() {
                         <div className="p-4 space-y-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="text-[10px] font-black uppercase mb-1 block text-black">Base Salary</label>
+                                    <label htmlFor="new-base" className="text-[10px] font-black uppercase mb-1 block text-black">Base Salary</label>
                                     <div className="relative">
                                         <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input type="number" value={newBase} onChange={e => setNewBase(e.target.value)} className="pl-8 font-black" />
+                                        <Input id="new-base" type="number" value={newBase} onChange={e => setNewBase(e.target.value)} className="pl-8 font-black" />
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="text-[10px] font-black uppercase mb-1 block text-black">Annual Bonus</label>
+                                    <label htmlFor="new-bonus" className="text-[10px] font-black uppercase mb-1 block text-black">Annual Bonus</label>
                                     <div className="relative">
                                         <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input type="number" value={newBonus} onChange={e => setNewBonus(e.target.value)} className="pl-8 font-black" />
+                                        <Input id="new-bonus" type="number" value={newBonus} onChange={e => setNewBonus(e.target.value)} className="pl-8 font-black" />
                                     </div>
                                 </div>
                             </div>
@@ -286,28 +292,34 @@ export default function GoldenHandcuffsCalculator() {
                                         <div key={grant.id} className="bg-green-50 p-2 border-2 border-black relative">
                                             <button onClick={() => removeEquity(setNewEquity, grant.id)} className="absolute -top-2 -right-2 bg-red-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold border-2 border-black hover:bg-red-600">×</button>
                                             <div className="grid grid-cols-3 gap-2 mb-2">
-                                                <select value={grant.type} onChange={e => updateEquity(setNewEquity, grant.id, 'type', e.target.value)} className="border-2 border-black text-xs font-bold p-1 bg-white text-black">
+                                                <select
+                                                    id={`new-equity-type-${grant.id}`}
+                                                    aria-label="Equity Type"
+                                                    value={grant.type}
+                                                    onChange={e => updateEquity(setNewEquity, grant.id, 'type', e.target.value)}
+                                                    className="border-2 border-black text-xs font-bold p-1 bg-white text-black"
+                                                >
                                                     <option value="RSU">RSU</option>
                                                     <option value="Option">Option</option>
                                                 </select>
                                                 <div className="relative">
                                                     <Hash className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                                    <Input placeholder="Count" type="number" value={grant.count} onChange={e => updateEquity(setNewEquity, grant.id, 'count', e.target.value)} className="h-8 text-xs pl-7 font-black" />
+                                                    <Input id={`new-equity-count-${grant.id}`} aria-label="Units Count" placeholder="Count" type="number" value={grant.count} onChange={e => updateEquity(setNewEquity, grant.id, 'count', e.target.value)} className="h-8 text-xs pl-7 font-black" />
                                                 </div>
                                                 <div className="relative">
                                                     <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                                    <Input placeholder="Vesting Yrs" type="number" value={grant.vestingYears} onChange={e => updateEquity(setNewEquity, grant.id, 'vestingYears', e.target.value)} className="h-8 text-xs pl-7 font-black" />
+                                                    <Input id={`new-equity-vesting-${grant.id}`} aria-label="Vesting Years" placeholder="Vesting Yrs" type="number" value={grant.vestingYears} onChange={e => updateEquity(setNewEquity, grant.id, 'vestingYears', e.target.value)} className="h-8 text-xs pl-7 font-black" />
                                                 </div>
                                             </div>
                                             <div className="grid grid-cols-2 gap-2">
                                                 <div className="relative">
                                                     <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                                    <Input placeholder={grant.type === 'RSU' ? 'Price' : 'Est. Value'} type="number" value={grant.price} onChange={e => updateEquity(setNewEquity, grant.id, 'price', e.target.value)} className="h-8 text-xs pl-7 font-black" />
+                                                    <Input id={`new-equity-price-${grant.id}`} aria-label="Grant Price" placeholder={grant.type === 'RSU' ? 'Price' : 'Est. Value'} type="number" value={grant.price} onChange={e => updateEquity(setNewEquity, grant.id, 'price', e.target.value)} className="h-8 text-xs pl-7 font-black" />
                                                 </div>
                                                 {grant.type === 'Option' && (
                                                     <div className="relative">
                                                         <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                                        <Input placeholder="Strike Price" type="number" value={grant.strike} onChange={e => updateEquity(setNewEquity, grant.id, 'strike', e.target.value)} className="h-8 text-xs pl-7 font-black" />
+                                                        <Input id={`new-equity-strike-${grant.id}`} aria-label="Strike Price" placeholder="Strike Price" type="number" value={grant.strike} onChange={e => updateEquity(setNewEquity, grant.id, 'strike', e.target.value)} className="h-8 text-xs pl-7 font-black" />
                                                     </div>
                                                 )}
                                             </div>

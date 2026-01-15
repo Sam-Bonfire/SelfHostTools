@@ -13,7 +13,7 @@ const ResultsAnalysis = ({ children, title = "Results Analysis", className = "",
                 {headerElements}
             </div>
 
-            <div className="p-4 md:p-6 space-y-6 flex-1">
+            <div className="p-4 md:p-6 space-y-6 flex-1" aria-live="polite" aria-atomic="true">
                 {children}
             </div>
         </Card>

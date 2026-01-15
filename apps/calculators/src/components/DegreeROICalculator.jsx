@@ -153,50 +153,50 @@ export default function DegreeROICalculator() {
                         <div className="p-4 space-y-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="text-[10px] font-black uppercase mb-1 block">Tuition / Yr</label>
+                                    <label htmlFor="tuition" className="text-[10px] font-black uppercase mb-1 block">Tuition / Yr</label>
                                     <div className="relative">
                                         <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input type="number" value={tuitionPerYear} onChange={e => setTuition(e.target.value)} className="font-black pl-9" />
+                                        <Input id="tuition" type="number" value={tuitionPerYear} onChange={e => setTuition(e.target.value)} className="font-black pl-9" />
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="text-[10px] font-black uppercase mb-1 block">Living / Yr</label>
+                                    <label htmlFor="living" className="text-[10px] font-black uppercase mb-1 block">Living / Yr</label>
                                     <div className="relative">
                                         <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input type="number" value={livingExpenses} onChange={e => setLiving(e.target.value)} className="font-black pl-9" />
+                                        <Input id="living" type="number" value={livingExpenses} onChange={e => setLiving(e.target.value)} className="font-black pl-9" />
                                     </div>
                                 </div>
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="text-[10px] font-black uppercase mb-1 block text-green-700">Grants / Yr</label>
+                                    <label htmlFor="grants" className="text-[10px] font-black uppercase mb-1 block text-green-700">Grants / Yr</label>
                                     <div className="relative">
                                         <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-green-700 z-10" />
-                                        <Input type="number" value={grantsTotal} onChange={e => setGrants(e.target.value)} className="font-black pl-9 border-green-700 text-green-700" />
+                                        <Input id="grants" type="number" value={grantsTotal} onChange={e => setGrants(e.target.value)} className="font-black pl-9 border-green-700 text-green-700" />
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="text-[10px] font-black uppercase mb-1 block">Years</label>
+                                    <label htmlFor="duration" className="text-[10px] font-black uppercase mb-1 block">Years</label>
                                     <div className="relative">
                                         <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input type="number" value={durationYears} onChange={e => setDuration(e.target.value)} className="font-black pl-9" />
+                                        <Input id="duration" type="number" value={durationYears} onChange={e => setDuration(e.target.value)} className="font-black pl-9" />
                                     </div>
                                 </div>
                             </div>
 
                             <div className="grid grid-cols-2 gap-4 pt-4 border-t-2 border-dashed border-gray-300">
                                 <div>
-                                    <label className="text-[10px] font-black uppercase mb-1 block text-red-700">Loan Rate (%)</label>
+                                    <label htmlFor="loanRate" className="text-[10px] font-black uppercase mb-1 block text-red-700">Loan Rate (%)</label>
                                     <div className="relative">
                                         <Percent className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-red-700 z-10" />
-                                        <Input type="number" value={loanInterestRate} onChange={e => setLoanRate(e.target.value)} className="font-black pl-9 border-red-700 text-red-700" />
+                                        <Input id="loanRate" type="number" value={loanInterestRate} onChange={e => setLoanRate(e.target.value)} className="font-black pl-9 border-red-700 text-red-700" />
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="text-[10px] font-black uppercase mb-1 block">Term (Yrs)</label>
+                                    <label htmlFor="loanTerm" className="text-[10px] font-black uppercase mb-1 block">Term (Yrs)</label>
                                     <div className="relative">
                                         <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input type="number" value={loanTermYears} onChange={e => setLoanTerm(e.target.value)} className="font-black pl-9" />
+                                        <Input id="loanTerm" type="number" value={loanTermYears} onChange={e => setLoanTerm(e.target.value)} className="font-black pl-9" />
                                     </div>
                                 </div>
                             </div>
@@ -218,17 +218,17 @@ export default function DegreeROICalculator() {
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label className="text-[9px] font-bold text-gray-500 uppercase">Start Salary</label>
+                                        <label htmlFor="startSalaryDegree" className="text-[9px] font-bold text-gray-500 uppercase">Start Salary</label>
                                         <div className="relative">
                                             <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                            <Input type="number" value={startingSalaryDegree} onChange={e => setStartSalary(e.target.value)} className="font-black pl-9" />
+                                            <Input id="startSalaryDegree" type="number" value={startingSalaryDegree} onChange={e => setStartSalary(e.target.value)} className="font-black pl-9" />
                                         </div>
                                     </div>
                                     <div>
-                                        <label className="text-[9px] font-bold text-gray-500 uppercase">Growth %</label>
+                                        <label htmlFor="growthDegree" className="text-[9px] font-bold text-gray-500 uppercase">Growth %</label>
                                         <div className="relative">
                                             <Percent className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                            <Input type="number" value={salaryGrowthDegree} onChange={e => setGrowthDegree(e.target.value)} className="font-black pl-9" />
+                                            <Input id="growthDegree" type="number" value={salaryGrowthDegree} onChange={e => setGrowthDegree(e.target.value)} className="font-black pl-9" />
                                         </div>
                                     </div>
                                 </div>
@@ -241,17 +241,17 @@ export default function DegreeROICalculator() {
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label className="text-[9px] font-bold text-gray-500 uppercase">Start Salary</label>
+                                        <label htmlFor="startSalaryAlt" className="text-[9px] font-bold text-gray-500 uppercase">Start Salary</label>
                                         <div className="relative">
                                             <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                            <Input type="number" value={startingSalaryAlt} onChange={e => setStartSalaryAlt(e.target.value)} className="font-black pl-9" />
+                                            <Input id="startSalaryAlt" type="number" value={startingSalaryAlt} onChange={e => setStartSalaryAlt(e.target.value)} className="font-black pl-9" />
                                         </div>
                                     </div>
                                     <div>
-                                        <label className="text-[9px] font-bold text-gray-500 uppercase">Growth %</label>
+                                        <label htmlFor="growthAlt" className="text-[9px] font-bold text-gray-500 uppercase">Growth %</label>
                                         <div className="relative">
                                             <Percent className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                            <Input type="number" value={salaryGrowthAlt} onChange={e => setGrowthAlt(e.target.value)} className="font-black pl-9" />
+                                            <Input id="growthAlt" type="number" value={salaryGrowthAlt} onChange={e => setGrowthAlt(e.target.value)} className="font-black pl-9" />
                                         </div>
                                     </div>
                                 </div>

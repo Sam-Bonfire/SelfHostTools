@@ -138,40 +138,40 @@ export default function FIRECalculator() {
             <div className="p-4 space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-[10px] font-black uppercase mb-1 block">Current Age</label>
+                  <label htmlFor="currentAge" className="text-[10px] font-black uppercase mb-1 block">Current Age</label>
                   <div className="relative">
                     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-black text-gray-400 z-10">Yr</span>
-                    <Input type="number" value={currentAge} onChange={e => setCurrentAge(e.target.value)} onBlur={() => !currentAge && setCurrentAge(0)} className="pl-8 font-black" />
+                    <Input id="currentAge" type="number" value={currentAge} onChange={e => setCurrentAge(e.target.value)} onBlur={() => !currentAge && setCurrentAge(0)} className="pl-8 font-black" />
                   </div>
                 </div>
                 <div>
-                  <label className="text-[10px] font-black uppercase text-orange-600 mb-1 block">FIRE Age</label>
+                  <label htmlFor="retirementAge" className="text-[10px] font-black uppercase text-orange-600 mb-1 block">FIRE Age</label>
                   <div className="relative">
                     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-black text-orange-600 z-10">Yr</span>
-                    <Input type="number" value={retirementAge} onChange={e => setRetirementAge(e.target.value)} onBlur={() => !retirementAge && setRetirementAge(0)} className="border-orange-600 font-black text-orange-600 pl-8" />
+                    <Input id="retirementAge" type="number" value={retirementAge} onChange={e => setRetirementAge(e.target.value)} onBlur={() => !retirementAge && setRetirementAge(0)} className="border-orange-600 font-black text-orange-600 pl-8" />
                   </div>
                 </div>
               </div>
               <div>
-                <label className="text-[10px] font-black uppercase mb-1 block">Monthly Expenses (Today)</label>
+                <label htmlFor="expenses" className="text-[10px] font-black uppercase mb-1 block">Monthly Expenses (Today)</label>
                 <div className="relative">
                   <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                  <Input type="number" value={currentMonthlyExpenses} onChange={e => setExpenses(e.target.value)} onBlur={() => !currentMonthlyExpenses && setExpenses(0)} className="pl-8 font-black" />
+                  <Input id="expenses" type="number" value={currentMonthlyExpenses} onChange={e => setExpenses(e.target.value)} onBlur={() => !currentMonthlyExpenses && setExpenses(0)} className="pl-8 font-black" />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-[10px] font-black uppercase mb-1 block">Current Corpus</label>
+                  <label htmlFor="currentSavings" className="text-[10px] font-black uppercase mb-1 block">Current Corpus</label>
                   <div className="relative">
                     <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                    <Input type="number" value={currentSavings} onChange={e => setSavings(e.target.value)} onBlur={() => !currentSavings && setSavings(0)} className="pl-8 font-black" />
+                    <Input id="currentSavings" type="number" value={currentSavings} onChange={e => setSavings(e.target.value)} onBlur={() => !currentSavings && setSavings(0)} className="pl-8 font-black" />
                   </div>
                 </div>
                 <div>
-                  <label className="text-[10px] font-black uppercase mb-1 block">Monthly SIP</label>
+                  <label htmlFor="monthlyInvestment" className="text-[10px] font-black uppercase mb-1 block">Monthly SIP</label>
                   <div className="relative">
                     <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                    <Input type="number" value={monthlyInvestment} onChange={e => setMonthlyInv(e.target.value)} onBlur={() => !monthlyInvestment && setMonthlyInv(0)} className="pl-8 font-black" />
+                    <Input id="monthlyInvestment" type="number" value={monthlyInvestment} onChange={e => setMonthlyInv(e.target.value)} onBlur={() => !monthlyInvestment && setMonthlyInv(0)} className="pl-8 font-black" />
                   </div>
                 </div>
               </div>
@@ -187,49 +187,49 @@ export default function FIRECalculator() {
             <div className="p-4 space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-[10px] font-black uppercase mb-1 block">Standard Inflation (%)</label>
+                  <label htmlFor="inflationRate" className="text-[10px] font-black uppercase mb-1 block">Standard Inflation (%)</label>
                   <div className="relative">
                     <Flame className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                    <Input type="number" value={inflationRate} onChange={e => setInflation(e.target.value)} onBlur={() => !inflationRate && setInflation(0)} className="pl-8 font-black" />
+                    <Input id="inflationRate" type="number" value={inflationRate} onChange={e => setInflation(e.target.value)} onBlur={() => !inflationRate && setInflation(0)} className="pl-8 font-black" />
                   </div>
                 </div>
                 <div>
-                  <label className="text-[10px] font-black uppercase text-red-700 mb-1 block">Medical Inflation (%)</label>
+                  <label htmlFor="medicalInflation" className="text-[10px] font-black uppercase text-red-700 mb-1 block">Medical Inflation (%)</label>
                   <Tooltip content="Healthcare costs rise faster than standard CPI. Standard is 12-14%.">
                     <div className="relative">
                       <Flame className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-red-600 z-10" />
-                      <Input type="number" value={medicalInflation} onChange={e => setMedicalInflation(e.target.value)} onBlur={() => !medicalInflation && setMedicalInflation(0)} className="border-red-700 font-black text-red-700 pl-8" />
+                      <Input id="medicalInflation" type="number" value={medicalInflation} onChange={e => setMedicalInflation(e.target.value)} onBlur={() => !medicalInflation && setMedicalInflation(0)} className="border-red-700 font-black text-red-700 pl-8" />
                     </div>
                   </Tooltip>
                 </div>
 
                 <div className="pt-4 border-t-2 border-black/10">
-                  <label className="block text-[10px] font-black uppercase mb-1 text-purple-600">Lifestyle Inflation (%)</label>
-                  <div className="flex gap-2 mb-3">
-                    <button onClick={() => setLifestyleInflation(0)} className={`flex-1 py-1 text-[8px] font-black border-2 border-black uppercase ${lifestyleInflation == 0 ? 'bg-black text-white' : 'bg-white text-black hover:bg-gray-100'}`}>Minimal</button>
-                    <button onClick={() => setLifestyleInflation(2)} className={`flex-1 py-1 text-[8px] font-black border-2 border-black uppercase ${lifestyleInflation == 2 ? 'bg-black text-white' : 'bg-white text-black hover:bg-gray-100'}`}>Standard</button>
-                    <button onClick={() => setLifestyleInflation(5)} className={`flex-1 py-1 text-[8px] font-black border-2 border-black uppercase ${lifestyleInflation == 5 ? 'bg-black text-white' : 'bg-white text-black hover:bg-gray-100'}`}>High</button>
+                  <label htmlFor="lifestyleInflation" className="block text-[10px] font-black uppercase mb-1 text-purple-600">Lifestyle Inflation (%)</label>
+                  <div className="flex gap-2 mb-3" role="group" aria-label="Lifestyle Inflation Presets">
+                    <button aria-pressed={lifestyleInflation == 0} onClick={() => setLifestyleInflation(0)} className={`flex-1 py-1 text-[8px] font-black border-2 border-black uppercase ${lifestyleInflation == 0 ? 'bg-black text-white' : 'bg-white text-black hover:bg-gray-100'}`}>Minimal</button>
+                    <button aria-pressed={lifestyleInflation == 2} onClick={() => setLifestyleInflation(2)} className={`flex-1 py-1 text-[8px] font-black border-2 border-black uppercase ${lifestyleInflation == 2 ? 'bg-black text-white' : 'bg-white text-black hover:bg-gray-100'}`}>Standard</button>
+                    <button aria-pressed={lifestyleInflation == 5} onClick={() => setLifestyleInflation(5)} className={`flex-1 py-1 text-[8px] font-black border-2 border-black uppercase ${lifestyleInflation == 5 ? 'bg-black text-white' : 'bg-white text-black hover:bg-gray-100'}`}>High</button>
                   </div>
                   <div className="relative">
                     <TrendingUp className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-purple-400 z-10" />
-                    <Input type="number" value={lifestyleInflation} onChange={e => setLifestyleInflation(e.target.value)} onBlur={() => !lifestyleInflation && setLifestyleInflation(0)} className="pl-9 font-black border-purple-200" />
+                    <Input id="lifestyleInflation" type="number" value={lifestyleInflation} onChange={e => setLifestyleInflation(e.target.value)} onBlur={() => !lifestyleInflation && setLifestyleInflation(0)} className="pl-9 font-black border-purple-200" />
                   </div>
                   <p className="text-[9px] text-gray-400 font-bold uppercase mt-1 leading-tight">Tendency to spend more as you earn more. 2-3% is standard.</p>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-[10px] font-black uppercase mb-1 block">Pre-FIRE Return (%)</label>
+                  <label htmlFor="preRetirementReturn" className="text-[10px] font-black uppercase mb-1 block">Pre-FIRE Return (%)</label>
                   <div className="relative">
                     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-black text-gray-400 z-10">%</span>
-                    <Input type="number" value={preRetirementReturn} onChange={e => setPreReturn(e.target.value)} onBlur={() => !preRetirementReturn && setPreReturn(0)} className="pl-8 font-black" />
+                    <Input id="preRetirementReturn" type="number" value={preRetirementReturn} onChange={e => setPreReturn(e.target.value)} onBlur={() => !preRetirementReturn && setPreReturn(0)} className="pl-8 font-black" />
                   </div>
                 </div>
                 <div>
-                  <label className="text-[10px] font-black uppercase mb-1 block">Post-FIRE Return (%)</label>
+                  <label htmlFor="postRetirementReturn" className="text-[10px] font-black uppercase mb-1 block">Post-FIRE Return (%)</label>
                   <div className="relative">
                     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-black text-gray-400 z-10">%</span>
-                    <Input type="number" value={postRetirementReturn} onChange={e => setPostReturn(e.target.value)} onBlur={() => !postRetirementReturn && setPostReturn(0)} className="pl-8 font-black" />
+                    <Input id="postRetirementReturn" type="number" value={postRetirementReturn} onChange={e => setPostReturn(e.target.value)} onBlur={() => !postRetirementReturn && setPostReturn(0)} className="pl-8 font-black" />
                   </div>
                 </div>
               </div>
@@ -237,7 +237,7 @@ export default function FIRECalculator() {
           </Card>
         </div>
 
-        <div className="lg:col-span-12 xl:col-span-7 space-y-6">
+        <div role="region" aria-live="polite" aria-atomic="true" className="lg:col-span-12 xl:col-span-7 space-y-6">
           <ResultsAnalysis
             title="Freedom Analysis"
             headerElements={

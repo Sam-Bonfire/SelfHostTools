@@ -64,6 +64,15 @@ This document records the user-driven evolution of the **SelfHostTools** project
 *   **Wealth Projections**: Enhanced results with year-by-year wealth schedules and snapshot comparisons (e.g., Home Equity vs. Opportunity Cost Fund).
 *   **Export Parity**: Finalized PDF and Excel export logic for Home Owner and Buy vs. Rent calculators, ensuring offline reports match the high-fidelity UI.
 
+### Phase 8: Accessibility & Build Robustness (The "Inclusive" Era)
+*   **A11y Overhaul**:
+    *   **Label Association**: Systematically reviewed ALL 12 calculators to ensure every `Input`, `Select`, and `Checkbox` has a unique `id` and a corresponding `label` with `htmlFor`.
+    *   **ARIA Live**: Implemented `aria-live="polite"` on the `ResultsAnalysis` component to ensure screen readers announce result updates dynamically.
+    *   **Dynamic Lists**: Fixed accessibility for dynamic/array-based inputs (e.g., Education Loan Tranches, Freelance Admin Tasks) by generating unique IDs for every mapped item.
+*   **Build Pipeline Hardening**:
+    *   **Sitemap Resilience**: Upgraded `generate-sitemap.js` to intelligently search for `.env.local` in both package and root directories, preventing build failures in different environments.
+    *   **Environment Parsing**: strictly handled varying line endings (`\r\n` vs `\n`) in environment file parsing.
+
 ---
 
 ## 🧭 Current Trajectory
@@ -79,4 +88,5 @@ The project is currently focused on **refinement and depth**:
 *   **Structure**: Respect the Monorepo boundary. Shared logic goes in `packages`, shared UI in `styling`, specific logic in components.
 *   **Testing**: Typically, every new calculator MUST have its logic extracted to `lib/` and tests written in `tests/` before the UI is finalized.
 *   **Documentation**: Whenever a new significant feature is added, a calculator is refactored, or a new component is added to `@packages/styling`, YOU MUST update the relevant `README.md` files (App-specific, Package-specific, or Root) to reflect these changes.
+*   **Accessibility**: ALWAYS ensure every form input has a unique `id` and a linked `<label htmlFor="...">`. For dynamic content updates, use `aria-live="polite"`.
 

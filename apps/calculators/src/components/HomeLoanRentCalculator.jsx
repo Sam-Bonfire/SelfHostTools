@@ -102,41 +102,41 @@ export default function HomeLoanRentCalculator() {
             <div className="p-4 space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-[10px] font-black uppercase mb-1 block">Property Value</label>
+                  <label htmlFor="property-value" className="text-[10px] font-black uppercase mb-1 block">Property Value</label>
                   <div className="relative">
                     <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                    <Input type="number" value={propertyValue} onChange={e => setPropertyValue(e.target.value)} onBlur={() => !propertyValue && setPropertyValue(0)} className="pl-8 font-black" />
+                    <Input id="property-value" type="number" value={propertyValue} onChange={e => setPropertyValue(e.target.value)} onBlur={() => !propertyValue && setPropertyValue(0)} className="pl-8 font-black" />
                   </div>
                 </div>
                 <div>
-                  <label className="text-[10px] font-black uppercase mb-1 block">Down Payment</label>
+                  <label htmlFor="down-payment" className="text-[10px] font-black uppercase mb-1 block">Down Payment</label>
                   <div className="relative">
                     <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                    <Input type="number" value={downPayment} onChange={e => setDownPayment(e.target.value)} onBlur={() => !downPayment && setDownPayment(0)} className="pl-8 font-black" />
+                    <Input id="down-payment" type="number" value={downPayment} onChange={e => setDownPayment(e.target.value)} onBlur={() => !downPayment && setDownPayment(0)} className="pl-8 font-black" />
                   </div>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-[10px] font-black uppercase mb-1 block">Int. Rate (%)</label>
+                  <label htmlFor="interest-rate" className="text-[10px] font-black uppercase mb-1 block">Int. Rate (%)</label>
                   <div className="relative">
                     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-black text-gray-400 z-10">%</span>
-                    <Input type="number" value={interestRate} onChange={e => setInterestRate(e.target.value)} onBlur={() => !interestRate && setInterestRate(0)} className="pl-8 font-black" />
+                    <Input id="interest-rate" type="number" value={interestRate} onChange={e => setInterestRate(e.target.value)} onBlur={() => !interestRate && setInterestRate(0)} className="pl-8 font-black" />
                   </div>
                 </div>
                 <div>
-                  <label className="text-[10px] font-black uppercase mb-1 block">Tenure (Yrs)</label>
+                  <label htmlFor="loan-tenure" className="text-[10px] font-black uppercase mb-1 block">Tenure (Yrs)</label>
                   <div className="relative">
                     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-black text-gray-400 z-10">Yr</span>
-                    <Input type="number" value={loanTenure} onChange={e => setLoanTenure(e.target.value)} onBlur={() => !loanTenure && setLoanTenure(0)} className="pl-8 font-black" />
+                    <Input id="loan-tenure" type="number" value={loanTenure} onChange={e => setLoanTenure(e.target.value)} onBlur={() => !loanTenure && setLoanTenure(0)} className="pl-8 font-black" />
                   </div>
                 </div>
               </div>
               <div>
-                <label className="text-[10px] font-black uppercase mb-1 block">Expected Appreciation (%)</label>
+                <label htmlFor="property-appreciation" className="text-[10px] font-black uppercase mb-1 block">Expected Appreciation (%)</label>
                 <div className="relative">
                   <TrendingUp className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-green-600 z-10" />
-                  <Input type="number" value={propertyAppreciation} onChange={e => setPropertyAppreciation(e.target.value)} onBlur={() => !propertyAppreciation && setPropertyAppreciation(0)} className="pl-8 font-black" />
+                  <Input id="property-appreciation" type="number" value={propertyAppreciation} onChange={e => setPropertyAppreciation(e.target.value)} onBlur={() => !propertyAppreciation && setPropertyAppreciation(0)} className="pl-8 font-black" />
                 </div>
               </div>
             </div>
@@ -151,17 +151,17 @@ export default function HomeLoanRentCalculator() {
             <div className="p-4 space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-[10px] font-black uppercase mb-1 block">Monthly Rent</label>
+                  <label htmlFor="monthly-rent" className="text-[10px] font-black uppercase mb-1 block">Monthly Rent</label>
                   <div className="relative">
                     <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                    <Input type="number" value={monthlyRent} onChange={e => setMonthlyRent(e.target.value)} onBlur={() => !monthlyRent && setMonthlyRent(0)} className="pl-8 font-black" />
+                    <Input id="monthly-rent" type="number" value={monthlyRent} onChange={e => setMonthlyRent(e.target.value)} onBlur={() => !monthlyRent && setMonthlyRent(0)} className="pl-8 font-black" />
                   </div>
                 </div>
                 <div>
-                  <label className="text-[10px] font-black uppercase mb-1 block">Rent Inflation (%)</label>
+                  <label htmlFor="rent-inflation" className="text-[10px] font-black uppercase mb-1 block">Rent Inflation (%)</label>
                   <div className="relative">
                     <TrendingUp className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-red-600 z-10" />
-                    <Input type="number" value={rentInflation} onChange={e => setRentInflation(e.target.value)} onBlur={() => !rentInflation && setRentInflation(0)} className="pl-8 font-black" />
+                    <Input id="rent-inflation" type="number" value={rentInflation} onChange={e => setRentInflation(e.target.value)} onBlur={() => !rentInflation && setRentInflation(0)} className="pl-8 font-black" />
                   </div>
                 </div>
               </div>
@@ -184,8 +184,8 @@ export default function HomeLoanRentCalculator() {
               </label>
               {investDifference && (
                 <div className="pl-8 animate-in zoom-in-95">
-                  <label className="text-[10px] font-black uppercase text-green-700">Equity Return Rate (%)</label>
-                  <Input type="number" value={equityReturn} onChange={e => setEquityReturn(e.target.value)} onBlur={() => !equityReturn && setEquityReturn(0)} className="h-8 border-green-600 font-black" />
+                  <label htmlFor="equity-return" className="text-[10px] font-black uppercase text-green-700">Equity Return Rate (%)</label>
+                  <Input id="equity-return" type="number" value={equityReturn} onChange={e => setEquityReturn(e.target.value)} onBlur={() => !equityReturn && setEquityReturn(0)} className="h-8 border-green-600 font-black" />
                 </div>
               )}
               <label className="flex items-center gap-3 cursor-pointer">

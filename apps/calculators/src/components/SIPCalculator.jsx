@@ -172,41 +172,41 @@ export default function SIPCalculator() {
             <div className="p-4 space-y-5">
               {calcMode === 'investment' ? (
                 <div>
-                  <label className="block text-[10px] font-black uppercase mb-1">Monthly SIP Amount</label>
+                  <label htmlFor="monthlyInvestment" className="block text-[10px] font-black uppercase mb-1">Monthly SIP Amount</label>
                   <p className="text-[10px] text-gray-500 mb-2 font-bold uppercase tracking-tight">How much you want to invest monthly</p>
                   <div className="relative">
                     <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                    <Input type="number" value={monthlyInvestment} onChange={(e) => setMonthlyInvestment(e.target.value)} onBlur={() => !monthlyInvestment && setMonthlyInvestment(0)} className="pl-9 font-black" />
+                    <Input id="monthlyInvestment" type="number" value={monthlyInvestment} onChange={(e) => setMonthlyInvestment(e.target.value)} onBlur={() => !monthlyInvestment && setMonthlyInvestment(0)} className="pl-9 font-black" />
                   </div>
-                  <input type="range" min={500} max={100000} step={500} value={monthlyInvestment || 0} onChange={(e) => setMonthlyInvestment(Number(e.target.value))} className="w-full mt-3 h-2 bg-gray-200 appearance-none cursor-pointer accent-black" />
+                  <input type="range" min={500} max={100000} step={500} value={monthlyInvestment || 0} onChange={(e) => setMonthlyInvestment(Number(e.target.value))} className="w-full mt-3 h-2 bg-gray-200 appearance-none cursor-pointer accent-black" aria-label="Monthly SIP Amount Slider" />
                 </div>
               ) : (
                 <div>
-                  <label className="block text-[10px] font-black uppercase mb-1 text-blue-700">Target Final Corpus</label>
+                  <label htmlFor="targetCorpus" className="block text-[10px] font-black uppercase mb-1 text-blue-700">Target Final Corpus</label>
                   <p className="text-[10px] text-gray-500 mb-2 font-bold uppercase tracking-tight">The wealth you wish to accumulate</p>
                   <div className="relative">
                     <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-400 z-10" />
-                    <Input type="number" value={targetCorpus} onChange={(e) => setTargetCorpus(e.target.value)} onBlur={() => !targetCorpus && setTargetCorpus(0)} className="pl-9 font-black border-blue-600 text-blue-700" />
+                    <Input id="targetCorpus" type="number" value={targetCorpus} onChange={(e) => setTargetCorpus(e.target.value)} onBlur={() => !targetCorpus && setTargetCorpus(0)} className="pl-9 font-black border-blue-600 text-blue-700" />
                   </div>
-                  <input type="range" min={100000} max={50000000} step={100000} value={targetCorpus || 0} onChange={(e) => setTargetCorpus(Number(e.target.value))} className="w-full mt-3 h-2 bg-blue-100 appearance-none cursor-pointer accent-blue-600" />
+                  <input type="range" min={100000} max={50000000} step={100000} value={targetCorpus || 0} onChange={(e) => setTargetCorpus(Number(e.target.value))} className="w-full mt-3 h-2 bg-blue-100 appearance-none cursor-pointer accent-blue-600" aria-label="Target Corpus Slider" />
                 </div>
               )}
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[10px] font-black uppercase mb-1">Expected Return (%)</label>
+                  <label htmlFor="expectedReturn" className="block text-[10px] font-black uppercase mb-1">Expected Return (%)</label>
                   <p className="text-[10px] text-gray-500 mb-2 font-bold uppercase leading-none tracking-tighter">Avg. Annual growth</p>
                   <div className="relative">
                     <Percent className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                    <Input type="number" value={expectedReturn} onChange={(e) => setExpectedReturn(e.target.value)} onBlur={() => !expectedReturn && setExpectedReturn(0)} className="font-black pl-9" />
+                    <Input id="expectedReturn" type="number" value={expectedReturn} onChange={(e) => setExpectedReturn(e.target.value)} onBlur={() => !expectedReturn && setExpectedReturn(0)} className="font-black pl-9" />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-[10px] font-black uppercase mb-1">Duration (Yrs)</label>
+                  <label htmlFor="timePeriod" className="block text-[10px] font-black uppercase mb-1">Duration (Yrs)</label>
                   <p className="text-[10px] text-gray-500 mb-2 font-bold uppercase leading-none tracking-tighter">Years to invest</p>
                   <div className="relative">
                     <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                    <Input type="number" value={timePeriod} onChange={(e) => setTimePeriod(e.target.value)} onBlur={() => !timePeriod && setTimePeriod(0)} className="font-black pl-9" />
+                    <Input id="timePeriod" type="number" value={timePeriod} onChange={(e) => setTimePeriod(e.target.value)} onBlur={() => !timePeriod && setTimePeriod(0)} className="font-black pl-9" />
                   </div>
                 </div>
               </div>
@@ -255,7 +255,7 @@ export default function SIPCalculator() {
                 {useInflation && <div className="pl-8 animate-in zoom-in-95">
                   <div className="relative">
                     <Flame className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-orange-600 z-10" />
-                    <Input type="number" value={inflationRate} onChange={(e) => setInflationRate(e.target.value)} onBlur={() => !inflationRate && setInflationRate(0)} className="h-8 pl-8 border-orange-600 font-black" />
+                    <Input id="inflation-rate" aria-label="Inflation Rate" type="number" value={inflationRate} onChange={(e) => setInflationRate(e.target.value)} onBlur={() => !inflationRate && setInflationRate(0)} className="h-8 pl-8 border-orange-600 font-black" />
                   </div>
                 </div>}
               </div>
@@ -267,7 +267,7 @@ export default function SIPCalculator() {
                 {useFees && <div className="pl-8 animate-in zoom-in-95">
                   <div className="relative">
                     <Landmark className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-blue-600 z-10" />
-                    <Input type="number" value={expenseRatio} onChange={(e) => setExpenseRatio(e.target.value)} onBlur={() => !expenseRatio && setExpenseRatio(0)} className="h-8 pl-8 border-blue-600 font-black" />
+                    <Input id="expense-ratio" aria-label="Expense Ratio" type="number" value={expenseRatio} onChange={(e) => setExpenseRatio(e.target.value)} onBlur={() => !expenseRatio && setExpenseRatio(0)} className="h-8 pl-8 border-blue-600 font-black" />
                   </div>
                 </div>}
               </div>
@@ -306,24 +306,24 @@ export default function SIPCalculator() {
                         <div className="flex gap-2">
                           <Tooltip content="Auto-calculated. Equity = 100% - (Debt + Gold/Silver). Edit Debt and Gold to adjust Equity.">
                             <div className="flex-1">
-                              <Input type="number" value={assetMix.equity} disabled className="h-8 text-xs border-black bg-gray-100 w-full font-black cursor-not-allowed" />
+                              <Input id="asset-mix-equity" aria-label="Equity Allocation %" type="number" value={assetMix.equity} disabled className="h-8 text-xs border-black bg-gray-100 w-full font-black cursor-not-allowed" />
                             </div>
                           </Tooltip>
-                          <div className="flex-1 relative"><span className="absolute left-2 top-1/2 -translate-y-1/2 text-[8px] font-black text-gray-400 uppercase z-10">Tax %</span><Input type="number" value={taxRates.equity} onChange={(e) => updateTaxRate('equity', e.target.value)} onBlur={() => taxRates.equity === '' && updateTaxRate('equity', 0)} className="h-8 text-xs pl-10 border-black font-black" /></div>
+                          <div className="flex-1 relative"><label htmlFor="tax-rate-equity" className="absolute left-2 top-1/2 -translate-y-1/2 text-[8px] font-black text-gray-400 uppercase z-10">Tax %</label><Input id="tax-rate-equity" type="number" value={taxRates.equity} onChange={(e) => updateTaxRate('equity', e.target.value)} onBlur={() => taxRates.equity === '' && updateTaxRate('equity', 0)} className="h-8 text-xs pl-10 border-black font-black" /></div>
                         </div>
                       </div>
                       <div className="space-y-2 p-2 bg-orange-50/50 border border-orange-200">
                         <span className="text-[10px] font-black uppercase text-orange-700">Debt (%)</span>
                         <div className="flex gap-2">
-                          <Input type="number" value={assetMix.debt} onChange={(e) => updateMix('debt', e.target.value)} onBlur={() => assetMix.debt === '' && updateMix('debt', 0)} className="h-8 text-xs border-black flex-1 font-black" />
-                          <div className="flex-1 relative"><span className="absolute left-2 top-1/2 -translate-y-1/2 text-[8px] font-black text-gray-400 uppercase z-10">Tax %</span><Input type="number" value={taxRates.debt} onChange={(e) => updateTaxRate('debt', e.target.value)} onBlur={() => taxRates.debt === '' && updateTaxRate('debt', 0)} className="h-8 text-xs pl-10 border-black font-black" /></div>
+                          <Input id="asset-mix-debt" aria-label="Debt Allocation %" type="number" value={assetMix.debt} onChange={(e) => updateMix('debt', e.target.value)} onBlur={() => assetMix.debt === '' && updateMix('debt', 0)} className="h-8 text-xs border-black flex-1 font-black" />
+                          <div className="flex-1 relative"><label htmlFor="tax-rate-debt" className="absolute left-2 top-1/2 -translate-y-1/2 text-[8px] font-black text-gray-400 uppercase z-10">Tax %</label><Input id="tax-rate-debt" type="number" value={taxRates.debt} onChange={(e) => updateTaxRate('debt', e.target.value)} onBlur={() => taxRates.debt === '' && updateTaxRate('debt', 0)} className="h-8 text-xs pl-10 border-black font-black" /></div>
                         </div>
                       </div>
                       <div className="space-y-2 p-2 bg-yellow-50/50 border border-yellow-200">
                         <span className="text-[10px] font-black uppercase text-yellow-600">Gold/Silver (%)</span>
                         <div className="flex gap-2">
-                          <Input type="number" value={assetMix.gold} onChange={(e) => updateMix('gold', e.target.value)} onBlur={() => assetMix.gold === '' && updateMix('gold', 0)} className="h-8 text-xs border-black flex-1 font-black" />
-                          <div className="flex-1 relative"><span className="absolute left-2 top-1/2 -translate-y-1/2 text-[8px] font-black text-gray-400 uppercase z-10">Tax %</span><Input type="number" value={taxRates.gold} onChange={(e) => updateTaxRate('gold', e.target.value)} onBlur={() => taxRates.gold === '' && updateTaxRate('gold', 0)} className="h-8 text-xs pl-10 border-black font-black" /></div>
+                          <Input id="asset-mix-gold" aria-label="Gold Allocation %" type="number" value={assetMix.gold} onChange={(e) => updateMix('gold', e.target.value)} onBlur={() => assetMix.gold === '' && updateMix('gold', 0)} className="h-8 text-xs border-black flex-1 font-black" />
+                          <div className="flex-1 relative"><label htmlFor="tax-rate-gold" className="absolute left-2 top-1/2 -translate-y-1/2 text-[8px] font-black text-gray-400 uppercase z-10">Tax %</label><Input id="tax-rate-gold" type="number" value={taxRates.gold} onChange={(e) => updateTaxRate('gold', e.target.value)} onBlur={() => taxRates.gold === '' && updateTaxRate('gold', 0)} className="h-8 text-xs pl-10 border-black font-black" /></div>
                         </div>
                       </div>
                     </div>
