@@ -202,6 +202,20 @@ export const downloadPDF = async (data) => {
       ['Goal Weight', inputs.goalWeight ? `${inputs.goalWeight} ${inputs.weightUnit}` : 'N/A'],
       ['Weeks to Goal', results.weeksToGoal > 0 ? results.weeksToGoal : 'N/A']
     ];
+  } else if (inputs.loans !== undefined) {
+    // INVEST VS LOAN
+    const loansDesc = inputs.loans.map(l => `${l.name} (${l.rate}%)`).join(', ');
+    summaryData = [
+      ['Monthly Surplus', `INR ${formatCurrency(inputs.surplus, true)}`],
+      ['Invest Return', `${inputs.investmentReturn}%`],
+      ['Invest Tax', `${inputs.investmentTaxRate}%`],
+      ['Income Tax Bracket', `${inputs.userTaxBracket}%`],
+      ['Loans', loansDesc],
+      ['Recommendation', results.results.winner === 'Payoff' ? 'PAY OFF DEBT' : 'INVEST'],
+      ['Net Worth Diff', `INR ${formatCurrency(results.results.netWorthDifference, true)}`],
+      ['Invest Strategy Final', `INR ${formatCurrency(results.results.investStrategy.finalNetWorth, true)}`],
+      ['Payoff Strategy Final', `INR ${formatCurrency(results.results.payoffStrategy.finalNetWorth, true)}`]
+    ];
   }
 
   autoTable(doc, {
@@ -221,16 +235,31 @@ export const downloadPDF = async (data) => {
   doc.setTextColor(0, 0, 0);
   doc.text('Projection Schedule', 14, yPos);
 
-  const tableBody = schedule.map(row => [
-    row.label,
-    formatCurrency(row.principal, true),
-    formatCurrency(row.interest, true),
-    formatCurrency(row.balance, true)
-  ]);
+  let tableHeader = [['Period', 'Principal/Invested', 'Interest/Returns', 'Balance/Value']];
+  let tableBody = [];
+
+  if (inputs.loans !== undefined) {
+    // Custom Invest vs Loan Schedule
+    tableHeader = [['Year', 'Invest Strategy NW', 'Payoff Strategy NW', 'Difference']];
+    tableBody = schedule.map(row => [
+      row.label,
+      formatCurrency(row.investNW, true),
+      formatCurrency(row.payoffNW, true),
+      formatCurrency(row.diff, true)
+    ]);
+  } else {
+    // Standard Schedule
+    tableBody = schedule.map(row => [
+      row.label,
+      formatCurrency(row.principal, true),
+      formatCurrency(row.interest, true),
+      formatCurrency(row.balance, true)
+    ]);
+  }
 
   autoTable(doc, {
     startY: yPos + 5,
-    head: [['Period', 'Principal/Invested', 'Interest/Returns', 'Balance/Value']],
+    head: tableHeader,
     body: tableBody,
     theme: 'striped',
     headStyles: { fillColor: [255, 222, 89], textColor: [0, 0, 0] },
@@ -398,6 +427,20 @@ export const downloadExcel = async (data) => {
       ['Goal Weight', inputs.goalWeight || 'N/A'],
       ['Weeks to Goal', results.weeksToGoal || 'N/A']
     ];
+  } else if (inputs.loans !== undefined) {
+    // INVEST VS LOAN
+    const loansDesc = inputs.loans.map(l => `${l.name} (${l.rate}%)`).join(', ');
+    summaryRows = [
+      ['Monthly Surplus', inputs.surplus],
+      ['Invest Return (%)', inputs.investmentReturn],
+      ['Invest Tax (%)', inputs.investmentTaxRate],
+      ['Income Tax Bracket (%)', inputs.userTaxBracket],
+      ['Loans', loansDesc],
+      ['Recommendation', results.results.winner === 'Payoff' ? 'PAY OFF DEBT' : 'INVEST'],
+      ['Net Worth Diff', results.results.netWorthDifference],
+      ['Invest Strategy Final', results.results.investStrategy.finalNetWorth],
+      ['Payoff Strategy Final', results.results.payoffStrategy.finalNetWorth]
+    ];
   } else {
     // LOAN or SIP
     if (inputs.repaymentTenure !== undefined && inputs.stepUp === undefined) {
@@ -427,13 +470,25 @@ export const downloadExcel = async (data) => {
   const wsSummary = XLSX.utils.aoa_to_sheet([['REPORT SUMMARY'], ...summaryRows]);
   wsSummary['!cols'] = [{ wch: 25 }, { wch: 20 }];
 
-  const scheduleHeader = ['Period', 'Principal/Invested', 'Interest/Returns', 'Balance/Value'];
-  const scheduleRows = schedule.map(row => [
-    row.label,
-    row.principal,
-    row.interest,
-    row.balance
-  ]);
+  let scheduleHeader = ['Period', 'Principal/Invested', 'Interest/Returns', 'Balance/Value'];
+  let scheduleRows = [];
+
+  if (inputs.loans !== undefined) {
+    scheduleHeader = ['Year', 'Invest Strategy NW', 'Payoff Strategy NW', 'Difference'];
+    scheduleRows = schedule.map(row => [
+      row.label,
+      row.investNW,
+      row.payoffNW,
+      row.diff
+    ]);
+  } else {
+    scheduleRows = schedule.map(row => [
+      row.label,
+      row.principal,
+      row.interest,
+      row.balance
+    ]);
+  }
 
   const wsSchedule = XLSX.utils.aoa_to_sheet([scheduleHeader, ...scheduleRows]);
   wsSchedule['!cols'] = [{ wch: 15 }, { wch: 20 }, { wch: 20 }, { wch: 20 }];
