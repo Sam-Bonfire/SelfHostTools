@@ -33,17 +33,18 @@ export default function Root() {
         {/* Hero Section */}
         <header className="mb-12 text-center">
           <motion.div
+            initial={{ rotate: -2 }}
             whileHover={{ scale: 1.02, rotate: 0 }}
             transition={{ type: "spring", stiffness: 400, damping: 10 }}
-            className="inline-block p-6 bg-yellow-300 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] mb-8 transform -rotate-2 cursor-default relative"
+            className="inline-block p-4 md:p-6 bg-yellow-300 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] mb-8 cursor-default relative w-full md:w-auto mx-auto"
           >
-            <div className="flex items-center gap-6">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
               <img
                 src="/favicon.png"
                 alt="Mascot"
                 className="w-16 h-16 md:w-20 md:h-20 drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]"
               />
-              <h1 className="text-5xl md:text-6xl font-black text-black uppercase tracking-tight">
+              <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-black uppercase tracking-tight text-center md:text-left">
                 Calculators Hub
               </h1>
             </div>
