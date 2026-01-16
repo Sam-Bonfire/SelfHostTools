@@ -1,0 +1,39 @@
+{
+    "name": "visualizers",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "test": "vitest run",
+        "build": "vite build",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "@packages/components": "^1.0.0",
+        "@packages/styling": "*",
+        "autoprefixer": "^10.4.23",
+        "clsx": "^2.1.1",
+        "framer-motion": "^12.26.1",
+        "html2canvas": "^1.4.1",
+        "jspdf": "^4.0.0",
+        "lucide-react": "^0.562.0",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-router-dom": "^7.12.0",
+        "tailwind-merge": "^3.4.0",
+        "tailwindcss-animate": "^1.0.7"
+    },
+    "devDependencies": {
+        "@types/react": "^18.2.15",
+        "@types/react-dom": "^18.2.7",
+        "@vitejs/plugin-react": "^4.0.3",
+        "eslint": "^8.45.0",
+        "eslint-plugin-react": "^7.32.2",
+        "eslint-plugin-react-hooks": "^4.6.0",
+        "eslint-plugin-react-refresh": "^0.4.3",
+        "tailwindcss": "^3.4.19",
+        "vite": "^7.3.1",
+        "vitest": "^4.0.17"
+    }
+}

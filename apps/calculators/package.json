@@ -11,6 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@packages/components": "^1.0.0",
     "@packages/styling": "*",
     "autoprefixer": "^10.4.23",
     "framer-motion": "^12.26.1",
