@@ -27,16 +27,16 @@ The project uses `npm` workspaces to manage dependencies and link packages local
 *   **`@packages/styling`** (`packages/styling`): Shared UI library.
     *   **Design System**: "Neo-Brutalism".
     *   **Exports**: `Card`, `Button`, `Input`, `Checkbox`, `Tooltip`.
-28: *   **`@packages/components`** (`packages/components`): Shared React components.
-29:     *   **Purpose**: To share logic-heavy components like `SEO` across apps.
-30:
-31: #### 1. Applications (`apps/`)
-32: *   **`calculators`** (`apps/calculators`): The flagship application.
-33:     *   **Purpose**: To provide high-fidelity financial planning tools.
-34:     *   **Key Tech**: React, Vite, Vitest.
-35: *   **`visualizers`** (`apps/visualizers`): Interactive visualization tools.
-36:     *   **Purpose**: Memento Mori and Life Planning tools.
-37:     *   **Key Tech**: React, Vite, Framer Motion.
+    
+*   **`@packages/components`** (`packages/components`): Shared React components.
+    *   **Purpose**: To share logic-heavy components like `SEO` across apps.
+#### 2. Applications (`apps/`)
+*   **`calculators`** (`apps/calculators`): The flagship application.
+    *   **Purpose**: To provide high-fidelity financial planning tools.
+    *   **Key Tech**: React, Vite, Vitest.
+*   **`visualizers`** (`apps/visualizers`): Interactive visualization tools.
+    *   **Purpose**: Memento Mori and Life Planning tools.
+    *   **Key Tech**: React, Vite, Framer Motion.
 
 
 ## 🛠️ Setup & Development

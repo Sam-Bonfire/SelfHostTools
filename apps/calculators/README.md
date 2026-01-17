@@ -12,6 +12,13 @@ Standard calculators often mislead users by using gross numbers. This suite adhe
 
 ## 🧮 Calculator Modules
 
+### 0. Calculator Hub (Home)
+*   **Logic**: `src/components/Root.jsx`
+*   **Features**:
+    *   **Dynamic Search**: Real-time filtering by name and description.
+    *   **Category Filters**: Scrollable Neo-Brutalist buttons with auto-centering logic.
+    *   **Accessibility**: Hidden scrollbars with Chevron navigation for keyboard/mouse users.
+
 ### 1. Freelance Real Income Calculator
 *   **Logic**: `src/lib/freelanceLogic.js`
 *   **Tests**: `src/tests/freelanceLogic.test.js`
@@ -97,6 +104,13 @@ Standard calculators often mislead users by using gross numbers. This suite adhe
 
 ---
 
+### 13. Invest vs Payoff Calculator
+*   **Logic**: `src/lib/investVsPayoffLogic.js`
+*   **Tests**: `src/tests/investVsPayoffLogic.test.js`
+*   **Features**: Compare net worth outcomes of investing surplus vs aggressively paying debt.
+
+---
+
 ## 🛠 Shared Utilities & Architecture
 
 ### Logic Separation
@@ -109,8 +123,8 @@ A centralized export engine located in `src/lib/`.
 *   **PDF Generation**: Uses `jspdf` and `jspdf-autotable`. Generates branded reports.
 *   **Excel Export**: Uses `xlsx`. Creates multi-sheet workbooks with raw data.
 
-### SEO Component (`src/components/SEO.jsx`)
-Injects `react-helmet-async` tags for Title, Description, Canonical URLs (via `VITE_SITE_URL`), and JSON-LD Structured Data Schema.
+### SEO Component
+Now a shared component imported from `@packages/components`. Injects `react-helmet-async` tags for Title, Description, Canonical URLs (via `VITE_SITE_URL`), and JSON-LD Structured Data Schema.
 
 ### UI Standardization
 Starting from Phase 6, all calculators use a unified layout system from `@packages/styling`:

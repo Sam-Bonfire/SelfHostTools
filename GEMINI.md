@@ -73,6 +73,16 @@ This document records the user-driven evolution of the **SelfHostTools** project
     *   **Sitemap Resilience**: Upgraded `generate-sitemap.js` to intelligently search for `.env.local` in both package and root directories, preventing build failures in different environments.
     *   **Environment Parsing**: strictly handled varying line endings (`\r\n` vs `\n`) in environment file parsing.
 
+### Phase 9: Visualizers & Interactive Hub
+*   **New Workspace: `apps/visualizers`**: Created a dedicated app for non-financial, visual tools.
+    *   **Memento Mori**: A life calendar visualizer ("Weeks of Your Life").
+    *   **Features**: Animated grid filling, "True Freedom" mode (deducting sleep/work), and PDF Export.
+*   **Shared Components**: Extracted `SEO` logic to `@packages/components` to share between Calculators and Visualizers.
+*   **Calculator Hub 2.0 (`Root.jsx`)**:
+    *   **Search**: Expandable, Neo-Brutalist search bar.
+    *   **Filtering**: Dynamic category buttons with auto-scroll-to-center logic.
+    *   **A11y**: Hidden native scrollbars with custom navigation controls (Chevrons).
+
 ---
 
 ## 🧭 Current Trajectory
