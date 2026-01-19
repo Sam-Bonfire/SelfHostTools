@@ -48,8 +48,8 @@ Write-Host "--------------------------------------------------"
 # 2. Build the Project
 Write-Host "[BUILD] Building 'calculators' workspace..."
 
-$npmArgs = "run", "build", "--workspace=calculators", "-s", "--", "--logLevel", "warn"
-$process = Start-Process -FilePath "npm.cmd" -ArgumentList $npmArgs -NoNewWindow -PassThru -Wait
+$npmArgs = "--filter", "calculators", "run", "build", "-s", "--", "--logLevel", "warn"
+$process = Start-Process -FilePath "pnpm.cmd" -ArgumentList $npmArgs -NoNewWindow -PassThru -Wait
 
 if ($process.ExitCode -ne 0) {
     Write-Error "[ERROR] Build failed with exit code $($process.ExitCode)"

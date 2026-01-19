@@ -4,9 +4,13 @@
   "main": "src/index.js",
   "peerDependencies": {
     "react": ">=18.0.0",
-    "react-dom": ">=18.0.0"
+    "react-dom": ">=18.0.0",
+    "react-router-dom": ">=6.0.0"
   },
   "dependencies": {
-    "framer-motion": "^12.26.1"
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.26.1",
+    "lucide-react": "^0.562.0",
+    "tailwind-merge": "^3.4.0"
   }
 }

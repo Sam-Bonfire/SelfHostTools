@@ -16,7 +16,7 @@ A stoic "Life Calendar" that visualizes your life in weeks.
 
 Run the app locally:
 ```bash
-npm run dev --workspace=apps/visualizers
+pnpm --filter apps/visualizers run dev
 ```
 App will start at `http://localhost:5174`.
 

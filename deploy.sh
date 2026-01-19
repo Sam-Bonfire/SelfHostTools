@@ -10,7 +10,7 @@ echo "🚀 Starting Deployment to $DEST_HOST..."
 
 # 1. Build the project
 echo "📦 Building project..."
-npm run build --workspace=calculators
+pnpm --filter calculators run build
 
 if [ $? -ne 0 ]; then
     echo "❌ Build failed!"

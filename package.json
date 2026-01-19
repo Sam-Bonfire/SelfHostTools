@@ -7,9 +7,12 @@
     "apps/visualizers"
   ],
   "scripts": {
-    "build": "npm run build --workspaces --if-present",
-    "build:style": "npm run build --workspace=@packages/styling",
-    "clean": "npx rimraf node_modules apps/*/node_modules packages/*/node_modules apps/*/dist packages/*/dist coverage"
+    "build": "pnpm -r --if-present build",
+    "build:style": "pnpm --filter @packages/styling build",
+    "clean": "npx rimraf node_modules apps/*/node_modules packages/*/node_modules apps/*/dist packages/*/dist coverage",
+    "dev": "pnpm --filter calculators dev",
+    "dev:calc": "pnpm --filter calculators dev",
+    "dev:viz": "pnpm --filter visualizers dev"
   },
   "devDependencies": {},
   "dependencies": {

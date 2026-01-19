@@ -160,9 +160,9 @@ The build process **requires** the `VITE_SITE_URL` environment variable to preve
 ### Build Command
 The standard build pipeline is:
 ```bash
-npm run build
+pnpm run build
 # Chains:
-# 1. npm run test (Validate Logic)
-# 2. npm run generate-sitemap (Update SEO)
+# 1. pnpm run test (Validate Logic)
+# 2. pnpm run generate-sitemap (Update SEO)
 # 3. vite build (Compile App)
 ```

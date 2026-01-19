@@ -4,7 +4,7 @@
 
 ## 📂 Architecture & Monorepo Structure
 
-The project uses `npm` workspaces to manage dependencies and link packages locally.
+The project uses `pnpm` workspaces to manage dependencies and link packages locally.
 
 ### Root Directory
 *   **`package.json`**: Definition of workspaces (`apps/*`, `packages/*`) and root-level scripts.
@@ -44,7 +44,7 @@ The project uses `npm` workspaces to manage dependencies and link packages local
 ### 1. Installation
 ```bash
 # From project root
-npm install
+pnpm install
 ```
 
 ### 2. Environment Configuration
@@ -57,20 +57,20 @@ cp .env.example .env
 To work on the calculators app:
 ```bash
 # From project root
-npm run dev --workspace=calculators
+pnpm --filter calculators run dev
 ```
 This spins up a Vite dev server (usually at `http://localhost:5173`).
 
 ### 4. Running Tests
 To run the unit test suite for calculators:
 ```bash
-npm exec --workspace=calculators -- vitest run
+pnpm --filter calculators exec -- vitest run
 ```
 
 ### 5. Building
 To build all packages for production:
 ```bash
-npm run build --workspaces
+pnpm -r build
 ```
 This generates `dist/` artifacts in each package folder.
 
