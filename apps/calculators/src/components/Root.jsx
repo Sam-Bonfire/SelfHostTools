@@ -130,13 +130,31 @@ const CALCULATORS = [
 export default function Root() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [isSearchExpanded, setIsSearchExpanded] = useState(false);
+  const [isSearchExpanded, setIsSearchExpanded] = useState(() => {
+    // Default to expanded on mobile (window width < 768px)
+    if (typeof window !== "undefined") {
+      return window.innerWidth < 768;
+    }
+    return false;
+  });
   const scrollContainerRef = React.useRef(null);
   const itemsRef = React.useRef({});
 
   const categories = useMemo(() => {
     const cats = new Set(CALCULATORS.map(c => c.category));
     return ["All", ...Array.from(cats)];
+  }, []);
+
+  // Handle auto-expansion on mobile resize
+  React.useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setIsSearchExpanded(true);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const filteredCalculators = useMemo(() => {
@@ -259,7 +277,7 @@ export default function Root() {
           </motion.div>
 
           {/* Controls Row: Filters & Search */}
-          <div className="w-full flex flex-col md:flex-row items-center justify-between gap-4 mt-12 mb-2">
+          <div className="w-full flex flex-col md:flex-row items-center justify-between gap-2 md:gap-4 mt-12 mb-2">
 
             {/* Category Filters - Scrollable with Buttons */}
             <div className="flex items-center gap-2 w-full md:w-auto overflow-hidden">
@@ -273,7 +291,7 @@ export default function Root() {
 
               <div
                 ref={scrollContainerRef}
-                className="flex flex-nowrap gap-3 overflow-x-auto scrollbar-hide pb-2 md:pb-0 w-full md:w-auto mask-linear-gradient"
+                className="flex flex-nowrap gap-3 overflow-x-auto scrollbar-hide py-2 md:py-4 px-2 w-full md:w-auto mask-linear-gradient"
                 style={{ scrollBehavior: 'smooth' }}
               >
                 {categories.map(cat => {
