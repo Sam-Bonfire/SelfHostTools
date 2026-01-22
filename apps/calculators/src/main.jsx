@@ -22,6 +22,7 @@ const TrueHourlyWageCalculator = React.lazy(() => import('./components/TrueHourl
 const JobRelocationCalculator = React.lazy(() => import('./components/JobRelocationCalculator.jsx'));
 const TDEECalculator = React.lazy(() => import('./components/TDEECalculator.jsx'));
 const InvestVsLoanCalculator = React.lazy(() => import('./components/InvestVsLoanCalculator.jsx'));
+const Feedback = React.lazy(() => import('./components/Feedback.jsx'));
 
 // Loading Spinner
 const Loading = () => (
@@ -96,6 +97,10 @@ const router = createHashRouter([
       {
         path: '/invest-vs-payoff',
         element: <InvestVsLoanCalculator />,
+      },
+      {
+        path: '/feedback',
+        element: <Feedback />,
       },
       {
         path: '/403',

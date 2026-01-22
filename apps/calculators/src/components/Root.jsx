@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Calculator, ArrowRight, TrendingUp, Home, Umbrella, Flame, Briefcase, Lock, GraduationCap, Hammer, MapPin, Search, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Calculator, ArrowRight, TrendingUp, Home, Umbrella, Flame, Briefcase, Lock, GraduationCap, Hammer, MapPin, Search, X, ChevronLeft, ChevronRight, MessageSquarePlus } from 'lucide-react';
 import { Card, Button, Input } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 import Footer from './Footer';
@@ -416,19 +416,27 @@ export default function Root() {
           {/* Placeholder for future calculators - Only show if showing All or no results? Maybe just always hide when filtering to avoid clutter. 
               Let's show it only if selectedCategory is All and no search query. */}
           {selectedCategory === 'All' && !searchQuery && (
-            <Card className="h-full opacity-60 flex flex-col">
-              <div className="bg-gray-200 p-6 border-b-4 border-black">
-                <Calculator className="w-8 h-8 text-gray-500" />
-              </div>
-              <div className="p-6 flex-1 flex flex-col">
-                <h2 className="text-2xl font-black text-gray-500 mb-3">
-                  More Coming Soon
-                </h2>
-                <p className="text-gray-500 font-medium">
-                  We are working on adding more calculators for investment, tax, and health. Stay tuned!
-                </p>
-              </div>
-            </Card>
+            <Link to="/feedback" className="group block h-full decoration-transparent">
+              <Card className="h-full hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200 cursor-pointer flex flex-col">
+                <div className="bg-purple-300 p-6 border-b-4 border-black flex items-center justify-between">
+                  <MessageSquarePlus className="w-8 h-8 text-black" />
+                  <ArrowRight className="w-6 h-6 opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1 text-black" />
+                </div>
+                <div className="p-6 flex-1 flex flex-col">
+                  <h2 className="text-2xl font-black text-black mb-3 group-hover:underline decoration-4 decoration-black underline-offset-4 tracking-tight">
+                    Have an Idea?
+                  </h2>
+                  <p className="text-gray-700 font-medium mb-6">
+                    We are constantly building more tools. Tell us what calculator you need next!
+                  </p>
+                  <div className="mt-auto">
+                    <span className="inline-block px-3 py-1 bg-black text-white text-sm font-bold uppercase tracking-wider">
+                      Suggest
+                    </span>
+                  </div>
+                </div>
+              </Card>
+            </Link>
           )}
 
         </main>
