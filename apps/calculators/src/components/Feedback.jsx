@@ -37,12 +37,12 @@ export default function Feedback() {
                 </div>
 
                 {/* Content */}
-                <Card className="min-h-[600px] border-4 border-black p-1 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] bg-white">
-                    <div className="w-full h-full min-h-[600px] bg-gray-50 flex flex-col items-center justify-center p-8">
+                <Card className="min-h-[1200px] border-0 shadow-none bg-transparent">
+                    <div className="w-full h-full min-h-[1200px] flex flex-col items-center justify-center">
                         {import.meta.env.VITE_NOTION_FORM_URL ? (
                             <iframe
                                 src={import.meta.env.VITE_NOTION_FORM_URL}
-                                className="w-full h-full min-h-[600px] border-0"
+                                className="w-full h-full min-h-[1200px] border-0"
                                 title="Feedback Form"
                                 loading="lazy"
                             />
