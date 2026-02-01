@@ -112,6 +112,40 @@ export const downloadPDF = async (data) => {
       ['Winner', results.winner.toUpperCase()],
       ['Wealth Difference', `INR ${formatCurrency(Math.abs(results.buyNetWealth - results.rentNetWealth), true)}`]
     ];
+  } else if (inputs.monthlyRent !== undefined && inputs.propertyPrice !== undefined) {
+    // BUY VS RENT
+    summaryData = [
+      ['Property Price', `INR ${formatCurrency(inputs.propertyPrice, true)}`],
+      ['Interest Rate', `${inputs.interestRate}%`],
+      ['Monthly Rent', `INR ${formatCurrency(inputs.monthlyRent, true)}`],
+      ['Rent Inflation', `${inputs.rentInflation}%`],
+      ['Tenure', `${inputs.tenure} Years`],
+      ['Buy Wealth (Net)', `INR ${formatCurrency(results.buyNetWealth, true)}`],
+      ['Rent Wealth (Net)', `INR ${formatCurrency(results.rentNetWealth, true)}`],
+      ['Winner', results.winner.toUpperCase()],
+      ['Wealth Difference', `INR ${formatCurrency(Math.abs(results.buyNetWealth - results.rentNetWealth), true)}`]
+    ];
+  } else if (inputs.estReturnRate !== undefined && inputs.initialInvestment !== undefined) {
+    // ALTERNATE INVESTMENT (Active vs Passive)
+    summaryData = [
+      ['Initial Investment', `INR ${formatCurrency(inputs.initialInvestment, true)}`],
+      ['Monthly Contribution', `INR ${formatCurrency(inputs.monthlyContribution, true)}`],
+      ['Time Horizon', `${inputs.years} Years`],
+      ['Exp. Return', `${inputs.estReturnRate}%`],
+      ['Inflation', `${inputs.inflationRate}%`],
+      ['Tax Rate', `${inputs.taxRate}%`],
+      ['Active Investment?', inputs.isActiveInvestment ? 'YES' : 'NO'],
+      ['Weekly Active Hours', inputs.isActiveInvestment ? inputs.activeHoursPerWeek : '0'],
+      ['Hourly Value', inputs.isActiveInvestment ? `INR ${formatCurrency(inputs.userHourlyRate, true)}` : 'N/A'],
+      ['Nominal Value', `INR ${formatCurrency(results.nominalValue, true)}`],
+      ['Real Value (After Tax/Inf)', `INR ${formatCurrency(results.realValue, true)}`],
+      ['Time Cost', `INR ${formatCurrency(results.totalTimeCost, true)}`],
+      ['TRUE Profit (After Time)', `INR ${formatCurrency(results.netRealProfitAfterTime, true)}`],
+      ['Real ROI', `${results.roi.truePassive.toFixed(2)}%`],
+      ['Benchmark (NIFTY 50)', `INR ${formatCurrency(results.benchmark.realValue, true)}`],
+      ['Verdict', results.benchmark.isBeatingMarket ? 'BEAT MARKET' : 'UNDERPERFORMED'],
+      ['Alpha (Excess Return)', `INR ${formatCurrency(results.benchmark.alpha, true)}`]
+    ];
   } else if (inputs.currentBaseSalary !== undefined) {
     // GOLDEN HANDCUFFS
     summaryData = [
@@ -293,6 +327,27 @@ export const downloadExcel = async (data) => {
       ['Estimated Corpus', results.estimatedCorpusAtRetirement],
       ['Shortfall', results.shortfall],
       ['Status', results.canRetire ? 'ON TRACK' : 'WORK IN PROGRESS']
+    ];
+  } else if (inputs.estReturnRate !== undefined && inputs.initialInvestment !== undefined) {
+    // ALTERNATE INVESTMENT (Active vs Passive)
+    summaryRows = [
+      ['Initial Investment', inputs.initialInvestment],
+      ['Monthly Contribution', inputs.monthlyContribution],
+      ['Time Horizon', inputs.years],
+      ['Exp. Return (%)', inputs.estReturnRate],
+      ['Inflation (%)', inputs.inflationRate],
+      ['Tax Rate (%)', inputs.taxRate],
+      ['Active Investment?', inputs.isActiveInvestment ? 'YES' : 'NO'],
+      ['Weekly Active Hours', inputs.isActiveInvestment ? inputs.activeHoursPerWeek : '0'],
+      ['Hourly Value', inputs.userHourlyRate],
+      ['Nominal Value', results.nominalValue],
+      ['Real Value (After Tax/Inf)', results.realValue],
+      ['Time Cost', results.totalTimeCost],
+      ['TRUE Profit', results.netRealProfitAfterTime],
+      ['Real ROI (%)', results.roi.truePassive],
+      ['Benchmark (NIFTY 50)', results.benchmark.realValue],
+      ['Verdict', results.benchmark.isBeatingMarket ? 'BEAT MARKET' : 'UNDERPERFORMED'],
+      ['Alpha', results.benchmark.alpha]
     ];
   } else if (inputs.monthlyExpense !== undefined) {
     // LIFE INSURANCE

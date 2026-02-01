@@ -48,7 +48,7 @@ Write-Host "--------------------------------------------------"
 # 2. Build the Project
 Write-Host "[BUILD] Building 'calculators' workspace..."
 
-$npmArgs = "--filter", "calculators", "run", "build", "-s", "--", "--logLevel", "warn"
+$npmArgs = "--filter", "calculators", "run", "build", "--", "--logLevel", "warn"
 $process = Start-Process -FilePath "pnpm.cmd" -ArgumentList $npmArgs -NoNewWindow -PassThru -Wait
 
 if ($process.ExitCode -ne 0) {
@@ -72,7 +72,7 @@ if (-not (Test-Path $DestinationPath)) {
 }
 else {
     Write-Host "   Cleaning up old HTML, CSS, and JS files..."
-    Get-ChildItem -Path $DestinationPath -Include *.html, *.css, *.js -Recurse | Remove-Item -Force
+    Get-ChildItem -Path $DestinationPath -Include *.html, *.css, *.js, *.ico, *.png, *.webp, *.txt, *.xml -Recurse | Remove-Item -Force
 }
 
 # Copy Files

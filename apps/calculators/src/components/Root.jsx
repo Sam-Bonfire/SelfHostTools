@@ -124,6 +124,15 @@ const CALCULATORS = [
     icon: TrendingUp,
     color: "bg-lime-400",
     textColor: "text-black"
+  },
+  {
+    path: "/alternate-investment",
+    name: "Active vs Passive",
+    desc: "The 'Sweat Equity' check. Calculate real ROI of businesses/rentals by deducting your time cost & inflation.",
+    category: "Business",
+    icon: Briefcase,
+    color: "bg-cyan-400",
+    textColor: "text-black"
   }
 ];
 
