@@ -137,7 +137,7 @@ export const calculateEducationLoan = ({
     let scheduleDate = new Date(repaymentStartDate);
     let yearlyInterest = 0;
     let yearlyPrincipal = 0;
-    let currentScheduleYear = scheduleDate.getFullYear();
+    let currentScheduleYear = isAdvanced ? scheduleDate.getFullYear() : 1;
 
     if (balance > 0) {
         while (balance > 1 && monthsElapsed < 1200) {
@@ -155,11 +155,11 @@ export const calculateEducationLoan = ({
             yearlyInterest += interestForMonth;
             yearlyPrincipal += principalForMonth;
 
-            const entryYear = scheduleDate.getFullYear();
+            const entryYear = isAdvanced ? scheduleDate.getFullYear() : Math.ceil(monthsElapsed / 12);
             if (entryYear !== currentScheduleYear || balance <= 0.1) {
                 newSchedule.push({
                     year: currentScheduleYear,
-                    label: isAdvanced ? `${currentScheduleYear}` : `Year ${Math.ceil(monthsElapsed / 12)}`,
+                    label: isAdvanced ? `${currentScheduleYear}` : `Year ${currentScheduleYear}`,
                     principal: yearlyPrincipal,
                     interest: yearlyInterest,
                     balance: balance
@@ -195,7 +195,7 @@ export const calculateEducationLoan = ({
         if (yearlyPrincipal > 0 || yearlyInterest > 0) {
             newSchedule.push({
                 year: currentScheduleYear,
-                label: isAdvanced ? `${currentScheduleYear}` : `Year ${Math.ceil(monthsElapsed / 12)}`,
+                label: isAdvanced ? `${currentScheduleYear}` : `Year ${currentScheduleYear}`,
                 principal: yearlyPrincipal,
                 interest: yearlyInterest,
                 balance: balance
