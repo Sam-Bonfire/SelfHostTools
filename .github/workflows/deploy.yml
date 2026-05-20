@@ -11,8 +11,9 @@ on:
       - master
 
 jobs:
-  validate-and-deploy:
-    name: Build, Test, and Deploy
+  # Job 1: Run validation tests across all workspaces
+  test:
+    name: Run Unit Tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -30,29 +31,75 @@ jobs:
           cache: 'pnpm'
 
       - name: Install Dependencies
-        run: pnpm install
+        run: pnpm install --no-frozen-lockfile
 
       - name: Run Tests
         run: pnpm -r --if-present test
+
+  # Job 2: Build and deploy Calculators (Only on branch push, after tests pass)
+  deploy-calculators:
+    name: Deploy Calculators
+    needs: test
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install Dependencies
+        run: pnpm install --no-frozen-lockfile
 
       - name: Build Calculators
         run: pnpm --filter calculators run build
         env:
           VITE_SITE_URL: https://self-host-calculators.pages.dev
 
-      - name: Build Visualizers
-        run: pnpm --filter visualizers run build
-
       - name: Deploy Calculators to Cloudflare Pages
-        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy apps/calculators/dist --project-name=self-host-calculators
 
+  # Job 3: Build and deploy Visualizers (Only on branch push, after tests pass)
+  deploy-visualizers:
+    name: Deploy Visualizers
+    needs: test
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install Dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Build Visualizers
+        run: pnpm --filter visualizers run build
+
       - name: Deploy Visualizers to Cloudflare Pages
-        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
