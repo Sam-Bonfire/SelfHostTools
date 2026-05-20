@@ -38,7 +38,7 @@ jobs:
       - name: Build Calculators
         run: pnpm --filter calculators run build
         env:
-          VITE_SITE_URL: https://calculators.pages.dev
+          VITE_SITE_URL: https://self-host-calculators.pages.dev
 
       - name: Build Visualizers
         run: pnpm --filter visualizers run build
@@ -49,7 +49,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy apps/calculators/dist --project-name=calculators
+          command: pages deploy apps/calculators/dist --project-name=self-host-calculators
 
       - name: Deploy Visualizers to Cloudflare Pages
         if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
@@ -57,4 +57,4 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy apps/visualizers/dist --project-name=visualizers
+          command: pages deploy apps/visualizers/dist --project-name=self-host-visualizers

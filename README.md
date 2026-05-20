@@ -8,8 +8,6 @@ The project uses `pnpm` workspaces to manage dependencies and link packages loca
 
 ### Root Directory
 *   **`package.json`**: Definition of workspaces (`apps/*`, `packages/*`) and root-level scripts.
-*   **`deploy.ps1`**: PowerShell deployment script for Windows environments.
-*   **`deploy.sh`**: Shell deployment script for Linux/macOS environments.
 *   **`.env.example`**: Template for environment variables. Create `.env` locally.
 
 ### Workspaces
@@ -76,21 +74,15 @@ This generates `dist/` artifacts in each package folder.
 
 ## 🚀 Deployment Strategy
 
-The project supports both automated CDN hosting and traditional local/network server self-hosting.
+The project's primary deployment pipeline is managed automatically via **GitHub Actions** and hosted on **Cloudflare Pages** for ultra-low costs and global CDN delivery.
 
-### 1. Automated CI/CD (Recommended)
-The primary deployment pipeline is managed automatically via **GitHub Actions** and hosted on **Cloudflare Pages** for ultra-low costs and global CDN delivery.
-
+### Automated CI/CD
 *   **Workflow file**: `.github/workflows/deploy.yml`
 *   **Process**: Every push to the `main` or `master` branch triggers the GitHub workflow, which:
     1.  Sets up Node.js and caches dependencies (`pnpm`).
     2.  Runs all workspace unit tests (`pnpm test`) to prevent regressions.
     3.  Compiles both `apps/calculators` and `apps/visualizers` independently.
-    4.  Deploys the static assets to Cloudflare Pages under the project names `calculators` and `visualizers` respectively.
+    4.  Deploys the static assets to Cloudflare Pages under the project names `self-host-calculators` and `self-host-visualizers` respectively.
 *   **Prerequisites**: Requires `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` to be configured as secrets on your GitHub repository.
 
-### 2. Legacy/Local Deployments (WebDAV)
-Traditional deployment scripts remain available for custom hosting setups:
-*   **Windows (`deploy.ps1`)**: Builds `apps/calculators` and copies the output to a mapped network folder (such as WebDAV/SMB).
-*   **Linux/macOS (`deploy.sh`)**: Performs the build and copies to local/mounted directory or details standard `scp` transfer options.
 
