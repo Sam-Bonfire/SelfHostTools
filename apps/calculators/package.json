@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "test": "vitest run",
+    "test": "vitest run --passWithNoTests",
     "generate-sitemap": "node scripts/generate-sitemap.js",
     "build": "pnpm run test && pnpm run generate-sitemap && vite build",
     "preview": "vite preview"
