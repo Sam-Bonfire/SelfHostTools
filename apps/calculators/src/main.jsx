@@ -2,7 +2,9 @@ import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import { createHashRouter, RouterProvider, Outlet } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
+import { registerSW } from 'virtual:pwa-register';
 import Root from './components/Root.jsx';
+import PWAInstallPrompt from './components/PWAInstallPrompt.jsx';
 import NotFound from './components/NotFound.jsx';
 import Forbidden from './components/Forbidden.jsx';
 import ScrollToTop from './components/ScrollToTop.jsx';
@@ -37,6 +39,7 @@ const router = createHashRouter([
     element: (
       <>
         <ScrollToTop />
+        <PWAInstallPrompt />
         <Suspense fallback={<Loading />}>
           <Outlet />
         </Suspense>
@@ -126,3 +129,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </HelmetProvider>
   </React.StrictMode>
 );
+
+// Register Service Worker
+registerSW({ immediate: true });
