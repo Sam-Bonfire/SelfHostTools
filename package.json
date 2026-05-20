@@ -14,7 +14,9 @@
     "dev:calc": "pnpm --filter calculators dev",
     "dev:viz": "pnpm --filter visualizers dev"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "wrangler": "^3.90.0"
+  },
   "dependencies": {
     "clsx": "^2.1.1",
     "lucide-react": "^0.562.0",
