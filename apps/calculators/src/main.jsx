@@ -25,6 +25,9 @@ const JobRelocationCalculator = React.lazy(() => import('./components/JobRelocat
 const TDEECalculator = React.lazy(() => import('./components/TDEECalculator.jsx'));
 const InvestVsLoanCalculator = React.lazy(() => import('./components/InvestVsLoanCalculator.jsx'));
 const AlternateInvestmentCalculator = React.lazy(() => import('./components/AlternateInvestmentCalculator.jsx'));
+const SaasLeakCalculator = React.lazy(() => import('./components/SaasLeakCalculator.jsx'));
+const TimeBuyBackCalculator = React.lazy(() => import('./components/TimeBuyBackCalculator.jsx'));
+const InflationDestroyer = React.lazy(() => import('./components/InflationDestroyer.jsx'));
 const Feedback = React.lazy(() => import('./components/Feedback.jsx'));
 
 // Loading Spinner
@@ -105,6 +108,18 @@ const router = createHashRouter([
       {
         path: '/alternate-investment',
         element: <AlternateInvestmentCalculator />,
+      },
+      {
+        path: '/saas-leak',
+        element: <SaasLeakCalculator />,
+      },
+      {
+        path: '/time-buyback',
+        element: <TimeBuyBackCalculator />,
+      },
+      {
+        path: '/inflation-destroyer',
+        element: <InflationDestroyer />,
       },
       {
         path: '/feedback',

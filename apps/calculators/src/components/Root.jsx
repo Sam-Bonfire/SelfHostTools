@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Calculator, ArrowRight, TrendingUp, Home, Umbrella, Flame, Briefcase, Lock, GraduationCap, Hammer, MapPin, Search, X, ChevronLeft, ChevronRight, MessageSquarePlus } from 'lucide-react';
+import { Calculator, ArrowRight, TrendingUp, Home, Umbrella, Flame, Briefcase, Lock, GraduationCap, Hammer, MapPin, Search, X, ChevronLeft, ChevronRight, MessageSquarePlus, Zap } from 'lucide-react';
 import { Card, Button, Input } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 import Footer from './Footer';
@@ -133,6 +133,33 @@ const CALCULATORS = [
     icon: Briefcase,
     color: "bg-cyan-400",
     textColor: "text-black"
+  },
+  {
+    path: "/saas-leak",
+    name: "SaaS Subscription Leak",
+    desc: "Calculate the compound opportunity cost of your subscriptions. See how compounding returns and active labor hours drain your wealth.",
+    category: "Finance",
+    icon: Flame,
+    color: "bg-rose-400",
+    textColor: "text-black"
+  },
+  {
+    path: "/time-buyback",
+    name: "Time Buy-Back Delegate",
+    desc: "Should you outsource that chore? Calculate delegation ROI using your true net hourly wage, energy drain multipliers, and reinvestment upside.",
+    category: "Career",
+    icon: Zap,
+    color: "bg-violet-400",
+    textColor: "text-black"
+  },
+  {
+    path: "/inflation-destroyer",
+    name: "Inflation Destroyer",
+    desc: "Watch inflation silently devour your cash savings. Translate rupee erosion into real goods lost and compare against market investing.",
+    category: "Finance",
+    icon: Flame,
+    color: "bg-orange-500",
+    textColor: "text-white"
   }
 ];
 

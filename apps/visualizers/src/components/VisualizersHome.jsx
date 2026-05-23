@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Calendar, ArrowRight } from 'lucide-react';
+import { Calendar, ArrowRight, GitFork, Landmark, Flame, Sun, Clock } from 'lucide-react';
 import { Card } from '@packages/styling';
 import { motion } from 'framer-motion';
 
@@ -54,20 +54,115 @@ export default function VisualizersHome() {
                         </Card>
                     </Link>
 
-                    {/* Placeholder for future visualizers */}
-                    <Card className="h-full opacity-60 flex flex-col">
-                        <div className="bg-gray-200 p-6 border-b-4 border-black">
-                            <Calendar className="w-8 h-8 text-gray-500" />
-                        </div>
-                        <div className="p-6 flex-1 flex flex-col">
-                            <h2 className="text-2xl font-black text-gray-500 mb-3">
-                                More Coming Soon
-                            </h2>
-                            <p className="text-gray-500 font-medium">
-                                We are building more tools to visualize data and life metrics.
-                            </p>
-                        </div>
-                    </Card>
+                    <Link to="/sankey-flowchart" className="group block h-full decoration-transparent">
+                        <Card className="h-full hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200 cursor-pointer flex flex-col">
+                            <div className="bg-[#FFDE59] p-6 border-b-4 border-black flex items-center justify-between">
+                                <GitFork className="w-8 h-8 text-black" />
+                                <ArrowRight className="w-6 h-6 text-black opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1" />
+                            </div>
+                            <div className="p-6 flex-1 flex flex-col">
+                                <h2 className="text-2xl font-black text-black mb-3 group-hover:underline decoration-4 decoration-black underline-offset-4">
+                                    Capital Flow Sankey
+                                </h2>
+                                <p className="text-gray-700 font-medium mb-6 flex-1">
+                                    Track where your money goes. An interactive flow diagram mapping income streams directly to your expenses.
+                                </p>
+                                <div className="mt-auto">
+                                    <span className="inline-block px-3 py-1 bg-black text-white text-sm font-bold uppercase tracking-wider">
+                                        Finance
+                                    </span>
+                                </div>
+                            </div>
+                        </Card>
+                    </Link>
+
+                    <Link to="/compound-sandbox" className="group block h-full decoration-transparent">
+                        <Card className="h-full hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200 cursor-pointer flex flex-col">
+                            <div className="bg-blue-400 p-6 border-b-4 border-black flex items-center justify-between">
+                                <Landmark className="w-8 h-8 text-black" />
+                                <ArrowRight className="w-6 h-6 text-black opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1" />
+                            </div>
+                            <div className="p-6 flex-1 flex flex-col">
+                                <h2 className="text-2xl font-black text-black mb-3 group-hover:underline decoration-4 decoration-black underline-offset-4">
+                                    Compound Snowball
+                                </h2>
+                                <p className="text-gray-700 font-medium mb-6 flex-1">
+                                    Watch compounding wealth build inside a physics-based particle simulator. See contribution and interest coins bounce.
+                                </p>
+                                <div className="mt-auto">
+                                    <span className="inline-block px-3 py-1 bg-black text-white text-sm font-bold uppercase tracking-wider">
+                                        Simulation
+                                    </span>
+                                </div>
+                            </div>
+                        </Card>
+                    </Link>
+
+                    <Link to="/debt-race" className="group block h-full decoration-transparent">
+                        <Card className="h-full hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200 cursor-pointer flex flex-col">
+                            <div className="bg-red-400 p-6 border-b-4 border-black flex items-center justify-between">
+                                <Flame className="w-8 h-8 text-black" />
+                                <ArrowRight className="w-6 h-6 text-black opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1" />
+                            </div>
+                            <div className="p-6 flex-1 flex flex-col">
+                                <h2 className="text-2xl font-black text-black mb-3 group-hover:underline decoration-4 decoration-black underline-offset-4">
+                                    Repayment Race
+                                </h2>
+                                <p className="text-gray-700 font-medium mb-6 flex-1">
+                                    Compare Snowball and Avalanche payoff strategies in an interactive race to spot the fastest debt-free path.
+                                </p>
+                                <div className="mt-auto">
+                                    <span className="inline-block px-3 py-1 bg-black text-white text-sm font-bold uppercase tracking-wider">
+                                        Gaming
+                                    </span>
+                                </div>
+                            </div>
+                        </Card>
+                    </Link>
+
+                    <Link to="/runway-horizon" className="group block h-full decoration-transparent">
+                        <Card className="h-full hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200 cursor-pointer flex flex-col">
+                            <div className="bg-green-400 p-6 border-b-4 border-black flex items-center justify-between">
+                                <Sun className="w-8 h-8 text-black" />
+                                <ArrowRight className="w-6 h-6 text-black opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1" />
+                            </div>
+                            <div className="p-6 flex-1 flex flex-col">
+                                <h2 className="text-2xl font-black text-black mb-3 group-hover:underline decoration-4 decoration-black underline-offset-4">
+                                    Runway Horizon
+                                </h2>
+                                <p className="text-gray-700 font-medium mb-6 flex-1">
+                                    A rolling interactive 2D landscape charting your financial runway duration and absolute lifestyle crash coordinates.
+                                </p>
+                                <div className="mt-auto">
+                                    <span className="inline-block px-3 py-1 bg-black text-white text-sm font-bold uppercase tracking-wider">
+                                        Horizon
+                                    </span>
+                                </div>
+                            </div>
+                        </Card>
+                    </Link>
+
+                    <Link to="/freedom-clock" className="group block h-full decoration-transparent">
+                        <Card className="h-full hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200 cursor-pointer flex flex-col">
+                            <div className="bg-[#FFDE59] p-6 border-b-4 border-black flex items-center justify-between">
+                                <Clock className="w-8 h-8 text-black" />
+                                <ArrowRight className="w-6 h-6 text-black opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1" />
+                            </div>
+                            <div className="p-6 flex-1 flex flex-col">
+                                <h2 className="text-2xl font-black text-black mb-3 group-hover:underline decoration-4 decoration-black underline-offset-4">
+                                    24-Hour Freedom Clock
+                                </h2>
+                                <p className="text-gray-700 font-medium mb-6 flex-1">
+                                    A gorgeous circular time auditor mapping how much of your day is dedicated to obligations versus pure freedom.
+                                </p>
+                                <div className="mt-auto">
+                                    <span className="inline-block px-3 py-1 bg-black text-white text-sm font-bold uppercase tracking-wider">
+                                        Time Audit
+                                    </span>
+                                </div>
+                            </div>
+                        </Card>
+                    </Link>
 
                 </main>
             </div>
