@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Calculator, ArrowRight, TrendingUp, Home, Umbrella, Flame, Briefcase, Lock, GraduationCap, Hammer, MapPin, Search, X, ChevronLeft, ChevronRight, MessageSquarePlus, Zap, Activity } from 'lucide-react';
+import { Calculator, ArrowRight, TrendingUp, Home, Umbrella, Flame, Briefcase, Lock, GraduationCap, Hammer, MapPin, Search, X, ChevronLeft, ChevronRight, MessageSquarePlus, Zap, Activity, Rocket } from 'lucide-react';
 import { Card, Button, Input } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 import Footer from './Footer';
@@ -168,6 +168,15 @@ const CALCULATORS = [
     category: "Finance",
     icon: Activity,
     color: "bg-rose-500",
+    textColor: "text-white"
+  },
+  {
+    path: "/solo-founder-runway",
+    name: "Solo-Founder Runway",
+    desc: "Find your true Break-Even and Freedom MRR. Deducts Stripe fees, hosting, churn, and taxes.",
+    category: "Strategy",
+    icon: Rocket,
+    color: "bg-purple-500",
     textColor: "text-white"
   }
 ];

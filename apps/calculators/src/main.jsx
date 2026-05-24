@@ -30,6 +30,7 @@ const TimeBuyBackCalculator = React.lazy(() => import('./components/TimeBuyBackC
 const InflationDestroyer = React.lazy(() => import('./components/InflationDestroyer.jsx'));
 const Feedback = React.lazy(() => import('./components/Feedback.jsx'));
 const LifestyleCreepCalculator = React.lazy(() => import('./components/LifestyleCreepCalculator.jsx'));
+const SoloFounderCalculator = React.lazy(() => import('./components/SoloFounderCalculator.jsx'));
 
 // Loading Spinner
 const Loading = () => (
@@ -125,6 +126,10 @@ const router = createHashRouter([
       {
         path: '/lifestyle-creep',
         element: <LifestyleCreepCalculator />,
+      },
+      {
+        path: '/solo-founder-runway',
+        element: <SoloFounderCalculator />,
       },
       {
         path: '/feedback',
