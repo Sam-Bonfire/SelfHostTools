@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Calculator, ArrowRight, TrendingUp, Home, Umbrella, Flame, Briefcase, Lock, GraduationCap, Hammer, MapPin, Search, X, ChevronLeft, ChevronRight, MessageSquarePlus, Zap } from 'lucide-react';
+import { Calculator, ArrowRight, TrendingUp, Home, Umbrella, Flame, Briefcase, Lock, GraduationCap, Hammer, MapPin, Search, X, ChevronLeft, ChevronRight, MessageSquarePlus, Zap, Activity } from 'lucide-react';
 import { Card, Button, Input } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 import Footer from './Footer';
@@ -159,6 +159,15 @@ const CALCULATORS = [
     category: "Finance",
     icon: Flame,
     color: "bg-orange-500",
+    textColor: "text-white"
+  },
+  {
+    path: "/lifestyle-creep",
+    name: "Lifestyle Creep",
+    desc: "The silent wealth destroyer. See what happens when you spend your raise vs. invest it over 20 years.",
+    category: "Finance",
+    icon: Activity,
+    color: "bg-rose-500",
     textColor: "text-white"
   }
 ];

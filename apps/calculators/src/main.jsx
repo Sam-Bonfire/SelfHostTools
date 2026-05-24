@@ -29,6 +29,7 @@ const SaasLeakCalculator = React.lazy(() => import('./components/SaasLeakCalcula
 const TimeBuyBackCalculator = React.lazy(() => import('./components/TimeBuyBackCalculator.jsx'));
 const InflationDestroyer = React.lazy(() => import('./components/InflationDestroyer.jsx'));
 const Feedback = React.lazy(() => import('./components/Feedback.jsx'));
+const LifestyleCreepCalculator = React.lazy(() => import('./components/LifestyleCreepCalculator.jsx'));
 
 // Loading Spinner
 const Loading = () => (
@@ -120,6 +121,10 @@ const router = createHashRouter([
       {
         path: '/inflation-destroyer',
         element: <InflationDestroyer />,
+      },
+      {
+        path: '/lifestyle-creep',
+        element: <LifestyleCreepCalculator />,
       },
       {
         path: '/feedback',
