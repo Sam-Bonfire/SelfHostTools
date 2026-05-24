@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Calculator, ArrowRight, TrendingUp, Home, Umbrella, Flame, Briefcase, Lock, GraduationCap, Hammer, MapPin, Search, X, ChevronLeft, ChevronRight, MessageSquarePlus, Zap, Activity, Rocket } from 'lucide-react';
+import { Calculator, ArrowRight, TrendingUp, Home, Umbrella, Flame, Briefcase, Lock, GraduationCap, Hammer, MapPin, Search, X, ChevronLeft, ChevronRight, MessageSquarePlus, Zap, Activity, Rocket, Car } from 'lucide-react';
 import { Card, Button, Input } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 import Footer from './Footer';
@@ -177,6 +177,15 @@ const CALCULATORS = [
     category: "Strategy",
     icon: Rocket,
     color: "bg-purple-500",
+    textColor: "text-white"
+  },
+  {
+    path: "/car-ownership",
+    name: "Car Ownership Realist",
+    desc: "Expose the hidden costs of depreciation, interest, and maintenance. Find your true cost per month.",
+    category: "Finance",
+    icon: Car,
+    color: "bg-orange-500",
     textColor: "text-white"
   }
 ];
