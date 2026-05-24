@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { ShieldCheck, Heart, Umbrella, TrendingUp, ArrowLeft, Settings, Info, Briefcase, GraduationCap, Landmark, Coins, AlertCircle, PieChart as PieChartIcon, IndianRupee, Calendar, Percent, FileText, Table } from 'lucide-react';
-import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout } from '@packages/styling';
+import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import Footer from './Footer';
@@ -432,20 +432,10 @@ export default function LifeInsuranceCalculator() {
             </div>
 
             <div className="flex flex-col md:flex-row gap-4 mt-6">
-              <Button
-                variant="secondary"
-                onClick={() => checkExports('pdf')}
-                className="flex-1 text-sm font-bold flex items-center justify-center gap-2 border-4 border-black h-12 uppercase"
-              >
-                <FileText className="w-5 h-5" /> Download PDF Report
-              </Button>
-              <Button
-                variant="primary"
-                onClick={() => checkExports('excel')}
-                className="flex-1 text-sm font-bold flex items-center justify-center gap-2 border-4 border-black h-12 uppercase"
-              >
-                <Table className="w-5 h-5" /> Download Excel Report
-              </Button>
+              <DownloadButtons 
+                onDownloadPDF={() => checkExports('pdf')}
+                onDownloadExcel={() => checkExports('excel')}
+              />
             </div>
           </ResultsAnalysis>
         </div>

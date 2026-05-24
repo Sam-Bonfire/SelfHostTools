@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { IndianRupee, Home, Hammer, AlertTriangle, Calendar, TrendingUp, DollarSign, ArrowLeft, Trash2, Plus, AlertOctagon, Info, Percent, Currency, Table as TableIcon } from 'lucide-react';
-import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout } from '@packages/styling';
+import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 import { calculateHomeOwnerRealism, generateTimelineEvents } from '../lib/homeOwnerLogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
@@ -345,10 +345,8 @@ export default function HomeOwnerRealistCalculator() {
 
                         {/* EXPORT SECTION */}
                         <div className="flex flex-col md:flex-row gap-4 mb-6">
-                            <Button
-                                variant="secondary"
-                                className="flex-1 border-4 border-black font-black uppercase"
-                                onClick={() => downloadPDF({
+                            <DownloadButtons 
+                                onDownloadPDF={() => downloadPDF({
                                     inputs: {
                                         propertyPrice, downPayment, interestRate, loanTermYears: loanTerm,
                                         opportunityCostRate, appreciationRate, maintenanceInflation
@@ -356,13 +354,7 @@ export default function HomeOwnerRealistCalculator() {
                                     results,
                                     schedule: results.schedule
                                 })}
-                            >
-                                Download PDF Analysis
-                            </Button>
-                            <Button
-                                variant="primary"
-                                className="flex-1 border-4 border-black font-black uppercase"
-                                onClick={() => downloadExcel({
+                                onDownloadExcel={() => downloadExcel({
                                     inputs: {
                                         propertyPrice, downPayment, interestRate, loanTermYears: loanTerm,
                                         opportunityCostRate, appreciationRate, maintenanceInflation
@@ -370,9 +362,9 @@ export default function HomeOwnerRealistCalculator() {
                                     results,
                                     schedule: results.schedule
                                 })}
-                            >
-                                Download Excel Data
-                            </Button>
+                                pdfText="Download PDF Analysis"
+                                excelText="Download Excel Data"
+                            />
                         </div>
 
                         {/* 3. Timeline of Doom */}

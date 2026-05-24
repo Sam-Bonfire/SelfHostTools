@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef } from 'react';
-import { Card, Input, Button, Checkbox, CalculatorHeader, CalculatorLayout, ResultsAnalysis } from '@packages/styling';
+import { Card, Input, Button, Checkbox, CalculatorHeader, CalculatorLayout, ResultsAnalysis, DownloadButtons } from '@packages/styling';
 import { SEO } from '@packages/components';
 import { Calendar, Settings, Download } from 'lucide-react';
 import { clsx } from 'clsx';
@@ -230,14 +230,7 @@ export default function MementoMori() {
 
                             {/* Action Buttons */}
                             <div className="pt-4">
-                                <Button
-                                    variant="secondary"
-                                    className="w-full font-black uppercase flex items-center justify-center gap-2"
-                                    onClick={handleDownloadPDF}
-                                    aria-label="Download grid as PDF"
-                                >
-                                    <Download className="w-4 h-4" /> Download PDF
-                                </Button>
+                                <DownloadButtons onDownloadPDF={handleDownloadPDF} />
                             </div>
 
                         </div>

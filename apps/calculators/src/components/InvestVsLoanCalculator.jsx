@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Calculator, IndianRupee, Percent, TrendingUp, TrendingDown, Trash2, Plus, Info, Landmark, PiggyBank, Scale, ChevronDown, ChevronUp, Download, FileText, FileSpreadsheet, Table as TableIcon } from 'lucide-react';
-import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, Select } from '@packages/styling';
+import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, Select, DownloadButtons } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 import { calculateInvestVsLoan } from '../lib/investVsLoanLogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
@@ -397,20 +397,10 @@ export default function App() {
 
                                 {/* EXPORT SECTION - Moved here to match HomeOwnerRealistCalculator style */}
                                 <div className="flex flex-col md:flex-row gap-4 mt-8">
-                                    <Button
-                                        variant="secondary"
-                                        className="flex-1 border-4 border-black font-black uppercase"
-                                        onClick={() => downloadPDF(prepareDownloadData())}
-                                    >
-                                        Download PDF Analysis
-                                    </Button>
-                                    <Button
-                                        variant="primary"
-                                        className="flex-1 border-4 border-black font-black uppercase"
-                                        onClick={() => downloadExcel(prepareDownloadData())}
-                                    >
-                                        Download Excel Data
-                                    </Button>
+                                    <DownloadButtons 
+                                        onDownloadPDF={() => downloadPDF(prepareDownloadData())}
+                                        onDownloadExcel={() => downloadExcel(prepareDownloadData())}
+                                    />
                                 </div>
 
                                 {/* Comparison Table (Accordion) - Styled to match HomeOwnerRealistCalculator */}

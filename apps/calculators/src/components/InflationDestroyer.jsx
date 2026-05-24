@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { IndianRupee, Percent, Calendar, TrendingDown, TrendingUp, AlertCircle, ShoppingCart, Flame, Landmark, Table as TableIcon, ShieldCheck } from 'lucide-react';
-import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout } from '@packages/styling';
+import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import Footer from './Footer';
@@ -360,8 +360,10 @@ export default function InflationDestroyer() {
 
                 {/* Export / Download Options */}
                 <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                  <Button variant="secondary" onClick={handleExportPDF} className="flex-1 flex justify-center items-center gap-2 border-4 font-black uppercase py-3">Download PDF Analysis</Button>
-                  <Button variant="primary" onClick={handleExportExcel} className="flex-1 flex justify-center items-center gap-2 border-4 font-black uppercase py-3">Export Excel Model</Button>
+                  <DownloadButtons 
+                    onDownloadPDF={handleExportPDF}
+                    onDownloadExcel={handleExportExcel}
+                  />
                 </div>
               </div>
 

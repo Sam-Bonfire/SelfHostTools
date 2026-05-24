@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Calculator, IndianRupee, Percent, Calendar, PieChart as PieChartIcon, Table as TableIcon, TrendingUp, TrendingDown, ArrowLeft, Settings, Coins, PiggyBank, Eye, AlertCircle, Info, Flame, Landmark, ShieldCheck, Target } from 'lucide-react';
-import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout } from '@packages/styling';
+import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import Footer from './Footer';
@@ -461,8 +461,10 @@ export default function SIPCalculator() {
               {showSchedule && (
                 <div className="mt-4 border-4 border-black p-4 bg-white animate-in slide-in-from-top-4 duration-300">
                   <div className="flex flex-col md:flex-row gap-4 mb-4 justify-end">
-                    <Tooltip content="Download PDF report"><Button variant="secondary" onClick={() => downloadPDF({ inputs: { loanAmount: isGoalMode ? results.requiredSIP : monthlyInvestment, interestRate: expectedReturn, repaymentTenure: timePeriod, stepUp: isStepUp ? stepUpPercentage : undefined, isGoal: isGoalMode ? targetCorpus : undefined }, results, schedule: schedule.map(s => ({ ...s, balance: s.balance, principal: s.principal, interest: s.interest })) })} className="w-full md:w-auto text-sm">Download PDF Report</Button></Tooltip>
-                    <Tooltip content="Download Excel report"><Button variant="primary" onClick={() => downloadExcel({ inputs: { loanAmount: isGoalMode ? results.requiredSIP : monthlyInvestment, interestRate: expectedReturn, repaymentTenure: timePeriod, stepUp: isStepUp ? stepUpPercentage : undefined }, results, schedule })} className="w-full md:w-auto text-sm">Download Excel Report</Button></Tooltip>
+                    <DownloadButtons 
+                      onDownloadPDF={() => downloadPDF({ inputs: { loanAmount: isGoalMode ? results.requiredSIP : monthlyInvestment, interestRate: expectedReturn, repaymentTenure: timePeriod, stepUp: isStepUp ? stepUpPercentage : undefined, isGoal: isGoalMode ? targetCorpus : undefined }, results, schedule: schedule.map(s => ({ ...s, balance: s.balance, principal: s.principal, interest: s.interest })) })}
+                      onDownloadExcel={() => downloadExcel({ inputs: { loanAmount: isGoalMode ? results.requiredSIP : monthlyInvestment, interestRate: expectedReturn, repaymentTenure: timePeriod, stepUp: isStepUp ? stepUpPercentage : undefined }, results, schedule })}
+                    />
                   </div>
                   <div className="overflow-x-auto border-4 border-black">
                     <table className="w-full text-sm text-left bg-white">

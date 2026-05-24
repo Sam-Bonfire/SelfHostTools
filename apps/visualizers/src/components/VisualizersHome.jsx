@@ -1,10 +1,157 @@
-import React from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Calendar, ArrowRight, GitFork, Landmark, Flame, Sun, Clock } from 'lucide-react';
+import { Calendar, ArrowRight, GitFork, Landmark, Flame, Sun, Clock, Search, X, ChevronLeft, ChevronRight, MessageSquarePlus } from 'lucide-react';
 import { Card } from '@packages/styling';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+
+const VISUALIZERS = [
+    {
+        path: "/memento-mori",
+        name: "Memento Mori",
+        desc: "Your life in weeks. A stoic visualization of time passed and time remaining. Auto-highlights life phases.",
+        category: "Perspective",
+        icon: Calendar,
+        color: "bg-black",
+        textColor: "text-white",
+        iconColor: "text-white"
+    },
+    {
+        path: "/sankey-flowchart",
+        name: "Capital Flow Sankey",
+        desc: "Track where your money goes. An interactive flow diagram mapping income streams directly to your expenses.",
+        category: "Finance",
+        icon: GitFork,
+        color: "bg-[#FFDE59]",
+        textColor: "text-black",
+        iconColor: "text-black"
+    },
+    {
+        path: "/compound-sandbox",
+        name: "Compound Snowball",
+        desc: "Watch compounding wealth build inside a physics-based particle simulator. See contribution and interest coins bounce.",
+        category: "Simulation",
+        icon: Landmark,
+        color: "bg-blue-400",
+        textColor: "text-black",
+        iconColor: "text-black"
+    },
+    {
+        path: "/debt-race",
+        name: "Repayment Race",
+        desc: "Compare Snowball and Avalanche payoff strategies in an interactive race to spot the fastest debt-free path.",
+        category: "Gaming",
+        icon: Flame,
+        color: "bg-red-400",
+        textColor: "text-black",
+        iconColor: "text-black"
+    },
+    {
+        path: "/runway-horizon",
+        name: "Runway Horizon",
+        desc: "A rolling interactive 2D landscape charting your financial runway duration and absolute lifestyle crash coordinates.",
+        category: "Horizon",
+        icon: Sun,
+        color: "bg-green-400",
+        textColor: "text-black",
+        iconColor: "text-black"
+    },
+    {
+        path: "/freedom-clock",
+        name: "24-Hour Freedom Clock",
+        desc: "A gorgeous circular time auditor mapping how much of your day is dedicated to obligations versus pure freedom.",
+        category: "Time Audit",
+        icon: Clock,
+        color: "bg-[#FFDE59]",
+        textColor: "text-black",
+        iconColor: "text-black"
+    }
+];
 
 export default function VisualizersHome() {
+    const [searchQuery, setSearchQuery] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState("All");
+    const [isSearchExpanded, setIsSearchExpanded] = useState(() => {
+        if (typeof window !== "undefined") {
+            return window.innerWidth < 768;
+        }
+        return false;
+    });
+    
+    const scrollContainerRef = useRef(null);
+    const itemsRef = useRef({});
+
+    const categories = useMemo(() => {
+        const cats = new Set(VISUALIZERS.map(v => v.category));
+        return ["All", ...Array.from(cats)];
+    }, []);
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 768) {
+                setIsSearchExpanded(true);
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    const filteredVisualizers = useMemo(() => {
+        return VISUALIZERS.filter(vis => {
+            const matchesCategory = selectedCategory === "All" || vis.category === selectedCategory;
+            const matchesSearch =
+                vis.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                vis.desc.toLowerCase().includes(searchQuery.toLowerCase());
+            return matchesCategory && matchesSearch;
+        });
+    }, [selectedCategory, searchQuery]);
+
+    const categoryColors = useMemo(() => {
+        const colors = { "All": "bg-gray-200" };
+        VISUALIZERS.forEach(vis => {
+            if (!colors[vis.category]) {
+                colors[vis.category] = vis.color;
+            }
+        });
+        return colors;
+    }, []);
+
+    const toggleSearch = () => {
+        if (isSearchExpanded) {
+            if (!searchQuery) setIsSearchExpanded(false);
+        } else {
+            setIsSearchExpanded(true);
+        }
+    };
+
+    const handleClearSearch = (e) => {
+        e.stopPropagation();
+        setSearchQuery("");
+        setIsSearchExpanded(false);
+    };
+
+    const scroll = (direction) => {
+        if (scrollContainerRef.current) {
+            const scrollAmount = 200;
+            scrollContainerRef.current.scrollBy({
+                left: direction === 'left' ? -scrollAmount : scrollAmount,
+                behavior: 'smooth'
+            });
+        }
+    };
+
+    const handleCategoryClick = (cat) => {
+        setSelectedCategory(cat);
+        const element = itemsRef.current[cat];
+        if (element) {
+            element.scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest',
+                inline: 'center'
+            });
+        }
+    };
+
     return (
         <div className="min-h-screen bg-white text-black p-4 md:p-8">
             <div className="max-w-6xl mx-auto">
@@ -27,143 +174,163 @@ export default function VisualizersHome() {
                         <br />
                         <span className="bg-blue-200 px-2 box-decoration-clone tracking-tight">Visualize time, freedom, and reality.</span>
                     </p>
+
+                    {/* Controls Row: Filters & Search */}
+                    <div className="w-full flex flex-col md:flex-row items-center justify-between gap-2 md:gap-4 mt-12 mb-2">
+                        {/* Category Filters - Scrollable with Buttons */}
+                        <div className="flex items-center gap-2 w-full md:w-auto overflow-hidden">
+                            <button
+                                onClick={() => scroll('left')}
+                                className="p-2 border-2 border-black bg-white hover:bg-gray-100 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-[1px] active:shadow-none transition-all hidden md:flex"
+                                aria-label="Scroll Left"
+                            >
+                                <ChevronLeft className="w-4 h-4" />
+                            </button>
+
+                            <div
+                                ref={scrollContainerRef}
+                                className="flex flex-nowrap gap-3 overflow-x-auto scrollbar-hide py-2 md:py-4 px-2 w-full md:w-auto mask-linear-gradient"
+                                style={{ scrollBehavior: 'smooth' }}
+                            >
+                                {categories.map(cat => {
+                                    const isActive = selectedCategory === cat;
+                                    const colorClass = categoryColors[cat] || "bg-gray-200";
+                                    return (
+                                        <button
+                                            key={cat}
+                                            ref={el => itemsRef.current[cat] = el}
+                                            onClick={() => handleCategoryClick(cat)}
+                                            className={`flex-shrink-0 px-4 py-2 text-xs md:text-sm font-black uppercase border-2 border-black transition-all ${colorClass} ${colorClass === 'bg-black' ? 'text-white' : 'text-black'} ${isActive
+                                                ? 'opacity-100 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] scale-110 z-10'
+                                                : 'opacity-40 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:opacity-100 hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
+                                                }`}
+                                        >
+                                            {cat}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+
+                            <button
+                                onClick={() => scroll('right')}
+                                className="p-2 border-2 border-black bg-white hover:bg-gray-100 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-[1px] active:shadow-none transition-all hidden md:flex"
+                                aria-label="Scroll Right"
+                            >
+                                <ChevronRight className="w-4 h-4" />
+                            </button>
+                        </div>
+
+                        {/* Search Bar - Expandable */}
+                        <div className="relative w-full md:w-auto flex justify-end">
+                            <motion.div
+                                layout
+                                initial={false}
+                                animate={{ width: isSearchExpanded ? '100%' : '3rem' }}
+                                className={`overflow-hidden h-10 md:h-12 bg-white border-2 border-black flex items-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-shadow duration-200`}
+                                style={{
+                                    width: isSearchExpanded ? 'var(--expanded-width, 100%)' : '3rem',
+                                    '--expanded-width': typeof window !== 'undefined' && window.innerWidth > 768 ? '300px' : '100%'
+                                }}
+                            >
+                                <button
+                                    onClick={toggleSearch}
+                                    className="w-12 h-full flex items-center justify-center flex-shrink-0 hover:bg-yellow-300 transition-colors border-r-2 border-black"
+                                    aria-label="Search"
+                                >
+                                    <Search className="w-5 h-5" />
+                                </button>
+
+                                <AnimatePresence>
+                                    {isSearchExpanded && (
+                                        <motion.div
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            exit={{ opacity: 0 }}
+                                            className="flex-1 flex items-center pr-2"
+                                        >
+                                            <input
+                                                type="text"
+                                                value={searchQuery}
+                                                onChange={(e) => setSearchQuery(e.target.value)}
+                                                placeholder="Search..."
+                                                className="w-full h-full border-none outline-none bg-transparent px-2 font-bold text-sm"
+                                                autoFocus
+                                            />
+                                            <button
+                                                onClick={handleClearSearch}
+                                                className="p-1 hover:bg-gray-200 rounded-full"
+                                                aria-label="Clear Search"
+                                            >
+                                                <X className="w-4 h-4" />
+                                            </button>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </motion.div>
+                        </div>
+                    </div>
                 </header>
 
                 {/* Visualizers Grid */}
                 <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" role="main">
+                    <AnimatePresence mode="popLayout">
+                        {filteredVisualizers.map((vis) => (
+                            <motion.div
+                                key={vis.path}
+                                layout
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.9 }}
+                                transition={{ duration: 0.2 }}
+                            >
+                                <Link to={vis.path} className="group block h-full decoration-transparent">
+                                    <Card className="h-full hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200 cursor-pointer flex flex-col">
+                                        <div className={`${vis.color} p-6 border-b-4 border-black flex items-center justify-between`}>
+                                            <vis.icon className={`w-8 h-8 ${vis.iconColor}`} />
+                                            <ArrowRight className={`w-6 h-6 opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1 ${vis.iconColor}`} />
+                                        </div>
+                                        <div className="p-6 flex-1 flex flex-col">
+                                            <h2 className="text-2xl font-black text-black mb-3 group-hover:underline decoration-4 decoration-black underline-offset-4 tracking-tight">
+                                                {vis.name}
+                                            </h2>
+                                            <p className="text-gray-700 font-medium mb-6 flex-1">
+                                                {vis.desc}
+                                            </p>
+                                            <div className="mt-auto">
+                                                <span className="inline-block px-3 py-1 bg-black text-white text-sm font-bold uppercase tracking-wider">
+                                                    {vis.category}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </Card>
+                                </Link>
+                            </motion.div>
+                        ))}
+                    </AnimatePresence>
 
-                    <Link to="/memento-mori" className="group block h-full decoration-transparent">
-                        <Card className="h-full hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200 cursor-pointer flex flex-col">
-                            <div className="bg-black p-6 border-b-4 border-black flex items-center justify-between">
-                                <Calendar className="w-8 h-8 text-white" />
-                                <ArrowRight className="w-6 h-6 text-white opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1" />
-                            </div>
-                            <div className="p-6 flex-1 flex flex-col">
-                                <h2 className="text-2xl font-black text-black mb-3 group-hover:underline decoration-4 decoration-black underline-offset-4">
-                                    Memento Mori
-                                </h2>
-                                <p className="text-gray-700 font-medium mb-6 flex-1">
-                                    Your life in weeks. A stoic visualization of time passed and time remaining. Auto-highlights life phases.
-                                </p>
-                                <div className="mt-auto">
-                                    <span className="inline-block px-3 py-1 bg-black text-white text-sm font-bold uppercase tracking-wider">
-                                        Perspective
-                                    </span>
+                    {selectedCategory === 'All' && !searchQuery && (
+                        <Link to="/feedback" className="group block h-full decoration-transparent">
+                            <Card className="h-full hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200 cursor-pointer flex flex-col">
+                                <div className="bg-purple-300 p-6 border-b-4 border-black flex items-center justify-between">
+                                    <MessageSquarePlus className="w-8 h-8 text-black" />
+                                    <ArrowRight className="w-6 h-6 opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1 text-black" />
                                 </div>
-                            </div>
-                        </Card>
-                    </Link>
-
-                    <Link to="/sankey-flowchart" className="group block h-full decoration-transparent">
-                        <Card className="h-full hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200 cursor-pointer flex flex-col">
-                            <div className="bg-[#FFDE59] p-6 border-b-4 border-black flex items-center justify-between">
-                                <GitFork className="w-8 h-8 text-black" />
-                                <ArrowRight className="w-6 h-6 text-black opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1" />
-                            </div>
-                            <div className="p-6 flex-1 flex flex-col">
-                                <h2 className="text-2xl font-black text-black mb-3 group-hover:underline decoration-4 decoration-black underline-offset-4">
-                                    Capital Flow Sankey
-                                </h2>
-                                <p className="text-gray-700 font-medium mb-6 flex-1">
-                                    Track where your money goes. An interactive flow diagram mapping income streams directly to your expenses.
-                                </p>
-                                <div className="mt-auto">
-                                    <span className="inline-block px-3 py-1 bg-black text-white text-sm font-bold uppercase tracking-wider">
-                                        Finance
-                                    </span>
+                                <div className="p-6 flex-1 flex flex-col">
+                                    <h2 className="text-2xl font-black text-black mb-3 group-hover:underline decoration-4 decoration-black underline-offset-4 tracking-tight">
+                                        Have an Idea?
+                                    </h2>
+                                    <p className="text-gray-700 font-medium mb-6">
+                                        We are constantly building more tools. Tell us what visualizer you need next!
+                                    </p>
+                                    <div className="mt-auto">
+                                        <span className="inline-block px-3 py-1 bg-black text-white text-sm font-bold uppercase tracking-wider">
+                                            Suggest
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
-                        </Card>
-                    </Link>
-
-                    <Link to="/compound-sandbox" className="group block h-full decoration-transparent">
-                        <Card className="h-full hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200 cursor-pointer flex flex-col">
-                            <div className="bg-blue-400 p-6 border-b-4 border-black flex items-center justify-between">
-                                <Landmark className="w-8 h-8 text-black" />
-                                <ArrowRight className="w-6 h-6 text-black opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1" />
-                            </div>
-                            <div className="p-6 flex-1 flex flex-col">
-                                <h2 className="text-2xl font-black text-black mb-3 group-hover:underline decoration-4 decoration-black underline-offset-4">
-                                    Compound Snowball
-                                </h2>
-                                <p className="text-gray-700 font-medium mb-6 flex-1">
-                                    Watch compounding wealth build inside a physics-based particle simulator. See contribution and interest coins bounce.
-                                </p>
-                                <div className="mt-auto">
-                                    <span className="inline-block px-3 py-1 bg-black text-white text-sm font-bold uppercase tracking-wider">
-                                        Simulation
-                                    </span>
-                                </div>
-                            </div>
-                        </Card>
-                    </Link>
-
-                    <Link to="/debt-race" className="group block h-full decoration-transparent">
-                        <Card className="h-full hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200 cursor-pointer flex flex-col">
-                            <div className="bg-red-400 p-6 border-b-4 border-black flex items-center justify-between">
-                                <Flame className="w-8 h-8 text-black" />
-                                <ArrowRight className="w-6 h-6 text-black opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1" />
-                            </div>
-                            <div className="p-6 flex-1 flex flex-col">
-                                <h2 className="text-2xl font-black text-black mb-3 group-hover:underline decoration-4 decoration-black underline-offset-4">
-                                    Repayment Race
-                                </h2>
-                                <p className="text-gray-700 font-medium mb-6 flex-1">
-                                    Compare Snowball and Avalanche payoff strategies in an interactive race to spot the fastest debt-free path.
-                                </p>
-                                <div className="mt-auto">
-                                    <span className="inline-block px-3 py-1 bg-black text-white text-sm font-bold uppercase tracking-wider">
-                                        Gaming
-                                    </span>
-                                </div>
-                            </div>
-                        </Card>
-                    </Link>
-
-                    <Link to="/runway-horizon" className="group block h-full decoration-transparent">
-                        <Card className="h-full hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200 cursor-pointer flex flex-col">
-                            <div className="bg-green-400 p-6 border-b-4 border-black flex items-center justify-between">
-                                <Sun className="w-8 h-8 text-black" />
-                                <ArrowRight className="w-6 h-6 text-black opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1" />
-                            </div>
-                            <div className="p-6 flex-1 flex flex-col">
-                                <h2 className="text-2xl font-black text-black mb-3 group-hover:underline decoration-4 decoration-black underline-offset-4">
-                                    Runway Horizon
-                                </h2>
-                                <p className="text-gray-700 font-medium mb-6 flex-1">
-                                    A rolling interactive 2D landscape charting your financial runway duration and absolute lifestyle crash coordinates.
-                                </p>
-                                <div className="mt-auto">
-                                    <span className="inline-block px-3 py-1 bg-black text-white text-sm font-bold uppercase tracking-wider">
-                                        Horizon
-                                    </span>
-                                </div>
-                            </div>
-                        </Card>
-                    </Link>
-
-                    <Link to="/freedom-clock" className="group block h-full decoration-transparent">
-                        <Card className="h-full hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200 cursor-pointer flex flex-col">
-                            <div className="bg-[#FFDE59] p-6 border-b-4 border-black flex items-center justify-between">
-                                <Clock className="w-8 h-8 text-black" />
-                                <ArrowRight className="w-6 h-6 text-black opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1" />
-                            </div>
-                            <div className="p-6 flex-1 flex flex-col">
-                                <h2 className="text-2xl font-black text-black mb-3 group-hover:underline decoration-4 decoration-black underline-offset-4">
-                                    24-Hour Freedom Clock
-                                </h2>
-                                <p className="text-gray-700 font-medium mb-6 flex-1">
-                                    A gorgeous circular time auditor mapping how much of your day is dedicated to obligations versus pure freedom.
-                                </p>
-                                <div className="mt-auto">
-                                    <span className="inline-block px-3 py-1 bg-black text-white text-sm font-bold uppercase tracking-wider">
-                                        Time Audit
-                                    </span>
-                                </div>
-                            </div>
-                        </Card>
-                    </Link>
-
+                            </Card>
+                        </Link>
+                    )}
                 </main>
             </div>
         </div>

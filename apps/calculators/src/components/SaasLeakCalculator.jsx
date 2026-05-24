@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Calculator, IndianRupee, Percent, Calendar, PieChart as PieChartIcon, Table as TableIcon, TrendingUp, AlertCircle, Info, Flame, Trash2, Plus, Clock, Award, ShieldAlert, AlertTriangle } from 'lucide-react';
-import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout } from '@packages/styling';
+import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import Footer from './Footer';
@@ -695,16 +695,10 @@ export default function SaasLeakCalculator() {
                 <p className="text-[10px] text-gray-500 font-bold uppercase mt-1 tracking-tight leading-none">Take your offline financial audit reports home</p>
               </div>
               <div className="flex gap-3 w-full sm:w-auto">
-                <Tooltip content="Download PDF report" className="flex-1 sm:flex-none">
-                  <Button variant="secondary" onClick={handleExportPDF} className="w-full sm:w-auto text-xs font-black uppercase border-2 flex items-center justify-center gap-2">
-                    Download PDF
-                  </Button>
-                </Tooltip>
-                <Tooltip content="Download Excel report" className="flex-1 sm:flex-none">
-                  <Button variant="primary" onClick={handleExportExcel} className="w-full sm:w-auto text-xs font-black uppercase border-2 flex items-center justify-center gap-2">
-                    Download Excel
-                  </Button>
-                </Tooltip>
+                <DownloadButtons 
+                  onDownloadPDF={handleExportPDF}
+                  onDownloadExcel={handleExportExcel}
+                />
               </div>
             </div>
 

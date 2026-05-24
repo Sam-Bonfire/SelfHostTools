@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Briefcase, IndianRupee, Clock, ArrowLeft, Car, Coffee, Heart, AlertTriangle, FileText, Table, Scissors, Wind, Calendar, Palmtree, Percent } from 'lucide-react';
-import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout } from '@packages/styling';
+import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons } from '@packages/styling';
 import SEO from './SEO';
 import { calculateTrueHourlyWage } from '../lib/trueHourlyLogic';
 
@@ -364,16 +364,10 @@ export default function TrueHourlyWageCalculator() {
                             </Card>
 
                             <div className="flex flex-col md:flex-row gap-4 mt-6">
-                                <Tooltip content="Download PDF report" className="w-full">
-                                    <Button variant="secondary" onClick={() => checkExports('pdf')} className="w-full text-sm font-bold flex items-center justify-center gap-2 border-2 border-black">
-                                        <FileText className="w-4 h-4" /> Download PDF Report
-                                    </Button>
-                                </Tooltip>
-                                <Tooltip content="Download Excel report" className="w-full">
-                                    <Button variant="primary" onClick={() => checkExports('excel')} className="w-full text-sm font-bold flex items-center justify-center gap-2 border-2 border-black">
-                                        <Table className="w-4 h-4" /> Download Spreadsheet
-                                    </Button>
-                                </Tooltip>
+                                <DownloadButtons 
+                                    onDownloadPDF={() => checkExports('pdf')}
+                                    onDownloadExcel={() => checkExports('excel')}
+                                />
                             </div>
                         </ResultsAnalysis>
                     )}

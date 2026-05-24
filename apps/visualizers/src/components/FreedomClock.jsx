@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef } from 'react';
-import { Card, Input, CalculatorHeader, CalculatorLayout, ResultsAnalysis, Button } from '@packages/styling';
+import { Card, Input, CalculatorHeader, CalculatorLayout, ResultsAnalysis, Button, DownloadButtons } from '@packages/styling';
 import { SEO } from '@packages/components';
 import { Clock, ShieldAlert, Sparkles, Coffee, AlertTriangle, Download } from 'lucide-react';
 import { calculateFreedomIndex, generateDonutWedge } from '../lib/freedomMath';
@@ -292,14 +292,7 @@ export default function FreedomClock() {
 
                     {/* Action Buttons */}
                     <div className="pt-2">
-                        <Button
-                            variant="secondary"
-                            className="w-full font-black uppercase flex items-center justify-center gap-2"
-                            onClick={handleDownloadPDF}
-                            aria-label="Download as PDF"
-                        >
-                            <Download className="w-4 h-4" /> Download PDF
-                        </Button>
+                        <DownloadButtons onDownloadPDF={handleDownloadPDF} />
                     </div>
                 </div>
 

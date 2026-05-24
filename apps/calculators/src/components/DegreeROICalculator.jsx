@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { GraduationCap, ArrowLeft, TrendingUp, AlertTriangle, Briefcase, Calculator, IndianRupee, Percent, Calendar, XCircle, CheckCircle, Info } from 'lucide-react';
-import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout } from '@packages/styling';
+import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons } from '@packages/styling';
 import { motion } from 'framer-motion';
 import { calculateDegreeROI } from '../lib/degreeROILogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
@@ -309,38 +309,38 @@ export default function DegreeROICalculator() {
 
                             {/* EXPORT BUTTONS */}
                             <div className="flex flex-col md:flex-row gap-4">
-                                <Button className="flex-1 border-2 border-black" variant="secondary" onClick={() => downloadPDF({
-                                    results,
-                                    schedule,
-                                    inputs: {
-                                        tuitionPerYear,
-                                        livingExpensesPerYear: livingExpenses,
-                                        durationYears,
-                                        grantsTotal,
-                                        startingSalaryDegree,
-                                        salaryGrowthDegree,
-                                        startingSalaryAlt,
-                                        salaryGrowthAlt
-                                    }
-                                })}>
-                                    Download Analysis (PDF)
-                                </Button>
-                                <Button className="flex-1 border-2 border-black" variant="primary" onClick={() => downloadExcel({
-                                    results,
-                                    schedule,
-                                    inputs: {
-                                        tuitionPerYear,
-                                        livingExpensesPerYear: livingExpenses,
-                                        durationYears,
-                                        grantsTotal,
-                                        startingSalaryDegree,
-                                        salaryGrowthDegree,
-                                        startingSalaryAlt,
-                                        salaryGrowthAlt
-                                    }
-                                })}>
-                                    Download Spreadsheet (Excel)
-                                </Button>
+                                <DownloadButtons 
+                                    onDownloadPDF={() => downloadPDF({
+                                        results,
+                                        schedule,
+                                        inputs: {
+                                            tuitionPerYear,
+                                            livingExpensesPerYear: livingExpenses,
+                                            durationYears,
+                                            grantsTotal,
+                                            startingSalaryDegree,
+                                            salaryGrowthDegree,
+                                            startingSalaryAlt,
+                                            salaryGrowthAlt
+                                        }
+                                    })}
+                                    onDownloadExcel={() => downloadExcel({
+                                        results,
+                                        schedule,
+                                        inputs: {
+                                            tuitionPerYear,
+                                            livingExpensesPerYear: livingExpenses,
+                                            durationYears,
+                                            grantsTotal,
+                                            startingSalaryDegree,
+                                            salaryGrowthDegree,
+                                            startingSalaryAlt,
+                                            salaryGrowthAlt
+                                        }
+                                    })}
+                                    pdfText="Download Analysis (PDF)"
+                                    excelText="Download Spreadsheet (Excel)"
+                                />
                             </div>
                         </ResultsAnalysis>
                     )}

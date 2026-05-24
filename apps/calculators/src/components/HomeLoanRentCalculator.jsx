@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Home, Calculator, IndianRupee, TrendingUp, TrendingDown, ArrowLeft, Settings, Info, Building, Key, Landmark, ShieldCheck, LineChart, AlertCircle, Table as TableIcon } from 'lucide-react';
-import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout } from '@packages/styling';
+import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import Footer from './Footer';
@@ -236,10 +236,8 @@ export default function HomeLoanRentCalculator() {
 
             <div>
               <div className="flex flex-col md:flex-row gap-4 mb-4">
-                <Button
-                  variant="secondary"
-                  className="flex-1 border-4 border-black font-black uppercase"
-                  onClick={() => downloadPDF({
+                <DownloadButtons 
+                  onDownloadPDF={() => downloadPDF({
                     inputs: {
                       propertyPrice: propertyValue, interestRate, monthlyRent, rentInflation, tenure: loanTenure
                     },
@@ -251,13 +249,7 @@ export default function HomeLoanRentCalculator() {
                       balance: s.buyWealth - s.rentWealth // Difference
                     }))
                   })}
-                >
-                  Download Report (PDF)
-                </Button>
-                <Button
-                  variant="primary"
-                  className="flex-1 border-4 border-black font-black uppercase"
-                  onClick={() => downloadExcel({
+                  onDownloadExcel={() => downloadExcel({
                     inputs: {
                       propertyPrice: propertyValue, interestRate, monthlyRent, rentInflation, tenure: loanTenure
                     },
@@ -269,9 +261,9 @@ export default function HomeLoanRentCalculator() {
                       balance: s.buyWealth - s.rentWealth
                     }))
                   })}
-                >
-                  Download Analysis (Excel)
-                </Button>
+                  pdfText="Download Report (PDF)"
+                  excelText="Download Analysis (Excel)"
+                />
               </div>
 
               <Button

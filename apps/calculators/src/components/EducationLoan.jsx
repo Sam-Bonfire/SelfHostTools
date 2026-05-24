@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Calculator, IndianRupee, Percent, Calendar, Info, PieChart as PieChartIcon, Table as TableIcon, TrendingDown, Clock, BookOpen, Coffee, Coins, Plus, Trash2, CalendarDays, Settings, ArrowLeft } from 'lucide-react';
-import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout } from '@packages/styling';
+import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import Footer from './Footer';
@@ -557,32 +557,18 @@ export default function App() {
               {showSchedule && (
                 <div className="mt-4 border-4 border-black p-4 bg-white">
                   <div className="flex flex-col md:flex-row gap-4 mb-4 justify-end">
-                    <Tooltip content="Download full report including summary and schedule in PDF">
-                      <Button
-                        variant="secondary"
-                        onClick={() => downloadPDF({
-                          inputs: { loanAmount, interestRate, repaymentTenure, courseDuration, gracePeriod },
-                          results,
-                          schedule
-                        })}
-                        className="w-full md:w-auto text-sm"
-                      >
-                        Download PDF Report
-                      </Button>
-                    </Tooltip>
-                    <Tooltip content="Download full report including summary and schedule in Excel">
-                      <Button
-                        variant="primary"
-                        onClick={() => downloadExcel({
-                          inputs: { loanAmount, interestRate, repaymentTenure, courseDuration, gracePeriod },
-                          results,
-                          schedule
-                        })}
-                        className="w-full md:w-auto text-sm"
-                      >
-                        Download Excel Report
-                      </Button>
-                    </Tooltip>
+                    <DownloadButtons 
+                      onDownloadPDF={() => downloadPDF({
+                        inputs: { loanAmount, interestRate, repaymentTenure, courseDuration, gracePeriod },
+                        results,
+                        schedule
+                      })}
+                      onDownloadExcel={() => downloadExcel({
+                        inputs: { loanAmount, interestRate, repaymentTenure, courseDuration, gracePeriod },
+                        results,
+                        schedule
+                      })}
+                    />
                   </div>
 
                   <div className="overflow-x-auto border-4 border-black">

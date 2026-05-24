@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Calculator, IndianRupee, TrendingUp, TrendingDown, ArrowLeft, Briefcase, AlertCircle, Lock, Unlock, ArrowRight, XCircle, CheckCircle, FileText, Table, Hash, Calendar } from 'lucide-react';
-import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout } from '@packages/styling';
+import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons } from '@packages/styling';
 import { motion } from 'framer-motion';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import { calculateAnnualizedComp, calculateCostOfLeaving, generateProjections, analyzeAlerts } from '../lib/goldenHandcuffsLogic';
@@ -411,12 +411,10 @@ export default function GoldenHandcuffsCalculator() {
 
                         {/* EXPORT OPTIONS */}
                         <div className="flex flex-col md:flex-row gap-4">
-                            <Button variant="secondary" onClick={() => exportReport('pdf')} className="w-full text-sm font-bold flex items-center justify-center gap-2 border-4 border-black h-12 uppercase">
-                                <FileText className="w-5 h-5" /> Download PDF Report
-                            </Button>
-                            <Button variant="primary" onClick={() => exportReport('excel')} className="w-full text-sm font-bold flex items-center justify-center gap-2 border-4 border-black h-12 uppercase">
-                                <Table className="w-5 h-5" /> Download Excel Report
-                            </Button>
+                            <DownloadButtons 
+                                onDownloadPDF={() => exportReport('pdf')}
+                                onDownloadExcel={() => exportReport('excel')}
+                            />
                         </div>
                     </ResultsAnalysis>
                 </div>

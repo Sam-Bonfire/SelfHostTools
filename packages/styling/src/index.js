@@ -8,3 +8,4 @@ export { default as Tooltip } from './components/Tooltip';
 export { default as ResultsAnalysis } from './components/ResultsAnalysis';
 export { default as CalculatorHeader } from './components/CalculatorHeader';
 export { default as CalculatorLayout } from './components/CalculatorLayout';
+export { default as DownloadButtons } from './components/DownloadButtons';

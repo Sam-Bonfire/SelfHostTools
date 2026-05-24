@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Briefcase, IndianRupee, Clock, TrendingUp, TrendingDown, Info, AlertTriangle, ShieldCheck, Pickaxe } from 'lucide-react';
-import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout } from '@packages/styling';
+import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons } from '@packages/styling';
 import { calculateAlternateROI } from '../lib/alternateInvestmentLogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import SEO from './SEO';
@@ -439,31 +439,17 @@ export default function AlternateInvestmentCalculator() {
                             </div>
 
                             <div className="mt-6 flex flex-col md:flex-row gap-4 justify-end border-t-4 border-black pt-6">
-                                <Tooltip content="Download full report including summary in PDF">
-                                    <Button
-                                        onClick={() => downloadPDF({
-                                            inputs: { initialInvestment, monthlyContribution, years, estReturnRate: estReturnRate, inflationRate, taxRate, isActiveInvestment, activeHoursPerWeek, userHourlyRate, benchmarkReturn },
-                                            results
-                                        })}
-                                        variant="secondary"
-                                        className="w-full md:w-auto text-sm"
-                                    >
-                                        Download PDF Report
-                                    </Button>
-                                </Tooltip>
-                                <Tooltip content="Download full report including summary in Excel">
-                                    <Button
-                                        onClick={() => downloadExcel({
-                                            inputs: { initialInvestment, monthlyContribution, years, estReturnRate: estReturnRate, inflationRate, taxRate, isActiveInvestment, activeHoursPerWeek, userHourlyRate, benchmarkReturn },
-                                            results,
-                                            schedule: []
-                                        })}
-                                        variant="primary"
-                                        className="w-full md:w-auto text-sm"
-                                    >
-                                        Download Excel Report
-                                    </Button>
-                                </Tooltip>
+                                <DownloadButtons 
+                                    onDownloadPDF={() => downloadPDF({
+                                        inputs: { initialInvestment, monthlyContribution, years, estReturnRate: estReturnRate, inflationRate, taxRate, isActiveInvestment, activeHoursPerWeek, userHourlyRate, benchmarkReturn },
+                                        results
+                                    })}
+                                    onDownloadExcel={() => downloadExcel({
+                                        inputs: { initialInvestment, monthlyContribution, years, estReturnRate: estReturnRate, inflationRate, taxRate, isActiveInvestment, activeHoursPerWeek, userHourlyRate, benchmarkReturn },
+                                        results,
+                                        schedule: []
+                                    })}
+                                />
                             </div>
 
                         </ResultsAnalysis>

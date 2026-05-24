@@ -8,7 +8,8 @@ import {
     Select,
     ToggleCard,
     Button,
-    Tooltip
+    Tooltip,
+    DownloadButtons
 } from '@packages/styling';
 import { calculateTDEE } from '../lib/tdeeLogic';
 import { Activity, Scale, Ruler, User, Flame, TrendingDown, TrendingUp, Dumbbell, Target, Accessibility, Info, Heart, Percent, Utensils, Calendar, FileText, Table } from 'lucide-react';
@@ -698,20 +699,10 @@ export default function TDEECalculator() {
 
                         {/* EXPORT BUTTONS */}
                         <div className="flex flex-col md:flex-row gap-4 mt-2">
-                            <Button
-                                variant="secondary"
-                                onClick={() => checkExports('pdf')}
-                                className="flex-1 text-sm font-black flex items-center justify-center gap-2 border-4 border-black h-12 uppercase"
-                            >
-                                <FileText className="w-5 h-5" /> Download PDF Report
-                            </Button>
-                            <Button
-                                variant="primary"
-                                onClick={() => checkExports('excel')}
-                                className="flex-1 text-sm font-black flex items-center justify-center gap-2 border-4 border-black h-12 uppercase"
-                            >
-                                <Table className="w-5 h-5" /> Download Excel Report
-                            </Button>
+                            <DownloadButtons 
+                                onDownloadPDF={() => checkExports('pdf')}
+                                onDownloadExcel={() => checkExports('excel')}
+                            />
                         </div>
 
                     </ResultsAnalysis>

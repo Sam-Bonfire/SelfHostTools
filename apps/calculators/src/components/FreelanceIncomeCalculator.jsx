@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Briefcase, Calculator, IndianRupee, TrendingUp, TrendingDown, ArrowLeft, Settings, Info, Landmark, ShieldCheck, Laptop, Receipt, UserCheck, Clock, AlertCircle, PiggyBank, Palmtree, Target, Building, Users, Megaphone, Wifi, FileText, Table } from 'lucide-react';
-import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout } from '@packages/styling';
+import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import Footer from './Footer';
@@ -502,16 +502,10 @@ export default function FreelanceIncomeCalculator() {
             </div>
 
             <div className="flex flex-col md:flex-row gap-4 mt-6">
-              <Tooltip content="Download PDF report" className="w-full">
-                <Button variant="secondary" onClick={() => checkExports('pdf')} className="w-full text-sm font-bold flex items-center justify-center gap-2 border-2 border-black">
-                  <FileText className="w-4 h-4" /> Download PDF Report
-                </Button>
-              </Tooltip>
-              <Tooltip content="Download Excel report" className="w-full">
-                <Button variant="primary" onClick={() => checkExports('excel')} className="w-full text-sm font-bold flex items-center justify-center gap-2 border-2 border-black">
-                  <Table className="w-4 h-4" /> Download Excel Report
-                </Button>
-              </Tooltip>
+              <DownloadButtons 
+                onDownloadPDF={() => checkExports('pdf')}
+                onDownloadExcel={() => checkExports('excel')}
+              />
             </div>
           </ResultsAnalysis>
         </div>

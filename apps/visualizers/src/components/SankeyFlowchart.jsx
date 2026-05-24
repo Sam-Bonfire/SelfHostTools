@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useCallback, useRef } from 'react';
 import { IndianRupee, Plus, Trash2, GitFork, Download } from 'lucide-react';
-import { Card, Button, CalculatorHeader, CalculatorLayout } from '@packages/styling';
+import { Card, Button, CalculatorHeader, CalculatorLayout, DownloadButtons } from '@packages/styling';
 import { SEO } from '@packages/components';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
@@ -340,14 +340,7 @@ export default function SankeyFlowchart() {
 
             {/* Action Buttons */}
             <div className="pt-2">
-              <Button
-                  variant="secondary"
-                  className="w-full font-black uppercase flex items-center justify-center gap-2"
-                  onClick={handleDownloadPDF}
-                  aria-label="Download as PDF"
-              >
-                  <Download className="w-4 h-4" /> Download PDF
-              </Button>
+              <DownloadButtons onDownloadPDF={handleDownloadPDF} />
             </div>
           </div>
 
