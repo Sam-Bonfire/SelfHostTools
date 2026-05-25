@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Calendar, ArrowRight, GitFork, Landmark, Flame, Sun, Clock, Search, X, ChevronLeft, ChevronRight, MessageSquarePlus } from 'lucide-react';
+import { Calendar, ArrowRight, GitFork, Landmark, Flame, Sun, Clock, Search, X, ChevronLeft, ChevronRight, MessageSquarePlus, Snowflake, Database, Beaker, Grid, Timer, History } from 'lucide-react';
 import { Card } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -34,6 +34,60 @@ const VISUALIZERS = [
         color: "bg-blue-400",
         textColor: "text-black",
         iconColor: "text-black"
+    },
+    {
+        path: "/compound-interest",
+        name: "Compound Interest Snowball",
+        desc: "A particle simulator showing how contributions versus interest scales over 30 years.",
+        category: "Finance",
+        icon: Snowflake,
+        color: "bg-blue-500",
+        textColor: "text-white"
+    },
+    {
+        path: "/sorting-visualizer",
+        name: "Sorting Algorithms",
+        desc: "Watch Quick Sort, Merge Sort, and Bubble Sort race with retro audio synth swapping.",
+        category: "Computer Science",
+        icon: Database,
+        color: "bg-indigo-500",
+        textColor: "text-white"
+    },
+    {
+        path: "/asset-jar",
+        name: "Asset Allocation Jar",
+        desc: "A density-based physics jar simulating asset classes. Shake for market shocks, drag to rebalance.",
+        category: "Finance",
+        icon: Beaker,
+        color: "bg-teal-500",
+        textColor: "text-white"
+    },
+    {
+        path: "/cellular-automata",
+        name: "Cellular Automata",
+        desc: "Conway's Game of Life & fractal replication in a pixelated Neo-Brutalist playground.",
+        category: "Mathematics",
+        icon: Grid,
+        color: "bg-purple-500",
+        textColor: "text-white"
+    },
+    {
+        path: "/pomodoro-focus",
+        name: "Pomodoro Focus & Waveform",
+        desc: "Physical retro stopwatch generating interactive sound waves (brown noise, terminal clicks).",
+        category: "Productivity",
+        icon: Timer,
+        color: "bg-red-500",
+        textColor: "text-white"
+    },
+    {
+        path: "/swr-history",
+        name: "SWR Historical Path",
+        desc: "Simulate withdrawal rates over the Great Depression, 1970s stagflation, and 2008.",
+        category: "Finance",
+        icon: History,
+        color: "bg-orange-500",
+        textColor: "text-white"
     },
     {
         path: "/debt-race",
