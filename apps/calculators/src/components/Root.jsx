@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Calculator, ArrowRight, TrendingUp, Home, Umbrella, Flame, Briefcase, Lock, GraduationCap, Hammer, MapPin, Search, X, ChevronLeft, ChevronRight, MessageSquarePlus, Zap, Activity, Rocket, Car } from 'lucide-react';
+import { Calculator, ArrowRight, TrendingUp, Home, Umbrella, Flame, Briefcase, Lock, GraduationCap, Hammer, MapPin, Search, X, ChevronLeft, ChevronRight, MessageSquarePlus, Zap, Activity, Rocket, Car, FileText, Globe, Camera, ShieldAlert } from 'lucide-react';
 import { Card, Button, Input } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 import Footer from './Footer';
@@ -186,6 +186,42 @@ const CALCULATORS = [
     category: "Finance",
     icon: Car,
     color: "bg-orange-500",
+    textColor: "text-white"
+  },
+  {
+    path: "/tax-bracket",
+    name: "Tax Bracket Optimizer",
+    desc: "Standard vs Itemized Deductions? Find the exact tax-saving strategy for your income.",
+    category: "Finance",
+    icon: FileText,
+    color: "bg-emerald-500",
+    textColor: "text-white"
+  },
+  {
+    path: "/international-arbitrage",
+    name: "International Arbitrage",
+    desc: "Model local currency value, PPP ratios, and compute net worth velocity change across borders.",
+    category: "Strategy",
+    icon: Globe,
+    color: "bg-blue-600",
+    textColor: "text-white"
+  },
+  {
+    path: "/creator-economy",
+    name: "Creator Economy Quoter",
+    desc: "Reverse-engineer your income based on subs and open rates to find your optimal sponsor pricing.",
+    category: "Freelance",
+    icon: Camera,
+    color: "bg-pink-500",
+    textColor: "text-white"
+  },
+  {
+    path: "/emergency-fund",
+    name: "Emergency Fund Cushion",
+    desc: "Customize your cash cushion based on expense volatility, job search duration, and liquid assets.",
+    category: "Finance",
+    icon: ShieldAlert,
+    color: "bg-red-600",
     textColor: "text-white"
   }
 ];

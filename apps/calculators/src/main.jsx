@@ -32,6 +32,10 @@ const Feedback = React.lazy(() => import('./components/Feedback.jsx'));
 const LifestyleCreepCalculator = React.lazy(() => import('./components/LifestyleCreepCalculator.jsx'));
 const SoloFounderCalculator = React.lazy(() => import('./components/SoloFounderCalculator.jsx'));
 const CarOwnershipCalculator = React.lazy(() => import('./components/CarOwnershipCalculator.jsx'));
+const TaxBracketCalculator = React.lazy(() => import('./components/TaxBracketCalculator.jsx'));
+const InternationalArbitrageCalculator = React.lazy(() => import('./components/InternationalArbitrageCalculator.jsx'));
+const CreatorEconomyCalculator = React.lazy(() => import('./components/CreatorEconomyCalculator.jsx'));
+const EmergencyFundCalculator = React.lazy(() => import('./components/EmergencyFundCalculator.jsx'));
 
 // Loading Spinner
 const Loading = () => (
@@ -135,6 +139,22 @@ const router = createHashRouter([
       {
         path: '/car-ownership',
         element: <CarOwnershipCalculator />,
+      },
+      {
+        path: '/tax-bracket',
+        element: <TaxBracketCalculator />,
+      },
+      {
+        path: '/international-arbitrage',
+        element: <InternationalArbitrageCalculator />,
+      },
+      {
+        path: '/creator-economy',
+        element: <CreatorEconomyCalculator />,
+      },
+      {
+        path: '/emergency-fund',
+        element: <EmergencyFundCalculator />,
       },
       {
         path: '/feedback',
