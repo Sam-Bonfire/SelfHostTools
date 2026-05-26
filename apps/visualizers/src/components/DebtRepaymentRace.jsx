@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Card, Input, Button, CalculatorHeader, CalculatorLayout, ResultsAnalysis } from '@packages/styling';
+import { Card, Input, Button, CalculatorHeader, CalculatorLayout, ResultsAnalysis, Footer } from '@packages/styling';
 import { SEO } from '@packages/components';
 import { Flame, Trash2, Plus, Zap, Award, Sparkles } from 'lucide-react';
 import { calculateDebtRace } from '../lib/debtRaceLogic';
@@ -418,6 +418,8 @@ export default function DebtRepaymentRace() {
                     )}
                 </div>
             </CalculatorLayout>
-        </div>
+        
+      <Footer />
+    </div>
     );
 }

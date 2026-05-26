@@ -1,21 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import {
-    CalculatorLayout,
-    CalculatorHeader,
-    ResultsAnalysis,
-    Input,
-    Card,
-    Select,
-    ToggleCard,
-    Button,
-    Tooltip,
-    DownloadButtons
-} from '@packages/styling';
+import { CalculatorLayout, CalculatorHeader, ResultsAnalysis, Input, Card, Select, ToggleCard, Button, Tooltip, DownloadButtons, Footer } from '@packages/styling';
 import { calculateTDEE } from '../lib/tdeeLogic';
 import { Activity, Scale, Ruler, User, Flame, TrendingDown, TrendingUp, Dumbbell, Target, Accessibility, Info, Heart, Percent, Utensils, Calendar, FileText, Table } from 'lucide-react';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import SEO from './SEO';
-import Footer from './Footer';
+
 
 // Updated Activity Descriptions based on Research
 // Key Insight: People overestimate. We need 'Brutal Honesty' labels.

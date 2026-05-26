@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, ArrowRight, GitFork, Landmark, Flame, Sun, Clock, Search, X, ChevronLeft, ChevronRight, MessageSquarePlus, Snowflake, Database, Beaker, Grid, Timer, History } from 'lucide-react';
-import { Card } from '@packages/styling';
+import { Card, Footer } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const VISUALIZERS = [
@@ -234,7 +234,7 @@ export default function VisualizersHome() {
                                     alt="Visualizers Mascot"
                                     width={100}
                                     height={100}
-                                    className="w-16 h-16 md:w-20 md:h-20 drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] object-contain mix-blend-multiply"
+                                    className="w-16 h-16 md:w-20 md:h-20 drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] object-contain"
                                 />
                             </picture>
                             <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-black uppercase tracking-tight text-center md:text-left">
@@ -406,6 +406,8 @@ export default function VisualizersHome() {
                     )}
                 </main>
             </div>
-        </div>
+        
+      <Footer />
+    </div>
     );
 }

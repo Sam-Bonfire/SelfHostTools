@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Calculator, IndianRupee, TrendingUp, TrendingDown, ArrowLeft, Briefcase, AlertCircle, Lock, Unlock, ArrowRight, XCircle, CheckCircle, FileText, Table, Hash, Calendar } from 'lucide-react';
-import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons } from '@packages/styling';
+import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer } from '@packages/styling';
 import { motion } from 'framer-motion';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import { calculateAnnualizedComp, calculateCostOfLeaving, generateProjections, analyzeAlerts } from '../lib/goldenHandcuffsLogic';
-import Footer from './Footer';
+
 import SEO from './SEO';
 
 export default function GoldenHandcuffsCalculator() {

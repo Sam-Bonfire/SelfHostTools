@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { Card, Input, Button, CalculatorHeader, CalculatorLayout, ResultsAnalysis } from '@packages/styling';
+import { Card, Input, Button, CalculatorHeader, CalculatorLayout, ResultsAnalysis, Footer } from '@packages/styling';
 import { SEO } from '@packages/components';
 import { Landmark, Play, Pause, RotateCcw } from 'lucide-react';
 import { Particle, resolveCollisions, calculateCompoundingSchedules } from '../lib/snowballPhysics';
@@ -362,6 +362,8 @@ export default function CompoundInterestSandbox() {
                     </ResultsAnalysis>
                 </div>
             </CalculatorLayout>
-        </div>
+        
+      <Footer />
+    </div>
     );
 }

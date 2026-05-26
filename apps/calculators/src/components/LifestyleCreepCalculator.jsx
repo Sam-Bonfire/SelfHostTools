@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { IndianRupee, TrendingUp, AlertTriangle, Activity, Settings, Info, Briefcase, ChevronRight } from 'lucide-react';
-import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons } from '@packages/styling';
+import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer } from '@packages/styling';
 import { calculateLifestyleCreep } from '../lib/lifestyleCreepLogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend } from 'recharts';
@@ -228,7 +228,9 @@ export default function LifestyleCreepCalculator() {
                         </div>
                     </ResultsAnalysis>
                 </div>
-            </div>
+            
+      <Footer />
+    </div>
         </CalculatorLayout>
     );
 }

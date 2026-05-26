@@ -1,12 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { 
-  CalculatorLayout, 
-  CalculatorHeader, 
-  ResultsAnalysis, 
-  Input, 
-  Card,
-  DownloadButtons
-} from '@packages/styling';
+import { CalculatorLayout, CalculatorHeader, ResultsAnalysis, Input, Card, DownloadButtons, Footer } from '@packages/styling';
 import { Building2, Receipt, HeartHandshake, Stethoscope, Briefcase, Calculator } from 'lucide-react';
 import { calculateTaxBracketOptimization } from '../lib/taxBracketLogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
@@ -29,11 +22,11 @@ export default function TaxBracketCalculator() {
   const results = useMemo(() => calculateTaxBracketOptimization(inputs), [inputs]);
 
   const handleDownloadPDF = () => {
-    generatePDF('Tax Bracket Optimizer', inputs, results);
+    downloadPDF({ inputs, results, schedule: [] });
   };
 
   const handleDownloadExcel = () => {
-    generateExcel('Tax Bracket Optimizer', inputs, results);
+    downloadExcel({ inputs, results, schedule: [] });
   };
 
   const formatCurrency = (val) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(val);
@@ -218,7 +211,9 @@ export default function TaxBracketCalculator() {
             onDownloadExcel={handleDownloadExcel}
           />
         </div>
-      </div>
+      
+      <Footer />
+    </div>
     </CalculatorLayout>
   );
 }

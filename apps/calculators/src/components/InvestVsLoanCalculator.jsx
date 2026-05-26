@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Calculator, IndianRupee, Percent, TrendingUp, TrendingDown, Trash2, Plus, Info, Landmark, PiggyBank, Scale, ChevronDown, ChevronUp, Download, FileText, FileSpreadsheet, Table as TableIcon } from 'lucide-react';
-import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, Select, DownloadButtons } from '@packages/styling';
+import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, Select, DownloadButtons, Footer } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 import { calculateInvestVsLoan } from '../lib/investVsLoanLogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
-import Footer from './Footer';
+
 import SEO from './SEO';
 
 export default function App() {

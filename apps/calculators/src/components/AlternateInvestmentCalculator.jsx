@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Briefcase, IndianRupee, Clock, TrendingUp, TrendingDown, Info, AlertTriangle, ShieldCheck, Pickaxe } from 'lucide-react';
-import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons } from '@packages/styling';
+import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer } from '@packages/styling';
 import { calculateAlternateROI } from '../lib/alternateInvestmentLogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import SEO from './SEO';
@@ -453,7 +453,9 @@ export default function AlternateInvestmentCalculator() {
                             </div>
 
                         </ResultsAnalysis>
-                    </div>
+                    
+      <Footer />
+    </div>
                 )}
             </CalculatorLayout >
         </div >

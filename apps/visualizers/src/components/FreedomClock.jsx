@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef } from 'react';
-import { Card, Input, CalculatorHeader, CalculatorLayout, ResultsAnalysis, Button, DownloadButtons } from '@packages/styling';
+import { Card, Input, CalculatorHeader, CalculatorLayout, ResultsAnalysis, Button, DownloadButtons, Footer } from '@packages/styling';
 import { SEO } from '@packages/components';
 import { Clock, ShieldAlert, Sparkles, Coffee, AlertTriangle, Download } from 'lucide-react';
 import { calculateFreedomIndex, generateDonutWedge } from '../lib/freedomMath';
@@ -446,6 +446,8 @@ export default function FreedomClock() {
                     </ResultsAnalysis>
                 </div>
             </CalculatorLayout>
-        </div>
+        
+      <Footer />
+    </div>
     );
 }

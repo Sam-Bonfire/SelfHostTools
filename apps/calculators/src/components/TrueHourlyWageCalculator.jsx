@@ -2,9 +2,10 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Briefcase, IndianRupee, Clock, ArrowLeft, Car, Coffee, Heart, AlertTriangle, FileText, Table, Scissors, Wind, Calendar, Palmtree, Percent } from 'lucide-react';
-import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons } from '@packages/styling';
+import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer } from '@packages/styling';
 import SEO from './SEO';
 import { calculateTrueHourlyWage } from '../lib/trueHourlyLogic';
+import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 
 export default function TrueHourlyWageCalculator() {
     const structuredData = {
@@ -381,6 +382,8 @@ export default function TrueHourlyWageCalculator() {
                     <strong className="text-black">Reality Check:</strong> If your True Hourly Wage is lower than your local fast-food rate, it might be time to discuss remote work or a raise.
                 </p>
             </div>
-        </div>
+        
+      <Footer />
+    </div>
     );
 }

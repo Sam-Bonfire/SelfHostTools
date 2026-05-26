@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { SEO } from '@packages/components';
 import { Play, Pause, RotateCcw, Volume2, VolumeX, Activity } from 'lucide-react';
-import { Button } from '@packages/styling';
+import { Button, Footer, CalculatorLayout, CalculatorHeader } from '@packages/styling';
 
 // Web Audio API logic
 class AudioEngine {
@@ -271,7 +271,7 @@ const PomodoroFocusVisualizer = () => {
   const progressPercentage = ((totalTime - timeLeft) / totalTime) * 100;
 
   return (
-    <div className="min-h-screen bg-[#FFFDF9] flex items-center justify-center p-4 sm:p-8 font-outfit relative overflow-hidden">
+    <div className="min-h-screen bg-[#FFFDF9] text-black p-4 sm:p-8 font-outfit relative overflow-hidden">
       <SEO 
         title="Pomodoro Focus & Waveform"
         description="A physical, retro stopwatch pomodoro timer with interactive lo-fi sound waves."
@@ -281,11 +281,21 @@ const PomodoroFocusVisualizer = () => {
       <div className="absolute top-10 left-10 w-32 h-32 bg-[#FFDE59] border-4 border-black rounded-full mix-blend-multiply opacity-50 blur-sm pointer-events-none" />
       <div className="absolute bottom-20 right-20 w-64 h-64 bg-[#7EAAFF] border-4 border-black mix-blend-multiply opacity-50 blur-md pointer-events-none" />
 
-      <div 
-        ref={containerRef}
-        className="relative z-10 w-full max-w-md bg-white border-4 border-black p-8 rounded-none sm:rounded-2xl flex flex-col items-center transition-all duration-75"
-        style={{ boxShadow: '8px 8px 0px 0px rgba(0,0,0,1)' }}
-      >
+      <CalculatorLayout>
+        <div className="lg:col-span-12">
+          <CalculatorHeader
+            icon={Activity}
+            title="Pomodoro Focus"
+            subtitle="Retro stopwatch pomodoro timer with lo-fi sound waves"
+          />
+        </div>
+
+        <div className="lg:col-span-12 flex justify-center">
+          <div 
+            ref={containerRef}
+            className="relative z-10 w-full max-w-md bg-white border-4 border-black p-8 rounded-none sm:rounded-2xl flex flex-col items-center transition-all duration-75"
+            style={{ boxShadow: '8px 8px 0px 0px rgba(0,0,0,1)' }}
+          >
         <div className="w-full flex justify-between items-center mb-6">
           <div className="text-sm font-bold uppercase tracking-widest border-2 border-black px-4 py-1 bg-[#FFDE59] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] rounded-full">
             {mode === 'focus' ? 'Focus Mode' : 'Break Time'}
@@ -371,6 +381,10 @@ const PomodoroFocusVisualizer = () => {
           <p className="animate-pulse text-white mt-1">{`> _`}</p>
         </div>
       </div>
+      </div>
+      </CalculatorLayout>
+    
+      <Footer />
     </div>
   );
 };

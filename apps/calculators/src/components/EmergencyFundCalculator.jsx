@@ -1,13 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { ShieldAlert, DollarSign, Activity, Briefcase, Plus, HeartPulse } from 'lucide-react';
-import { 
-  CalculatorLayout, 
-  CalculatorHeader, 
-  ResultsAnalysis, 
-  Input, 
-  Card,
-  DownloadButtons
-} from '@packages/styling';
+import { CalculatorLayout, CalculatorHeader, ResultsAnalysis, Input, Card, DownloadButtons, Footer } from '@packages/styling';
 import { calculateEmergencyFund } from '../lib/emergencyFundLogic.js';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 
@@ -172,7 +165,9 @@ export function EmergencyFundCalculator() {
             </div>
           </ResultsAnalysis>
         </div>
-      </div>
+      
+      <Footer />
+    </div>
     </CalculatorLayout>
   );
 }

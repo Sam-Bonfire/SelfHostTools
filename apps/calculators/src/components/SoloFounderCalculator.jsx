@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import { IndianRupee, Rocket, TrendingDown, Target, Server, Percent, Briefcase, Zap, Info, Clock } from 'lucide-react';
-import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons } from '@packages/styling';
+import { IndianRupee, Rocket, TrendingDown, TrendingUp, Target, Server, Percent, Briefcase, Zap, Info, Clock } from 'lucide-react';
+import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer } from '@packages/styling';
 import { calculateSoloFounderRunway } from '../lib/soloFounderLogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 
@@ -309,7 +309,9 @@ export default function SoloFounderCalculator() {
                         )}
                     </ResultsAnalysis>
                 </div>
-            </div>
+            
+      <Footer />
+    </div>
         </CalculatorLayout>
     );
 }

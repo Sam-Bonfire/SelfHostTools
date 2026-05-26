@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Calculator, ArrowRight, TrendingUp, Home, Umbrella, Flame, Briefcase, Lock, GraduationCap, Hammer, MapPin, Search, X, ChevronLeft, ChevronRight, MessageSquarePlus, Zap, Activity, Rocket, Car, FileText, Globe, Camera, ShieldAlert } from 'lucide-react';
-import { Card, Button, Input } from '@packages/styling';
+import { Card, Button, Input, Footer } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
-import Footer from './Footer';
+
 import SEO from './SEO';
 
 const CALCULATORS = [

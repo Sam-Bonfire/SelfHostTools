@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { IndianRupee, Percent, Calendar, TrendingDown, TrendingUp, AlertCircle, ShoppingCart, Flame, Landmark, Table as TableIcon, ShieldCheck } from 'lucide-react';
-import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons } from '@packages/styling';
+import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
-import Footer from './Footer';
 import SEO from './SEO';
 import { calculateInflationDestroyer, HISTORICAL_REGIMES, BASKET_ITEMS } from '../lib/inflationLogic';
 

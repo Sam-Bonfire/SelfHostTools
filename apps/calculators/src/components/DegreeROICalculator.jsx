@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { GraduationCap, ArrowLeft, TrendingUp, AlertTriangle, Briefcase, Calculator, IndianRupee, Percent, Calendar, XCircle, CheckCircle, Info } from 'lucide-react';
-import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons } from '@packages/styling';
+import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer } from '@packages/styling';
 import { motion } from 'framer-motion';
 import { calculateDegreeROI } from '../lib/degreeROILogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
-import Footer from './Footer';
+
 import SEO from './SEO';
 
 const NeoLineChart = ({ data }) => {

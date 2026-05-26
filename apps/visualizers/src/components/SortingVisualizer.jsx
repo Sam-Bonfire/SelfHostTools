@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { SEO } from '@packages/components';
-import { Button, Card, Select } from '@packages/styling';
+import { Button, Card, Select, Footer, CalculatorLayout, CalculatorHeader } from '@packages/styling';
 import { Play, Pause, SkipForward, RotateCcw, Volume2, VolumeX } from 'lucide-react';
 
 const ARRAY_SIZE = 40;
@@ -312,13 +312,16 @@ const SortingVisualizer = () => {
         description="Visualize sorting algorithms with retro-synthesized sounds and neo-brutalist design."
       />
       
-      <div className="max-w-6xl mx-auto space-y-8">
-        {/* Header */}
-        <header className="border-4 border-black bg-[#FFDE59] p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
-          <h1 className="text-4xl md:text-5xl font-bold uppercase tracking-tight mb-2 font-outfit">Sorting Visualizer</h1>
-          <p className="text-xl font-medium text-black">See and hear algorithms in action</p>
-        </header>
+      <CalculatorLayout>
+        <div className="lg:col-span-12">
+          <CalculatorHeader
+            icon={Play}
+            title="Sorting Visualizer"
+            subtitle="See and hear algorithms in action"
+          />
+        </div>
 
+        <div className="lg:col-span-12 space-y-8">
         {/* Controls */}
         <Card className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-end">
@@ -428,7 +431,10 @@ const SortingVisualizer = () => {
             </div>
           </div>
         </Card>
-      </div>
+        </div>
+      </CalculatorLayout>
+    
+      <Footer />
     </div>
   );
 };

@@ -1,13 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { 
-  CalculatorLayout, 
-  CalculatorHeader, 
-  ResultsAnalysis, 
-  Input, 
-  Card,
-  DownloadButtons,
-  Tooltip
-} from '@packages/styling';
+import { CalculatorLayout, CalculatorHeader, ResultsAnalysis, Input, Card, DownloadButtons, Tooltip, Footer } from '@packages/styling';
 import { calculateArbitrage } from '../lib/internationalArbitrageLogic';
 import { Globe, PlaneTakeoff, Percent, DollarSign, Wallet, FileDown, TrendingUp, AlertCircle, Target } from 'lucide-react';
 
@@ -218,7 +210,9 @@ export default function InternationalArbitrageCalculator() {
             fileName="International_Arbitrage_Report" 
           />
         </ResultsAnalysis>
-      </div>
+      
+      <Footer />
+    </div>
     </CalculatorLayout>
   );
 }

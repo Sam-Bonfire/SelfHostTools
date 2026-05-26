@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { RefreshCw, Zap, Settings2 } from 'lucide-react';
+import { RefreshCw, Zap, Settings2, PackageOpen } from 'lucide-react';
+import { Footer, CalculatorLayout, CalculatorHeader } from '@packages/styling';
 import { SEO } from '@packages/components';
 
 export default function AssetJarVisualizer() {
@@ -75,13 +76,22 @@ export default function AssetJarVisualizer() {
   const sortedAssets = Object.entries(assets).sort((a, b) => a[1].density - b[1].density);
 
   return (
-    <div className="min-h-screen bg-[#f8f9fa] flex flex-col items-center justify-center p-4 font-['Outfit']">
+    <div className="min-h-screen bg-[#f8f9fa] text-black p-4 md:p-8 font-['Outfit']">
       <SEO 
         title="Asset Allocation Jar" 
         description="Visualize your asset allocation and the impact of market shocks with this interactive density jar." 
       />
       
-      <div className="max-w-4xl w-full bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-xl p-8 flex flex-col md:flex-row gap-12">
+      <CalculatorLayout>
+        <div className="lg:col-span-12">
+          <CalculatorHeader
+            icon={PackageOpen}
+            title="Asset Allocation Jar"
+            subtitle="Visualize your portfolio density and market shocks"
+          />
+        </div>
+
+        <div className="lg:col-span-12 flex flex-col md:flex-row gap-12 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-xl p-8">
         
         <div className="flex-1 flex flex-col items-center justify-end h-[500px]">
           <div 
@@ -175,8 +185,9 @@ export default function AssetJarVisualizer() {
             </button>
           </div>
 
+          </div>
         </div>
-      </div>
+      </CalculatorLayout>
       
       <style dangerouslySetInnerHTML={{__html: `
         @keyframes shake {
@@ -185,6 +196,8 @@ export default function AssetJarVisualizer() {
           20%, 40%, 60%, 80% { transform: translate3d(4px, 0, 0) rotate(2deg); }
         }
       `}} />
+    
+      <Footer />
     </div>
   );
 }

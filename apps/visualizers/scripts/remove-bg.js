@@ -8,10 +8,11 @@ const __dirname = path.dirname(__filename);
 const INPUT_FILE = path.join(__dirname, '../public/images/mascot/origin.png');
 const OUTPUT_FILE = path.join(__dirname, '../public/images/mascot/origin.png'); // overwrite
 
-const TOLERANCE = 15; // Threshold for considering a pixel "white"
+const TOLERANCE = 40; // Threshold for considering a pixel "magenta"
 
-function isWhite(r, g, b) {
-    return r >= 255 - TOLERANCE && g >= 255 - TOLERANCE && b >= 255 - TOLERANCE;
+function isBackground(r, g, b) {
+    // Check if the pixel is primarily magenta
+    return r > 150 && b > 150 && g < 100;
 }
 
 async function removeBackground() {
@@ -57,7 +58,7 @@ async function removeBackground() {
             const g = (hex >>> 16) & 255;
             const b = (hex >>> 8) & 255;
 
-            if (isWhite(r, g, b)) {
+            if (isBackground(r, g, b)) {
                 // Set alpha to 0 (r, g, b, 0)
                 const newHex = ((r << 24) | (g << 16) | (b << 8) | 0) >>> 0;
                 image.setPixelColor(newHex, x, y);

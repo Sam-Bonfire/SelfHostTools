@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useCallback, useRef } from 'react';
 import { IndianRupee, Plus, Trash2, GitFork, Download } from 'lucide-react';
-import { Card, Button, CalculatorHeader, CalculatorLayout, DownloadButtons } from '@packages/styling';
+import { Card, Button, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer } from '@packages/styling';
 import { SEO } from '@packages/components';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
@@ -444,6 +444,8 @@ export default function SankeyFlowchart() {
         </div>
         </div>
       </CalculatorLayout>
+    
+      <Footer />
     </div>
   );
 }

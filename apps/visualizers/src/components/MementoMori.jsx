@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef } from 'react';
-import { Card, Input, Button, Checkbox, CalculatorHeader, CalculatorLayout, ResultsAnalysis, DownloadButtons } from '@packages/styling';
+import { Card, Input, Button, Checkbox, CalculatorHeader, CalculatorLayout, ResultsAnalysis, DownloadButtons, Footer } from '@packages/styling';
 import { SEO } from '@packages/components';
 import { Calendar, Settings, Download } from 'lucide-react';
 import { clsx } from 'clsx';
@@ -316,6 +316,8 @@ export default function MementoMori() {
                     </ResultsAnalysis>
                 </div>
             </CalculatorLayout>
-        </div>
+        
+      <Footer />
+    </div>
     );
 }

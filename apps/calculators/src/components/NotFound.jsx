@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Home, AlertTriangle } from 'lucide-react';
-import { Button, Card } from '@packages/styling';
-import Footer from './Footer';
+import { Button, Card, Footer } from '@packages/styling';
+
 import SEO from './SEO';
 
 export default function NotFound() {

@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { LineChart, AlertTriangle, CheckCircle, DollarSign } from 'lucide-react';
 import { SEO } from '@packages/components';
-import { Card, Input, Select, CalculatorLayout, CalculatorHeader, ResultsAnalysis } from '@packages/styling';
+import { Card, Input, Select, CalculatorLayout, CalculatorHeader, ResultsAnalysis, Footer } from '@packages/styling';
 
 const SCENARIOS = {
   depression: {
@@ -253,7 +253,9 @@ export default function SWRHistoricalVisualizer() {
             </p>
           </Card>
         </div>
-      </div>
+      
+      <Footer />
+    </div>
     </CalculatorLayout>
   );
 }

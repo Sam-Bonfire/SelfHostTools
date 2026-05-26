@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Button } from '@packages/styling';
+import { Card, Button, Footer } from '@packages/styling';
 import { MessageSquarePlus, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SEO from './SEO';
@@ -60,6 +60,8 @@ export default function Feedback() {
                     </div>
                 </Card>
             </div>
-        </div>
+        
+      <Footer />
+    </div>
     );
 }

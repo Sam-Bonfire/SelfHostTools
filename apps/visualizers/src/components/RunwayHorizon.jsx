@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Card, Input, CalculatorHeader, CalculatorLayout, ResultsAnalysis, Button, DownloadButtons } from '@packages/styling';
+import { Card, Input, CalculatorHeader, CalculatorLayout, ResultsAnalysis, Button, DownloadButtons, Footer } from '@packages/styling';
 import { SEO } from '@packages/components';
 import { Sun, Calendar, AlertOctagon, TrendingUp, ShieldAlert, Award, Download } from 'lucide-react';
 import { calculateRunwayData, generateSVGPath } from '../lib/runwayLandscape';
@@ -426,6 +426,8 @@ export default function RunwayHorizon() {
                     </ResultsAnalysis>
                 </div>
             </CalculatorLayout>
-        </div>
+        
+      <Footer />
+    </div>
     );
 }

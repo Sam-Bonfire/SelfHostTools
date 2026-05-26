@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { IndianRupee, Car, TrendingDown, Clock, Shield, Wrench, Fuel, CarTaxiFront, AlertCircle } from 'lucide-react';
-import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons } from '@packages/styling';
+import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer } from '@packages/styling';
 import { calculateCarOwnership } from '../lib/carOwnershipLogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 
@@ -259,7 +259,9 @@ export default function CarOwnershipCalculator() {
 
                     </ResultsAnalysis>
                 </div>
-            </div>
+            
+      <Footer />
+    </div>
         </CalculatorLayout>
     );
 }

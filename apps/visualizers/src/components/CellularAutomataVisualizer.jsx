@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Card, Button, CalculatorHeader, CalculatorLayout, ResultsAnalysis } from '@packages/styling';
+import { Card, Button, CalculatorHeader, CalculatorLayout, ResultsAnalysis, Footer } from '@packages/styling';
 import { SEO } from '@packages/components';
 import { Play, Pause, RotateCcw, Box, MousePointer2, FastForward } from 'lucide-react';
 import { clsx } from 'clsx';
@@ -354,6 +354,8 @@ export default function CellularAutomataVisualizer() {
                 </div>
 
             </CalculatorLayout>
-        </div>
+        
+      <Footer />
+    </div>
     );
 }

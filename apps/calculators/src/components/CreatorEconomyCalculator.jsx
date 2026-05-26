@@ -1,12 +1,5 @@
 import React, { useState } from 'react';
-import { 
-  CalculatorLayout, 
-  CalculatorHeader, 
-  ResultsAnalysis, 
-  Input, 
-  Card,
-  DownloadButtons 
-} from '@packages/styling';
+import { CalculatorLayout, CalculatorHeader, ResultsAnalysis, Input, Card, DownloadButtons, Footer } from '@packages/styling';
 import { Users, Target, MousePointerClick, Send, DollarSign, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { calculateCreatorEconomy } from '../lib/creatorEconomyLogic';
 
@@ -192,7 +185,9 @@ const CreatorEconomyCalculator = () => {
             </div>
           </ResultsAnalysis>
         </div>
-      </div>
+      
+      <Footer />
+    </div>
     </CalculatorLayout>
   );
 };

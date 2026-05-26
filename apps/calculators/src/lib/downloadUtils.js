@@ -6,7 +6,7 @@ const formatCurrency = (val, isPDF = false) => {
   }).format(val);
 
   if (isPDF) {
-    return formatted.replace(/[^\x00-\x7F]/g, '').trim();
+    return formatted.replace(/[^\x20-\x7E]/g, '').trim();
   }
   return formatted;
 };
@@ -98,19 +98,6 @@ export const downloadPDF = async (data) => {
       ['TRUE Monthly Cost', `INR ${formatCurrency(results.financials.trueMonthlyCost, true)}`],
       ['Immediate Liability', `INR ${formatCurrency(results.financials.immediateLiability, true)}`],
       ['Final Property Equity', `INR ${formatCurrency(results.financials.finalEquity, true)}`]
-    ];
-  } else if (inputs.monthlyRent !== undefined && inputs.propertyPrice !== undefined) {
-    // BUY VS RENT
-    summaryData = [
-      ['Property Price', `INR ${formatCurrency(inputs.propertyPrice, true)}`],
-      ['Interest Rate', `${inputs.interestRate}%`],
-      ['Monthly Rent', `INR ${formatCurrency(inputs.monthlyRent, true)}`],
-      ['Rent Inflation', `${inputs.rentInflation}%`],
-      ['Tenure', `${inputs.tenure} Years`],
-      ['Buy Wealth (Net)', `INR ${formatCurrency(results.buyNetWealth, true)}`],
-      ['Rent Wealth (Net)', `INR ${formatCurrency(results.rentNetWealth, true)}`],
-      ['Winner', results.winner.toUpperCase()],
-      ['Wealth Difference', `INR ${formatCurrency(Math.abs(results.buyNetWealth - results.rentNetWealth), true)}`]
     ];
   } else if (inputs.monthlyRent !== undefined && inputs.propertyPrice !== undefined) {
     // BUY VS RENT
