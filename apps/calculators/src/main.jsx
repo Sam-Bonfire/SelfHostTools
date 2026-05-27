@@ -8,6 +8,7 @@ import PWAInstallPrompt from './components/PWAInstallPrompt.jsx';
 import NotFound from './components/NotFound.jsx';
 import Forbidden from './components/Forbidden.jsx';
 import ScrollToTop from './components/ScrollToTop.jsx';
+import ErrorBoundary from './components/ErrorBoundary.jsx';
 import '../../../packages/styling/src/index.css';
 
 // Lazy Load Calculators
@@ -55,6 +56,7 @@ const router = createHashRouter([
         </Suspense>
       </>
     ),
+    errorElement: <ErrorBoundary />,
     children: [
       {
         path: '/',

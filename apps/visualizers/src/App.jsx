@@ -1,8 +1,9 @@
 import React, { Suspense } from 'react';
-import { createHashRouter, RouterProvider } from 'react-router-dom';
+import { createHashRouter, RouterProvider, Outlet } from 'react-router-dom';
 import VisualizersHome from './components/VisualizersHome';
 import MementoMori from './components/MementoMori';
 import SankeyFlowchart from './components/SankeyFlowchart';
+import ErrorBoundary from './components/ErrorBoundary';
 const CompoundInterestSandbox = React.lazy(() => import('./components/CompoundInterestSandbox.jsx'));
 const SortingVisualizer = React.lazy(() => import('./components/SortingVisualizer.jsx'));
 const AssetJarVisualizer = React.lazy(() => import('./components/AssetJarVisualizer.jsx'));
@@ -15,52 +16,58 @@ import FreedomClock from './components/FreedomClock';
 
 const router = createHashRouter([
     {
-        path: "/",
-        element: <VisualizersHome />,
-    },
-    {
-        path: "/memento-mori",
-        element: <MementoMori />,
-    },
-    {
-        path: "/sankey-flowchart",
-        element: <SankeyFlowchart />,
-    },
-    {
-        path: "/compound-interest",
-        element: <Suspense fallback={<div>Loading...</div>}><CompoundInterestSandbox /></Suspense>,
-    },
-    {
-        path: "/sorting-visualizer",
-        element: <Suspense fallback={<div>Loading...</div>}><SortingVisualizer /></Suspense>,
-    },
-    {
-        path: "/asset-jar",
-        element: <Suspense fallback={<div>Loading...</div>}><AssetJarVisualizer /></Suspense>,
-    },
-    {
-        path: "/cellular-automata",
-        element: <Suspense fallback={<div>Loading...</div>}><CellularAutomataVisualizer /></Suspense>,
-    },
-    {
-        path: "/pomodoro-focus",
-        element: <Suspense fallback={<div>Loading...</div>}><PomodoroFocusVisualizer /></Suspense>,
-    },
-    {
-        path: "/swr-history",
-        element: <Suspense fallback={<div>Loading...</div>}><SWRHistoricalVisualizer /></Suspense>,
-    },
-    {
-        path: "/debt-race",
-        element: <DebtRepaymentRace />,
-    },
-    {
-        path: "/runway-horizon",
-        element: <RunwayHorizon />,
-    },
-    {
-        path: "/freedom-clock",
-        element: <FreedomClock />,
+        element: <Outlet />,
+        errorElement: <ErrorBoundary />,
+        children: [
+            {
+                path: "/",
+                element: <VisualizersHome />,
+            },
+            {
+                path: "/memento-mori",
+                element: <MementoMori />,
+            },
+            {
+                path: "/sankey-flowchart",
+                element: <SankeyFlowchart />,
+            },
+            {
+                path: "/compound-interest",
+                element: <Suspense fallback={<div>Loading...</div>}><CompoundInterestSandbox /></Suspense>,
+            },
+            {
+                path: "/sorting-visualizer",
+                element: <Suspense fallback={<div>Loading...</div>}><SortingVisualizer /></Suspense>,
+            },
+            {
+                path: "/asset-jar",
+                element: <Suspense fallback={<div>Loading...</div>}><AssetJarVisualizer /></Suspense>,
+            },
+            {
+                path: "/cellular-automata",
+                element: <Suspense fallback={<div>Loading...</div>}><CellularAutomataVisualizer /></Suspense>,
+            },
+            {
+                path: "/pomodoro-focus",
+                element: <Suspense fallback={<div>Loading...</div>}><PomodoroFocusVisualizer /></Suspense>,
+            },
+            {
+                path: "/swr-history",
+                element: <Suspense fallback={<div>Loading...</div>}><SWRHistoricalVisualizer /></Suspense>,
+            },
+            {
+                path: "/debt-race",
+                element: <DebtRepaymentRace />,
+            },
+            {
+                path: "/runway-horizon",
+                element: <RunwayHorizon />,
+            },
+            {
+                path: "/freedom-clock",
+                element: <FreedomClock />,
+            },
+        ]
     },
 ]);
 

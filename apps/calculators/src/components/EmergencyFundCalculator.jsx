@@ -4,7 +4,7 @@ import { CalculatorLayout, CalculatorHeader, ResultsAnalysis, Input, Card, Downl
 import { calculateEmergencyFund } from '../lib/emergencyFundLogic.js';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 
-export function EmergencyFundCalculator() {
+export default function EmergencyFundCalculator() {
   const [inputs, setInputs] = useState({
     coreExpenses: 3000,
     discretionaryExpenses: 1500,
