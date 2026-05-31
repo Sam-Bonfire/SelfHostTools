@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { CalculatorLayout, CalculatorHeader, ResultsAnalysis, Input, Card, DownloadButtons, Footer } from '@packages/styling';
 import { Users, Target, MousePointerClick, Send, DollarSign, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { calculateCreatorEconomy } from '../lib/creatorEconomyLogic';
+import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 
 const CreatorEconomyCalculator = () => {
   const [inputs, setInputs] = useState({
@@ -21,6 +22,14 @@ const CreatorEconomyCalculator = () => {
   };
 
   const results = calculateCreatorEconomy(inputs);
+
+  const handleDownloadPDF = () => {
+    downloadPDF({ inputs, results });
+  };
+
+  const handleDownloadExcel = () => {
+    downloadExcel({ inputs, results });
+  };
 
   // Preparing data for export
   const reportData = {
@@ -181,7 +190,10 @@ const CreatorEconomyCalculator = () => {
             </div>
             
             <div className="mt-8">
-              <DownloadButtons data={reportData} filename="Creator_Economy_Quote_Report" />
+              <DownloadButtons 
+                onDownloadPDF={handleDownloadPDF} 
+                onDownloadExcel={handleDownloadExcel} 
+              />
             </div>
           </ResultsAnalysis>
         </div>

@@ -237,6 +237,36 @@ export const downloadPDF = async (data) => {
       ['Invest Strategy Final', `INR ${formatCurrency(results.results.investStrategy.finalNetWorth, true)}`],
       ['Payoff Strategy Final', `INR ${formatCurrency(results.results.payoffStrategy.finalNetWorth, true)}`]
     ];
+  } else if (inputs.coreExpenses !== undefined) {
+    // EMERGENCY FUND
+    summaryData = [
+      ['Core Living Expenses', `INR ${formatCurrency(inputs.coreExpenses, true)}`],
+      ['Discretionary Expenses', `INR ${formatCurrency(inputs.discretionaryExpenses, true)}`],
+      ['Keep Discretionary %', `${inputs.discretionaryRetention}%`],
+      ['Expense Volatility Buffer', `INR ${formatCurrency(inputs.expenseVolatility, true)}`],
+      ['Job Search Duration', `${inputs.jobSearchDuration} Months`],
+      ['Max Health Deductible', `INR ${formatCurrency(inputs.healthDeductible, true)}`],
+      ['Max Property/Car Deductible', `INR ${formatCurrency(inputs.propertyDeductible, true)}`],
+      ['Monthly Burn Rate', `INR ${formatCurrency(results.monthlyBurnRate, true)}`],
+      ['Total Fund Needed', `INR ${formatCurrency(results.totalFund, true)}`],
+      ['Tier 1: Immediate Cash', `INR ${formatCurrency(results.tiers.tier1Cash, true)}`],
+      ['Tier 2: Bank HYSA', `INR ${formatCurrency(results.tiers.tier2Bank, true)}`],
+      ['Tier 3: Investments', `INR ${formatCurrency(results.tiers.tier3Investments, true)}`]
+    ];
+  } else if (inputs.desiredIncome !== undefined && inputs.postsPerMonth !== undefined) {
+    // CREATOR ECONOMY
+    summaryData = [
+      ['Desired Monthly Income', `INR ${formatCurrency(inputs.desiredIncome, true)}`],
+      ['Sponsored Posts/Month', inputs.postsPerMonth],
+      ['Total Audience Size', inputs.audienceSize.toLocaleString()],
+      ['Average Reach/Open Rate', `${inputs.reachRate}%`],
+      ['Click-Through Rate', `${inputs.clickThroughRate}%`],
+      ['Active Audience', results.activeAudience.toLocaleString()],
+      ['Target Revenue / Post', `INR ${formatCurrency(results.revenueNeededPerPost, true)}`],
+      ['Required CPM', `INR ${formatCurrency(results.requiredCPM, true)}`],
+      ['Required CPC', `INR ${formatCurrency(results.requiredCPC, true)}`],
+      ['Reality Check', results.realityCheck.message]
+    ];
   }
 
   autoTable(doc, {
@@ -483,6 +513,36 @@ export const downloadExcel = async (data) => {
       ['Invest Strategy Final', results.results.investStrategy.finalNetWorth],
       ['Payoff Strategy Final', results.results.payoffStrategy.finalNetWorth]
     ];
+  } else if (inputs.coreExpenses !== undefined) {
+    // EMERGENCY FUND
+    summaryRows = [
+      ['Core Living Expenses', inputs.coreExpenses],
+      ['Discretionary Expenses', inputs.discretionaryExpenses],
+      ['Keep Discretionary %', inputs.discretionaryRetention],
+      ['Expense Volatility Buffer', inputs.expenseVolatility],
+      ['Job Search Duration (Months)', inputs.jobSearchDuration],
+      ['Max Health Deductible', inputs.healthDeductible],
+      ['Max Property/Car Deductible', inputs.propertyDeductible],
+      ['Monthly Burn Rate', results.monthlyBurnRate],
+      ['Total Fund Needed', results.totalFund],
+      ['Tier 1: Immediate Cash', results.tiers.tier1Cash],
+      ['Tier 2: Bank HYSA', results.tiers.tier2Bank],
+      ['Tier 3: Investments', results.tiers.tier3Investments]
+    ];
+  } else if (inputs.desiredIncome !== undefined && inputs.postsPerMonth !== undefined) {
+    // CREATOR ECONOMY
+    summaryRows = [
+      ['Desired Monthly Income', inputs.desiredIncome],
+      ['Sponsored Posts/Month', inputs.postsPerMonth],
+      ['Total Audience Size', inputs.audienceSize],
+      ['Average Reach/Open Rate (%)', inputs.reachRate],
+      ['Click-Through Rate (%)', inputs.clickThroughRate],
+      ['Active Audience', results.activeAudience],
+      ['Target Revenue / Post', results.revenueNeededPerPost],
+      ['Required CPM', results.requiredCPM],
+      ['Required CPC', results.requiredCPC],
+      ['Reality Check', results.realityCheck.message]
+    ];
   } else {
     // LOAN or SIP
     if (inputs.repaymentTenure !== undefined && inputs.stepUp === undefined) {
@@ -517,19 +577,19 @@ export const downloadExcel = async (data) => {
 
   if (inputs.loans !== undefined) {
     scheduleHeader = ['Year', 'Invest Strategy NW', 'Payoff Strategy NW', 'Difference'];
-    scheduleRows = schedule.map(row => [
+    scheduleRows = schedule ? schedule.map(row => [
       row.label,
       row.investNW,
       row.payoffNW,
       row.diff
-    ]);
+    ]) : [];
   } else {
-    scheduleRows = schedule.map(row => [
+    scheduleRows = schedule ? schedule.map(row => [
       row.label,
       row.principal,
       row.interest,
       row.balance
-    ]);
+    ]) : [];
   }
 
   const wsSchedule = XLSX.utils.aoa_to_sheet([scheduleHeader, ...scheduleRows]);
