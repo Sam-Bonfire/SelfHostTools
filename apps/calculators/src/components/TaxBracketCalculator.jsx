@@ -34,12 +34,15 @@ export default function TaxBracketCalculator() {
 
   return (
     <CalculatorLayout>
-      <CalculatorHeader 
+      <div className="lg:col-span-12">
+        <CalculatorHeader 
         title="Tax Bracket Optimizer"
         description="Compare standard vs. itemized deductions to maximize your tax savings. 2024 Tax Year."
         icon={<Building2 className="w-8 h-8" />}
       />
+      </div>
 
+      <div className="lg:col-span-12">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 max-w-7xl mx-auto">
         <div className="lg:col-span-4 space-y-6">
           <Card title="Income & Filing" icon={<Briefcase className="w-5 h-5" />}>
@@ -212,8 +215,9 @@ export default function TaxBracketCalculator() {
           />
         </div>
       
-      <Footer />
+      </div>
     </div>
     </CalculatorLayout>
+    <Footer />
   );
 }

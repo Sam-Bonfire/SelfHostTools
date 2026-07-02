@@ -67,12 +67,15 @@ const CreatorEconomyCalculator = () => {
 
   return (
     <CalculatorLayout>
-      <CalculatorHeader 
+      <div className="lg:col-span-12">
+        <CalculatorHeader 
         title="Creator Economy Quoter" 
         description="Reverse-engineer your sponsor pricing based on your desired income and actual audience engagement."
         icon={<Users size={32} />}
       />
+      </div>
 
+      <div className="lg:col-span-12">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         <div className="lg:col-span-5 space-y-6">
           <Card title="The Goal">
@@ -198,9 +201,10 @@ const CreatorEconomyCalculator = () => {
           </ResultsAnalysis>
         </div>
       
-      <Footer />
+      </div>
     </div>
     </CalculatorLayout>
+    <Footer />
   );
 };
 

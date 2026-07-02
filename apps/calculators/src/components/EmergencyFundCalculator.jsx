@@ -35,12 +35,15 @@ export default function EmergencyFundCalculator() {
 
   return (
     <CalculatorLayout>
-      <CalculatorHeader 
+      <div className="lg:col-span-12">
+        <CalculatorHeader 
         title="Emergency Fund & Income Shock"
         description="Calculate your multi-tiered cushion based on volatility, job loss, and deductibles."
         icon={<ShieldAlert size={32} className="text-white" />}
       />
+      </div>
       
+      <div className="lg:col-span-12">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 w-full max-w-7xl">
         <div className="lg:col-span-2 space-y-8">
           <Card className="p-6">
@@ -166,8 +169,9 @@ export default function EmergencyFundCalculator() {
           </ResultsAnalysis>
         </div>
       
-      <Footer />
+      </div>
     </div>
     </CalculatorLayout>
+    <Footer />
   );
 }

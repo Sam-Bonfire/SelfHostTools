@@ -51,14 +51,17 @@ export default function SoloFounderCalculator() {
 
     return (
         <CalculatorLayout>
-            <CalculatorHeader
+            <div className="lg:col-span-12">
+        <CalculatorHeader
                 title="Solo-Founder Runway & Bootstrapping"
                 description="Find your true Break-Even and Freedom MRR. Deducts Stripe fees, hosting, churn, and taxes to reveal what it actually takes to quit your day job."
                 icon={<Rocket className="w-8 h-8 md:w-10 md:h-10 text-purple-500" />}
                 color="bg-purple-100"
             />
+      </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div className="lg:col-span-12">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                 {/* LEFT: Inputs */}
                 <div className="lg:col-span-5 space-y-6">
                     <Card className="p-6 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-white">
@@ -310,8 +313,9 @@ export default function SoloFounderCalculator() {
                     </ResultsAnalysis>
                 </div>
             
-      <Footer />
+      </div>
     </div>
         </CalculatorLayout>
+        <Footer />
     );
 }

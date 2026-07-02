@@ -44,14 +44,17 @@ export default function CarOwnershipCalculator() {
 
     return (
         <CalculatorLayout>
-            <CalculatorHeader
+            <div className="lg:col-span-12">
+        <CalculatorHeader
                 title="Car Ownership Realist"
                 description="Buying a car is emotional. Let's make it mathematical. Expose the hidden costs of depreciation, interest, and maintenance."
                 icon={<Car className="w-8 h-8 md:w-10 md:h-10 text-orange-500" />}
                 color="bg-orange-100"
             />
+      </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div className="lg:col-span-12">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                 {/* LEFT: Inputs */}
                 <div className="lg:col-span-5 space-y-6">
                     <Card className="p-6 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-white">
@@ -260,8 +263,9 @@ export default function CarOwnershipCalculator() {
                     </ResultsAnalysis>
                 </div>
             
-      <Footer />
+      </div>
     </div>
         </CalculatorLayout>
+        <Footer />
     );
 }

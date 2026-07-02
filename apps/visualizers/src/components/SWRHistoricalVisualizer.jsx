@@ -86,13 +86,16 @@ export default function SWRHistoricalVisualizer() {
         description="See how your safe withdrawal rate would have survived the Great Depression, 1970s Stagflation, and the 2008 Financial Crisis."
       />
       
-      <CalculatorHeader 
+      <div className="lg:col-span-12">
+        <CalculatorHeader 
         title="SWR History Visualizer"
         subtitle="Simulate the 'Safe Withdrawal Rate' through historical economic crises."
         icon={<LineChart className="w-8 h-8 text-black" />}
         color="bg-blue-300"
       />
+      </div>
 
+      <div className="lg:col-span-12">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         <div className="col-span-1 lg:col-span-4 space-y-6">
           <Card title="Simulation Parameters" className="bg-white">
@@ -254,8 +257,9 @@ export default function SWRHistoricalVisualizer() {
           </Card>
         </div>
       
-      <Footer />
+      </div>
     </div>
     </CalculatorLayout>
+    <Footer />
   );
 }

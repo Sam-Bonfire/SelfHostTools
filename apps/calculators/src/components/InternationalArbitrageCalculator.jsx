@@ -42,10 +42,12 @@ export default function InternationalArbitrageCalculator() {
   return (
     <CalculatorLayout>
       <div className="lg:col-span-12">
+        <div className="lg:col-span-12">
         <CalculatorHeader 
           title="International Arbitrage"
           icon={Globe}
         />
+      </div>
       </div>
 
       <div className="lg:col-span-12 xl:col-span-5 space-y-6">
@@ -211,8 +213,9 @@ export default function InternationalArbitrageCalculator() {
           />
         </ResultsAnalysis>
       
-      <Footer />
+      </div>
     </div>
     </CalculatorLayout>
+    <Footer />
   );
 }
