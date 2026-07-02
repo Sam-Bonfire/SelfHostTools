@@ -67,6 +67,7 @@ jobs:
         run: pnpm --filter calculators run build
         env:
           VITE_SITE_URL: https://self-host-calculators.pages.dev
+          VITE_NOTION_FORM_URL: ${{ secrets.VITE_NOTION_FORM_URL || secrets.NOTION_FORM_URL }}
 
       - name: Deploy Calculators to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
