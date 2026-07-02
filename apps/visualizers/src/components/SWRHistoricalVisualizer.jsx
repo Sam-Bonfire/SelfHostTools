@@ -80,7 +80,8 @@ export default function SWRHistoricalVisualizer() {
   const maxPortfolio = Math.max(portfolioValue, ...results.path.map(d => d.portfolio));
 
   return (
-    <CalculatorLayout>
+    <>
+      <CalculatorLayout>
       <SEO 
         title="SWR Historical Path Visualizer" 
         description="See how your safe withdrawal rate would have survived the Great Depression, 1970s Stagflation, and the 2008 Financial Crisis."
@@ -261,5 +262,6 @@ export default function SWRHistoricalVisualizer() {
     </div>
     </CalculatorLayout>
     <Footer />
-  );
+        </>
+    );
 }

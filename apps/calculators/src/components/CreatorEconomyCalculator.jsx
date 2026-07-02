@@ -66,7 +66,8 @@ const CreatorEconomyCalculator = () => {
   };
 
   return (
-    <CalculatorLayout>
+    <>
+      <CalculatorLayout>
       <div className="lg:col-span-12">
         <CalculatorHeader 
         title="Creator Economy Quoter" 
@@ -205,7 +206,8 @@ const CreatorEconomyCalculator = () => {
     </div>
     </CalculatorLayout>
     <Footer />
-  );
+        </>
+    );
 };
 
 export default CreatorEconomyCalculator;

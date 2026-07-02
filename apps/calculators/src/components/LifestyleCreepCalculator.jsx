@@ -56,7 +56,8 @@ export default function LifestyleCreepCalculator() {
     };
 
     return (
-        <CalculatorLayout>
+        <>
+          <CalculatorLayout>
             <div className="lg:col-span-12">
         <CalculatorHeader
                 title="Lifestyle Creep Simulator"
@@ -236,5 +237,6 @@ export default function LifestyleCreepCalculator() {
     </div>
         </CalculatorLayout>
         <Footer />
+          </>
     );
 }

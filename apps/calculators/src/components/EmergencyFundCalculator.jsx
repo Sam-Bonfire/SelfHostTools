@@ -34,7 +34,8 @@ export default function EmergencyFundCalculator() {
   };
 
   return (
-    <CalculatorLayout>
+    <>
+      <CalculatorLayout>
       <div className="lg:col-span-12">
         <CalculatorHeader 
         title="Emergency Fund & Income Shock"
@@ -173,5 +174,6 @@ export default function EmergencyFundCalculator() {
     </div>
     </CalculatorLayout>
     <Footer />
-  );
+        </>
+    );
 }

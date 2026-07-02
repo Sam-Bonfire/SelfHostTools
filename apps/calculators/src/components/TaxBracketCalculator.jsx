@@ -33,7 +33,8 @@ export default function TaxBracketCalculator() {
   const formatPercent = (val) => new Intl.NumberFormat('en-US', { style: 'percent', maximumFractionDigits: 2 }).format(val);
 
   return (
-    <CalculatorLayout>
+    <>
+      <CalculatorLayout>
       <div className="lg:col-span-12">
         <CalculatorHeader 
         title="Tax Bracket Optimizer"
@@ -219,5 +220,6 @@ export default function TaxBracketCalculator() {
     </div>
     </CalculatorLayout>
     <Footer />
-  );
+        </>
+    );
 }
