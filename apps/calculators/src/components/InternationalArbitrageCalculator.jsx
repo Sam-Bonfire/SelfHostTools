@@ -215,7 +215,6 @@ export default function InternationalArbitrageCalculator() {
         </ResultsAnalysis>
       
       </div>
-    </div>
     </CalculatorLayout>
     <Footer />
         </>
