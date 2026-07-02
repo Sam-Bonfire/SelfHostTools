@@ -10,6 +10,14 @@ import Tooltip from './Tooltip';
  * Includes Back Button, Icon, and Title in a yellow bar.
  */
 const CalculatorHeader = ({ icon: Icon, title, backLink = "/" }) => {
+    const renderIcon = () => {
+        if (!Icon) return null;
+        if (React.isValidElement(Icon)) {
+            return Icon;
+        }
+        return <Icon className="w-6 h-6 md:w-8 md:h-8 text-black" />;
+    };
+
     return (
         <header className="flex justify-between items-center bg-yellow-300 p-4 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-black">
             <div className="flex items-center gap-4">
@@ -19,7 +27,7 @@ const CalculatorHeader = ({ icon: Icon, title, backLink = "/" }) => {
                     </Link>
                 </Tooltip>
                 <h1 className="text-2xl md:text-3xl font-black flex items-center gap-3 uppercase">
-                    {Icon && <Icon className="w-6 h-6 md:w-8 md:h-8 text-black" />} {title}
+                    {renderIcon()} {title}
                 </h1>
             </div>
         </header>
