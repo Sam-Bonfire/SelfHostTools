@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Calculator, IndianRupee, Percent, TrendingUp, TrendingDown, Trash2, Plus, Info, Landmark, PiggyBank, Scale, ChevronDown, ChevronUp, Download, FileText, FileSpreadsheet, Table as TableIcon } from 'lucide-react';
-import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, Select, DownloadButtons, Footer } from '@packages/styling';
+import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, Select, DownloadButtons, Footer, MetricDisplay } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 import { calculateInvestVsLoan } from '../lib/investVsLoanLogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
@@ -101,93 +101,61 @@ export default function App() {
             />
 
             <CalculatorLayout>
-                <div className="lg:col-span-12">
-                    <CalculatorHeader
-                        icon={Scale}
-                        title="Invest or Pay Off Debt?"
-                        description="The eternal financial dilemma, solved with math."
-                    />
-                </div>
+                <CalculatorHeader
+                    icon={Scale}
+                    title="Invest or Pay Off Debt?"
+                    description="The eternal financial dilemma, solved with math."
+                />
 
                 {/* Inputs */}
                 <div className="lg:col-span-12 xl:col-span-5 space-y-6">
 
                     {/* Investment Profile */}
-                    <Card className="p-0 border-4 border-black">
-                        <div className="bg-green-100 p-4 border-b-4 border-black">
-                            <h2 className="text-lg font-bold flex items-center gap-2">
-                                <PiggyBank className="w-5 h-5" />
-                                The Surplus Engine
-                            </h2>
-                        </div>
-                        <div className="p-4 space-y-4">
+                    <Card title="The Surplus Engine" icon={PiggyBank} headerColor="bg-green-100">
+                        <div className="space-y-4">
                             <div>
-                                <div className="flex items-center gap-2 mb-2">
-                                    <label htmlFor="monthly-surplus" className="block font-bold">Monthly Surplus Cash</label>
-                                    <Tooltip content="The extra amount you can afford to allocate each month, AFTER paying all minimum loan EMIs and living expenses." />
-                                </div>
-                                <div className="relative">
-                                    <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 z-10" />
-                                    <Input
-                                        id="monthly-surplus"
-                                        type="number"
-                                        value={surplus}
-                                        onChange={e => setSurplus(e.target.value)}
-                                        className="pl-9"
-                                    />
-                                </div>
+                                <Input
+                                    id="monthly-surplus"
+                                    type="number"
+                                    label="Monthly Surplus Cash"
+                                    tooltip="The extra amount you can afford to allocate each month, AFTER paying all minimum loan EMIs and living expenses."
+                                    icon={IndianRupee}
+                                    value={surplus}
+                                    onChange={e => setSurplus(e.target.value)}
+                                />
                                 <p className="text-xs text-gray-500 mt-1">This amount fuels either your Investments or Debt Repayment.</p>
                             </div>
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <label htmlFor="investment-return" className="block font-bold text-sm">Exp. Return (%)</label>
-                                        <Tooltip content="Annual expected return from your investments (e.g., Equity Mutual Funds often ~12%)." />
-                                    </div>
-                                    <div className="relative">
-                                        <Percent className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 z-10" />
-                                        <Input
-                                            id="investment-return"
-                                            type="number"
-                                            value={investmentReturn}
-                                            onChange={e => setInvestmentReturn(e.target.value)}
-                                            className="pl-9"
-                                        />
-                                    </div>
+                                    <Input
+                                        id="investment-return"
+                                        type="number"
+                                        label="Exp. Return (%)"
+                                        tooltip="Annual expected return from your investments (e.g., Equity Mutual Funds often ~12%)."
+                                        icon={Percent}
+                                        value={investmentReturn}
+                                        onChange={e => setInvestmentReturn(e.target.value)}
+                                    />
                                 </div>
                                 <div>
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <label htmlFor="investment-tax" className="block font-bold text-sm">Tax on Gains (%)</label>
-                                        <Tooltip content="Estimated tax on investment profits (LTCG). Currently ~12.5% for equity in India (>1.25L)." />
-                                    </div>
-                                    <div className="relative">
-                                        <Percent className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 z-10" />
-                                        <Input
-                                            id="investment-tax"
-                                            type="number"
-                                            value={investmentTaxRate}
-                                            onChange={e => setInvestmentTaxRate(e.target.value)}
-                                            className="pl-9"
-                                        />
-                                    </div>
+                                    <Input
+                                        id="investment-tax"
+                                        type="number"
+                                        label="Tax on Gains (%)"
+                                        tooltip="Estimated tax on investment profits (LTCG). Currently ~12.5% for equity in India (>1.25L)."
+                                        icon={Percent}
+                                        value={investmentTaxRate}
+                                        onChange={e => setInvestmentTaxRate(e.target.value)}
+                                    />
                                 </div>
                             </div>
                         </div>
                     </Card>
 
                     {/* Loans List */}
-                    <Card className="p-0 border-4 border-black">
-                        <div className="bg-red-100 p-4 border-b-4 border-black flex justify-between items-center">
-                            <h2 className="text-lg font-bold flex items-center gap-2">
-                                <Landmark className="w-5 h-5" />
-                                Your Loans
-                            </h2>
-                            <Button onClick={addLoan} variant="outline" className="text-xs px-2 py-1 h-auto flex items-center gap-1">
-                                <Plus className="w-3 h-3" /> Add Loan
-                            </Button>
-                        </div>
-                        <div className="p-4 space-y-6">
+                    <Card title="Your Loans" icon={Landmark} headerColor="bg-red-100">
+                        <div className="space-y-6">
                             {loans.map((loan, idx) => (
                                 <div key={loan.id} className="relative p-4 bg-gray-50 border-2 border-black rounded-sm">
                                     {loans.length > 1 && (
@@ -213,73 +181,63 @@ export default function App() {
 
                                     <div className="grid grid-cols-2 gap-3 mb-3">
                                         <div>
-                                            <label htmlFor={`loan-principal-${loan.id}`} className="text-xs font-bold block mb-1">Remaining Principal</label>
-                                            <div className="relative">
-                                                <IndianRupee className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-500 z-10" />
-                                                <Input
-                                                    id={`loan-principal-${loan.id}`}
-                                                    type="number"
-                                                    value={loan.principal}
-                                                    onChange={e => updateLoan(loan.id, 'principal', e.target.value)}
-                                                    className="h-8 text-sm pl-6"
-                                                />
-                                            </div>
+                                            <Input
+                                                id={`loan-principal-${loan.id}`}
+                                                type="number"
+                                                label="Remaining Principal"
+                                                icon={IndianRupee}
+                                                value={loan.principal}
+                                                onChange={e => updateLoan(loan.id, 'principal', e.target.value)}
+                                                className="h-8 text-sm"
+                                            />
                                         </div>
                                         <div>
-                                            <label htmlFor={`loan-rate-${loan.id}`} className="text-xs font-bold block mb-1">Rate (%)</label>
-                                            <div className="relative">
-                                                <Percent className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-500 z-10" />
-                                                <Input
-                                                    id={`loan-rate-${loan.id}`}
-                                                    type="number"
-                                                    value={loan.rate}
-                                                    onChange={e => updateLoan(loan.id, 'rate', e.target.value)}
-                                                    className="h-8 text-sm pl-6"
-                                                />
-                                            </div>
+                                            <Input
+                                                id={`loan-rate-${loan.id}`}
+                                                type="number"
+                                                label="Rate (%)"
+                                                icon={Percent}
+                                                value={loan.rate}
+                                                onChange={e => updateLoan(loan.id, 'rate', e.target.value)}
+                                                className="h-8 text-sm"
+                                            />
                                         </div>
                                     </div>
 
                                     <div className="grid grid-cols-2 gap-3 items-end mb-3">
                                         <div>
-                                            <label htmlFor={`loan-payment-${loan.id}`} className="text-xs font-bold block mb-1">Min Payment</label>
-                                            <div className="relative">
-                                                <IndianRupee className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-500 z-10" />
-                                                <Input
-                                                    id={`loan-payment-${loan.id}`}
-                                                    type="number"
-                                                    value={loan.minPayment}
-                                                    onChange={e => updateLoan(loan.id, 'minPayment', e.target.value)}
-                                                    className="h-8 text-sm pl-6"
-                                                />
-                                            </div>
+                                            <Input
+                                                id={`loan-payment-${loan.id}`}
+                                                type="number"
+                                                label="Min Payment"
+                                                icon={IndianRupee}
+                                                value={loan.minPayment}
+                                                onChange={e => updateLoan(loan.id, 'minPayment', e.target.value)}
+                                                className="h-8 text-sm"
+                                            />
                                         </div>
-                                        <div className="flex items-center gap-2 h-8">
+                                        <div className="flex items-center h-8">
                                             <Checkbox
                                                 id={`tax-${loan.id}`}
+                                                label="Tax Deductible?"
                                                 checked={loan.isTaxDeductible}
                                                 onChange={e => updateLoan(loan.id, 'isTaxDeductible', e.target.checked)}
                                             />
-                                            <label htmlFor={`tax-${loan.id}`} className="text-xs font-bold cursor-pointer">
-                                                Tax Deductible?
-                                            </label>
                                         </div>
                                     </div>
 
                                     {/* Optional Remaining Interest Input */}
                                     <div className="mb-2">
-                                        <label htmlFor={`loan-interest-${loan.id}`} className="text-[10px] font-bold block mb-1 text-gray-500">Remaining Interest (Optional)</label>
-                                        <div className="relative">
-                                            <IndianRupee className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-500 z-10" />
-                                            <Input
-                                                id={`loan-interest-${loan.id}`}
-                                                type="number"
-                                                value={loan.remainingInterest || ''}
-                                                placeholder="Calc automatically"
-                                                onChange={e => updateLoan(loan.id, 'remainingInterest', e.target.value)}
-                                                className="h-8 text-sm pl-6 bg-gray-50"
-                                            />
-                                        </div>
+                                        <Input
+                                            id={`loan-interest-${loan.id}`}
+                                            type="number"
+                                            label="Remaining Interest (Optional)"
+                                            icon={IndianRupee}
+                                            value={loan.remainingInterest || ''}
+                                            placeholder="Calc automatically"
+                                            onChange={e => updateLoan(loan.id, 'remainingInterest', e.target.value)}
+                                            className="h-8 text-sm bg-gray-50"
+                                        />
                                         {loan.remainingInterest > 0 && (
                                             <div className="text-[9px] text-gray-500 mt-1">
                                                 Total Payoff: {formatCurrency(Number(loan.principal) + Number(loan.remainingInterest))}
@@ -296,21 +254,21 @@ export default function App() {
                                 </div>
                             ))}
 
+                            <Button onClick={addLoan} variant="outline" className="w-full flex items-center justify-center gap-2 mb-4">
+                                <Plus className="w-4 h-4" /> Add Another Loan
+                            </Button>
+
                             <div className="bg-blue-50 p-3 border-2 border-blue-900 rounded-sm">
-                                <div className="flex items-center justify-between mb-1">
-                                    <label htmlFor="income-tax-bracket" className="text-sm font-bold text-blue-900 block">Your Income Tax Bracket (%)</label>
-                                    <Tooltip content="Used to calculate the effective interest rate of tax-deductible loans (like Home Loans)." />
-                                </div>
-                                <div className="relative">
-                                    <Percent className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-800" />
-                                    <Input
-                                        id="income-tax-bracket"
-                                        type="number"
-                                        value={userTaxBracket}
-                                        onChange={e => setUserTaxBracket(e.target.value)}
-                                        className="pl-9 border-blue-900"
-                                    />
-                                </div>
+                                <Input
+                                    id="income-tax-bracket"
+                                    type="number"
+                                    label="Your Income Tax Bracket (%)"
+                                    tooltip="Used to calculate the effective interest rate of tax-deductible loans (like Home Loans)."
+                                    icon={Percent}
+                                    value={userTaxBracket}
+                                    onChange={e => setUserTaxBracket(e.target.value)}
+                                    className="border-blue-900"
+                                />
                             </div>
                         </div>
                     </Card>
@@ -343,10 +301,10 @@ export default function App() {
                                     <div className="bg-white border-4 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                                         <h4 className="font-black text-lg text-green-700 bg-green-100 px-2 py-1 inline-block border-2 border-black mb-4">Invest Strategy</h4>
                                         <div className="space-y-4">
-                                            <div>
-                                                <p className="text-xs font-bold text-gray-500 uppercase">Final Net Worth</p>
-                                                <p className="text-2xl font-black">{formatCurrency(results.results.investStrategy.finalNetWorth)}</p>
-                                            </div>
+                                            <MetricDisplay 
+                                                title="Final Net Worth" 
+                                                value={formatCurrency(results.results.investStrategy.finalNetWorth)} 
+                                            />
                                             <div className="grid grid-cols-2 gap-2 text-sm">
                                                 <div>
                                                     <p className="font-bold text-gray-500">Debt Free In</p>
@@ -364,10 +322,10 @@ export default function App() {
                                     <div className="bg-white border-4 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                                         <h4 className="font-black text-lg text-red-700 bg-red-100 px-2 py-1 inline-block border-2 border-black mb-4">Payoff Strategy</h4>
                                         <div className="space-y-4">
-                                            <div>
-                                                <p className="text-xs font-bold text-gray-500 uppercase">Final Net Worth</p>
-                                                <p className="text-2xl font-black">{formatCurrency(results.results.payoffStrategy.finalNetWorth)}</p>
-                                            </div>
+                                            <MetricDisplay 
+                                                title="Final Net Worth" 
+                                                value={formatCurrency(results.results.payoffStrategy.finalNetWorth)} 
+                                            />
                                             <div className="grid grid-cols-2 gap-2 text-sm">
                                                 <div>
                                                     <p className="font-bold text-gray-500">Debt Free In</p>

@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Card, Input, Button, CalculatorHeader, CalculatorLayout, ResultsAnalysis, Footer } from '@packages/styling';
+import { Card, Input, Button, CalculatorHeader, CalculatorLayout, ResultsAnalysis, Footer, MetricDisplay } from '@packages/styling';
 import { SEO } from '@packages/components';
 import { Flame, Trash2, Plus, Zap, Award, Sparkles } from 'lucide-react';
 import { calculateDebtRace } from '../lib/debtRaceLogic';
@@ -173,11 +173,8 @@ export default function DebtRepaymentRace() {
                     </Card>
 
                     {/* Active Debts List */}
-                    <Card className="p-0 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                        <div className="bg-[#FFDE59] p-4 border-b-4 border-black font-black uppercase">
-                            <h2>Your Debts</h2>
-                        </div>
-                        <div className="p-6 space-y-4">
+                    <Card title="Your Debts" headerColor="bg-[#FFDE59]" className="border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                        <div className="space-y-4">
                             {debts.map((d) => (
                                 <div
                                     key={d.id}
@@ -250,11 +247,9 @@ export default function DebtRepaymentRace() {
 
                             {/* Budget Slider */}
                             <div className="pt-4 border-t-2 border-black/10">
-                                <label htmlFor="budgetInput" className="block text-[10px] font-black uppercase mb-1">
-                                    Total Monthly Budget (₹)
-                                </label>
                                 <Input
                                     id="budgetInput"
+                                    label="Total Monthly Budget (₹)"
                                     type="number"
                                     value={totalMonthlyBudget}
                                     onChange={(e) => setTotalMonthlyBudget(Math.max(0, Number(e.target.value)))}
@@ -277,46 +272,31 @@ export default function DebtRepaymentRace() {
                             {/* Race Stats Cards */}
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 <Card className="p-5 border-4 border-black bg-blue-100 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between">
-                                    <div>
-                                        <span className="block text-[9px] font-black uppercase text-gray-500">
-                                            Debt-Free Month
-                                        </span>
-                                        <span className="block text-2xl font-black text-black">
-                                            {results.avalanche.months} Months
-                                        </span>
-                                    </div>
-                                    <span className="text-[10px] text-gray-600 font-bold uppercase mt-2">
-                                        VS SNOWBALL: {results.snowball.months} months
-                                    </span>
+                                    <MetricDisplay 
+                                        title="Debt-Free Month"
+                                        value={`${results.avalanche.months} Months`}
+                                        subtitle={`VS SNOWBALL: ${results.snowball.months} months`}
+                                    />
                                 </Card>
 
                                 <Card className="p-5 border-4 border-black bg-yellow-100 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between">
-                                    <div>
-                                        <span className="block text-[9px] font-black uppercase text-gray-500">
-                                            Avalanche Interest
-                                        </span>
-                                        <span className="block text-2xl font-black text-black">
-                                            ₹{results.avalanche.totalInterestPaid.toLocaleString('en-IN')}
-                                        </span>
-                                    </div>
-                                    <span className="text-[10px] text-gray-600 font-bold uppercase mt-2">
-                                        VS SNOWBALL: ₹
-                                        {results.snowball.totalInterestPaid.toLocaleString('en-IN')}
-                                    </span>
+                                    <MetricDisplay 
+                                        title="Avalanche Interest"
+                                        value={`₹${results.avalanche.totalInterestPaid.toLocaleString('en-IN')}`}
+                                        subtitle={`VS SNOWBALL: ₹${results.snowball.totalInterestPaid.toLocaleString('en-IN')}`}
+                                    />
                                 </Card>
 
                                 <Card className="p-5 border-4 border-black bg-green-100 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between font-bold">
-                                    <div>
-                                        <span className="block text-[9px] font-black uppercase text-gray-500">
-                                            Avalanche Savings
-                                        </span>
-                                        <span className="block text-2xl font-black text-black">
-                                            ₹{savings.toLocaleString('en-IN')}
-                                        </span>
-                                    </div>
-                                    <span className="text-[10px] text-green-700 font-bold uppercase mt-2 flex items-center gap-1">
-                                        <Award className="w-3.5 h-3.5" /> GUARANTEED SAVINGS
-                                    </span>
+                                    <MetricDisplay 
+                                        title="Avalanche Savings"
+                                        value={`₹${savings.toLocaleString('en-IN')}`}
+                                        subtitle={
+                                            <span className="flex items-center gap-1 text-green-700">
+                                                <Award className="w-3.5 h-3.5" /> GUARANTEED SAVINGS
+                                            </span>
+                                        }
+                                    />
                                 </Card>
                             </div>
 

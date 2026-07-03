@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Calculator, IndianRupee, Percent, Calendar, PieChart as PieChartIcon, Table as TableIcon, TrendingUp, TrendingDown, ArrowLeft, Settings, Coins, PiggyBank, Eye, AlertCircle, Info, Flame, Landmark, ShieldCheck, Target } from 'lucide-react';
-import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer } from '@packages/styling';
+import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer, MetricDisplay } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 
@@ -163,74 +163,42 @@ export default function SIPCalculator() {
           </div>
 
           {/* 1. Core Strategy */}
-          <Card className="p-0 border-4 border-black">
-            <div className="bg-blue-100 p-4 border-b-4 border-black flex justify-between items-center">
-              <h2 className="text-lg font-bold flex items-center gap-2 text-black">
-                <Calculator className="w-5 h-5" />
-                Core Strategy
-              </h2>
-            </div>
+          <Card title="Core Strategy" icon={Calculator} headerColor="bg-blue-100" className="p-0 border-4 border-black">
             <div className="p-4 space-y-5">
               {calcMode === 'investment' ? (
                 <div>
-                  <label htmlFor="monthlyInvestment" className="block text-[10px] font-black uppercase mb-1">Monthly SIP Amount</label>
-                  <p className="text-[10px] text-gray-500 mb-2 font-bold uppercase tracking-tight">How much you want to invest monthly</p>
-                  <div className="relative">
-                    <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                    <Input id="monthlyInvestment" type="number" value={monthlyInvestment} onChange={(e) => setMonthlyInvestment(e.target.value)} onBlur={() => !monthlyInvestment && setMonthlyInvestment(0)} className="pl-9 font-black" />
-                  </div>
+                  <Input id="monthlyInvestment" label="Monthly SIP Amount" icon={IndianRupee} type="number" value={monthlyInvestment} onChange={(e) => setMonthlyInvestment(e.target.value)} onBlur={() => !monthlyInvestment && setMonthlyInvestment(0)} className="font-black" />
+                  <p className="text-[10px] text-gray-500 mb-2 font-bold uppercase tracking-tight mt-1">How much you want to invest monthly</p>
                   <input type="range" min={500} max={100000} step={500} value={monthlyInvestment || 0} onChange={(e) => setMonthlyInvestment(Number(e.target.value))} className="w-full mt-3 h-2 bg-gray-200 appearance-none cursor-pointer accent-black" aria-label="Monthly SIP Amount Slider" />
                 </div>
               ) : (
                 <div>
-                  <label htmlFor="targetCorpus" className="block text-[10px] font-black uppercase mb-1 text-blue-700">Target Final Corpus</label>
-                  <p className="text-[10px] text-gray-500 mb-2 font-bold uppercase tracking-tight">The wealth you wish to accumulate</p>
-                  <div className="relative">
-                    <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-400 z-10" />
-                    <Input id="targetCorpus" type="number" value={targetCorpus} onChange={(e) => setTargetCorpus(e.target.value)} onBlur={() => !targetCorpus && setTargetCorpus(0)} className="pl-9 font-black border-blue-600 text-blue-700" />
-                  </div>
+                  <Input id="targetCorpus" label="Target Final Corpus" icon={IndianRupee} type="number" value={targetCorpus} onChange={(e) => setTargetCorpus(e.target.value)} onBlur={() => !targetCorpus && setTargetCorpus(0)} className="font-black border-blue-600 text-blue-700" />
+                  <p className="text-[10px] text-gray-500 mb-2 font-bold uppercase tracking-tight mt-1">The wealth you wish to accumulate</p>
                   <input type="range" min={100000} max={50000000} step={100000} value={targetCorpus || 0} onChange={(e) => setTargetCorpus(Number(e.target.value))} className="w-full mt-3 h-2 bg-blue-100 appearance-none cursor-pointer accent-blue-600" aria-label="Target Corpus Slider" />
                 </div>
               )}
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="expectedReturn" className="block text-[10px] font-black uppercase mb-1">Expected Return (%)</label>
-                  <p className="text-[10px] text-gray-500 mb-2 font-bold uppercase leading-none tracking-tighter">Avg. Annual growth</p>
-                  <div className="relative">
-                    <Percent className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                    <Input id="expectedReturn" type="number" value={expectedReturn} onChange={(e) => setExpectedReturn(e.target.value)} onBlur={() => !expectedReturn && setExpectedReturn(0)} className="font-black pl-9" />
-                  </div>
+                  <Input id="expectedReturn" label="Expected Return (%)" icon={Percent} type="number" value={expectedReturn} onChange={(e) => setExpectedReturn(e.target.value)} onBlur={() => !expectedReturn && setExpectedReturn(0)} className="font-black" />
+                  <p className="text-[10px] text-gray-500 mb-2 font-bold uppercase leading-none tracking-tighter mt-1">Avg. Annual growth</p>
                 </div>
                 <div>
-                  <label htmlFor="timePeriod" className="block text-[10px] font-black uppercase mb-1">Duration (Yrs)</label>
-                  <p className="text-[10px] text-gray-500 mb-2 font-bold uppercase leading-none tracking-tighter">Years to invest</p>
-                  <div className="relative">
-                    <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                    <Input id="timePeriod" type="number" value={timePeriod} onChange={(e) => setTimePeriod(e.target.value)} onBlur={() => !timePeriod && setTimePeriod(0)} className="font-black pl-9" />
-                  </div>
+                  <Input id="timePeriod" label="Duration (Yrs)" icon={Calendar} type="number" value={timePeriod} onChange={(e) => setTimePeriod(e.target.value)} onBlur={() => !timePeriod && setTimePeriod(0)} className="font-black" />
+                  <p className="text-[10px] text-gray-500 mb-2 font-bold uppercase leading-none tracking-tighter mt-1">Years to invest</p>
                 </div>
               </div>
 
               <div className="pt-4 border-t-2 border-black/10">
-                <label className="flex items-center gap-3 cursor-pointer group">
-                  <Checkbox checked={isStepUp} onChange={(e) => setIsStepUp(e.target.checked)} />
-                  <div className="flex-1">
-                    <span className="text-xs font-black uppercase group-hover:text-blue-600 transition-colors">Enable Annual Step-Up</span>
-                    <p className="text-[9px] font-bold text-gray-400 uppercase leading-none">Increase investment as your salary grows</p>
-                  </div>
-                </label>
+                <div className="group">
+                  <Checkbox label="Enable Annual Step-Up" checked={isStepUp} onChange={(e) => setIsStepUp(e.target.checked)} />
+                  <p className="text-[9px] font-bold text-gray-400 uppercase leading-none mt-1 ml-7">Increase investment as your salary grows</p>
+                </div>
                 {isStepUp && (
                   <div className="mt-6 pl-8 animate-in fade-in slide-in-from-left-2">
                     <div className="bg-green-50 p-4 border-2 border-green-800 mb-5 animate-in zoom-in-95 duration-200">
-                      <label htmlFor="stepUp" className="text-sm font-bold text-green-900 mb-2 flex items-center gap-2">
-                        <TrendingUp className="w-4 h-4" />
-                        Annual Step-Up (%)
-                      </label>
-                      <div className="relative">
-                        <Percent className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-green-700 z-10" />
-                        <Input id="stepUp" type="number" value={stepUpPercentage} onChange={(e) => setStepUpPercentage(e.target.value)} onBlur={() => !stepUpPercentage && setStepUpPercentage(0)} className="pl-9 border-green-800 bg-white font-black" />
-                      </div>
+                      <Input id="stepUp" label="Annual Step-Up (%)" icon={TrendingUp} type="number" value={stepUpPercentage} onChange={(e) => setStepUpPercentage(e.target.value)} onBlur={() => !stepUpPercentage && setStepUpPercentage(0)} className="border-green-800 bg-white font-black" />
                       <p className="text-[10px] text-green-700 mt-2 font-bold uppercase leading-tight">Monthly SIP will grow by this % every 12 months.</p>
                     </div>
                   </div>
@@ -240,43 +208,22 @@ export default function SIPCalculator() {
           </Card>
 
           {/* 2. Reality Adjustments */}
-          <Card className="p-0 border-4 border-black">
-            <div className="bg-red-50 p-4 border-b-4 border-black">
-              <h2 className="text-lg font-bold flex items-center gap-2 text-black">
-                <AlertCircle className="w-5 h-5 text-red-600" />
-                Realistic Adjustments
-              </h2>
-            </div>
+          <Card title="Realistic Adjustments" icon={AlertCircle} headerColor="bg-red-50" className="p-0 border-4 border-black">
             <div className="p-4 space-y-6">
               <div className="space-y-3">
-                <label className="flex items-center gap-3 cursor-pointer">
-                  <Checkbox checked={useInflation} onChange={(e) => setUseInflation(e.target.checked)} />
-                  <div><span className="text-xs font-black uppercase flex items-center gap-2"><Flame className="w-3 h-3 text-orange-600" /> Inflation Adjustment</span></div>
-                </label>
+                <Checkbox label="Inflation Adjustment" checked={useInflation} onChange={(e) => setUseInflation(e.target.checked)} />
                 {useInflation && <div className="pl-8 animate-in zoom-in-95">
-                  <div className="relative">
-                    <Flame className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-orange-600 z-10" />
-                    <Input id="inflation-rate" aria-label="Inflation Rate" type="number" value={inflationRate} onChange={(e) => setInflationRate(e.target.value)} onBlur={() => !inflationRate && setInflationRate(0)} className="h-8 pl-8 border-orange-600 font-black" />
-                  </div>
+                  <Input id="inflation-rate" aria-label="Inflation Rate" icon={Flame} type="number" value={inflationRate} onChange={(e) => setInflationRate(e.target.value)} onBlur={() => !inflationRate && setInflationRate(0)} className="h-8 border-orange-600 font-black" />
                 </div>}
               </div>
               <div className="space-y-3">
-                <label className="flex items-center gap-3 cursor-pointer">
-                  <Checkbox checked={useFees} onChange={(e) => setUseFees(e.target.checked)} />
-                  <div><span className="text-xs font-black uppercase flex items-center gap-2"><Landmark className="w-3 h-3 text-blue-600" /> Mutual Fund Fees</span></div>
-                </label>
+                <Checkbox label="Mutual Fund Fees" checked={useFees} onChange={(e) => setUseFees(e.target.checked)} />
                 {useFees && <div className="pl-8 animate-in zoom-in-95">
-                  <div className="relative">
-                    <Landmark className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-blue-600 z-10" />
-                    <Input id="expense-ratio" aria-label="Expense Ratio" type="number" value={expenseRatio} onChange={(e) => setExpenseRatio(e.target.value)} onBlur={() => !expenseRatio && setExpenseRatio(0)} className="h-8 pl-8 border-blue-600 font-black" />
-                  </div>
+                  <Input id="expense-ratio" aria-label="Expense Ratio" icon={Landmark} type="number" value={expenseRatio} onChange={(e) => setExpenseRatio(e.target.value)} onBlur={() => !expenseRatio && setExpenseRatio(0)} className="h-8 border-blue-600 font-black" />
                 </div>}
               </div>
               <div className="space-y-3">
-                <label className="flex items-center gap-3 cursor-pointer">
-                  <Checkbox checked={useTax} onChange={(e) => setUseTax(e.target.checked)} />
-                  <div><span className="text-xs font-black uppercase flex items-center gap-2 text-black"><ShieldCheck className="w-3 h-3 text-green-600" /> Tax Liability & Asset Mix</span></div>
-                </label>
+                <Checkbox label="Tax Liability & Asset Mix" checked={useTax} onChange={(e) => setUseTax(e.target.checked)} />
                 {useTax && (
                   <div className="pl-8 space-y-6 animate-in zoom-in-95 duration-200">
                     <div className="space-y-4">
@@ -310,21 +257,21 @@ export default function SIPCalculator() {
                               <Input id="asset-mix-equity" aria-label="Equity Allocation %" type="number" value={assetMix.equity} disabled className="h-8 text-xs border-black bg-gray-100 w-full font-black cursor-not-allowed" />
                             </div>
                           </Tooltip>
-                          <div className="flex-1 relative"><label htmlFor="tax-rate-equity" className="absolute left-2 top-1/2 -translate-y-1/2 text-[8px] font-black text-gray-400 uppercase z-10">Tax %</label><Input id="tax-rate-equity" type="number" value={taxRates.equity} onChange={(e) => updateTaxRate('equity', e.target.value)} onBlur={() => taxRates.equity === '' && updateTaxRate('equity', 0)} className="h-8 text-xs pl-10 border-black font-black" /></div>
+                          <div className="flex-1"><Input id="tax-rate-equity" label="Tax %" type="number" value={taxRates.equity} onChange={(e) => updateTaxRate('equity', e.target.value)} onBlur={() => taxRates.equity === '' && updateTaxRate('equity', 0)} className="h-8 text-xs border-black font-black" /></div>
                         </div>
                       </div>
                       <div className="space-y-2 p-2 bg-orange-50/50 border border-orange-200">
                         <span className="text-[10px] font-black uppercase text-orange-700">Debt (%)</span>
                         <div className="flex gap-2">
                           <Input id="asset-mix-debt" aria-label="Debt Allocation %" type="number" value={assetMix.debt} onChange={(e) => updateMix('debt', e.target.value)} onBlur={() => assetMix.debt === '' && updateMix('debt', 0)} className="h-8 text-xs border-black flex-1 font-black" />
-                          <div className="flex-1 relative"><label htmlFor="tax-rate-debt" className="absolute left-2 top-1/2 -translate-y-1/2 text-[8px] font-black text-gray-400 uppercase z-10">Tax %</label><Input id="tax-rate-debt" type="number" value={taxRates.debt} onChange={(e) => updateTaxRate('debt', e.target.value)} onBlur={() => taxRates.debt === '' && updateTaxRate('debt', 0)} className="h-8 text-xs pl-10 border-black font-black" /></div>
+                          <div className="flex-1"><Input id="tax-rate-debt" label="Tax %" type="number" value={taxRates.debt} onChange={(e) => updateTaxRate('debt', e.target.value)} onBlur={() => taxRates.debt === '' && updateTaxRate('debt', 0)} className="h-8 text-xs border-black font-black" /></div>
                         </div>
                       </div>
                       <div className="space-y-2 p-2 bg-yellow-50/50 border border-yellow-200">
                         <span className="text-[10px] font-black uppercase text-yellow-600">Gold/Silver (%)</span>
                         <div className="flex gap-2">
                           <Input id="asset-mix-gold" aria-label="Gold Allocation %" type="number" value={assetMix.gold} onChange={(e) => updateMix('gold', e.target.value)} onBlur={() => assetMix.gold === '' && updateMix('gold', 0)} className="h-8 text-xs border-black flex-1 font-black" />
-                          <div className="flex-1 relative"><label htmlFor="tax-rate-gold" className="absolute left-2 top-1/2 -translate-y-1/2 text-[8px] font-black text-gray-400 uppercase z-10">Tax %</label><Input id="tax-rate-gold" type="number" value={taxRates.gold} onChange={(e) => updateTaxRate('gold', e.target.value)} onBlur={() => taxRates.gold === '' && updateTaxRate('gold', 0)} className="h-8 text-xs pl-10 border-black font-black" /></div>
+                          <div className="flex-1"><Input id="tax-rate-gold" label="Tax %" type="number" value={taxRates.gold} onChange={(e) => updateTaxRate('gold', e.target.value)} onBlur={() => taxRates.gold === '' && updateTaxRate('gold', 0)} className="h-8 text-xs border-black font-black" /></div>
                         </div>
                       </div>
                     </div>
@@ -395,18 +342,8 @@ export default function SIPCalculator() {
             </AnimatePresence>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-white border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4 flex flex-col justify-between">
-                <h3 className="text-sm font-bold text-gray-600 uppercase">Total Invested</h3>
-                <div>
-                  <h3 className="text-3xl font-black mt-2">{formatCurrency(results.totalInvested)}</h3>
-                </div>
-              </div>
-              <div className="bg-white border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4 flex flex-col justify-between">
-                <h3 className="text-sm font-bold text-gray-600 uppercase">Wealth Gained</h3>
-                <div>
-                  <h3 className="text-3xl font-black text-green-600 mt-2">{formatCurrency(results.totalReturns)}</h3>
-                </div>
-              </div>
+              <MetricDisplay title="Total Invested" value={formatCurrency(results.totalInvested)} />
+              <MetricDisplay title="Wealth Gained" value={formatCurrency(results.totalReturns)} />
             </div>
 
             {/* Reality Deductions */}
@@ -420,10 +357,7 @@ export default function SIPCalculator() {
                   {useTax && <div className="p-3 bg-red-50 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"><p className="text-[8px] font-black uppercase text-red-800">Estimated Tax</p><p className="text-sm font-black text-red-900">-{formatCurrency(results.taxAmount)}</p></div>}
                   {useInflation && <div className="p-3 bg-orange-50 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"><p className="text-[8px] font-black uppercase text-orange-800">Inflation Impact</p><p className="text-sm font-black text-orange-900">-{formatCurrency(results.inflationLoss)}</p></div>}
                 </div>
-                <div className="bg-[#FF6B6B]/10 border-4 border-black p-4 mt-6 flex justify-between items-center">
-                  <div><h4 className="text-sm font-black uppercase text-red-900 leading-tight">Post-Everything Value</h4><p className="text-[9px] font-bold text-red-700 uppercase">Actual purchasing power</p></div>
-                  <p className="text-3xl font-black text-red-900">{formatCurrency(results.realValue)}</p>
-                </div>
+                <MetricDisplay title="Post-Everything Value" subtitle="Actual purchasing power" value={formatCurrency(results.realValue)} />
               </div>
             )}
 

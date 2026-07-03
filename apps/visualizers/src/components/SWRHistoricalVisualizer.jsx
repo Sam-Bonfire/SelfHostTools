@@ -89,40 +89,34 @@ export default function SWRHistoricalVisualizer() {
       
       <div className="lg:col-span-12">
         <CalculatorHeader 
-        title="SWR History Visualizer"
-        subtitle="Simulate the 'Safe Withdrawal Rate' through historical economic crises."
-        icon={<LineChart className="w-8 h-8 text-black" />}
-        color="bg-blue-300"
-      />
+          title="SWR History Visualizer"
+          subtitle="Simulate the 'Safe Withdrawal Rate' through historical economic crises."
+          icon={LineChart}
+          color="bg-blue-300"
+        />
       </div>
 
-      <div className="lg:col-span-12">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         <div className="col-span-1 lg:col-span-4 space-y-6">
           <Card title="Simulation Parameters" className="bg-white">
             <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-bold mb-2 uppercase tracking-tight" htmlFor="portfolio">Initial Portfolio ($)</label>
-                <Input 
-                  id="portfolio"
-                  type="number" 
-                  value={portfolioValue}
-                  onChange={(e) => setPortfolioValue(Number(e.target.value))}
-                  icon={<DollarSign className="w-5 h-5" />}
-                />
-              </div>
+              <Input 
+                id="portfolio"
+                label="Initial Portfolio ($)"
+                type="number" 
+                value={portfolioValue}
+                onChange={(e) => setPortfolioValue(Number(e.target.value))}
+                icon={DollarSign}
+              />
               
               <div>
-                <label className="block text-sm font-bold mb-2 uppercase tracking-tight" htmlFor="wr">Withdrawal Rate (%)</label>
-                <div className="flex space-x-2">
-                  <Input 
-                    id="wr"
-                    type="number" 
-                    step="0.1"
-                    value={withdrawalRate}
-                    onChange={(e) => setWithdrawalRate(Number(e.target.value))}
-                  />
-                </div>
+                <Input 
+                  id="wr"
+                  label="Withdrawal Rate (%)"
+                  type="number" 
+                  step="0.1"
+                  value={withdrawalRate}
+                  onChange={(e) => setWithdrawalRate(Number(e.target.value))}
+                />
                 <div className="flex gap-2 mt-2">
                   {[3, 4, 5].map(rate => (
                     <button
@@ -137,9 +131,9 @@ export default function SWRHistoricalVisualizer() {
               </div>
 
               <div>
-                <label className="block text-sm font-bold mb-2 uppercase tracking-tight" htmlFor="scenario">Economic Cycle</label>
                 <Select 
                   id="scenario"
+                  label="Economic Cycle"
                   value={selectedScenario} 
                   onChange={(e) => setSelectedScenario(e.target.value)}
                   options={[
@@ -258,8 +252,6 @@ export default function SWRHistoricalVisualizer() {
           </Card>
         </div>
       
-      </div>
-    </div>
     </CalculatorLayout>
     <Footer />
     </div>

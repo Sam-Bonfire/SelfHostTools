@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Briefcase, IndianRupee, Clock, TrendingUp, TrendingDown, Info, AlertTriangle, ShieldCheck, Pickaxe } from 'lucide-react';
-import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer } from '@packages/styling';
+import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer, MetricDisplay } from '@packages/styling';
 import { calculateAlternateROI } from '../lib/alternateInvestmentLogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import SEO from './SEO';
@@ -76,12 +76,7 @@ export default function AlternateInvestmentCalculator() {
                 </div>
 
                 <div className="lg:col-span-12 xl:col-span-5 space-y-6">
-                    <Card className="p-0 border-4 border-black">
-                        <div className="bg-yellow-100 p-4 border-b-4 border-black">
-                            <h2 className="text-lg font-bold flex items-center gap-2 text-black">
-                                <Briefcase className="w-5 h-5" /> Investment Details
-                            </h2>
-                        </div>
+                    <Card className="p-0 border-4 border-black" title="Investment Details" icon={Briefcase} headerColor="bg-yellow-100">
                         <div className="px-4 pt-4 flex flex-wrap gap-2 mb-2">
                             {[
                                 { label: 'Lazy Fund', initial: 1000000, rate: 12, hours: 0, active: false, icon: ShieldCheck },
@@ -107,35 +102,19 @@ export default function AlternateInvestmentCalculator() {
                         <div className="p-4 space-y-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label htmlFor="initial-investment" className="text-[10px] font-black uppercase mb-1 block">Initial Capital</label>
-                                    <div className="relative">
-                                        <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input id="initial-investment" type="number" value={initialInvestment} onChange={e => setInitial(e.target.value)} className="pl-8 font-black w-full" />
-                                    </div>
+                                    <Input id="initial-investment" label="Initial Capital" icon={IndianRupee} type="number" value={initialInvestment} onChange={e => setInitial(e.target.value)} className="font-black w-full" />
                                 </div>
                                 <div>
-                                    <label htmlFor="monthly-contribution" className="text-[10px] font-black uppercase mb-1 block">Monthly Add</label>
-                                    <div className="relative">
-                                        <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input id="monthly-contribution" type="number" value={monthlyContribution} onChange={e => setMonthly(e.target.value)} className="pl-8 font-black w-full" />
-                                    </div>
+                                    <Input id="monthly-contribution" label="Monthly Add" icon={IndianRupee} type="number" value={monthlyContribution} onChange={e => setMonthly(e.target.value)} className="font-black w-full" />
                                 </div>
                             </div>
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label htmlFor="investment-years" className="text-[10px] font-black uppercase mb-1 block">Time Horizon (Yrs)</label>
-                                    <div className="relative">
-                                        <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input id="investment-years" type="number" value={years} onChange={e => setYears(e.target.value)} className="pl-8 font-black w-full" />
-                                    </div>
+                                    <Input id="investment-years" label="Time Horizon (Yrs)" icon={Clock} type="number" value={years} onChange={e => setYears(e.target.value)} className="font-black w-full" />
                                 </div>
                                 <div>
-                                    <label htmlFor="return-rate" className="text-[10px] font-black uppercase mb-1 block">Exp. Return (%)</label>
-                                    <div className="relative">
-                                        <TrendingUp className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input id="return-rate" type="number" value={estReturnRate} onChange={e => setReturnRate(e.target.value)} className="pl-8 font-black w-full" />
-                                    </div>
+                                    <Input id="return-rate" label="Exp. Return (%)" icon={TrendingUp} type="number" value={estReturnRate} onChange={e => setReturnRate(e.target.value)} className="font-black w-full" />
                                 </div>
                             </div>
                         </div>
@@ -161,31 +140,13 @@ export default function AlternateInvestmentCalculator() {
                                     >
                                         <div className="grid grid-cols-2 gap-4 p-4 border-2 border-yellow-200 bg-yellow-50 rounded dash-border">
                                             <div>
-                                                <div className="flex items-center gap-2 mb-1">
-                                                    <label htmlFor="tax-rate" className="text-[10px] font-black uppercase block">Tax on Gains (%)</label>
-                                                    <Tooltip content="Capital Gains Tax deducted from the final profit.">
-                                                        <Info className="w-3 h-3 text-gray-400" />
-                                                    </Tooltip>
-                                                </div>
-                                                <Input id="tax-rate" type="number" value={taxRate} onChange={e => setTaxRate(e.target.value)} className="font-black w-full bg-white border-yellow-200 focus:border-yellow-500" />
+                                                <Input id="tax-rate" label="Tax on Gains (%)" tooltip="Capital Gains Tax deducted from the final profit." type="number" value={taxRate} onChange={e => setTaxRate(e.target.value)} className="font-black w-full bg-white border-yellow-200 focus:border-yellow-500" />
                                             </div>
                                             <div>
-                                                <div className="flex items-center gap-2 mb-1">
-                                                    <label htmlFor="inflation-rate" className="text-[10px] font-black uppercase block">Inflation (%)</label>
-                                                    <Tooltip content="Estimated annual loss of purchasing power (Standard ~6%).">
-                                                        <Info className="w-3 h-3 text-gray-400" />
-                                                    </Tooltip>
-                                                </div>
-                                                <Input id="inflation-rate" type="number" value={inflationRate} onChange={e => setInflationRate(e.target.value)} className="font-black w-full bg-white border-yellow-200 focus:border-yellow-500" />
+                                                <Input id="inflation-rate" label="Inflation (%)" tooltip="Estimated annual loss of purchasing power (Standard ~6%)." type="number" value={inflationRate} onChange={e => setInflationRate(e.target.value)} className="font-black w-full bg-white border-yellow-200 focus:border-yellow-500" />
                                             </div>
                                             <div className="col-span-2 border-t border-yellow-200 pt-3 mt-1">
-                                                <div className="flex items-center gap-2 mb-1">
-                                                    <label htmlFor="benchmark-return" className="text-[10px] font-black uppercase block text-blue-800">Passive Benchmark Return (%)</label>
-                                                    <Tooltip content="Expected annual return of your 'Lazy' alternative (e.g., NIFTY 50 Index Fund ~12%).">
-                                                        <Info className="w-3 h-3 text-blue-400" />
-                                                    </Tooltip>
-                                                </div>
-                                                <Input id="benchmark-return" type="number" value={benchmarkReturn} onChange={e => setBenchmarkReturn(e.target.value)} className="font-black w-full bg-white border-blue-200 focus:border-blue-500" />
+                                                <Input id="benchmark-return" label="Passive Benchmark Return (%)" tooltip="Expected annual return of your 'Lazy' alternative (e.g., NIFTY 50 Index Fund ~12%)." type="number" value={benchmarkReturn} onChange={e => setBenchmarkReturn(e.target.value)} className="font-black w-full bg-white border-blue-200 focus:border-blue-500" />
                                             </div>
                                             <div className="col-span-2 border-t border-yellow-200 pt-3">
                                                 <label className="text-[10px] font-black uppercase block mb-2">Market Climate Stress Test</label>
@@ -212,23 +173,13 @@ export default function AlternateInvestmentCalculator() {
                         </div>
                     </Card>
 
-                    <Card className="p-0 border-4 border-black mt-6">
-                        <div className="bg-red-50 p-4 border-b-4 border-black">
-                            <h2 className="text-lg font-bold flex items-center gap-2 text-black">
-                                <Clock className="w-5 h-5 text-red-600" /> The "Active" Tax
-                            </h2>
-                        </div>
+                    <Card className="p-0 border-4 border-black mt-6" title="The &quot;Active&quot; Tax" icon={Clock} headerColor="bg-red-50">
                         <div className="p-4 space-y-4">
                             <div className={`p-3 border-2 rounded transition-colors ${isActiveInvestment ? 'bg-red-100 border-red-600' : 'bg-gray-50 border-gray-200'}`}>
-                                <label className="flex items-start gap-3 cursor-pointer">
-                                    <Checkbox checked={isActiveInvestment} onChange={e => setIsActive(e.target.checked)} className="mt-1" />
-                                    <div>
-                                        <span className={`text-sm font-black uppercase leading-tight block ${isActiveInvestment ? 'text-red-900' : 'text-gray-600'}`}>This is an Active Investment</span>
-                                        <p className="text-[10px] mt-1 text-gray-600 leading-relaxed font-bold">
-                                            (e.g., Running a business, Managing rental tenants, Day trading)
-                                        </p>
-                                    </div>
-                                </label>
+                                <Checkbox label="This is an Active Investment" checked={isActiveInvestment} onChange={e => setIsActive(e.target.checked)} className="mt-1" />
+                                <p className="text-[10px] mt-1 text-gray-600 leading-relaxed font-bold pl-8">
+                                    (e.g., Running a business, Managing rental tenants, Day trading)
+                                </p>
                             </div>
 
                             <AnimatePresence>
@@ -241,22 +192,10 @@ export default function AlternateInvestmentCalculator() {
                                     >
                                         <div className="grid grid-cols-2 gap-4 p-4 border-2 border-red-200 bg-red-50 rounded dash-border">
                                             <div>
-                                                <div className="flex items-center gap-2 mb-1">
-                                                    <label htmlFor="active-hours" className="text-[10px] font-black uppercase text-red-800">Hours/Week</label>
-                                                    <Tooltip content="Time you spend managing this investment (e.g., Calling tenants, bookkeeping, sales).">
-                                                        <Info className="w-3 h-3 text-red-400" />
-                                                    </Tooltip>
-                                                </div>
-                                                <Input id="active-hours" type="number" value={activeHoursPerWeek} onChange={e => setHours(e.target.value)} className="font-black w-full bg-white border-red-200 focus:border-red-900" />
+                                                <Input id="active-hours" label="Hours/Week" tooltip="Time you spend managing this investment (e.g., Calling tenants, bookkeeping, sales)." type="number" value={activeHoursPerWeek} onChange={e => setHours(e.target.value)} className="font-black w-full bg-white border-red-200 focus:border-red-900" />
                                             </div>
                                             <div>
-                                                <div className="flex items-center gap-2 mb-1">
-                                                    <label htmlFor="hourly-rate" className="text-[10px] font-black uppercase text-red-800">Your Hourly Value</label>
-                                                    <Tooltip content="What is your time worth? Use your current salary hourly rate or freelance rate.">
-                                                        <Info className="w-3 h-3 text-red-400" />
-                                                    </Tooltip>
-                                                </div>
-                                                <Input id="hourly-rate" type="number" value={userHourlyRate} onChange={e => setHourlyRate(e.target.value)} className="font-black w-full bg-white border-red-200 focus:border-red-900" />
+                                                <Input id="hourly-rate" label="Your Hourly Value" tooltip="What is your time worth? Use your current salary hourly rate or freelance rate." type="number" value={userHourlyRate} onChange={e => setHourlyRate(e.target.value)} className="font-black w-full bg-white border-red-200 focus:border-red-900" />
                                             </div>
                                             <div className="col-span-2 text-[10px] font-bold text-red-600">
                                                 Cost of your time: {formatCurrency(activeHoursPerWeek * 52 * userHourlyRate)} / yr
@@ -277,10 +216,11 @@ export default function AlternateInvestmentCalculator() {
                         >
                             {/* BIG REVEAL CARD */}
                             <div className={`p-6 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col items-center text-center ${results.roi.truePassive < 0 ? 'bg-red-100' : 'bg-green-300'}`}>
-                                <p className="text-xs font-black uppercase tracking-widest mb-2 opacity-60">True Net Profit (Adjusted)</p>
-                                <h3 className="text-4xl md:text-5xl font-black mb-2 tracking-tighter">
-                                    {formatCurrency(results.netRealProfitAfterTime)}
-                                </h3>
+                                <MetricDisplay 
+                                    title="True Net Profit (Adjusted)"
+                                    value={formatCurrency(results.netRealProfitAfterTime)}
+                                    className="items-center mb-2"
+                                />
                                 <div className={`text-sm font-bold uppercase py-1 px-3 rounded border-2 border-black inline-block ${results.roi.truePassive < 0 ? 'bg-red-200 text-red-900' : 'bg-white text-green-900'}`}>
                                     Real ROI: {results.roi.truePassive.toFixed(2)}%
                                 </div>
@@ -356,8 +296,10 @@ export default function AlternateInvestmentCalculator() {
                                             <span className="text-lg font-black text-red-600">-{formatCurrency(results.totalTimeCost)}</span>
                                         </div>
                                         <div className="bg-white p-4 border-2 border-red-900 mt-4 rounded">
-                                            <p className="text-[10px] font-black uppercase text-gray-400 mb-1">Effective Hourly Wage from Profit</p>
-                                            <p className="text-3xl font-black text-black tracking-tight">{formatCurrency(results.effectiveHourlyWage)} / hr</p>
+                                            <MetricDisplay
+                                                title="Effective Hourly Wage from Profit"
+                                                value={`${formatCurrency(results.effectiveHourlyWage)} / hr`}
+                                            />
                                             <p className="text-xs text-gray-500 mt-1">
                                                 (vs your standard value of <strong>{formatCurrency(userHourlyRate)}</strong>/hr)
                                             </p>
@@ -373,10 +315,11 @@ export default function AlternateInvestmentCalculator() {
                                 </h3>
 
                                 <div className="mb-4">
-                                    <p className="text-sm font-bold uppercase mb-1">The Verdict</p>
-                                    <h4 className={`text-2xl md:text-3xl font-black ${results.benchmark.isBeatingMarket ? 'text-green-800' : 'text-orange-900'}`}>
-                                        {results.benchmark.isBeatingMarket ? '🏆 You Beat the Index' : '📉 Underperforming Passive Index'}
-                                    </h4>
+                                    <MetricDisplay
+                                        title="The Verdict"
+                                        value={results.benchmark.isBeatingMarket ? '🏆 You Beat the Index' : '📉 Underperforming Passive Index'}
+                                        color={results.benchmark.isBeatingMarket ? 'text-green-800' : 'text-orange-900'}
+                                    />
                                     <p className="text-xs font-bold mt-2 opacity-80">
                                         {results.benchmark.isBeatingMarket
                                             ? `Your hard work generated ${formatCurrency(results.benchmark.alpha)} MORE than a lazy NIFTY 50 fund.`
@@ -458,6 +401,6 @@ export default function AlternateInvestmentCalculator() {
     </div>
                 )}
             </CalculatorLayout >
-        </div >
+        </div>
     );
 }

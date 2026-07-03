@@ -221,14 +221,8 @@ export default function CellularAutomataVisualizer() {
 
                 {/* LEFT: Controls */}
                 <div className="lg:col-span-12 xl:col-span-4 space-y-6">
-                    <Card className="p-0 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                        <div className="bg-yellow-300 p-4 border-b-4 border-black">
-                            <h2 className="text-lg font-bold flex items-center gap-2">
-                                <Box className="w-5 h-5" />
-                                Controls
-                            </h2>
-                        </div>
-                        <div className="p-6 space-y-6">
+                    <Card title="Controls" icon={Box} headerColor="bg-yellow-300">
+                        <div className="space-y-6">
                             
                             {/* Rules Select */}
                             <div>
@@ -320,18 +314,18 @@ export default function CellularAutomataVisualizer() {
                 {/* RIGHT: Visualizer Area */}
                 <div className="lg:col-span-12 xl:col-span-8">
                     <ResultsAnalysis>
-                        <Card className="p-0 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden bg-white">
-                            <div className="bg-black p-4 border-b-4 border-black flex justify-between items-center text-white">
-                                <h2 className="text-lg font-bold flex items-center gap-2">
-                                    <MousePointer2 className="w-5 h-5" />
-                                    Playground
-                                </h2>
-                                <span className="text-xs font-mono font-bold" aria-live="polite">
+                        <Card 
+                            title="Playground"
+                            icon={MousePointer2}
+                            headerColor="bg-black text-white"
+                            className="relative overflow-hidden bg-gray-50"
+                            action={
+                                <span className="text-xs font-mono font-bold text-white" aria-live="polite">
                                     {isRunning ? "SIMULATING..." : "PAUSED"}
                                 </span>
-                            </div>
-
-                            <div className="p-4 md:p-6 flex flex-col items-center justify-center bg-gray-50">
+                            }
+                        >
+                            <div className="flex flex-col items-center justify-center">
                                 <div className="text-xs font-bold uppercase mb-4 text-gray-500 text-center">
                                     Click and drag to draw cells
                                 </div>

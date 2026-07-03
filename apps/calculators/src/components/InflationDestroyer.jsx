@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { IndianRupee, Percent, Calendar, TrendingDown, TrendingUp, AlertCircle, ShoppingCart, Flame, Landmark, Table as TableIcon, ShieldCheck } from 'lucide-react';
-import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer } from '@packages/styling';
+import { Button, Card, Input, Select, MetricDisplay, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import SEO from './SEO';
@@ -117,48 +117,28 @@ export default function InflationDestroyer() {
       />
 
       <CalculatorLayout>
-        <div className="lg:col-span-12">
-          <CalculatorHeader icon={Flame} title="Inflation Destroyer" />
-        </div>
+        <CalculatorHeader icon={Flame} title="Inflation Destroyer" />
 
         {/* LEFT: Inputs */}
         <div className="lg:col-span-12 xl:col-span-5 space-y-6">
 
           {/* 1. Core Inputs */}
-          <Card className="p-0 border-4 border-black">
-            <div className="bg-orange-100 p-4 border-b-4 border-black">
-              <h2 className="text-lg font-bold flex items-center gap-2">
-                <IndianRupee className="w-5 h-5 text-orange-600" /> Cash Position
-              </h2>
-            </div>
-            <div className="p-4 space-y-5">
+          <Card title="Cash Position" icon={IndianRupee} headerColor="bg-orange-100">
+            <div className="space-y-5">
               <div>
-                <label htmlFor="principal" className="block text-[10px] font-black uppercase mb-1">Cash Amount (₹)</label>
-                <p className="text-[10px] text-gray-500 mb-2 font-bold uppercase leading-none">Savings sitting in a fixed deposit, savings account, or under the mattress</p>
-                <div className="relative">
-                  <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                  <Input id="principal" type="number" value={principal} onChange={e => setPrincipal(e.target.value)} onBlur={() => !principal && setPrincipal(0)} className="pl-9 font-black" />
-                </div>
+                <Input id="principal" label="Cash Amount (₹)" icon={IndianRupee} type="number" value={principal} onChange={e => setPrincipal(e.target.value)} onBlur={() => !principal && setPrincipal(0)} className="font-black" />
+                <p className="text-[10px] text-gray-500 mt-2 font-bold uppercase leading-none">Savings sitting in a fixed deposit, savings account, or under the mattress</p>
               </div>
 
               <div>
-                <label htmlFor="years" className="block text-[10px] font-black uppercase mb-1">Time Horizon (Years)</label>
-                <div className="relative">
-                  <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                  <Input id="years" type="number" value={years} onChange={e => setYears(e.target.value)} onBlur={() => !years && setYears(1)} className="pl-9 font-black" />
-                </div>
+                <Input id="years" label="Time Horizon (Years)" icon={Calendar} type="number" value={years} onChange={e => setYears(e.target.value)} onBlur={() => !years && setYears(1)} className="font-black" />
               </div>
             </div>
           </Card>
 
           {/* 2. Inflation Regime Selector */}
-          <Card className="p-0 border-4 border-black">
-            <div className="bg-red-100 p-4 border-b-4 border-black">
-              <h2 className="text-lg font-bold flex items-center gap-2">
-                <Flame className="w-5 h-5 text-red-600" /> Inflation Regime
-              </h2>
-            </div>
-            <div className="p-4 space-y-3">
+          <Card title="Inflation Regime" icon={Flame} headerColor="bg-red-100">
+            <div className="space-y-3">
               {HISTORICAL_REGIMES.map(regime => (
                 <button
                   key={regime.id}
@@ -178,11 +158,7 @@ export default function InflationDestroyer() {
                 {regimeId === 'custom' && (
                   <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="overflow-hidden">
                     <div className="pt-2">
-                      <label htmlFor="customInflationRate" className="block text-[10px] font-black uppercase mb-1">Custom Inflation Rate (%)</label>
-                      <div className="relative">
-                        <Percent className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                        <Input id="customInflationRate" type="number" value={customInflationRate} onChange={e => setCustomInflationRate(e.target.value)} onBlur={() => !customInflationRate && setCustomInflationRate(6)} className="pl-9 font-black" />
-                      </div>
+                      <Input id="customInflationRate" label="Custom Inflation Rate (%)" icon={Percent} type="number" value={customInflationRate} onChange={e => setCustomInflationRate(e.target.value)} onBlur={() => !customInflationRate && setCustomInflationRate(6)} className="font-black" />
                     </div>
                   </motion.div>
                 )}
@@ -191,52 +167,33 @@ export default function InflationDestroyer() {
           </Card>
 
           {/* 3. Investment Comparison */}
-          <Card className="p-0 border-4 border-black">
-            <div className="bg-green-100 p-4 border-b-4 border-black">
-              <h2 className="text-lg font-bold flex items-center gap-2">
-                <TrendingUp className="w-5 h-5 text-green-700" /> Investment Comparison
-              </h2>
-            </div>
-            <div className="p-4 space-y-4">
+          <Card title="Investment Comparison" icon={TrendingUp} headerColor="bg-green-100">
+            <div className="space-y-4">
               <p className="text-[10px] text-gray-500 font-bold uppercase leading-tight">Compare your cash erosion against investing the same amount in a market index fund</p>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="investmentReturn" className="block text-[10px] font-black uppercase mb-1">Expected Return (% p.a.)</label>
-                  <div className="relative">
-                    <Percent className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                    <Input id="investmentReturn" type="number" value={investmentReturn} onChange={e => setInvestmentReturn(e.target.value)} onBlur={() => !investmentReturn && setInvestmentReturn(0)} className="pl-9 font-black" />
-                  </div>
+                  <Input id="investmentReturn" label="Expected Return (% p.a.)" icon={Percent} type="number" value={investmentReturn} onChange={e => setInvestmentReturn(e.target.value)} onBlur={() => !investmentReturn && setInvestmentReturn(0)} className="font-black" />
                 </div>
                 <div>
-                  <label htmlFor="investmentTaxRate" className="block text-[10px] font-black uppercase mb-1">LTCG Tax Rate (%)</label>
-                  <div className="relative">
-                    <Landmark className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                    <Input id="investmentTaxRate" type="number" value={investmentTaxRate} onChange={e => setInvestmentTaxRate(e.target.value)} onBlur={() => !investmentTaxRate && setInvestmentTaxRate(0)} className="pl-9 font-black" />
-                  </div>
+                  <Input id="investmentTaxRate" label="LTCG Tax Rate (%)" icon={Landmark} type="number" value={investmentTaxRate} onChange={e => setInvestmentTaxRate(e.target.value)} onBlur={() => !investmentTaxRate && setInvestmentTaxRate(0)} className="font-black" />
                 </div>
               </div>
             </div>
           </Card>
 
           {/* 4. Basket of Goods Selector */}
-          <Card className="p-0 border-4 border-black">
-            <div className="bg-yellow-100 p-4 border-b-4 border-black">
-              <h2 className="text-lg font-bold flex items-center gap-2">
-                <ShoppingCart className="w-5 h-5 text-yellow-700" /> Real-World Basket
-              </h2>
-            </div>
-            <div className="p-4">
-              <label htmlFor="selectedBasket" className="block text-[10px] font-black uppercase mb-2">Translate erosion into tangible goods you lose:</label>
-              <select
+          <Card title="Real-World Basket" icon={ShoppingCart} headerColor="bg-yellow-100">
+            <div>
+              <Select
                 id="selectedBasket"
+                label="Translate erosion into tangible goods you lose:"
                 value={selectedBasketId}
                 onChange={e => setSelectedBasketId(e.target.value)}
-                className="w-full px-3 py-2 border-2 border-black font-black text-xs focus:ring-0 focus:outline-none"
               >
                 {BASKET_ITEMS.map(item => (
                   <option key={item.id} value={item.id}>{item.label} (₹{item.unitCost.toLocaleString('en-IN')})</option>
                 ))}
-              </select>
+              </Select>
             </div>
           </Card>
         </div>
@@ -253,18 +210,11 @@ export default function InflationDestroyer() {
                     <TrendingDown className="w-8 h-8 text-white" />
                   </div>
                   <div>
-                    <p className="text-red-100 text-xs font-black uppercase tracking-widest">Purchasing Power Lost in {years} Years</p>
-                    <motion.p
-                      key={results.results.erosionAmount}
-                      initial={{ scale: 1.1 }}
-                      animate={{ scale: 1 }}
-                      className="text-3xl md:text-5xl font-black tracking-tighter"
-                    >
-                      -{formatCurrency(results.results.erosionAmount)}
-                    </motion.p>
-                    <p className="text-red-200 text-[10px] font-black uppercase mt-1">
-                      At {inflationRate}% inflation, your {formatCurrency(results.results.principal)} will only buy what {formatCurrency(results.results.finalPurchasingPower)} buys today.
-                    </p>
+                    <MetricDisplay 
+                      title={`Purchasing Power Lost in ${years} Years`}
+                      value={`-${formatCurrency(results.results.erosionAmount)}`}
+                      subtitle={`At ${inflationRate}% inflation, your ${formatCurrency(results.results.principal)} will only buy what ${formatCurrency(results.results.finalPurchasingPower)} buys today.`}
+                    />
                   </div>
                 </div>
               </div>
@@ -305,19 +255,13 @@ export default function InflationDestroyer() {
                 </h3>
                 <div className="grid grid-cols-3 gap-4 text-center">
                   <div className="bg-white border-2 border-black p-3 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                    <p className="text-[9px] font-black uppercase text-gray-500">You Can Buy Today</p>
-                    <p className="text-2xl font-black">{results.basket.unitsToday}</p>
-                    <p className="text-[9px] text-gray-600 font-bold uppercase leading-tight">{results.basket.unit}</p>
+                    <MetricDisplay title="You Can Buy Today" value={results.basket.unitsToday} subtitle={results.basket.unit} />
                   </div>
                   <div className="bg-red-100 border-2 border-black p-3 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                    <p className="text-[9px] font-black uppercase text-red-700">Lost to Inflation</p>
-                    <p className="text-2xl font-black text-red-600">-{results.basket.unitsLost}</p>
-                    <p className="text-[9px] text-red-600 font-bold uppercase leading-tight">{results.basket.unit}</p>
+                    <MetricDisplay title="Lost to Inflation" value={`-${results.basket.unitsLost}`} subtitle={results.basket.unit} />
                   </div>
                   <div className="bg-white border-2 border-black p-3 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                    <p className="text-[9px] font-black uppercase text-gray-500">Buying Power in Yr {years}</p>
-                    <p className="text-2xl font-black">{results.basket.unitsFuture}</p>
-                    <p className="text-[9px] text-gray-600 font-bold uppercase leading-tight">{results.basket.unit}</p>
+                    <MetricDisplay title={`Buying Power in Yr ${years}`} value={results.basket.unitsFuture} subtitle={results.basket.unit} />
                   </div>
                 </div>
               </div>
@@ -331,14 +275,10 @@ export default function InflationDestroyer() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                   <div className="p-4 bg-red-50 border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">
-                    <p className="text-[9px] font-black uppercase text-red-700 mb-1">Cash (No Investment)</p>
-                    <p className="text-[9px] text-gray-500 font-bold uppercase mb-2">Real buying power after inflation</p>
-                    <p className="text-xl font-black text-red-600">{formatCurrency(results.results.finalPurchasingPower)}</p>
+                    <MetricDisplay title="Cash (No Investment)" value={formatCurrency(results.results.finalPurchasingPower)} subtitle="Real buying power after inflation" />
                   </div>
                   <div className={`p-4 border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] ${results.results.isBeatingInflation ? 'bg-green-50' : 'bg-orange-50'}`}>
-                    <p className={`text-[9px] font-black uppercase mb-1 ${results.results.isBeatingInflation ? 'text-green-700' : 'text-orange-700'}`}>Invested (Real After-Tax Value)</p>
-                    <p className="text-[9px] text-gray-500 font-bold uppercase mb-2">Inflation-adjusted after tax on gains</p>
-                    <p className={`text-xl font-black ${results.results.isBeatingInflation ? 'text-green-600' : 'text-orange-600'}`}>{formatCurrency(results.results.realInvestmentValue)}</p>
+                    <MetricDisplay title="Invested (Real After-Tax Value)" value={formatCurrency(results.results.realInvestmentValue)} subtitle="Inflation-adjusted after tax on gains" />
                   </div>
                 </div>
 

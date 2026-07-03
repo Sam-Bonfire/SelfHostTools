@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { GraduationCap, ArrowLeft, TrendingUp, AlertTriangle, Briefcase, Calculator, IndianRupee, Percent, Calendar, XCircle, CheckCircle, Info } from 'lucide-react';
-import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer } from '@packages/styling';
+import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer, MetricDisplay } from '@packages/styling';
 import { motion } from 'framer-motion';
 import { calculateDegreeROI } from '../lib/degreeROILogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
@@ -145,72 +145,38 @@ export default function DegreeROICalculator() {
                 {/* Left: Inputs */}
                 <div className="lg:col-span-5 space-y-6">
                     {/* COST CARD */}
-                    <Card className="p-0 border-4 border-black">
-                        <div className="bg-red-50 p-4 border-b-4 border-black">
-                            <h2 className="text-lg font-bold flex items-center gap-2 uppercase tracking-tight">
-                                <IndianRupee className="w-5 h-5 text-red-600" /> The Cost
-                            </h2>
-                        </div>
+                    <Card title="The Cost" icon={IndianRupee} headerColor="bg-red-50" className="p-0 border-4 border-black">
                         <div className="p-4 space-y-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label htmlFor="tuition" className="text-[10px] font-black uppercase mb-1 block">Tuition / Yr</label>
-                                    <div className="relative">
-                                        <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input id="tuition" type="number" value={tuitionPerYear} onChange={e => setTuition(e.target.value)} className="font-black pl-9" />
-                                    </div>
+                                    <Input id="tuition" label="Tuition / Yr" icon={IndianRupee} type="number" value={tuitionPerYear} onChange={e => setTuition(e.target.value)} className="font-black" />
                                 </div>
                                 <div>
-                                    <label htmlFor="living" className="text-[10px] font-black uppercase mb-1 block">Living / Yr</label>
-                                    <div className="relative">
-                                        <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input id="living" type="number" value={livingExpenses} onChange={e => setLiving(e.target.value)} className="font-black pl-9" />
-                                    </div>
+                                    <Input id="living" label="Living / Yr" icon={IndianRupee} type="number" value={livingExpenses} onChange={e => setLiving(e.target.value)} className="font-black" />
                                 </div>
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label htmlFor="grants" className="text-[10px] font-black uppercase mb-1 block text-green-700">Grants / Yr</label>
-                                    <div className="relative">
-                                        <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-green-700 z-10" />
-                                        <Input id="grants" type="number" value={grantsTotal} onChange={e => setGrants(e.target.value)} className="font-black pl-9 border-green-700 text-green-700" />
-                                    </div>
+                                    <Input id="grants" label="Grants / Yr" icon={Briefcase} type="number" value={grantsTotal} onChange={e => setGrants(e.target.value)} className="font-black border-green-700 text-green-700" />
                                 </div>
                                 <div>
-                                    <label htmlFor="duration" className="text-[10px] font-black uppercase mb-1 block">Years</label>
-                                    <div className="relative">
-                                        <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input id="duration" type="number" value={durationYears} onChange={e => setDuration(e.target.value)} className="font-black pl-9" />
-                                    </div>
+                                    <Input id="duration" label="Years" icon={Calendar} type="number" value={durationYears} onChange={e => setDuration(e.target.value)} className="font-black" />
                                 </div>
                             </div>
 
                             <div className="grid grid-cols-2 gap-4 pt-4 border-t-2 border-dashed border-gray-300">
                                 <div>
-                                    <label htmlFor="loanRate" className="text-[10px] font-black uppercase mb-1 block text-red-700">Loan Rate (%)</label>
-                                    <div className="relative">
-                                        <Percent className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-red-700 z-10" />
-                                        <Input id="loanRate" type="number" value={loanInterestRate} onChange={e => setLoanRate(e.target.value)} className="font-black pl-9 border-red-700 text-red-700" />
-                                    </div>
+                                    <Input id="loanRate" label="Loan Rate (%)" icon={Percent} type="number" value={loanInterestRate} onChange={e => setLoanRate(e.target.value)} className="font-black border-red-700 text-red-700" />
                                 </div>
                                 <div>
-                                    <label htmlFor="loanTerm" className="text-[10px] font-black uppercase mb-1 block">Term (Yrs)</label>
-                                    <div className="relative">
-                                        <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input id="loanTerm" type="number" value={loanTermYears} onChange={e => setLoanTerm(e.target.value)} className="font-black pl-9" />
-                                    </div>
+                                    <Input id="loanTerm" label="Term (Yrs)" icon={Calendar} type="number" value={loanTermYears} onChange={e => setLoanTerm(e.target.value)} className="font-black" />
                                 </div>
                             </div>
                         </div>
                     </Card>
 
                     {/* CAREER CARD */}
-                    <Card className="p-0 border-4 border-black">
-                        <div className="bg-blue-50 p-4 border-b-4 border-black">
-                            <h2 className="text-lg font-bold flex items-center gap-2 uppercase tracking-tight">
-                                <Briefcase className="w-5 h-5 text-blue-600" /> The Future
-                            </h2>
-                        </div>
+                    <Card title="The Future" icon={Briefcase} headerColor="bg-blue-50" className="p-0 border-4 border-black">
                         <div className="p-4 space-y-6">
                             {/* Degree Path */}
                             <div className="space-y-2">
@@ -219,18 +185,10 @@ export default function DegreeROICalculator() {
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label htmlFor="startSalaryDegree" className="text-[9px] font-bold text-gray-500 uppercase">Start Salary</label>
-                                        <div className="relative">
-                                            <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                            <Input id="startSalaryDegree" type="number" value={startingSalaryDegree} onChange={e => setStartSalary(e.target.value)} className="font-black pl-9" />
-                                        </div>
+                                        <Input id="startSalaryDegree" label="Start Salary" icon={IndianRupee} type="number" value={startingSalaryDegree} onChange={e => setStartSalary(e.target.value)} className="font-black" />
                                     </div>
                                     <div>
-                                        <label htmlFor="growthDegree" className="text-[9px] font-bold text-gray-500 uppercase">Growth %</label>
-                                        <div className="relative">
-                                            <Percent className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                            <Input id="growthDegree" type="number" value={salaryGrowthDegree} onChange={e => setGrowthDegree(e.target.value)} className="font-black pl-9" />
-                                        </div>
+                                        <Input id="growthDegree" label="Growth %" icon={Percent} type="number" value={salaryGrowthDegree} onChange={e => setGrowthDegree(e.target.value)} className="font-black" />
                                     </div>
                                 </div>
                             </div>
@@ -242,18 +200,10 @@ export default function DegreeROICalculator() {
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label htmlFor="startSalaryAlt" className="text-[9px] font-bold text-gray-500 uppercase">Start Salary</label>
-                                        <div className="relative">
-                                            <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                            <Input id="startSalaryAlt" type="number" value={startingSalaryAlt} onChange={e => setStartSalaryAlt(e.target.value)} className="font-black pl-9" />
-                                        </div>
+                                        <Input id="startSalaryAlt" label="Start Salary" icon={IndianRupee} type="number" value={startingSalaryAlt} onChange={e => setStartSalaryAlt(e.target.value)} className="font-black" />
                                     </div>
                                     <div>
-                                        <label htmlFor="growthAlt" className="text-[9px] font-bold text-gray-500 uppercase">Growth %</label>
-                                        <div className="relative">
-                                            <Percent className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                            <Input id="growthAlt" type="number" value={salaryGrowthAlt} onChange={e => setGrowthAlt(e.target.value)} className="font-black pl-9" />
-                                        </div>
+                                        <Input id="growthAlt" label="Growth %" icon={Percent} type="number" value={salaryGrowthAlt} onChange={e => setGrowthAlt(e.target.value)} className="font-black" />
                                     </div>
                                 </div>
                             </div>
@@ -268,34 +218,19 @@ export default function DegreeROICalculator() {
                             {/* HERO STATS */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <Card className="p-4 border-4 border-black bg-yellow-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between h-full">
-                                    <div>
-                                        <p className="text-xs font-black uppercase text-black mb-1">Break-Even Age</p>
-                                        <div className="flex items-baseline gap-2">
-                                            <span className="text-4xl font-black text-black">
-                                                {results.breakEvenYear ? (18 + parseInt(durationYears) + (results.breakEvenYear - parseInt(durationYears))) : "NEVER"}
-                                            </span>
-                                            <span className="text-sm font-bold text-black opacity-70">Years Old</span>
-                                        </div>
-                                    </div>
-                                    <p className="text-[10px] font-bold mt-2 leading-tight text-black">
-                                        {results.breakEvenYear ? "The age when your Degree Net Worth overtakes the Alternative." : "With these inputs, you never catch up to the alternative path."}
-                                    </p>
+                                    <MetricDisplay
+                                        title="Break-Even Age"
+                                        value={results.breakEvenYear ? `${18 + parseInt(durationYears) + (results.breakEvenYear - parseInt(durationYears))} Yrs` : "NEVER"}
+                                        subtitle={results.breakEvenYear ? "The age when your Degree Net Worth overtakes the Alternative." : "With these inputs, you never catch up to the alternative path."}
+                                    />
                                 </Card>
 
                                 <Card className={`p-4 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between h-full ${results.slaveRatio > 15 ? 'bg-[#FF4D4D]' : 'bg-white'}`}>
-                                    <div>
-                                        <p className="text-xs font-black uppercase text-black opacity-60 mb-1">Loan Burden (SLC)</p>
-                                        <div className="flex items-center gap-3">
-                                            <span className="text-4xl font-black text-black">
-                                                {results.slaveRatio > 500 ? 'LETHAL' : `${Math.round(results.slaveRatio)}%`}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <p className="text-[10px] font-bold mt-2 leading-tight text-black">
-                                        {results.slaveRatio > 15
-                                            ? "CRITICAL: High debt burden relative to entry-level pay."
-                                            : "Manageable debt range relative to projected salary."}
-                                    </p>
+                                    <MetricDisplay
+                                        title="Loan Burden (SLC)"
+                                        value={results.slaveRatio > 500 ? 'LETHAL' : `${Math.round(results.slaveRatio)}%`}
+                                        subtitle={results.slaveRatio > 15 ? "CRITICAL: High debt burden relative to entry-level pay." : "Manageable debt range relative to projected salary."}
+                                    />
                                 </Card>
                             </div>
 

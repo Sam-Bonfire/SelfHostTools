@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Calculator, IndianRupee, Percent, Calendar, PieChart as PieChartIcon, Table as TableIcon, TrendingUp, AlertCircle, Info, Flame, Trash2, Plus, Clock, Award, ShieldAlert, AlertTriangle } from 'lucide-react';
-import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer } from '@packages/styling';
+import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer, Select, MetricDisplay } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import SEO from './SEO';
@@ -205,20 +205,18 @@ export default function SaasLeakCalculator() {
 
           {/* 2. Flat Spend Input (Visible only in flat mode) */}
           {calcMode === 'individual' && (
-            <Card className="p-0 border-4 border-black animate-in fade-in slide-in-from-left-2 duration-200">
-              <div className="bg-orange-100 p-4 border-b-4 border-black">
-                <h2 className="text-lg font-bold flex items-center gap-2 text-black">
-                  <IndianRupee className="w-5 h-5 text-orange-600" />
-                  Monthly Subscriptions Spend
-                </h2>
-              </div>
-              <div className="p-4 space-y-4">
+            <Card title="Monthly Subscriptions Spend" icon={IndianRupee} headerColor="bg-orange-100" className="animate-in fade-in slide-in-from-left-2 duration-200">
+              <div className="space-y-4">
                 <div>
-                  <label htmlFor="monthlyInvestment" className="block text-[10px] font-black uppercase mb-1">Total Monthly Subscriptions Budget (₹)</label>
-                  <div className="relative">
-                    <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                    <Input id="monthlyInvestment" type="number" value={monthlyInvestment} onChange={(e) => setMonthlyInvestment(e.target.value)} onBlur={() => !monthlyInvestment && setMonthlyInvestment(0)} className="pl-9 font-black" />
-                  </div>
+                  <Input 
+                    id="monthlyInvestment" 
+                    label="Total Monthly Subscriptions Budget (₹)" 
+                    icon={IndianRupee} 
+                    type="number" 
+                    value={monthlyInvestment} 
+                    onChange={(e) => setMonthlyInvestment(e.target.value)} 
+                    onBlur={() => !monthlyInvestment && setMonthlyInvestment(0)} 
+                  />
                   <input type="range" min={100} max={25000} step={200} value={monthlyInvestment || 0} onChange={(e) => setMonthlyInvestment(Number(e.target.value))} className="w-full mt-3 h-2 bg-gray-200 appearance-none cursor-pointer accent-black" aria-label="Flat Budget Slider" />
                 </div>
               </div>
@@ -227,14 +225,8 @@ export default function SaasLeakCalculator() {
 
           {/* 3. Subscription Audit Table (Visible in aggregate mode) */}
           {calcMode === 'aggregate' && (
-            <Card className="p-0 border-4 border-black animate-in fade-in slide-in-from-left-2 duration-200">
-              <div className="bg-[#FF9900]/10 p-4 border-b-4 border-black flex justify-between items-center">
-                <h2 className="text-lg font-bold flex items-center gap-2 text-black">
-                  <TableIcon className="w-5 h-5 text-orange-600" />
-                  Active Subscriptions Audit
-                </h2>
-              </div>
-              <div className="p-4 space-y-4">
+            <Card title="Active Subscriptions Audit" icon={TableIcon} headerColor="bg-[#FF9900]/10" className="animate-in fade-in slide-in-from-left-2 duration-200">
+              <div className="space-y-4">
                 {/* List subscriptions */}
                 <div className="space-y-3 max-h-96 overflow-y-auto pr-1">
                   {subscriptions.map(sub => {
@@ -282,67 +274,60 @@ export default function SaasLeakCalculator() {
                   <p className="text-[10px] font-black uppercase">Add Subscriptions</p>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label htmlFor="newSubName" className="block text-[10px] font-black uppercase mb-1">Sub Name</label>
                       <Input
                         id="newSubName"
+                        label="Sub Name"
                         type="text"
                         placeholder="e.g. Netflix"
                         value={newSubName}
                         onChange={(e) => setNewSubName(e.target.value)}
-                        className="text-xs font-bold"
                       />
                     </div>
                     <div>
-                      <label htmlFor="newSubCost" className="block text-[10px] font-black uppercase mb-1">Cost</label>
-                      <div className="relative">
-                        <IndianRupee className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                        <Input
-                          id="newSubCost"
-                          type="number"
-                          placeholder="Cost"
-                          value={newSubCost}
-                          onChange={(e) => setNewSubCost(e.target.value)}
-                          className="text-xs font-bold pl-7"
-                        />
-                      </div>
+                      <Input
+                        id="newSubCost"
+                        label="Cost"
+                        icon={IndianRupee}
+                        type="number"
+                        placeholder="Cost"
+                        value={newSubCost}
+                        onChange={(e) => setNewSubCost(e.target.value)}
+                      />
                     </div>
                     <div>
-                      <label htmlFor="newSubBillingPeriod" className="block text-[10px] font-black uppercase mb-1">Billing Period</label>
-                      <select
+                      <Select
                         id="newSubBillingPeriod"
+                        label="Billing Period"
                         value={newSubBillingPeriod}
                         onChange={(e) => setNewSubBillingPeriod(e.target.value)}
-                        className="w-full text-xs font-bold bg-white border-2 border-black p-2 h-9 outline-none"
                       >
                         <option value="monthly">Monthly</option>
                         <option value="yearly">Yearly</option>
-                      </select>
+                      </Select>
                     </div>
                     <div>
-                      <label htmlFor="newSubCategory" className="block text-[10px] font-black uppercase mb-1">Category</label>
-                      <select
+                      <Select
                         id="newSubCategory"
+                        label="Category"
                         value={newSubCategory}
                         onChange={(e) => setNewSubCategory(e.target.value)}
-                        className="w-full text-xs font-bold bg-white border-2 border-black p-2 h-9 outline-none"
                       >
                         {SUBSCRIPTION_CATEGORIES.map(cat => (
                           <option key={cat.id} value={cat.id}>{cat.label}</option>
                         ))}
-                      </select>
+                      </Select>
                     </div>
                     <div className="col-span-2">
-                      <label htmlFor="newSubFrequency" className="block text-[10px] font-black uppercase mb-1">Usage Frequency</label>
-                      <select
+                      <Select
                         id="newSubFrequency"
+                        label="Usage Frequency"
                         value={newSubFrequency}
                         onChange={(e) => setNewSubFrequency(e.target.value)}
-                        className="w-full text-xs font-bold bg-white border-2 border-black p-2 h-9 outline-none"
                       >
                         {USAGE_FREQUENCIES.map(freq => (
                           <option key={freq.id} value={freq.id}>{freq.label} (approx. {freq.usesPerMonth} uses/mo)</option>
                         ))}
-                      </select>
+                      </Select>
                     </div>
                   </div>
                   <Button onClick={handleAddSubscription} variant="primary" className="w-full text-xs font-black uppercase border-2 flex items-center justify-center gap-2">
@@ -354,31 +339,33 @@ export default function SaasLeakCalculator() {
           )}
 
           {/* 1. Core Financial Baseline */}
-          <Card className="p-0 border-4 border-black">
-            <div className="bg-blue-100 p-4 border-b-4 border-black">
-              <h2 className="text-lg font-bold flex items-center gap-2 text-black">
-                <Clock className="w-5 h-5 text-blue-600" />
-                Hourly Wage & Growth Baseline
-              </h2>
-            </div>
-            <div className="p-4 space-y-5">
+          <Card title="Hourly Wage & Growth Baseline" icon={Clock} headerColor="bg-blue-100">
+            <div className="space-y-5">
               <div>
-                <label htmlFor="hourlyWage" className="block text-[10px] font-black uppercase mb-1">True Net Hourly Wage (₹)</label>
-                <p className="text-[10px] text-gray-500 mb-2 font-bold uppercase tracking-tight leading-none">Your take-home earnings per hour of work</p>
-                <div className="relative">
-                  <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                  <Input id="hourlyWage" type="number" value={hourlyWage} onChange={(e) => setHourlyWage(e.target.value)} onBlur={() => !hourlyWage && setHourlyWage(0)} className="pl-9 font-black" />
-                </div>
+                <Input 
+                  id="hourlyWage" 
+                  label="True Net Hourly Wage (₹)" 
+                  tooltip="Your take-home earnings per hour of work"
+                  icon={IndianRupee} 
+                  type="number" 
+                  value={hourlyWage} 
+                  onChange={(e) => setHourlyWage(e.target.value)} 
+                  onBlur={() => !hourlyWage && setHourlyWage(0)} 
+                />
                 <input type="range" min={100} max={5000} step={50} value={hourlyWage || 0} onChange={(e) => setHourlyWage(Number(e.target.value))} className="w-full mt-3 h-2 bg-gray-200 appearance-none cursor-pointer accent-black" aria-label="Hourly Wage Slider" />
               </div>
 
               <div>
-                <label htmlFor="expectedReturn" className="block text-[10px] font-black uppercase mb-1">Alternative Investment Return (% p.a.)</label>
-                <p className="text-[10px] text-gray-500 mb-2 font-bold uppercase tracking-tight leading-none">Expected return if invested in an index fund</p>
-                <div className="relative">
-                  <Percent className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                  <Input id="expectedReturn" type="number" value={expectedReturn} onChange={(e) => setExpectedReturn(e.target.value)} onBlur={() => !expectedReturn && setExpectedReturn(0)} className="pl-9 font-black" />
-                </div>
+                <Input 
+                  id="expectedReturn" 
+                  label="Alternative Investment Return (% p.a.)" 
+                  tooltip="Expected return if invested in an index fund"
+                  icon={Percent} 
+                  type="number" 
+                  value={expectedReturn} 
+                  onChange={(e) => setExpectedReturn(e.target.value)} 
+                  onBlur={() => !expectedReturn && setExpectedReturn(0)} 
+                />
                 <input type="range" min={4} max={25} step={1} value={expectedReturn || 0} onChange={(e) => setExpectedReturn(Number(e.target.value))} className="w-full mt-3 h-2 bg-gray-200 appearance-none cursor-pointer accent-black" aria-label="Expected Return Slider" />
               </div>
             </div>
@@ -397,14 +384,16 @@ export default function SaasLeakCalculator() {
                 </div>
                 <div className="flex-1">
                   <p className="text-red-100 text-xs font-black uppercase tracking-widest">30-Year Compounded Lost Wealth</p>
-                  <motion.p
+                  <motion.div
                     key={results.projections?.[30]?.futureValue}
                     initial={{ scale: 1.1 }}
                     animate={{ scale: 1 }}
-                    className="text-3xl md:text-5xl font-black tracking-tighter text-white"
                   >
-                    {formatCurrency(results.projections?.[30]?.futureValue || 0)}
-                  </motion.p>
+                    <MetricDisplay 
+                      value={formatCurrency(results.projections?.[30]?.futureValue || 0)} 
+                      color="text-white"
+                    />
+                  </motion.div>
                   <div className="flex flex-wrap gap-2 mt-2 border-t border-white/20 pt-2 text-[10px] font-bold uppercase tracking-tight text-red-100">
                     <span>Monthly Spend: <strong className="text-white">{formatCurrency(results.results.totalMonthlySpend)}/mo</strong></span>
                     <span className="hidden md:inline">•</span>
@@ -418,34 +407,23 @@ export default function SaasLeakCalculator() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               
               {/* Working Hours Needed */}
-              <div className="bg-white border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4 flex flex-col justify-between">
-                <div>
-                  <h3 className="text-sm font-bold text-gray-600 uppercase flex items-center gap-2">
-                    <Clock className="w-4 h-4 text-blue-600" />
-                    Annual Active Labor Hours
-                  </h3>
-                  <p className="text-[10px] text-gray-500 mt-1 uppercase font-bold tracking-tight leading-none">Working hours required purely to fund these subscriptions</p>
-                </div>
-                <div>
-                  <h3 className="text-3xl font-black mt-4">{results.results.annualHoursRequired} Hours</h3>
-                  <p className="text-[10px] text-gray-400 mt-1 font-bold uppercase">based on true net hourly earnings of ₹{hourlyWage}/hr</p>
-                </div>
-              </div>
+              <Card title="Annual Active Labor Hours" icon={Clock} headerColor="bg-white" className="flex flex-col justify-between h-full">
+                <p className="text-[10px] text-gray-500 mb-4 uppercase font-bold tracking-tight leading-none">Working hours required purely to fund these subscriptions</p>
+                <MetricDisplay
+                  value={`${results.results.annualHoursRequired} Hours`}
+                  subtitle={`based on true net hourly earnings of ₹${hourlyWage}/hr`}
+                />
+              </Card>
 
               {/* Work Days Needed */}
-              <div className="bg-white border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4 flex flex-col justify-between">
-                <div>
-                  <h3 className="text-sm font-bold text-gray-600 uppercase flex items-center gap-2">
-                    <Calendar className="w-4 h-4 text-orange-600" />
-                    Equivalent Work Days
-                  </h3>
-                  <p className="text-[10px] text-gray-500 mt-1 uppercase font-bold tracking-tight leading-none">Days of labor dedicated entirely to subscription companies</p>
-                </div>
-                <div>
-                  <h3 className="text-3xl font-black mt-4 text-orange-600">{results.results.careerDaysRequired} Days</h3>
-                  <p className="text-[10px] text-gray-400 mt-1 font-bold uppercase">assuming an standard 8-hour workday</p>
-                </div>
-              </div>
+              <Card title="Equivalent Work Days" icon={Calendar} headerColor="bg-white" className="flex flex-col justify-between h-full">
+                <p className="text-[10px] text-gray-500 mb-4 uppercase font-bold tracking-tight leading-none">Days of labor dedicated entirely to subscription companies</p>
+                <MetricDisplay
+                  value={`${results.results.careerDaysRequired} Days`}
+                  subtitle="assuming a standard 8-hour workday"
+                  color="text-orange-600"
+                />
+              </Card>
             </div>
 
             {/* Socratic Warning Check */}
@@ -461,12 +439,8 @@ export default function SaasLeakCalculator() {
 
             {/* Dead Weight Alert Card */}
             {results.deadWeightItems && results.deadWeightItems.length > 0 && (
-              <Card className="p-0 border-4 border-black bg-red-50 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                <div className="bg-red-100 p-3 border-b-4 border-black flex items-center gap-2">
-                  <ShieldAlert className="w-5 h-5 text-red-600 animate-pulse" />
-                  <h3 className="text-xs font-black uppercase text-red-950">Dead Weight Subscriptions Detected!</h3>
-                </div>
-                <div className="p-4 space-y-2">
+              <Card title="Dead Weight Subscriptions Detected!" icon={<ShieldAlert className="w-5 h-5 md:w-6 md:h-6 text-red-600 animate-pulse" />} headerColor="bg-red-100" className="bg-red-50">
+                <div className="space-y-2">
                   <p className="text-[10px] text-red-800 font-bold uppercase tracking-tight leading-tight mb-2">
                     The following subscriptions are marked as "Rarely Used" but cost more than ₹200/month. Consider canceling:
                   </p>
@@ -484,14 +458,8 @@ export default function SaasLeakCalculator() {
 
             {/* Category Spending Breakdown */}
             {calcMode === 'aggregate' && results.categoryBreakdown && results.categoryBreakdown.length > 0 && (
-              <Card className="p-0 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-white">
-                <div className="bg-blue-50 p-3 border-b-4 border-black">
-                  <h3 className="text-xs font-black uppercase text-black flex items-center gap-2">
-                    <PieChartIcon className="w-4 h-4 text-blue-600" />
-                    Spending Breakdown by Category
-                  </h3>
-                </div>
-                <div className="p-4">
+              <Card title="Spending Breakdown by Category" icon={PieChartIcon} headerColor="bg-blue-50" className="bg-white">
+                <div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {results.categoryBreakdown.map(cat => (
                       <div key={cat.id} className="border-2 border-black p-3 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] bg-gray-50 flex flex-col justify-between">
@@ -512,14 +480,8 @@ export default function SaasLeakCalculator() {
 
             {/* SaaS Efficiency & Cost-Per-Use Table */}
             {calcMode === 'aggregate' && subscriptions.filter(s => s.active).length > 0 && (
-              <Card className="p-0 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-white">
-                <div className="bg-emerald-50 p-3 border-b-4 border-black">
-                  <h3 className="text-xs font-black uppercase text-black flex items-center gap-2">
-                    <Award className="w-4 h-4 text-emerald-600" />
-                    SaaS Efficiency & Cost-Per-Use Audit
-                  </h3>
-                </div>
-                <div className="p-4">
+              <Card title="SaaS Efficiency & Cost-Per-Use Audit" icon={Award} headerColor="bg-emerald-50" className="bg-white">
+                <div>
                   <p className="text-[10px] text-gray-500 font-bold uppercase mb-3 leading-tight tracking-tight">
                     Estimating how much you actually pay for each session of usage:
                   </p>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Calculator, IndianRupee, TrendingUp, TrendingDown, ArrowLeft, Briefcase, AlertCircle, Lock, Unlock, ArrowRight, XCircle, CheckCircle, FileText, Table, Hash, Calendar } from 'lucide-react';
-import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer } from '@packages/styling';
+import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer, MetricDisplay } from '@packages/styling';
 import { motion } from 'framer-motion';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import { calculateAnnualizedComp, calculateCostOfLeaving, generateProjections, analyzeAlerts } from '../lib/goldenHandcuffsLogic';
@@ -179,26 +179,11 @@ export default function GoldenHandcuffsCalculator() {
 
                 <div className="lg:col-span-12 xl:col-span-6 space-y-8">
                     {/* 1. CURRENT JOB */}
-                    <Card className="p-0 border-4 border-black">
-                        <div className="bg-gray-100 p-4 border-b-4 border-black flex justify-between items-center text-black">
-                            <h2 className="text-lg font-bold flex items-center gap-2"><Briefcase className="w-5 h-5" /> Current Role (The Handcuffs)</h2>
-                        </div>
+                    <Card title="Current Role (The Handcuffs)" icon={Briefcase} headerColor="bg-gray-100" className="p-0 border-4 border-black">
                         <div className="p-4 space-y-4">
                             <div className="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label htmlFor="current-base" className="text-[10px] font-black uppercase mb-1 block text-black">Base Salary</label>
-                                    <div className="relative">
-                                        <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input id="current-base" type="number" value={currentBase} onChange={e => setCurrentBase(e.target.value)} className="pl-8 font-black" />
-                                    </div>
-                                </div>
-                                <div>
-                                    <label htmlFor="current-bonus" className="text-[10px] font-black uppercase mb-1 block text-black">Annual Bonus</label>
-                                    <div className="relative">
-                                        <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input id="current-bonus" type="number" value={currentBonus} onChange={e => setCurrentBonus(e.target.value)} className="pl-8 font-black" />
-                                    </div>
-                                </div>
+                                <Input id="current-base" label="Base Salary" icon={IndianRupee} type="number" value={currentBase} onChange={e => setCurrentBase(e.target.value)} className="font-black" />
+                                <Input id="current-bonus" label="Annual Bonus" icon={IndianRupee} type="number" value={currentBonus} onChange={e => setCurrentBonus(e.target.value)} className="font-black" />
                             </div>
 
                             <div className="border-t-2 border-dashed border-gray-300 pt-4">
@@ -221,25 +206,13 @@ export default function GoldenHandcuffsCalculator() {
                                                     <option value="RSU">RSU</option>
                                                     <option value="Option">Option</option>
                                                 </select>
-                                                <div className="relative">
-                                                    <Hash className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                                    <Input id={`current-equity-count-${grant.id}`} aria-label="Units Count" placeholder="Count" type="number" value={grant.count} onChange={e => updateEquity(setCurrentEquity, grant.id, 'count', e.target.value)} className="h-8 text-xs pl-7 font-black" />
-                                                </div>
-                                                <div className="relative">
-                                                    <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                                    <Input id={`current-equity-vesting-${grant.id}`} aria-label="Vesting Years" placeholder="Vesting Yrs" type="number" value={grant.vestingYears} onChange={e => updateEquity(setCurrentEquity, grant.id, 'vestingYears', e.target.value)} className="h-8 text-xs pl-7 font-black" />
-                                                </div>
+                                                <Input id={`current-equity-count-${grant.id}`} aria-label="Units Count" placeholder="Count" icon={Hash} type="number" value={grant.count} onChange={e => updateEquity(setCurrentEquity, grant.id, 'count', e.target.value)} className="h-8 text-xs font-black" />
+                                                <Input id={`current-equity-vesting-${grant.id}`} aria-label="Vesting Years" placeholder="Vesting Yrs" icon={Calendar} type="number" value={grant.vestingYears} onChange={e => updateEquity(setCurrentEquity, grant.id, 'vestingYears', e.target.value)} className="h-8 text-xs font-black" />
                                             </div>
                                             <div className="grid grid-cols-2 gap-2">
-                                                <div className="relative">
-                                                    <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                                    <Input id={`current-equity-price-${grant.id}`} aria-label="Grant Price" placeholder={grant.type === 'RSU' ? 'Price' : 'Current Price'} type="number" value={grant.price} onChange={e => updateEquity(setCurrentEquity, grant.id, 'price', e.target.value)} className="h-8 text-xs pl-7 font-black" />
-                                                </div>
+                                                <Input id={`current-equity-price-${grant.id}`} aria-label="Grant Price" placeholder={grant.type === 'RSU' ? 'Price' : 'Current Price'} icon={IndianRupee} type="number" value={grant.price} onChange={e => updateEquity(setCurrentEquity, grant.id, 'price', e.target.value)} className="h-8 text-xs font-black" />
                                                 {grant.type === 'Option' && (
-                                                    <div className="relative">
-                                                        <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                                        <Input id={`current-equity-strike-${grant.id}`} aria-label="Strike Price" placeholder="Strike Price" type="number" value={grant.strike} onChange={e => updateEquity(setCurrentEquity, grant.id, 'strike', e.target.value)} className="h-8 text-xs pl-7 font-black" />
-                                                    </div>
+                                                    <Input id={`current-equity-strike-${grant.id}`} aria-label="Strike Price" placeholder="Strike Price" icon={IndianRupee} type="number" value={grant.strike} onChange={e => updateEquity(setCurrentEquity, grant.id, 'strike', e.target.value)} className="h-8 text-xs font-black" />
                                                 )}
                                             </div>
                                         </div>
@@ -250,11 +223,7 @@ export default function GoldenHandcuffsCalculator() {
                             <div className="border-t-2 border-dashed border-gray-300 pt-4">
                                 <h3 className="text-[10px] font-black uppercase text-red-600 mb-2 flex items-center gap-1"><AlertCircle className="w-3 h-3" /> The Clause (Clawbacks)</h3>
                                 <div>
-                                    <label htmlFor="clawback-amount" className="text-[10px] font-black uppercase mb-1 block text-black">Total Liability Amount</label>
-                                    <div className="relative">
-                                        <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-red-600 z-10" />
-                                        <Input id="clawback-amount" type="number" value={clawback} onChange={e => setClawback(e.target.value)} className="border-red-600 font-black text-red-600 pl-8" />
-                                    </div>
+                                    <Input id="clawback-amount" label="Total Liability Amount" icon={IndianRupee} type="number" value={clawback} onChange={e => setClawback(e.target.value)} className="border-red-600 font-black text-red-600" />
                                     <p className="text-[9px] text-gray-500 mt-1">Sign-on bonus repayment, relocation costs, etc.</p>
                                 </div>
                             </div>
@@ -262,26 +231,11 @@ export default function GoldenHandcuffsCalculator() {
                     </Card>
 
                     {/* 2. NEW JOB */}
-                    <Card className="p-0 border-4 border-black">
-                        <div className="bg-green-100 p-4 border-b-4 border-black flex justify-between items-center text-black">
-                            <h2 className="text-lg font-bold flex items-center gap-2"><Unlock className="w-5 h-5" /> The Offer (New Role)</h2>
-                        </div>
+                    <Card title="The Offer (New Role)" icon={Unlock} headerColor="bg-green-100" className="p-0 border-4 border-black">
                         <div className="p-4 space-y-4">
                             <div className="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label htmlFor="new-base" className="text-[10px] font-black uppercase mb-1 block text-black">Base Salary</label>
-                                    <div className="relative">
-                                        <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input id="new-base" type="number" value={newBase} onChange={e => setNewBase(e.target.value)} className="pl-8 font-black" />
-                                    </div>
-                                </div>
-                                <div>
-                                    <label htmlFor="new-bonus" className="text-[10px] font-black uppercase mb-1 block text-black">Annual Bonus</label>
-                                    <div className="relative">
-                                        <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input id="new-bonus" type="number" value={newBonus} onChange={e => setNewBonus(e.target.value)} className="pl-8 font-black" />
-                                    </div>
-                                </div>
+                                <Input id="new-base" label="Base Salary" icon={IndianRupee} type="number" value={newBase} onChange={e => setNewBase(e.target.value)} className="font-black" />
+                                <Input id="new-bonus" label="Annual Bonus" icon={IndianRupee} type="number" value={newBonus} onChange={e => setNewBonus(e.target.value)} className="font-black" />
                             </div>
                             <div className="border-t-2 border-dashed border-gray-300 pt-4">
                                 <div className="flex justify-between items-center mb-2">
@@ -303,25 +257,13 @@ export default function GoldenHandcuffsCalculator() {
                                                     <option value="RSU">RSU</option>
                                                     <option value="Option">Option</option>
                                                 </select>
-                                                <div className="relative">
-                                                    <Hash className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                                    <Input id={`new-equity-count-${grant.id}`} aria-label="Units Count" placeholder="Count" type="number" value={grant.count} onChange={e => updateEquity(setNewEquity, grant.id, 'count', e.target.value)} className="h-8 text-xs pl-7 font-black" />
-                                                </div>
-                                                <div className="relative">
-                                                    <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                                    <Input id={`new-equity-vesting-${grant.id}`} aria-label="Vesting Years" placeholder="Vesting Yrs" type="number" value={grant.vestingYears} onChange={e => updateEquity(setNewEquity, grant.id, 'vestingYears', e.target.value)} className="h-8 text-xs pl-7 font-black" />
-                                                </div>
+                                                <Input id={`new-equity-count-${grant.id}`} aria-label="Units Count" placeholder="Count" icon={Hash} type="number" value={grant.count} onChange={e => updateEquity(setNewEquity, grant.id, 'count', e.target.value)} className="h-8 text-xs font-black" />
+                                                <Input id={`new-equity-vesting-${grant.id}`} aria-label="Vesting Years" placeholder="Vesting Yrs" icon={Calendar} type="number" value={grant.vestingYears} onChange={e => updateEquity(setNewEquity, grant.id, 'vestingYears', e.target.value)} className="h-8 text-xs font-black" />
                                             </div>
                                             <div className="grid grid-cols-2 gap-2">
-                                                <div className="relative">
-                                                    <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                                    <Input id={`new-equity-price-${grant.id}`} aria-label="Grant Price" placeholder={grant.type === 'RSU' ? 'Price' : 'Est. Value'} type="number" value={grant.price} onChange={e => updateEquity(setNewEquity, grant.id, 'price', e.target.value)} className="h-8 text-xs pl-7 font-black" />
-                                                </div>
+                                                <Input id={`new-equity-price-${grant.id}`} aria-label="Grant Price" placeholder={grant.type === 'RSU' ? 'Price' : 'Est. Value'} icon={IndianRupee} type="number" value={grant.price} onChange={e => updateEquity(setNewEquity, grant.id, 'price', e.target.value)} className="h-8 text-xs font-black" />
                                                 {grant.type === 'Option' && (
-                                                    <div className="relative">
-                                                        <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                                        <Input id={`new-equity-strike-${grant.id}`} aria-label="Strike Price" placeholder="Strike Price" type="number" value={grant.strike} onChange={e => updateEquity(setNewEquity, grant.id, 'strike', e.target.value)} className="h-8 text-xs pl-7 font-black" />
-                                                    </div>
+                                                    <Input id={`new-equity-strike-${grant.id}`} aria-label="Strike Price" placeholder="Strike Price" icon={IndianRupee} type="number" value={grant.strike} onChange={e => updateEquity(setNewEquity, grant.id, 'strike', e.target.value)} className="h-8 text-xs font-black" />
                                                 )}
                                             </div>
                                         </div>
@@ -369,9 +311,12 @@ export default function GoldenHandcuffsCalculator() {
 
                         {/* THE FREEDOM TAX */}
                         <div className="bg-red-600 p-4 border-4 border-black text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                            <h3 className="text-xs font-black uppercase text-red-200 mb-2 tracking-widest">The Freedom Tax (Cost of Leaving)</h3>
-                            <p className="text-4xl font-black tracking-tighter">{formatCurrency(results.freedomTax)}</p>
-                            <p className="text-[10px] font-bold text-red-200 mt-2 italic uppercase">Immediate loss (Clawbacks + Forfeited Equity)</p>
+                            <MetricDisplay 
+                                title="The Freedom Tax (Cost of Leaving)" 
+                                value={formatCurrency(results.freedomTax)} 
+                                subtitle="Immediate loss (Clawbacks + Forfeited Equity)" 
+                                color="text-white"
+                            />
                         </div>
 
                         {/* PROJECTION TABLE */}

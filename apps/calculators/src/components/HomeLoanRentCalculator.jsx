@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Home, Calculator, IndianRupee, TrendingUp, TrendingDown, ArrowLeft, Settings, Info, Building, Key, Landmark, ShieldCheck, LineChart, AlertCircle, Table as TableIcon } from 'lucide-react';
-import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer } from '@packages/styling';
+import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer, MetricDisplay } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 
@@ -94,108 +94,48 @@ export default function HomeLoanRentCalculator() {
         </div>
 
         <div className="lg:col-span-12 xl:col-span-5 space-y-6">
-          <Card className="p-0 border-4 border-black">
-            <div className="bg-blue-100 p-4 border-b-4 border-black">
-              <h2 className="text-lg font-bold flex items-center gap-2 text-black">
-                <Landmark className="w-5 h-5" /> Buy Scenario
-              </h2>
+          <Card title="Buy Scenario" icon={Landmark} headerColor="bg-blue-100">
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <Input label="Property Value" icon={IndianRupee} id="property-value" type="number" value={propertyValue} onChange={e => setPropertyValue(e.target.value)} onBlur={() => !propertyValue && setPropertyValue(0)} className="font-black" />
+                <Input label="Down Payment" icon={IndianRupee} id="down-payment" type="number" value={downPayment} onChange={e => setDownPayment(e.target.value)} onBlur={() => !downPayment && setDownPayment(0)} className="font-black" />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <Input label="Int. Rate (%)" icon={<span className="text-[10px] font-black text-gray-400">%</span>} id="interest-rate" type="number" value={interestRate} onChange={e => setInterestRate(e.target.value)} onBlur={() => !interestRate && setInterestRate(0)} className="font-black" />
+                <Input label="Tenure (Yrs)" icon={<span className="text-[10px] font-black text-gray-400">Yr</span>} id="loan-tenure" type="number" value={loanTenure} onChange={e => setLoanTenure(e.target.value)} onBlur={() => !loanTenure && setLoanTenure(0)} className="font-black" />
+              </div>
+              <Input label="Expected Appreciation (%)" icon={<TrendingUp className="w-3 h-3 text-green-600" />} id="property-appreciation" type="number" value={propertyAppreciation} onChange={e => setPropertyAppreciation(e.target.value)} onBlur={() => !propertyAppreciation && setPropertyAppreciation(0)} className="font-black" />
             </div>
-            <div className="p-4 space-y-4">
+          </Card>
+
+          <Card title="Rent Scenario" icon={Key} headerColor="bg-purple-100">
+            <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label htmlFor="property-value" className="text-[10px] font-black uppercase mb-1 block">Property Value</label>
-                  <div className="relative">
-                    <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                    <Input id="property-value" type="number" value={propertyValue} onChange={e => setPropertyValue(e.target.value)} onBlur={() => !propertyValue && setPropertyValue(0)} className="pl-8 font-black" />
-                  </div>
-                </div>
-                <div>
-                  <label htmlFor="down-payment" className="text-[10px] font-black uppercase mb-1 block">Down Payment</label>
-                  <div className="relative">
-                    <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                    <Input id="down-payment" type="number" value={downPayment} onChange={e => setDownPayment(e.target.value)} onBlur={() => !downPayment && setDownPayment(0)} className="pl-8 font-black" />
-                  </div>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label htmlFor="interest-rate" className="text-[10px] font-black uppercase mb-1 block">Int. Rate (%)</label>
-                  <div className="relative">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-black text-gray-400 z-10">%</span>
-                    <Input id="interest-rate" type="number" value={interestRate} onChange={e => setInterestRate(e.target.value)} onBlur={() => !interestRate && setInterestRate(0)} className="pl-8 font-black" />
-                  </div>
-                </div>
-                <div>
-                  <label htmlFor="loan-tenure" className="text-[10px] font-black uppercase mb-1 block">Tenure (Yrs)</label>
-                  <div className="relative">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-black text-gray-400 z-10">Yr</span>
-                    <Input id="loan-tenure" type="number" value={loanTenure} onChange={e => setLoanTenure(e.target.value)} onBlur={() => !loanTenure && setLoanTenure(0)} className="pl-8 font-black" />
-                  </div>
-                </div>
-              </div>
-              <div>
-                <label htmlFor="property-appreciation" className="text-[10px] font-black uppercase mb-1 block">Expected Appreciation (%)</label>
-                <div className="relative">
-                  <TrendingUp className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-green-600 z-10" />
-                  <Input id="property-appreciation" type="number" value={propertyAppreciation} onChange={e => setPropertyAppreciation(e.target.value)} onBlur={() => !propertyAppreciation && setPropertyAppreciation(0)} className="pl-8 font-black" />
-                </div>
+                <Input label="Monthly Rent" icon={IndianRupee} id="monthly-rent" type="number" value={monthlyRent} onChange={e => setMonthlyRent(e.target.value)} onBlur={() => !monthlyRent && setMonthlyRent(0)} className="font-black" />
+                <Input label="Rent Inflation (%)" icon={<TrendingUp className="w-3 h-3 text-red-600" />} id="rent-inflation" type="number" value={rentInflation} onChange={e => setRentInflation(e.target.value)} onBlur={() => !rentInflation && setRentInflation(0)} className="font-black" />
               </div>
             </div>
           </Card>
 
-          <Card className="p-0 border-4 border-black">
-            <div className="bg-purple-100 p-4 border-b-4 border-black">
-              <h2 className="text-lg font-bold flex items-center gap-2 text-black">
-                <Key className="w-5 h-5" /> Rent Scenario
-              </h2>
-            </div>
-            <div className="p-4 space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label htmlFor="monthly-rent" className="text-[10px] font-black uppercase mb-1 block">Monthly Rent</label>
-                  <div className="relative">
-                    <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                    <Input id="monthly-rent" type="number" value={monthlyRent} onChange={e => setMonthlyRent(e.target.value)} onBlur={() => !monthlyRent && setMonthlyRent(0)} className="pl-8 font-black" />
-                  </div>
-                </div>
-                <div>
-                  <label htmlFor="rent-inflation" className="text-[10px] font-black uppercase mb-1 block">Rent Inflation (%)</label>
-                  <div className="relative">
-                    <TrendingUp className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-red-600 z-10" />
-                    <Input id="rent-inflation" type="number" value={rentInflation} onChange={e => setRentInflation(e.target.value)} onBlur={() => !rentInflation && setRentInflation(0)} className="pl-8 font-black" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Card>
-
-          <Card className="p-0 border-4 border-black">
-            <div className="bg-red-50 p-4 border-b-4 border-black">
-              <h2 className="text-lg font-bold flex items-center gap-2 text-black">
-                <AlertCircle className="w-5 h-5 text-red-600" /> Reality Factors
-              </h2>
-            </div>
-            <div className="p-4 space-y-4">
-              <label className="flex items-center gap-3 cursor-pointer">
-                <Checkbox checked={investDifference} onChange={e => setInvestDifference(e.target.checked)} />
-                <div>
-                  <span className="text-xs font-black uppercase">Invest the Difference</span>
-                  <p className="text-[9px] font-bold text-gray-400">Renting is cheaper? Invest the savings.</p>
-                </div>
-              </label>
+          <Card title="Reality Factors" icon={<AlertCircle className="w-5 h-5 md:w-6 md:h-6 text-red-600" />} headerColor="bg-red-50">
+            <div className="space-y-4">
+              <Checkbox
+                label="Invest the Difference"
+                tooltip="Renting is cheaper? Invest the savings."
+                checked={investDifference}
+                onChange={e => setInvestDifference(e.target.checked)}
+              />
               {investDifference && (
                 <div className="pl-8 animate-in zoom-in-95">
-                  <label htmlFor="equity-return" className="text-[10px] font-black uppercase text-green-700">Equity Return Rate (%)</label>
-                  <Input id="equity-return" type="number" value={equityReturn} onChange={e => setEquityReturn(e.target.value)} onBlur={() => !equityReturn && setEquityReturn(0)} className="h-8 border-green-600 font-black" />
+                  <Input label="Equity Return Rate (%)" id="equity-return" type="number" value={equityReturn} onChange={e => setEquityReturn(e.target.value)} onBlur={() => !equityReturn && setEquityReturn(0)} className="h-8 border-green-600 font-black" />
                 </div>
               )}
-              <label className="flex items-center gap-3 cursor-pointer">
-                <Checkbox checked={taxBenefit} onChange={e => setTaxBenefit(e.target.checked)} />
-                <div>
-                  <span className="text-xs font-black uppercase">Tax Benefit (Old Regime)</span>
-                  <p className="text-[9px] font-bold text-gray-400">Save tax on interest paid (Sec 24b).</p>
-                </div>
-              </label>
+              <Checkbox
+                label="Tax Benefit (Old Regime)"
+                tooltip="Save tax on interest paid (Sec 24b)."
+                checked={taxBenefit}
+                onChange={e => setTaxBenefit(e.target.checked)}
+              />
             </div>
           </Card>
         </div>
@@ -212,14 +152,18 @@ export default function HomeLoanRentCalculator() {
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="bg-white border-4 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                <p className="text-[10px] font-black text-gray-400 uppercase mb-1">Buy Wealth (Net)</p>
-                <p className="text-2xl font-black text-black">{formatCurrency(results.buyNetWealth)}</p>
-                <p className="text-[9px] font-bold text-gray-400 italic">Property Value - Remaining Loan</p>
+                <MetricDisplay
+                  title="Buy Wealth (Net)"
+                  value={formatCurrency(results.buyNetWealth)}
+                  subtitle="Property Value - Remaining Loan"
+                />
               </div>
               <div className="bg-white border-4 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                <p className="text-[10px] font-black text-gray-400 uppercase mb-1">Rent Wealth (Net)</p>
-                <p className="text-2xl font-black text-black">{formatCurrency(results.rentNetWealth)}</p>
-                <p className="text-[9px] font-bold text-gray-400 italic">Invested DP + Invested Savings</p>
+                <MetricDisplay
+                  title="Rent Wealth (Net)"
+                  value={formatCurrency(results.rentNetWealth)}
+                  subtitle="Invested DP + Invested Savings"
+                />
               </div>
             </div>
 

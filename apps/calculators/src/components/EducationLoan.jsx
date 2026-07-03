@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Calculator, IndianRupee, Percent, Calendar, Info, PieChart as PieChartIcon, Table as TableIcon, TrendingDown, Clock, BookOpen, Coffee, Coins, Plus, Trash2, CalendarDays, Settings, ArrowLeft } from 'lucide-react';
-import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer } from '@packages/styling';
+import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer, MetricDisplay } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 
@@ -160,14 +160,8 @@ export default function App() {
 
         {/* Inputs Section */}
         <div className="lg:col-span-12 xl:col-span-5 space-y-6">
-          <Card className="p-0 border-4 border-black">
-            <div className="bg-blue-100 p-4 border-b-4 border-black">
-              <h2 className="text-lg font-bold flex items-center gap-2">
-                <Settings className="w-5 h-5" />
-                Configuration
-              </h2>
-            </div>
-            <div className="p-4">
+          <Card title="Configuration" icon={Settings} headerColor="bg-blue-100">
+            <div className="space-y-4">
               <Tooltip content="Toggle between basic lump-sum loan and detailed multi-disbursement schedules" className="w-full mb-4">
                 <Button
                   onClick={() => setIsAdvanced(!isAdvanced)}
@@ -181,18 +175,15 @@ export default function App() {
               {/* Loan Amount */}
               {!isAdvanced ? (
                 <div className="mb-5">
-                  <label htmlFor="loanAmount" className="block font-bold mb-2">Loan Amount</label>
-                  <div className="relative">
-                    <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 z-10" />
-                    <Input
-                      id="loanAmount"
-                      type="number"
-                      value={loanAmount}
-                      onChange={(e) => setLoanAmount(e.target.value)}
-                      onBlur={() => !loanAmount && setLoanAmount(0)}
-                      className="pl-9"
-                    />
-                  </div>
+                  <Input
+                    id="loanAmount"
+                    label="Loan Amount"
+                    icon={IndianRupee}
+                    type="number"
+                    value={loanAmount}
+                    onChange={(e) => setLoanAmount(e.target.value)}
+                    onBlur={() => !loanAmount && setLoanAmount(0)}
+                  />
                   <input
                     id="loanAmountSlider"
                     type="range"
@@ -225,15 +216,15 @@ export default function App() {
                             className="w-full text-xs"
                           />
                         </div>
-                        <div className="relative flex-1">
-                          <IndianRupee className="absolute left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-500 z-10" />
+                        <div className="flex-1">
                           <Input
                             id={`disbursement-amount-${d.id}`}
                             aria-label={`Disbursement Amount ${d.id}`}
+                            icon={IndianRupee}
                             type="number"
                             value={d.amount}
                             onChange={(e) => updateDisbursement(d.id, 'amount', e.target.value)}
-                            className="pl-6 w-full text-xs"
+                            className="w-full text-xs"
                             placeholder="Amount"
                           />
                         </div>
@@ -267,53 +258,43 @@ export default function App() {
               {/* Interest Rate & Tenure */}
               <div className="grid grid-cols-2 gap-4 mb-5">
                 <div>
-                  <label htmlFor="interestRate" className="block font-bold mb-2 text-sm">Interest Rate (%)</label>
-                  <div className="relative">
-                    <Percent className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 z-10" />
-                    <Input
-                      id="interestRate"
-                      type="number"
-                      value={interestRate}
-                      onChange={(e) => setInterestRate(e.target.value)}
-                      onBlur={() => !interestRate && setInterestRate(0)}
-                      step="0.1"
-                      className="pl-9"
-                    />
-                  </div>
+                  <Input
+                    id="interestRate"
+                    label="Interest Rate (%)"
+                    icon={Percent}
+                    type="number"
+                    value={interestRate}
+                    onChange={(e) => setInterestRate(e.target.value)}
+                    onBlur={() => !interestRate && setInterestRate(0)}
+                    step="0.1"
+                  />
                 </div>
                 <div>
-                  <label htmlFor="repaymentTenure" className="block font-bold mb-2 text-sm">Tenure (Years)</label>
-                  <div className="relative">
-                    <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 z-10" />
-                    <Input
-                      id="repaymentTenure"
-                      type="number"
-                      value={repaymentTenure}
-                      onChange={(e) => setRepaymentTenure(e.target.value)}
-                      onBlur={() => !repaymentTenure && setRepaymentTenure(0)}
-                      className="pl-9"
-                    />
-                  </div>
+                  <Input
+                    id="repaymentTenure"
+                    label="Tenure (Years)"
+                    icon={Calendar}
+                    type="number"
+                    value={repaymentTenure}
+                    onChange={(e) => setRepaymentTenure(e.target.value)}
+                    onBlur={() => !repaymentTenure && setRepaymentTenure(0)}
+                  />
                 </div>
               </div>
 
               {/* Extra Payment */}
               <div className="bg-green-50 p-4 border-2 border-green-800 mb-5">
-                <label htmlFor="extraPayment" className="text-sm font-bold text-green-900 mb-2 block">
-                  Extra Monthly Payment
-                </label>
-                <div className="relative">
-                  <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-green-700 z-10" />
-                  <Input
-                    id="extraPayment"
-                    type="number"
-                    value={extraPayment}
-                    onChange={(e) => setExtraPayment(e.target.value)}
-                    onBlur={() => !extraPayment && setExtraPayment(0)}
-                    className="pl-9 border-green-800"
-                    placeholder="0"
-                  />
-                </div>
+                <Input
+                  id="extraPayment"
+                  label="Extra Monthly Payment"
+                  icon={IndianRupee}
+                  type="number"
+                  value={extraPayment}
+                  onChange={(e) => setExtraPayment(e.target.value)}
+                  onBlur={() => !extraPayment && setExtraPayment(0)}
+                  className="border-green-800"
+                  placeholder="0"
+                />
               </div>
 
               {/* Moratorium Section */}
@@ -331,39 +312,32 @@ export default function App() {
                 <div className="grid grid-cols-2 gap-4 mb-4">
                   <div>
                     {isAdvanced ? (
-                      <>
-                        <label htmlFor="courseEndDate" className="text-xs font-bold mb-2 flex items-center gap-1">
-                          <CalendarDays className="w-3 h-3" /> End Date
-                        </label>
-                        <Input
-                          id="courseEndDate"
-                          type="date"
-                          value={courseEndDate}
-                          onChange={(e) => setCourseEndDate(e.target.value)}
-                        />
-                      </>
+                      <Input
+                        id="courseEndDate"
+                        label="End Date"
+                        icon={CalendarDays}
+                        type="date"
+                        value={courseEndDate}
+                        onChange={(e) => setCourseEndDate(e.target.value)}
+                      />
                     ) : (
-                      <>
-                        <label htmlFor="courseDuration" className="text-xs font-bold mb-2 flex items-center gap-1">
-                          <BookOpen className="w-3 h-3" /> Duration (Mos)
-                        </label>
-                        <Input
-                          id="courseDuration"
-                          type="number"
-                          value={courseDuration}
-                          onChange={(e) => setCourseDuration(e.target.value)}
-                          onBlur={() => !courseDuration && setCourseDuration(0)}
-                        />
-                      </>
+                      <Input
+                        id="courseDuration"
+                        label="Duration (Mos)"
+                        icon={BookOpen}
+                        type="number"
+                        value={courseDuration}
+                        onChange={(e) => setCourseDuration(e.target.value)}
+                        onBlur={() => !courseDuration && setCourseDuration(0)}
+                      />
                     )}
                   </div>
 
                   <div>
-                    <label htmlFor="gracePeriod" className="text-xs font-bold mb-2 flex items-center gap-1">
-                      <Coffee className="w-3 h-3" /> Grace (Mos)
-                    </label>
                     <Input
                       id="gracePeriod"
+                      label="Grace (Mos)"
+                      icon={Coffee}
                       type="number"
                       value={gracePeriod}
                       onChange={(e) => setGracePeriod(e.target.value)}
@@ -373,53 +347,42 @@ export default function App() {
                 </div>
 
                 {gracePeriod > 0 && (
-                  <div className="mb-4 bg-blue-50 p-3 border-2 border-blue-800">
-                    <label htmlFor="gracePayment" className="text-sm font-bold text-blue-900 mb-2 flex items-center gap-2">
-                      <Coins className="w-4 h-4" /> Monthly Payment during Grace
-                    </label>
-                    <div className="relative mb-3">
-                      <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-700 z-10" />
-                      <Input
-                        id="gracePayment"
-                        type="number"
-                        value={gracePayment}
-                        onChange={(e) => setGracePayment(e.target.value)}
-                        onBlur={() => !gracePayment && setGracePayment(0)}
-                        className="pl-9 border-blue-800"
-                        placeholder="0"
-                      />
-                    </div>
+                  <div className="mb-4 bg-blue-50 p-3 border-2 border-blue-800 space-y-4">
+                    <Input
+                      id="gracePayment"
+                      label="Monthly Payment during Grace"
+                      icon={IndianRupee}
+                      type="number"
+                      value={gracePayment}
+                      onChange={(e) => setGracePayment(e.target.value)}
+                      onBlur={() => !gracePayment && setGracePayment(0)}
+                      className="border-blue-800"
+                      placeholder="0"
+                    />
 
-                    <label htmlFor="graceLumpsum" className="text-sm font-bold text-blue-900 mb-2 flex items-center gap-2">
-                      <TrendingDown className="w-4 h-4" /> Lumpsum Payment during Grace
-                    </label>
-                    <div className="relative">
-                      <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-700 z-10" />
-                      <Input
-                        id="graceLumpsum"
-                        type="number"
-                        value={graceLumpsum}
-                        onChange={(e) => setGraceLumpsum(e.target.value)}
-                        onBlur={() => !graceLumpsum && setGraceLumpsum(0)}
-                        className="pl-9 border-blue-800"
-                        placeholder="0"
-                      />
-                    </div>
+                    <Input
+                      id="graceLumpsum"
+                      label="Lumpsum Payment during Grace"
+                      icon={IndianRupee}
+                      type="number"
+                      value={graceLumpsum}
+                      onChange={(e) => setGraceLumpsum(e.target.value)}
+                      onBlur={() => !graceLumpsum && setGraceLumpsum(0)}
+                      className="border-blue-800"
+                      placeholder="0"
+                    />
                   </div>
                 )}
 
                 {results.totalMoratorium > 0 && (
-                  <div className="p-3 border-2 border-black bg-gray-50 flex items-start gap-3">
+                  <div className="p-3 border-2 border-black bg-gray-50">
                     <Checkbox
                       id="capitalizeInterest"
+                      label="Capitalize Interest?"
                       checked={capitalizeInterest}
                       onChange={(e) => setCapitalizeInterest(e.target.checked)}
-                      className="mt-1"
                     />
-                    <label htmlFor="capitalizeInterest" className="text-sm cursor-pointer">
-                      <span className="font-bold block">Capitalize Interest?</span>
-                      <span className="text-xs text-gray-600">Add moratorium interest to principal.</span>
-                    </label>
+                    <p className="text-xs text-gray-600 ml-8 mt-1">Add moratorium interest to principal.</p>
                   </div>
                 )}
               </div>
@@ -432,47 +395,16 @@ export default function App() {
           <ResultsAnalysis>
             {/* Top Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-white border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4 flex flex-col justify-between">
-                <h3 className="text-sm font-bold text-gray-600">Monthly EMI</h3>
-                <div>
-                  <motion.h3
-                    key={results.monthlyEMI}
-                    initial={{ scale: 1.05 }}
-                    animate={{ scale: 1 }}
-                    className="text-4xl font-black mt-2"
-                  >
-                    {formatCurrency(results.monthlyEMI)}
-                  </motion.h3>
-                  {extraPayment > 0 && (
-                    <div className="text-xs text-green-700 mt-1 font-bold">
-                      + {formatCurrency(extraPayment)} Extra
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              <div className="bg-white border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4 flex flex-col justify-between">
-                <div>
-                  <h3 className="text-sm font-bold text-gray-600 flex items-center justify-between">
-                    Total Interest
-                    {results.totalMoratorium > 0 && (
-                      <span className="text-[10px] font-normal text-gray-400">
-                        (Includes moratorium interest)
-                      </span>
-                    )}
-                  </h3>
-                </div>
-                <div>
-                  <motion.h3
-                    key={results.totalInterest}
-                    initial={{ scale: 1.05 }}
-                    animate={{ scale: 1 }}
-                    className="text-4xl font-black text-red-600 mt-2"
-                  >
-                    {formatCurrency(results.totalInterest)}
-                  </motion.h3>
-                </div>
-              </div>
+              <MetricDisplay
+                title="Monthly EMI"
+                value={formatCurrency(results.monthlyEMI)}
+                subtitle={extraPayment > 0 ? `+ ${formatCurrency(extraPayment)} Extra` : undefined}
+              />
+              <MetricDisplay
+                title="Total Interest"
+                value={formatCurrency(results.totalInterest)}
+                subtitle={results.totalMoratorium > 0 ? "(Includes moratorium interest)" : undefined}
+              />
             </div>
 
             {/* Savings Banner */}
@@ -501,12 +433,7 @@ export default function App() {
               </div>
             )}
 
-            {/* Chart & Breakdown */}
-            <div className="border-4 border-black p-6 bg-gray-50">
-              <h2 className="text-lg font-bold flex items-center gap-2 mb-6">
-                <PieChartIcon className="w-5 h-5" />
-                Repayment Breakdown
-              </h2>
+            <Card title="Repayment Breakdown" icon={PieChartIcon} headerColor="bg-gray-50">
               <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
                 <div className="relative w-48 h-48 rounded-full flex-shrink-0 border-4 border-black"
                   style={{
@@ -539,7 +466,7 @@ export default function App() {
                   </div>
                 </div>
               </div>
-            </div>
+            </Card>
 
             {/* Schedule Toggle */}
             <div>

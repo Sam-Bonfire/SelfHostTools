@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Briefcase, IndianRupee, Clock, ArrowLeft, Car, Coffee, Heart, AlertTriangle, FileText, Table, Scissors, Wind, Calendar, Palmtree, Percent } from 'lucide-react';
-import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer } from '@packages/styling';
+import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer, MetricDisplay } from '@packages/styling';
 import SEO from './SEO';
 import { calculateTrueHourlyWage } from '../lib/trueHourlyLogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
@@ -114,139 +114,72 @@ export default function TrueHourlyWageCalculator() {
                 <div className="lg:col-span-5 space-y-6">
 
                     {/* 1. INCOME */}
-                    <Card className="p-0 border-4 border-black">
-                        <div className="bg-blue-100 p-4 border-b-4 border-black">
-                            <h2 className="text-lg font-bold flex items-center gap-2 text-black">
-                                <IndianRupee className="w-5 h-5" /> Base Income
-                            </h2>
-                        </div>
-                        <div className="p-4 space-y-4">
+                    <Card title="Base Income" icon={IndianRupee} headerColor="bg-blue-100">
+                        <div className="space-y-4">
                             <div>
-                                <label htmlFor="annual-gross-salary" className="text-[10px] font-black uppercase mb-1 block">Annual Gross Salary</label>
-                                <div className="relative">
-                                    <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                    <Input id="annual-gross-salary" type="number" value={annualGrossSalary} onChange={e => setAnnualGross(e.target.value)} className="pl-8 font-black w-full" />
-                                </div>
+                                <Input label="Annual Gross Salary" id="annual-gross-salary" type="number" value={annualGrossSalary} onChange={e => setAnnualGross(e.target.value)} icon={IndianRupee} className="font-black w-full" />
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label htmlFor="annual-bonus" className="text-[10px] font-black uppercase mb-1 block">Yearly Bonus</label>
-                                    <div className="relative">
-                                        <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input id="annual-bonus" type="number" value={annualBonus} onChange={e => setBonus(e.target.value)} className="pl-8 font-black w-full" />
-                                    </div>
+                                    <Input label="Yearly Bonus" id="annual-bonus" type="number" value={annualBonus} onChange={e => setBonus(e.target.value)} icon={IndianRupee} className="font-black w-full" />
                                 </div>
                                 <div>
-                                    <label htmlFor="tax-rate" className="text-[10px] font-black uppercase mb-1 block">Tax Rate (%)</label>
-                                    <div className="relative">
-                                        <Percent className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input id="tax-rate" type="number" value={taxRate} onChange={e => setTaxRate(e.target.value)} className="pl-8 font-black w-full" />
-                                    </div>
+                                    <Input label="Tax Rate (%)" id="tax-rate" type="number" value={taxRate} onChange={e => setTaxRate(e.target.value)} icon={Percent} className="font-black w-full" />
                                 </div>
                             </div>
                         </div>
                     </Card>
 
                     {/* 2. TIME LEAKS */}
-                    <Card className="p-0 border-4 border-black">
-                        <div className="bg-orange-100 p-4 border-b-4 border-black">
-                            <h2 className="text-lg font-bold flex items-center gap-2 text-black">
-                                <Clock className="w-5 h-5" /> Time Leaks
-                            </h2>
-                        </div>
-                        <div className="p-4 space-y-4">
+                    <Card title="Time Leaks" icon={Clock} headerColor="bg-orange-100">
+                        <div className="space-y-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label htmlFor="commute-minutes" className="text-[10px] font-black uppercase mb-1 block">Commute (One Way)</label>
-                                    <div className="relative">
-                                        <Car className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input id="commute-minutes" type="number" value={commuteOneWayMinutes} onChange={e => setCommuteMinutes(e.target.value)} className="pl-8 font-black w-full" placeholder="Mins" />
-                                    </div>
-                                    <span className="text-[9px] text-gray-500 font-bold uppercase">Minutes per trip</span>
+                                    <Input label="Commute (One Way)" id="commute-minutes" type="number" value={commuteOneWayMinutes} onChange={e => setCommuteMinutes(e.target.value)} icon={Car} placeholder="Mins" className="font-black w-full" />
+                                    <span className="text-[9px] text-gray-500 font-bold uppercase block mt-1">Minutes per trip</span>
                                 </div>
                                 <div>
-                                    <label htmlFor="unpaid-overtime" className="text-[10px] font-black uppercase mb-1 block">Unpaid Overtime</label>
-                                    <div className="relative">
-                                        <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input id="unpaid-overtime" type="number" value={unpaidOvertimeHoursPerWeek} onChange={e => setUnpaidOvertime(e.target.value)} className="pl-8 font-black w-full" placeholder="Hrs" />
-                                    </div>
-                                    <span className="text-[9px] text-gray-500 font-bold uppercase">Hours per week</span>
+                                    <Input label="Unpaid Overtime" id="unpaid-overtime" type="number" value={unpaidOvertimeHoursPerWeek} onChange={e => setUnpaidOvertime(e.target.value)} icon={Clock} placeholder="Hrs" className="font-black w-full" />
+                                    <span className="text-[9px] text-gray-500 font-bold uppercase block mt-1">Hours per week</span>
                                 </div>
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label htmlFor="grooming-minutes" className="text-[10px] font-black uppercase mb-1 block">Grooming/Prep</label>
-                                    <div className="relative">
-                                        <Scissors className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input id="grooming-minutes" type="number" value={groomingMinutesDaily} onChange={e => setGroomingMinutes(e.target.value)} className="pl-8 font-black w-full" placeholder="Mins/day" />
-                                    </div>
+                                    <Input label="Grooming/Prep" id="grooming-minutes" type="number" value={groomingMinutesDaily} onChange={e => setGroomingMinutes(e.target.value)} icon={Scissors} placeholder="Mins/day" className="font-black w-full" />
                                 </div>
                                 <div>
-                                    <label htmlFor="decompression-minutes" className="text-[10px] font-black uppercase mb-1 block">Decompression</label>
-                                    <div className="relative">
-                                        <Wind className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input id="decompression-minutes" type="number" value={decompressionMinutesDaily} onChange={e => setDecompressionMinutes(e.target.value)} className="pl-8 font-black w-full" placeholder="Mins/day" />
-                                    </div>
+                                    <Input label="Decompression" id="decompression-minutes" type="number" value={decompressionMinutesDaily} onChange={e => setDecompressionMinutes(e.target.value)} icon={Wind} placeholder="Mins/day" className="font-black w-full" />
                                 </div>
                             </div>
                             <div className="grid grid-cols-3 gap-2 border-t-2 border-black/10 pt-4">
                                 <div>
-                                    <label htmlFor="working-days" className="text-[9px] font-black uppercase block">Week Days</label>
-                                    <div className="relative">
-                                        <Calendar className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input id="working-days" type="number" value={workingDaysPerWeek} onChange={e => setWorkingDays(e.target.value)} className="pl-7 h-8 font-black text-sm w-full" />
-                                    </div>
+                                    <Input label="Week Days" id="working-days" type="number" value={workingDaysPerWeek} onChange={e => setWorkingDays(e.target.value)} icon={Calendar} className="h-8 font-black text-sm w-full" />
                                 </div>
                                 <div>
-                                    <label htmlFor="standard-hours" className="text-[9px] font-black uppercase block">Std Hours</label>
-                                    <div className="relative">
-                                        <Clock className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input id="standard-hours" type="number" value={standardHoursPerWeek} onChange={e => setStandardHours(e.target.value)} className="pl-7 h-8 font-black text-sm w-full" />
-                                    </div>
+                                    <Input label="Std Hours" id="standard-hours" type="number" value={standardHoursPerWeek} onChange={e => setStandardHours(e.target.value)} icon={Clock} className="h-8 font-black text-sm w-full" />
                                 </div>
                                 <div>
-                                    <label htmlFor="vacation-weeks" className="text-[9px] font-black uppercase block">Vacation Wks</label>
-                                    <div className="relative">
-                                        <Palmtree className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input id="vacation-weeks" type="number" value={vacationWeeksPerYear} onChange={e => setVacationWeeks(e.target.value)} className="pl-7 h-8 font-black text-sm w-full" />
-                                    </div>
+                                    <Input label="Vacation Wks" id="vacation-weeks" type="number" value={vacationWeeksPerYear} onChange={e => setVacationWeeks(e.target.value)} icon={Palmtree} className="h-8 font-black text-sm w-full" />
                                 </div>
                             </div>
                         </div>
                     </Card>
 
                     {/* 3. MONEY LEAKS */}
-                    <Card className="p-0 border-4 border-black">
-                        <div className="bg-red-100 p-4 border-b-4 border-black">
-                            <h2 className="text-lg font-bold flex items-center gap-2 text-black">
-                                <AlertTriangle className="w-5 h-5" /> Money Leaks (Post-Tax)
-                            </h2>
-                        </div>
-                        <div className="p-4 space-y-4">
+                    <Card title="Money Leaks (Post-Tax)" icon={AlertTriangle} headerColor="bg-red-100">
+                        <div className="space-y-4">
                             <div>
-                                <label htmlFor="commute-cost" className="text-[10px] font-black uppercase mb-1 block">Daily Commute Cost</label>
-                                <div className="relative">
-                                    <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                    <Input id="commute-cost" type="number" value={commuteDailyCost} onChange={e => setCommuteCost(e.target.value)} className="pl-8 font-black w-full" />
-                                </div>
-                                <span className="text-[9px] text-gray-500 font-bold uppercase">Gas, Train, Parking</span>
+                                <Input label="Daily Commute Cost" id="commute-cost" type="number" value={commuteDailyCost} onChange={e => setCommuteCost(e.target.value)} icon={IndianRupee} className="font-black w-full" />
+                                <span className="text-[9px] text-gray-500 font-bold uppercase block mt-1">Gas, Train, Parking</span>
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label htmlFor="convenience-cost" className="text-[10px] font-black uppercase mb-1 block">Convenience Tax</label>
-                                    <div className="relative">
-                                        <Coffee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input id="convenience-cost" type="number" value={monthlyConvenienceRen} onChange={e => setConvenienceCost(e.target.value)} className="pl-8 font-black w-full" />
-                                    </div>
-                                    <span className="text-[9px] text-gray-500 font-bold uppercase">Per Month (Takeout, Maid)</span>
+                                    <Input label="Convenience Tax" id="convenience-cost" type="number" value={monthlyConvenienceRen} onChange={e => setConvenienceCost(e.target.value)} icon={Coffee} className="font-black w-full" />
+                                    <span className="text-[9px] text-gray-500 font-bold uppercase block mt-1">Per Month (Takeout, Maid)</span>
                                 </div>
                                 <div>
-                                    <label htmlFor="health-cost" className="text-[10px] font-black uppercase mb-1 block">Health/Sanity</label>
-                                    <div className="relative">
-                                        <Heart className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input id="health-cost" type="number" value={monthlyHealthren} onChange={e => setHealthCost(e.target.value)} className="pl-8 font-black w-full" />
-                                    </div>
-                                    <span className="text-[9px] text-gray-500 font-bold uppercase">Per Month (Therapy, Physio)</span>
+                                    <Input label="Health/Sanity" id="health-cost" type="number" value={monthlyHealthren} onChange={e => setHealthCost(e.target.value)} icon={Heart} className="font-black w-full" />
+                                    <span className="text-[9px] text-gray-500 font-bold uppercase block mt-1">Per Month (Therapy, Physio)</span>
                                 </div>
                             </div>
                         </div>
@@ -261,12 +194,17 @@ export default function TrueHourlyWageCalculator() {
                         <ResultsAnalysis>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {/* NOMINAL RATE */}
-                                <Card className="p-4 border-4 border-black bg-gray-50 flex flex-col justify-between h-full">
-                                    <p className="text-[10px] font-black uppercase text-gray-500">The Lie</p>
-                                    <h3 className="text-xl font-bold uppercase">Nominal Hourly</h3>
+                                <Card className="p-4 border-4 border-black bg-gray-50 flex flex-col justify-between h-full" animate={false}>
+                                    <div>
+                                        <p className="text-[10px] font-black uppercase text-gray-500">The Lie</p>
+                                        <h3 className="text-xl font-bold uppercase">Nominal Hourly</h3>
+                                    </div>
                                     <div className="my-4">
-                                        <p className="text-3xl font-black text-gray-400 line-through decoration-2 decoration-red-500">{formatCurrency(results.rates.nominalHourly)}</p>
-                                        <p className="text-xs font-bold text-gray-400 mt-1">Based on Gross / {results.time.standardHours}h</p>
+                                        <MetricDisplay 
+                                            value={formatCurrency(results.rates.nominalHourly)}
+                                            subtitle={`Based on Gross / ${results.time.standardHours}h`}
+                                            color="text-gray-400 line-through decoration-2 decoration-red-500"
+                                        />
                                     </div>
                                 </Card>
 
@@ -277,25 +215,25 @@ export default function TrueHourlyWageCalculator() {
                                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
                                     className="h-full"
                                 >
-                                    <Card className="p-4 border-4 border-black bg-yellow-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between h-full">
-                                        <p className="text-[10px] font-black uppercase text-black">The Truth</p>
-                                        <h3 className="text-xl font-bold uppercase">True Hourly</h3>
+                                    <Card className="p-4 border-4 border-black bg-yellow-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between h-full" animate={false}>
+                                        <div>
+                                            <p className="text-[10px] font-black uppercase text-black">The Truth</p>
+                                            <h3 className="text-xl font-bold uppercase">True Hourly</h3>
+                                        </div>
                                         <div className="my-4">
-                                            <p className="text-5xl font-black text-black">{formatCurrency(results.rates.trueHourly)}</p>
-                                            <p className="text-xs font-bold text-black mt-1">Net Income / {results.time.totalHours}h Real</p>
+                                            <MetricDisplay 
+                                                value={formatCurrency(results.rates.trueHourly)}
+                                                subtitle={`Net Income / ${results.time.totalHours}h Real`}
+                                                color="text-black"
+                                            />
                                         </div>
                                     </Card>
                                 </motion.div>
                             </div>
 
                             {/* WATERFALL / BREAKDOWN */}
-                            <Card className="p-0 border-4 border-black">
-                                <div className="bg-black text-white p-4 border-b-4 border-black">
-                                    <h2 className="text-lg font-bold flex items-center gap-2">
-                                        <FileText className="w-5 h-5" /> The Audit
-                                    </h2>
-                                </div>
-                                <div className="p-6">
+                            <Card title="The Audit" icon={FileText} headerColor="bg-black !text-white">
+                                <div className="space-y-4">
                                     {/* VISUAL BAR CHART */}
                                     <div className="space-y-4 mb-8">
                                         <h4 className="text-xs font-black uppercase border-b-2 border-black pb-2 mb-4">Where the money goes</h4>

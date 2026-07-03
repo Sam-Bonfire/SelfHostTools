@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useCallback, useRef } from 'react';
 import { IndianRupee, Plus, Trash2, GitFork, Download } from 'lucide-react';
-import { Card, Button, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer } from '@packages/styling';
+import { Card, Button, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer, Input } from '@packages/styling';
 import { SEO } from '@packages/components';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
@@ -71,13 +71,13 @@ function NodeRow({ item, onChange, onDelete, prefix, showDelete }) {
         className="flex-1 text-xs font-bold border-none outline-none bg-transparent min-w-0"
         aria-label={`${prefix} label`}
       />
-      <div className="relative flex-shrink-0 w-28">
-        <IndianRupee className="absolute left-1 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400" />
-        <input
+      <div className="w-28 flex-shrink-0">
+        <Input
           type="number"
+          icon={IndianRupee}
           value={item.amount}
           onChange={e => onChange(item.id, 'amount', Number(e.target.value))}
-          className="w-full pl-5 pr-1 py-1 text-xs font-mono border border-gray-300 focus:border-black outline-none"
+          className="!py-1 font-mono text-xs"
           aria-label={`${prefix} amount`}
         />
       </div>
@@ -321,10 +321,7 @@ export default function SankeyFlowchart() {
 
           {/* LEFT: Source Nodes */}
           <div className="lg:col-span-3 space-y-4">
-            <div className="border-4 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-              <h2 className="text-xs font-black uppercase mb-3 flex items-center gap-2">
-                <IndianRupee className="w-4 h-4 text-green-600" /> Income Sources
-              </h2>
+            <Card title="Income Sources" icon={IndianRupee} headerColor="bg-green-100">
               <div className="space-y-2">
                 {sources.map(src => (
                   <NodeRow key={src.id} item={src} onChange={updateSource} onDelete={deleteSource} prefix="Source" showDelete={sources.length > 1} />
@@ -336,7 +333,7 @@ export default function SankeyFlowchart() {
               >
                 <Plus className="w-3.5 h-3.5" /> Add Source
               </button>
-            </div>
+            </Card>
 
             {/* Action Buttons */}
             <div className="pt-2">
@@ -406,10 +403,7 @@ export default function SankeyFlowchart() {
 
           {/* RIGHT: Destination Nodes */}
           <div className="lg:col-span-3 space-y-4">
-            <div className="border-4 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-              <h2 className="text-xs font-black uppercase mb-3 flex items-center gap-2">
-                <GitFork className="w-4 h-4 text-red-600" /> Allocation Buckets
-              </h2>
+            <Card title="Allocation Buckets" icon={GitFork} headerColor="bg-red-100">
               <div className="space-y-2 max-h-[420px] overflow-y-auto pr-1">
                 {destinations.map(dst => (
                   <NodeRow key={dst.id} item={dst} onChange={updateDest} onDelete={deleteDest} prefix="Destination" showDelete={destinations.length > 1} />
@@ -421,13 +415,12 @@ export default function SankeyFlowchart() {
               >
                 <Plus className="w-3.5 h-3.5" /> Add Category
               </button>
-            </div>
+            </Card>
           </div>
         </div>
 
         {/* Legend */}
-        <div className="border-4 border-black p-4 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-          <h3 className="text-[10px] font-black uppercase mb-3">Allocation Breakdown</h3>
+        <Card title="Allocation Breakdown">
           <div className="flex flex-wrap gap-3">
             {destinations.map(dst => {
               const pct = totalIn > 0 ? ((dst.amount / totalIn) * 100).toFixed(1) : 0;
@@ -440,7 +433,7 @@ export default function SankeyFlowchart() {
               );
             })}
           </div>
-        </div>
+        </Card>
         </div>
         </div>
       </CalculatorLayout>

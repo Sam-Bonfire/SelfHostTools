@@ -12,24 +12,26 @@ The UI follows a distinct **Neo-Brutalism / High-Contrast** aesthetic:
 
 ### `Card`
 A container component with the signature hard border and shadow style. Used to group related inputs or results.
-*   **Usage**: Wraps calculator sections (e.g., "Billed Income", "Results Analysis").
+*   **API Updates**: Now accepts `title` (string), `icon` (ReactNode), and `headerColor` (Tailwind class) props to automatically render a standardized header block instead of requiring manual HTML elements.
 
 ### `Button`
 Interactive elements with hover/active states that mimic physical pressing (translation + shadow removal).
 *   **Variants**: `primary`, `secondary`, `outline`.
 
-### `Input`
+### `Input` & `Select`
 Form controls styled with bold fonts and clear borders.
-*   **Features**: Supports standard HTML input props. Often used in conjunction with absolute positioned icons in the calculator forms.
-*   **Accessibility**: Always requires an `id` prop to be associated with a label via `htmlFor`.
+*   **API Updates**: Now natively accepts `label` (string), `icon` (ReactNode), and `tooltip` (string) props. They automatically render accessible labels with neo-brutalist styling (`text-[10px] font-black uppercase`) and handle icon padding internally. Manual `<label>` and `<div className="relative">` wrappers are deprecated.
+
+### `Checkbox`
+Custom-styled selection control that matches the thick-border aesthetic.
+*   **API Updates**: Now natively accepts `label` and `tooltip` props. Automatically handles `<label>` accessibility and styling.
 
 ### `Tooltip`
 Informational overlays used to explain complex financial terms or input requirements.
-*   **Behavior**: content appears on hover; supports positioning adjustments.
 
-### `Checkbox`
-Custom-styled selection control that matches the thick-border aesthetic of the rest of the application.
-*   **Accessibility**: Should be wrapped in a `<label>` element for proper hit-area size and assistive text association.
+### `MetricDisplay`
+A new hero component designed to replace massive manual text classes (`text-4xl font-black`) in result cards.
+*   **Props**: `title` (string or ReactNode), `value` (string or number), `subtitle` (string), `color` (Tailwind text color).
 
 ### Layout Components
 

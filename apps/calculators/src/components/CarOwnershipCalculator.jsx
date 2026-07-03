@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { IndianRupee, Car, TrendingDown, Clock, Shield, Wrench, Fuel, CarTaxiFront, AlertCircle } from 'lucide-react';
-import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer } from '@packages/styling';
+import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer, MetricDisplay } from '@packages/styling';
 import { calculateCarOwnership } from '../lib/carOwnershipLogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 
@@ -45,24 +45,17 @@ export default function CarOwnershipCalculator() {
     return (
         <div className="min-h-screen bg-white text-black p-4 md:p-8">
       <CalculatorLayout>
-            <div className="lg:col-span-12">
         <CalculatorHeader
                 title="Car Ownership Realist"
                 description="Buying a car is emotional. Let's make it mathematical. Expose the hidden costs of depreciation, interest, and maintenance."
                 icon={<Car className="w-8 h-8 md:w-10 md:h-10 text-orange-500" />}
                 color="bg-orange-100"
             />
-      </div>
 
-            <div className="lg:col-span-12">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <>
                 {/* LEFT: Inputs */}
                 <div className="lg:col-span-5 space-y-6">
-                    <Card className="p-6 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-white">
-                        <h2 className="text-xl font-black uppercase flex items-center gap-2 mb-6 border-b-4 border-black pb-4">
-                            <IndianRupee className="w-6 h-6" /> Purchase & Loan
-                        </h2>
-
+                    <Card title="Purchase & Loan" icon={IndianRupee}>
                         <div className="space-y-4">
                             <Input
                                 id="carPrice"
@@ -70,7 +63,7 @@ export default function CarOwnershipCalculator() {
                                 type="number"
                                 value={carPrice}
                                 onChange={(e) => setCarPrice(e.target.value)}
-                                icon={<Car className="w-5 h-5 text-gray-500" />}
+                                icon={Car}
                             />
                             
                             <div className="grid grid-cols-2 gap-4">
@@ -98,7 +91,7 @@ export default function CarOwnershipCalculator() {
                                     type="number"
                                     value={loanTermYears}
                                     onChange={(e) => setLoanTermYears(e.target.value)}
-                                    icon={<Clock className="w-5 h-5 text-gray-500" />}
+                                    icon={Clock}
                                 />
                                 <Input
                                     id="ownershipYears"
@@ -106,7 +99,7 @@ export default function CarOwnershipCalculator() {
                                     type="number"
                                     value={ownershipYears}
                                     onChange={(e) => setOwnershipYears(e.target.value)}
-                                    icon={<Clock className="w-5 h-5 text-gray-500" />}
+                                    icon={Clock}
                                 />
                             </div>
 
@@ -116,17 +109,13 @@ export default function CarOwnershipCalculator() {
                                 type="number"
                                 value={annualDepreciationRate}
                                 onChange={(e) => setAnnualDepreciationRate(e.target.value)}
-                                icon={<TrendingDown className="w-5 h-5 text-gray-500" />}
+                                icon={TrendingDown}
                                 tooltip="Average new car loses 15-20% per year."
                             />
                         </div>
                     </Card>
 
-                    <Card className="p-6 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-white">
-                        <h2 className="text-xl font-black uppercase flex items-center gap-2 mb-6 border-b-4 border-black pb-4">
-                            <Fuel className="w-6 h-6" /> Running Costs
-                        </h2>
-
+                    <Card title="Running Costs" icon={Fuel}>
                         <div className="space-y-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <Input
@@ -135,7 +124,7 @@ export default function CarOwnershipCalculator() {
                                     type="number"
                                     value={annualInsurance}
                                     onChange={(e) => setAnnualInsurance(e.target.value)}
-                                    icon={<Shield className="w-5 h-5 text-gray-500" />}
+                                    icon={Shield}
                                 />
                                 <Input
                                     id="annualMaintenance"
@@ -143,7 +132,7 @@ export default function CarOwnershipCalculator() {
                                     type="number"
                                     value={annualMaintenance}
                                     onChange={(e) => setAnnualMaintenance(e.target.value)}
-                                    icon={<Wrench className="w-5 h-5 text-gray-500" />}
+                                    icon={Wrench}
                                 />
                             </div>
 
@@ -153,7 +142,7 @@ export default function CarOwnershipCalculator() {
                                 type="number"
                                 value={monthlyFuel}
                                 onChange={(e) => setMonthlyFuel(e.target.value)}
-                                icon={<Fuel className="w-5 h-5 text-gray-500" />}
+                                icon={Fuel}
                             />
 
                             <div className="pt-4 border-t-2 border-black">
@@ -163,14 +152,14 @@ export default function CarOwnershipCalculator() {
                                     type="number"
                                     value={averageRideshareCost}
                                     onChange={(e) => setAverageRideshareCost(e.target.value)}
-                                    icon={<CarTaxiFront className="w-5 h-5 text-gray-500" />}
+                                    icon={CarTaxiFront}
                                     tooltip="Used to compare car ownership against just booking cabs everywhere."
                                 />
                             </div>
                         </div>
                     </Card>
 
-                    <Card className="p-6 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-orange-50">
+                    <Card className="border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-orange-50">
                         <DownloadButtons 
                             onDownloadPDF={() => downloadPDF({
                                 inputs: { carPrice, downPayment, loanInterestRate, loanTermYears, ownershipYears, annualDepreciationRate, annualInsurance, annualMaintenance, monthlyFuel, averageRideshareCost },
@@ -192,31 +181,24 @@ export default function CarOwnershipCalculator() {
                         verdictColor="text-orange-600"
                     >
                         {/* The Big Number */}
-                        <div className="mb-8 p-6 bg-white border-4 border-black text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                            <p className="text-sm font-black uppercase text-gray-500 mb-2 tracking-widest">Total Sunk Cost Over {ownershipYears} Years</p>
-                            <p className="text-4xl md:text-5xl font-black text-black">
-                                {formatCurrency(summary.trueCostOfOwnership)}
-                            </p>
-                            <p className="text-xs font-bold text-gray-500 mt-4">
-                                This is the actual wealth destroyed by Depreciation, Interest, and Operations.
-                            </p>
-                        </div>
+                        <MetricDisplay 
+                            title={`Total Sunk Cost Over ${ownershipYears} Years`}
+                            value={formatCurrency(summary.trueCostOfOwnership)}
+                            subtitle="This is the actual wealth destroyed by Depreciation, Interest, and Operations."
+                        />
 
                         {/* Breakdown Grid */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                            <div className="p-4 border-4 border-black bg-gray-50">
-                                <p className="text-xs font-bold text-gray-600 uppercase mb-1">Monthly EMI</p>
-                                <p className="text-2xl font-black">{formatCurrency(financials.monthlyEMI)}</p>
-                                <p className="text-xs text-gray-500 mt-1 font-bold">Paid for {loanTermYears * 12} months</p>
-                            </div>
-
-                            <div className="p-4 border-4 border-black bg-orange-50">
-                                <p className="text-xs font-bold text-orange-600 uppercase mb-1 flex items-center justify-between">
-                                    Lost to Depreciation <TrendingDown className="w-4 h-4" />
-                                </p>
-                                <p className="text-2xl font-black text-orange-600">{formatCurrency(financials.totalDepreciation)}</p>
-                                <p className="text-xs text-gray-500 mt-1 font-bold">Final Car Value: {formatCurrency(financials.finalCarValue)}</p>
-                            </div>
+                            <MetricDisplay
+                                title="Monthly EMI"
+                                value={formatCurrency(financials.monthlyEMI)}
+                                subtitle={`Paid for ${loanTermYears * 12} months`}
+                            />
+                            <MetricDisplay
+                                title="Lost to Depreciation"
+                                value={formatCurrency(financials.totalDepreciation)}
+                                subtitle={`Final Car Value: ${formatCurrency(financials.finalCarValue)}`}
+                            />
                         </div>
 
                         {/* The Waterfall Breakdown */}
@@ -264,8 +246,7 @@ export default function CarOwnershipCalculator() {
                     </ResultsAnalysis>
                 </div>
             
-      </div>
-    </div>
+      </>
         </CalculatorLayout>
         <Footer />
     </div>

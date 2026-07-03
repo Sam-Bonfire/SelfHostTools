@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Calculator, IndianRupee, Percent, Clock, AlertCircle, Sparkles, User, Briefcase, Zap, Check, X, ShieldAlert, FileText, ArrowRight, Award } from 'lucide-react';
-import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer } from '@packages/styling';
+import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer, Select, MetricDisplay } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import SEO from './SEO';
@@ -211,56 +211,35 @@ export default function TimeBuyBackCalculator() {
           </div>
 
           {/* 1. Career Profile Baseline Inputs */}
-          <Card className="p-0 border-4 border-black">
-            <div className="bg-blue-100 p-4 border-b-4 border-black">
-              <h2 className="text-lg font-bold flex items-center gap-2 text-black">
-                <Clock className="w-5 h-5 text-blue-600" />
-                True Net-Hourly Rate Baseline
-              </h2>
-            </div>
-            
-            <div className="p-4 space-y-5 animate-in fade-in duration-200">
+          <Card title="True Net-Hourly Rate Baseline" icon={Clock} headerColor="bg-blue-100">
+            <div className="space-y-5 animate-in fade-in duration-200">
               {jobType === 'freelance' ? (
                 // Freelance Fields
                 <>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="hourlyRate" className="block text-[10px] font-black uppercase mb-1">Billed Hourly Rate (₹)</label>
-                      <div className="relative">
-                        <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                        <Input id="hourlyRate" type="number" value={hourlyRate} onChange={(e) => setHourlyRate(e.target.value)} onBlur={() => !hourlyRate && setHourlyRate(0)} className="pl-9 font-black" />
-                      </div>
+                      <Input id="hourlyRate" label="Billed Hourly Rate (₹)" icon={IndianRupee} type="number" value={hourlyRate} onChange={(e) => setHourlyRate(e.target.value)} onBlur={() => !hourlyRate && setHourlyRate(0)} className="font-black" />
                     </div>
                     <div>
-                      <label htmlFor="hoursPerWeek" className="block text-[10px] font-black uppercase mb-1">Weekly Billed Hours</label>
-                      <div className="relative">
-                        <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                        <Input id="hoursPerWeek" type="number" value={hoursPerWeek} onChange={(e) => setHoursPerWeek(e.target.value)} onBlur={() => !hoursPerWeek && setHoursPerWeek(0)} className="pl-9 font-black" />
-                      </div>
+                      <Input id="hoursPerWeek" label="Weekly Billed Hours" icon={Clock} type="number" value={hoursPerWeek} onChange={(e) => setHoursPerWeek(e.target.value)} onBlur={() => !hoursPerWeek && setHoursPerWeek(0)} className="font-black" />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="vacationWeeks" className="block text-[10px] font-black uppercase mb-1">Vacation (Weeks/Yr)</label>
-                      <Input id="vacationWeeks" type="number" value={vacationWeeks} onChange={(e) => setVacationWeeks(e.target.value)} onBlur={() => !vacationWeeks && setVacationWeeks(0)} className="font-black" />
+                      <Input id="vacationWeeks" label="Vacation (Weeks/Yr)" type="number" value={vacationWeeks} onChange={(e) => setVacationWeeks(e.target.value)} onBlur={() => !vacationWeeks && setVacationWeeks(0)} className="font-black" />
                     </div>
                     <div>
-                      <label htmlFor="adminTimePercent" className="block text-[10px] font-black uppercase mb-1">Unbilled Admin Time (%)</label>
-                      <Input id="adminTimePercent" type="number" value={adminTimePercent} onChange={(e) => setAdminTimePercent(e.target.value)} onBlur={() => !adminTimePercent && setAdminTimePercent(0)} className="font-black" />
+                      <Input id="adminTimePercent" label="Unbilled Admin Time (%)" type="number" value={adminTimePercent} onChange={(e) => setAdminTimePercent(e.target.value)} onBlur={() => !adminTimePercent && setAdminTimePercent(0)} className="font-black" />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4 pt-4 border-t-2 border-black/10">
                     <div>
-                      <label htmlFor="freelanceTaxRate" className="block text-[10px] font-black uppercase mb-1">Income Tax Rate (%)</label>
-                      <Input id="freelanceTaxRate" type="number" value={freelanceTaxRate} onChange={(e) => setFreelanceTaxRate(e.target.value)} onBlur={() => !freelanceTaxRate && setFreelanceTaxRate(0)} className="font-black" />
+                      <Input id="freelanceTaxRate" label="Income Tax Rate (%)" type="number" value={freelanceTaxRate} onChange={(e) => setFreelanceTaxRate(e.target.value)} onBlur={() => !freelanceTaxRate && setFreelanceTaxRate(0)} className="font-black" />
                     </div>
                     <div className="flex flex-col justify-end pb-2">
-                      <label className="flex items-center gap-2 cursor-pointer">
-                        <Checkbox checked={isPresumptiveTax} onChange={(e) => setIsPresumptiveTax(e.target.checked)} />
-                        <span className="text-[10px] font-black uppercase">44ADA Presumptive</span>
-                      </label>
+                      <Checkbox checked={isPresumptiveTax} onChange={(e) => setIsPresumptiveTax(e.target.checked)} label="44ADA Presumptive" />
                     </div>
                   </div>
                 </>
@@ -268,33 +247,25 @@ export default function TimeBuyBackCalculator() {
                 // Salaried Fields
                 <>
                   <div>
-                    <label htmlFor="salariedGross" className="block text-[10px] font-black uppercase mb-1">Annual Gross Salary (₹)</label>
-                    <div className="relative">
-                      <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                      <Input id="salariedGross" type="number" value={salariedGross} onChange={(e) => setSalariedGross(e.target.value)} onBlur={() => !salariedGross && setSalariedGross(0)} className="pl-9 font-black" />
-                    </div>
+                    <Input id="salariedGross" label="Annual Gross Salary (₹)" icon={IndianRupee} type="number" value={salariedGross} onChange={(e) => setSalariedGross(e.target.value)} onBlur={() => !salariedGross && setSalariedGross(0)} className="font-black" />
                     <input type="range" min={300000} max={6000000} step={50000} value={salariedGross || 0} onChange={(e) => setSalariedGross(Number(e.target.value))} className="w-full mt-3 h-2 bg-gray-200 appearance-none cursor-pointer accent-black" aria-label="Salary Slider" />
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="salariedHoursPerWeek" className="block text-[10px] font-black uppercase mb-1">Official Hours/Week</label>
-                      <Input id="salariedHoursPerWeek" type="number" value={salariedHoursPerWeek} onChange={(e) => setSalariedHoursPerWeek(e.target.value)} onBlur={() => !salariedHoursPerWeek && setSalariedHoursPerWeek(0)} className="font-black" />
+                      <Input id="salariedHoursPerWeek" label="Official Hours/Week" type="number" value={salariedHoursPerWeek} onChange={(e) => setSalariedHoursPerWeek(e.target.value)} onBlur={() => !salariedHoursPerWeek && setSalariedHoursPerWeek(0)} className="font-black" />
                     </div>
                     <div>
-                      <label htmlFor="salariedTaxRate" className="block text-[10px] font-black uppercase mb-1">Effective Tax Rate (%)</label>
-                      <Input id="salariedTaxRate" type="number" value={salariedTaxRate} onChange={(e) => setSalariedTaxRate(e.target.value)} onBlur={() => !salariedTaxRate && setSalariedTaxRate(0)} className="font-black" />
+                      <Input id="salariedTaxRate" label="Effective Tax Rate (%)" type="number" value={salariedTaxRate} onChange={(e) => setSalariedTaxRate(e.target.value)} onBlur={() => !salariedTaxRate && setSalariedTaxRate(0)} className="font-black" />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4 pt-4 border-t-2 border-black/10">
                     <div>
-                      <label htmlFor="commuteHoursPerWeek" className="block text-[10px] font-black uppercase mb-1">Weekly Commute (Hrs)</label>
-                      <Input id="commuteHoursPerWeek" type="number" value={commuteHoursPerWeek} onChange={(e) => setCommuteHoursPerWeek(e.target.value)} onBlur={() => !commuteHoursPerWeek && setCommuteHoursPerWeek(0)} className="font-black" />
+                      <Input id="commuteHoursPerWeek" label="Weekly Commute (Hrs)" type="number" value={commuteHoursPerWeek} onChange={(e) => setCommuteHoursPerWeek(e.target.value)} onBlur={() => !commuteHoursPerWeek && setCommuteHoursPerWeek(0)} className="font-black" />
                     </div>
                     <div>
-                      <label htmlFor="unpaidOvertimeHours" className="block text-[10px] font-black uppercase mb-1">Weekly Overtime (Hrs)</label>
-                      <Input id="unpaidOvertimeHours" type="number" value={unpaidOvertimeHours} onChange={(e) => setUnpaidOvertimeHours(e.target.value)} onBlur={() => !unpaidOvertimeHours && setUnpaidOvertimeHours(0)} className="font-black" />
+                      <Input id="unpaidOvertimeHours" label="Weekly Overtime (Hrs)" type="number" value={unpaidOvertimeHours} onChange={(e) => setUnpaidOvertimeHours(e.target.value)} onBlur={() => !unpaidOvertimeHours && setUnpaidOvertimeHours(0)} className="font-black" />
                     </div>
                   </div>
                 </>
@@ -303,54 +274,34 @@ export default function TimeBuyBackCalculator() {
           </Card>
 
           {/* 2. Socratic Task Delegation Inputs */}
-          <Card className="p-0 border-4 border-black">
-            <div className="bg-orange-100 p-4 border-b-4 border-black">
-              <h2 className="text-lg font-bold flex items-center gap-2 text-black">
-                <Sparkles className="w-5 h-5 text-orange-600" />
-                Task Outsourcing details
-              </h2>
-            </div>
-            
-            <div className="p-4 space-y-5">
+          <Card title="Task Outsourcing details" icon={Sparkles} headerColor="bg-orange-100">
+            <div className="space-y-5">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="taskCost" className="block text-[10px] font-black uppercase mb-1">Task Outsource Cost (₹)</label>
-                  <div className="relative">
-                    <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                    <Input id="taskCost" type="number" value={taskCost} onChange={(e) => setTaskCost(e.target.value)} onBlur={() => !taskCost && setTaskCost(0)} className="pl-9 font-black" />
-                  </div>
+                  <Input id="taskCost" label="Task Outsource Cost (₹)" icon={IndianRupee} type="number" value={taskCost} onChange={(e) => setTaskCost(e.target.value)} onBlur={() => !taskCost && setTaskCost(0)} className="font-black" />
                 </div>
                 <div>
-                  <label htmlFor="hoursSaved" className="block text-[10px] font-black uppercase mb-1">Hours Reclaimed</label>
-                  <div className="relative">
-                    <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                    <Input id="hoursSaved" type="number" value={hoursSaved} onChange={(e) => setHoursSaved(e.target.value)} onBlur={() => !hoursSaved && setHoursSaved(0)} className="pl-9 font-black" />
-                  </div>
+                  <Input id="hoursSaved" label="Hours Reclaimed" icon={Clock} type="number" value={hoursSaved} onChange={(e) => setHoursSaved(e.target.value)} onBlur={() => !hoursSaved && setHoursSaved(0)} className="font-black" />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="energyMultiplier" className="block text-[10px] font-black uppercase mb-1">Psychological Energy Multiplier (1x to 3x)</label>
-                <p className="text-[10px] text-gray-500 mb-2 font-bold uppercase leading-none tracking-tight">Fatigue score: apply high multiplier for tasks you highly dislike</p>
-                <div className="relative">
-                  <Percent className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                  <Input id="energyMultiplier" type="number" step="0.1" value={energyMultiplier} onChange={(e) => setEnergyMultiplier(e.target.value)} onBlur={() => !energyMultiplier && setEnergyMultiplier(1.0)} className="pl-9 font-black" />
-                </div>
+                <Input id="energyMultiplier" label="Psychological Energy Multiplier (1x to 3x)" icon={Percent} type="number" step="0.1" value={energyMultiplier} onChange={(e) => setEnergyMultiplier(e.target.value)} onBlur={() => !energyMultiplier && setEnergyMultiplier(1.0)} className="font-black" />
+                <p className="text-[10px] text-gray-500 mt-2 font-bold uppercase leading-none tracking-tight">Fatigue score: apply high multiplier for tasks you highly dislike</p>
                 <input type="range" min={1.0} max={3.0} step={0.1} value={energyMultiplier || 1.0} onChange={(e) => setEnergyMultiplier(Number(e.target.value))} className="w-full mt-3 h-2 bg-gray-200 appearance-none cursor-pointer accent-black" aria-label="Energy Surcharge Slider" />
               </div>
 
               <div className="pt-4 border-t-2 border-black/10">
-                <label htmlFor="reinvestmentType" className="block text-[10px] font-black uppercase mb-1">How will you reinvest this reclaimed time?</label>
-                <select
+                <Select
                   id="reinvestmentType"
+                  label="How will you reinvest this reclaimed time?"
                   value={reinvestmentType}
                   onChange={(e) => setReinvestmentType(e.target.value)}
-                  className="w-full px-3 py-2 border-2 border-black font-black uppercase text-xs focus:ring-0 focus:outline-none"
                 >
                   <option value="leisure">Leisure / Mental Refresh (Valued with Fatigue Surcharge)</option>
                   <option value="upskilling">Upskilling / Learning (1.5x Future Earnings Value)</option>
                   <option value="work">Direct Side Work / Extra Billing (1x Net Hourly wage)</option>
-                </select>
+                </Select>
               </div>
             </div>
           </Card>
@@ -390,32 +341,27 @@ export default function TimeBuyBackCalculator() {
               
               {/* True Net Hourly Wage */}
               <div className="bg-white border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4 flex flex-col justify-between">
-                <div>
-                  <h3 className="text-sm font-bold text-gray-600 uppercase flex items-center gap-2">
-                    <Clock className="w-4 h-4 text-blue-600" />
-                    True Net Hourly Wage
-                  </h3>
-                  <p className="text-[10px] text-gray-500 mt-1 uppercase font-bold tracking-tight leading-none">Your actual take-home hourly rate after taxes and unbillable/commute overheads</p>
-                </div>
-                <div>
-                  <h3 className="text-3xl font-black mt-4">{formatCurrency(results.baseline.trueNetHourlyWage)}/hr</h3>
-                  <p className="text-[10px] text-gray-400 mt-1 font-bold uppercase">gross: {formatCurrency(results.baseline.annualGross / 12)}/mo | Net: {formatCurrency(results.baseline.annualNet / 12)}/mo</p>
-                </div>
+                <MetricDisplay
+                  title="True Net Hourly Wage"
+                  value={`${formatCurrency(results.baseline.trueNetHourlyWage)}/hr`}
+                  subtitle={`gross: ${formatCurrency(results.baseline.annualGross / 12)}/mo | Net: ${formatCurrency(results.baseline.annualNet / 12)}/mo`}
+                />
+                <p className="text-[10px] text-gray-500 mt-4 uppercase font-bold tracking-tight leading-none">
+                  Your actual take-home hourly rate after taxes and unbillable/commute overheads
+                </p>
               </div>
 
               {/* Time Reinvestment Value */}
               <div className="bg-white border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4 flex flex-col justify-between">
-                <div>
-                  <h3 className="text-sm font-bold text-gray-600 uppercase flex items-center gap-2">
-                    <Sparkles className="w-4 h-4 text-orange-600" />
-                    Reclaimed Time Value
-                  </h3>
-                  <p className="text-[10px] text-gray-500 mt-1 uppercase font-bold tracking-tight leading-none">The true adjusted value of your {hoursSaved} saved hours based on your reinvestment style</p>
-                </div>
-                <div>
-                  <h3 className="text-3xl font-black mt-4 text-orange-600">{formatCurrency(results.delegation.reinvestmentValue)}</h3>
-                  <p className="text-[10px] text-gray-400 mt-1 font-bold uppercase">psychological rate: {formatCurrency(results.delegation.socraticTimeValue)}/hr</p>
-                </div>
+                <MetricDisplay
+                  title="Reclaimed Time Value"
+                  value={formatCurrency(results.delegation.reinvestmentValue)}
+                  subtitle={`psychological rate: ${formatCurrency(results.delegation.socraticTimeValue)}/hr`}
+                  color="text-orange-600"
+                />
+                <p className="text-[10px] text-gray-500 mt-4 uppercase font-bold tracking-tight leading-none">
+                  The true adjusted value of your {hoursSaved} saved hours based on your reinvestment style
+                </p>
               </div>
             </div>
 

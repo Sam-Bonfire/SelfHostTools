@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Home, IndianRupee, TrendingUp, TrendingDown, ArrowRight, Clock, AlertCircle, Info, FileText, Table, Briefcase, Users } from 'lucide-react';
-import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer } from '@packages/styling';
+import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer, MetricDisplay, Select } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 
@@ -190,44 +190,23 @@ export default function JobRelocationCalculator() {
                 {/* LEFT COLUMN - INPUTS */}
                 <div className="lg:col-span-12 xl:col-span-5 space-y-6">
                     {/* CURRENT STATE */}
-                    <Card className="p-0 border-4 border-black">
-                        <div className="bg-green-100 p-4 border-b-4 border-black">
-                            <h2 className="text-lg font-bold flex items-center gap-2">
-                                <Home className="w-5 h-5" /> The Sanctuary (Current State)
-                            </h2>
-                        </div>
-                        <div className="p-4 space-y-4">
-                            <div>
-                                <label htmlFor="current-salary" className="text-[10px] font-black uppercase mb-1 block">Annual Salary (Gross)</label>
-                                <div className="relative">
-                                    <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                    <Input id="current-salary" type="number" value={currentSalary} onChange={e => setCurrentSalary(Number(e.target.value))} className="pl-8 font-black" />
-                                </div>
-                            </div>
+                    <Card title="The Sanctuary (Current State)" icon={Home} headerColor="bg-green-100" className="p-4 space-y-4">
+                        <div className="space-y-4">
+                            <Input id="current-salary" label="Annual Salary (Gross)" icon={IndianRupee} type="number" value={currentSalary} onChange={e => setCurrentSalary(Number(e.target.value))} className="font-black" />
 
                             <div className="grid grid-cols-2 gap-4">
+                                <Input id="current-rent" label="Monthly Rent" icon={IndianRupee} type="number" value={currentRent} onChange={e => setCurrentRent(Number(e.target.value))} className="font-black" />
                                 <div>
-                                    <label htmlFor="current-rent" className="text-[10px] font-black uppercase mb-1 block">Monthly Rent</label>
-                                    <div className="relative">
-                                        <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input id="current-rent" type="number" value={currentRent} onChange={e => setCurrentRent(Number(e.target.value))} className="pl-8 font-black" />
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="flex items-center justify-between mb-1">
-                                        <label htmlFor="current-expenses" className="text-[10px] font-black uppercase block">Monthly Expenses</label>
-                                    </div>
-                                    <div className="relative mb-1">
-                                        <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input
-                                            id="current-expenses"
-                                            type="number"
-                                            value={showCurrentExpenseBreakdown ? Object.values(currentExpenseBreakdown).reduce((sum, val) => sum + val, 0) : currentExpenses}
-                                            onChange={e => !showCurrentExpenseBreakdown && setCurrentExpenses(Number(e.target.value))}
-                                            className="pl-8 font-black"
-                                            disabled={showCurrentExpenseBreakdown}
-                                        />
-                                    </div>
+                                    <Input
+                                        id="current-expenses"
+                                        label="Monthly Expenses"
+                                        icon={IndianRupee}
+                                        type="number"
+                                        value={showCurrentExpenseBreakdown ? Object.values(currentExpenseBreakdown).reduce((sum, val) => sum + val, 0) : currentExpenses}
+                                        onChange={e => !showCurrentExpenseBreakdown && setCurrentExpenses(Number(e.target.value))}
+                                        className="font-black mb-1"
+                                        disabled={showCurrentExpenseBreakdown}
+                                    />
                                     <button
                                         onClick={() => setShowCurrentExpenseBreakdown(!showCurrentExpenseBreakdown)}
                                         className="text-[9px] font-bold uppercase underline text-green-600 hover:text-green-800"
@@ -253,14 +232,14 @@ export default function JobRelocationCalculator() {
                                                 <label htmlFor={`current-expense-${item.id}`} className="col-span-6 text-[9px] font-bold uppercase flex items-center gap-1">
                                                     <span>{item.icon}</span> {item.label}
                                                 </label>
-                                                <div className="col-span-6 relative">
-                                                    <IndianRupee className="absolute left-2 top-1/2 -translate-y-1/2 w-2 h-2 text-gray-400 z-10" />
+                                                <div className="col-span-6">
                                                     <Input
                                                         id={`current-expense-${item.id}`}
+                                                        icon={IndianRupee}
                                                         type="number"
                                                         value={currentExpenseBreakdown[item.id]}
                                                         onChange={e => setCurrentExpenseBreakdown(prev => ({ ...prev, [item.id]: Number(e.target.value) }))}
-                                                        className="h-6 text-[10px] pl-5 font-black w-full"
+                                                        className="h-6 text-[10px] font-black w-full"
                                                     />
                                                 </div>
                                             </div>
@@ -277,14 +256,12 @@ export default function JobRelocationCalculator() {
 
                             <div className="pt-4 border-t-2 border-black/10">
                                 <p className="text-[10px] font-black uppercase text-gray-600 mb-2">Living Situation</p>
-                                <label className="flex items-center gap-2 cursor-pointer">
-                                    <Checkbox
-                                        checked={isLivingWithFamily}
-                                        onChange={e => setIsLivingWithFamily(e.target.checked)}
-                                    />
-                                    <span className="text-[10px] font-black uppercase text-gray-600">Living with Family (Rent-Free)</span>
-                                </label>
-                                <p className="text-[9px] text-gray-400 font-bold uppercase mt-1 leading-tight ml-6">
+                                <Checkbox
+                                    label="Living with Family (Rent-Free)"
+                                    checked={isLivingWithFamily}
+                                    onChange={e => setIsLivingWithFamily(e.target.checked)}
+                                />
+                                <p className="text-[9px] text-gray-400 font-bold uppercase mt-1 leading-tight ml-8">
                                     ✓ Saves ~30% on groceries, utilities, and maintenance
                                 </p>
                             </div>
@@ -292,34 +269,28 @@ export default function JobRelocationCalculator() {
                             <div className="pt-4 border-t-2 border-black/10">
                                 <p className="text-[10px] font-black uppercase text-gray-600 mb-2">Current Commute</p>
                                 <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label htmlFor="current-commute-mode" className="text-[9px] font-bold uppercase mb-1 block">Mode</label>
-                                        <select
-                                            id="current-commute-mode"
-                                            value={currentCommuteMode}
-                                            onChange={e => setCurrentCommuteMode(e.target.value)}
-                                            className="w-full h-9 text-xs font-bold bg-white border-2 border-black rounded px-2 uppercase"
-                                        >
-                                            <option value="walk">🚶 Walk</option>
-                                            <option value="bike">🚴 Bike</option>
-                                            <option value="car">🚗 Car</option>
-                                            <option value="public">🚇 Public Transport</option>
-                                            <option value="mixed">🔀 Mixed</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label htmlFor="current-commute-cost" className="text-[9px] font-bold uppercase mb-1 block">Cost/Month</label>
-                                        <div className="relative">
-                                            <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                            <Input
-                                                id="current-commute-cost"
-                                                type="number"
-                                                value={currentCommuteCost}
-                                                onChange={e => setCurrentCommuteCost(Number(e.target.value))}
-                                                className="pl-8 font-black"
-                                            />
-                                        </div>
-                                    </div>
+                                    <Select
+                                        id="current-commute-mode"
+                                        label="Mode"
+                                        value={currentCommuteMode}
+                                        onChange={e => setCurrentCommuteMode(e.target.value)}
+                                        className="h-9 text-xs font-bold uppercase"
+                                    >
+                                        <option value="walk">🚶 Walk</option>
+                                        <option value="bike">🚴 Bike</option>
+                                        <option value="car">🚗 Car</option>
+                                        <option value="public">🚇 Public Transport</option>
+                                        <option value="mixed">🔀 Mixed</option>
+                                    </Select>
+                                    <Input
+                                        id="current-commute-cost"
+                                        label="Cost/Month"
+                                        icon={IndianRupee}
+                                        type="number"
+                                        value={currentCommuteCost}
+                                        onChange={e => setCurrentCommuteCost(Number(e.target.value))}
+                                        className="font-black"
+                                    />
                                 </div>
                             </div>
 
@@ -453,44 +424,23 @@ export default function JobRelocationCalculator() {
                     </Card>
 
                     {/* NEW JOB OFFER */}
-                    <Card className="p-0 border-4 border-black">
-                        <div className="bg-blue-100 p-4 border-b-4 border-black">
-                            <h2 className="text-lg font-bold flex items-center gap-2">
-                                <Briefcase className="w-5 h-5" /> The Leap (New Job Offer)
-                            </h2>
-                        </div>
-                        <div className="p-4 space-y-4">
-                            <div>
-                                <label htmlFor="new-salary" className="text-[10px] font-black uppercase mb-1 block text-blue-700">New Annual Salary (Gross)</label>
-                                <div className="relative">
-                                    <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-blue-600 z-10" />
-                                    <Input id="new-salary" type="number" value={newSalary} onChange={e => setNewSalary(Number(e.target.value))} className="pl-8 font-black border-blue-600 text-blue-700" />
-                                </div>
-                            </div>
+                    <Card title="The Leap (New Job Offer)" icon={Briefcase} headerColor="bg-blue-100" className="p-4 space-y-4">
+                        <div className="space-y-4">
+                            <Input id="new-salary" label="New Annual Salary (Gross)" icon={IndianRupee} type="number" value={newSalary} onChange={e => setNewSalary(Number(e.target.value))} className="font-black border-blue-600 text-blue-700" />
 
                             <div className="grid grid-cols-2 gap-4">
+                                <Input id="new-rent" label="Expected Rent" icon={IndianRupee} type="number" value={newRent} onChange={e => setNewRent(Number(e.target.value))} className="font-black" />
                                 <div>
-                                    <label htmlFor="new-rent" className="text-[10px] font-black uppercase mb-1 block">Expected Rent</label>
-                                    <div className="relative">
-                                        <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input id="new-rent" type="number" value={newRent} onChange={e => setNewRent(Number(e.target.value))} className="pl-8 font-black" />
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="flex items-center justify-between mb-1">
-                                        <label htmlFor="new-expenses" className="text-[10px] font-black uppercase block">Expected Expenses</label>
-                                    </div>
-                                    <div className="relative mb-1">
-                                        <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                        <Input
-                                            id="new-expenses"
-                                            type="number"
-                                            value={showNewExpenseBreakdown ? Object.values(newExpenseBreakdown).reduce((sum, val) => sum + val, 0) : newExpenses}
-                                            onChange={e => !showNewExpenseBreakdown && setNewExpenses(Number(e.target.value))}
-                                            className="pl-8 font-black"
-                                            disabled={showNewExpenseBreakdown}
-                                        />
-                                    </div>
+                                    <Input
+                                        id="new-expenses"
+                                        label="Expected Expenses"
+                                        icon={IndianRupee}
+                                        type="number"
+                                        value={showNewExpenseBreakdown ? Object.values(newExpenseBreakdown).reduce((sum, val) => sum + val, 0) : newExpenses}
+                                        onChange={e => !showNewExpenseBreakdown && setNewExpenses(Number(e.target.value))}
+                                        className="font-black mb-1"
+                                        disabled={showNewExpenseBreakdown}
+                                    />
                                     <button
                                         onClick={() => setShowNewExpenseBreakdown(!showNewExpenseBreakdown)}
                                         className="text-[9px] font-bold uppercase underline text-blue-600 hover:text-blue-800"
@@ -516,14 +466,14 @@ export default function JobRelocationCalculator() {
                                                 <label htmlFor={`new-expense-${item.id}`} className="col-span-6 text-[9px] font-bold uppercase flex items-center gap-1">
                                                     <span>{item.icon}</span> {item.label}
                                                 </label>
-                                                <div className="col-span-6 relative">
-                                                    <IndianRupee className="absolute left-2 top-1/2 -translate-y-1/2 w-2 h-2 text-gray-400 z-10" />
+                                                <div className="col-span-6">
                                                     <Input
                                                         id={`new-expense-${item.id}`}
+                                                        icon={IndianRupee}
                                                         type="number"
                                                         value={newExpenseBreakdown[item.id]}
                                                         onChange={e => setNewExpenseBreakdown(prev => ({ ...prev, [item.id]: Number(e.target.value) }))}
-                                                        className="h-6 text-[10px] pl-5 font-black w-full"
+                                                        className="h-6 text-[10px] font-black w-full"
                                                     />
                                                 </div>
                                             </div>
@@ -538,45 +488,33 @@ export default function JobRelocationCalculator() {
                                 </div>
                             )}
 
-                            <div>
-                                <label htmlFor="relocation-bonus" className="text-[10px] font-black uppercase mb-1 block">Relocation Bonus</label>
-                                <div className="relative">
-                                    <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                    <Input id="relocation-bonus" type="number" value={relocationBonus} onChange={e => setRelocationBonus(Number(e.target.value))} className="pl-8 font-black" />
-                                </div>
-                            </div>
+                            <Input id="relocation-bonus" label="Relocation Bonus" icon={IndianRupee} type="number" value={relocationBonus} onChange={e => setRelocationBonus(Number(e.target.value))} className="font-black" />
 
                             <div className="pt-4 border-t-2 border-black/10">
                                 <p className="text-[10px] font-black uppercase text-blue-600 mb-2">Expected Commute</p>
                                 <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label htmlFor="new-commute-mode" className="text-[9px] font-bold uppercase mb-1 block">Mode</label>
-                                        <select
-                                            id="new-commute-mode"
-                                            value={newCommuteMode}
-                                            onChange={e => setNewCommuteMode(e.target.value)}
-                                            className="w-full h-9 text-xs font-bold bg-white border-2 border-black rounded px-2 uppercase"
-                                        >
-                                            <option value="walk">🚶 Walk</option>
-                                            <option value="bike">🚴 Bike</option>
-                                            <option value="car">🚗 Car</option>
-                                            <option value="public">🚇 Public Transport</option>
-                                            <option value="mixed">🔀 Mixed</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label htmlFor="new-commute-cost" className="text-[9px] font-bold uppercase mb-1 block">Cost/Month</label>
-                                        <div className="relative">
-                                            <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                            <Input
-                                                id="new-commute-cost"
-                                                type="number"
-                                                value={newCommuteCost}
-                                                onChange={e => setNewCommuteCost(Number(e.target.value))}
-                                                className="pl-8 font-black"
-                                            />
-                                        </div>
-                                    </div>
+                                    <Select
+                                        id="new-commute-mode"
+                                        label="Mode"
+                                        value={newCommuteMode}
+                                        onChange={e => setNewCommuteMode(e.target.value)}
+                                        className="h-9 text-xs font-bold uppercase"
+                                    >
+                                        <option value="walk">🚶 Walk</option>
+                                        <option value="bike">🚴 Bike</option>
+                                        <option value="car">🚗 Car</option>
+                                        <option value="public">🚇 Public Transport</option>
+                                        <option value="mixed">🔀 Mixed</option>
+                                    </Select>
+                                    <Input
+                                        id="new-commute-cost"
+                                        label="Cost/Month"
+                                        icon={IndianRupee}
+                                        type="number"
+                                        value={newCommuteCost}
+                                        onChange={e => setNewCommuteCost(Number(e.target.value))}
+                                        className="font-black"
+                                    />
                                 </div>
                             </div>
 
@@ -710,13 +648,8 @@ export default function JobRelocationCalculator() {
                     </Card>
 
                     {/* FRICTION COSTS */}
-                    <Card className="p-0 border-4 border-black">
-                        <div className="bg-red-50 p-4 border-b-4 border-black">
-                            <h2 className="text-lg font-bold flex items-center gap-2">
-                                <AlertCircle className="w-5 h-5 text-red-600" /> The Friction (One-time Costs)
-                            </h2>
-                        </div>
-                        <div className="p-4 space-y-4">
+                    <Card title="The Friction (One-time Costs)" icon={<AlertCircle className="text-red-600 w-5 h-5" />} headerColor="bg-red-50" className="p-4 space-y-4">
+                        <div className="space-y-4">
                             <div className="mb-2">
                                 <p className="text-[10px] font-black uppercase text-red-600 mb-2">One-Time Moving Costs</p>
                                 <div className="flex items-center justify-between mb-1">
@@ -728,23 +661,21 @@ export default function JobRelocationCalculator() {
                                         {showFrictionBreakdown ? "Use simple total" : "Break down costs"}
                                     </button>
                                 </div>
-                                <div className="relative">
-                                    <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                    <Input
-                                        id="total-friction-cost"
-                                        type="number"
-                                        value={showFrictionBreakdown ? Object.values(frictionBreakdown).reduce((sum, val) => sum + val, 0) : (movingCost + setupCost)}
-                                        onChange={e => {
-                                            if (!showFrictionBreakdown) {
-                                                const total = Number(e.target.value);
-                                                setMovingCost(Math.floor(total * 0.3));
-                                                setSetupCost(Math.floor(total * 0.7));
-                                            }
-                                        }}
-                                        className="pl-8 font-black"
-                                        disabled={showFrictionBreakdown}
-                                    />
-                                </div>
+                                <Input
+                                    id="total-friction-cost"
+                                    icon={IndianRupee}
+                                    type="number"
+                                    value={showFrictionBreakdown ? Object.values(frictionBreakdown).reduce((sum, val) => sum + val, 0) : (movingCost + setupCost)}
+                                    onChange={e => {
+                                        if (!showFrictionBreakdown) {
+                                            const total = Number(e.target.value);
+                                            setMovingCost(Math.floor(total * 0.3));
+                                            setSetupCost(Math.floor(total * 0.7));
+                                        }
+                                    }}
+                                    className="font-black"
+                                    disabled={showFrictionBreakdown}
+                                />
                             </div>
 
                             {showFrictionBreakdown && (
@@ -763,14 +694,14 @@ export default function JobRelocationCalculator() {
                                                 <label htmlFor={`friction-expense-${item.id}`} className="col-span-6 text-[9px] font-bold uppercase flex items-center gap-1">
                                                     <span>{item.icon}</span> {item.label}
                                                 </label>
-                                                <div className="col-span-6 relative">
-                                                    <IndianRupee className="absolute left-2 top-1/2 -translate-y-1/2 w-2 h-2 text-gray-400 z-10" />
+                                                <div className="col-span-6">
                                                     <Input
                                                         id={`friction-expense-${item.id}`}
+                                                        icon={IndianRupee}
                                                         type="number"
                                                         value={frictionBreakdown[item.id]}
                                                         onChange={e => setFrictionBreakdown(prev => ({ ...prev, [item.id]: Number(e.target.value) }))}
-                                                        className="h-6 text-[10px] pl-5 font-black w-full"
+                                                        className="h-6 text-[10px] font-black w-full"
                                                     />
                                                 </div>
                                             </div>
@@ -800,15 +731,14 @@ export default function JobRelocationCalculator() {
                     >
                         {/* VERDICT CARD */}
                         <div className={`p-6 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] ${results.analysis.isProfitable ? 'bg-green-50' : 'bg-red-50'}`}>
-                            <h3 className="text-xs font-black uppercase text-gray-600 mb-2 tracking-widest">Monthly Surplus Delta</h3>
-                            <p className={`text-4xl md:text-5xl font-black tracking-tighter ${results.analysis.isProfitable ? 'text-green-700' : 'text-red-700'}`}>
-                                {results.analysis.monthlyDelta >= 0 ? '+' : ''}{formatCurrency(results.analysis.monthlyDelta)}
-                            </p>
-                            <p className="text-[10px] font-bold text-gray-400 mt-2 italic uppercase">
-                                {results.analysis.isProfitable
+                            <MetricDisplay 
+                                title="Monthly Surplus Delta"
+                                value={`${results.analysis.monthlyDelta >= 0 ? '+' : ''}${formatCurrency(results.analysis.monthlyDelta)}`}
+                                subtitle={results.analysis.isProfitable
                                     ? `You'll save ${formatCurrency(Math.abs(results.analysis.monthlyDelta))} more per month`
                                     : `You'll save ${formatCurrency(Math.abs(results.analysis.monthlyDelta))} less per month`}
-                            </p>
+                                color={results.analysis.isProfitable ? 'text-green-700' : 'text-red-700'}
+                            />
                         </div>
 
                         {/* COMPARISON GRID */}
@@ -1185,20 +1115,15 @@ export default function JobRelocationCalculator() {
                     </ResultsAnalysis>
 
                     {/* THE REALIST'S NOTE */}
-                    <Card className="p-0 border-4 border-black bg-[#FEF08A]">
-                        <div className="bg-black p-4 border-b-4 border-black">
-                            <h2 className="text-lg font-bold flex items-center gap-2 text-yellow-300">
-                                <Info className="w-5 h-5" /> The Realist's Note
-                            </h2>
-                        </div>
-                        <div className="p-6">
+                    <Card title="The Realist's Note" icon={<Info className="!text-yellow-300 w-5 h-5" />} headerColor="bg-black !text-yellow-300" className="!bg-[#FEF08A]">
+                        <div className="space-y-4">
                             <p className="text-sm font-bold leading-relaxed text-black">
                                 💡 A spreadsheet cannot calculate the value of a home-cooked meal from a loved one or the peace of mind that comes with zero monthly debt. Sometimes, <strong>not having new expenses is worth more than a 20% increase in your paycheck.</strong>
                             </p>
-                            <p className="text-sm font-bold leading-relaxed text-black mt-4">
+                            <p className="text-sm font-bold leading-relaxed text-black">
                                 Finances are a pivot point, but they are not the whole story. Factors like your love for your current city, the psychological safety of your existing social circle, or the specific "flow state" you find in your current role often outweigh monetary gains.
                             </p>
-                            <p className="text-sm font-black leading-relaxed text-black mt-4 italic">
+                            <p className="text-sm font-black leading-relaxed text-black italic">
                                 Always ask: <span className="underline">Is this move buying me a better life, or just a bigger number?</span>
                             </p>
                         </div>

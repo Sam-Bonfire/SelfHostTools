@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CalculatorLayout, CalculatorHeader, ResultsAnalysis, Input, Card, Select, ToggleCard, Button, Tooltip, DownloadButtons, Footer } from '@packages/styling';
+import { CalculatorLayout, CalculatorHeader, ResultsAnalysis, Input, Card, Select, ToggleCard, Button, Tooltip, DownloadButtons, Footer, MetricDisplay } from '@packages/styling';
 import { calculateTDEE } from '../lib/tdeeLogic';
 import { Activity, Scale, Ruler, User, Flame, TrendingDown, TrendingUp, Dumbbell, Target, Accessibility, Info, Heart, Percent, Utensils, Calendar, FileText, Table } from 'lucide-react';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
@@ -183,14 +183,8 @@ export default function TDEECalculator() {
                 <div className="lg:col-span-12 xl:col-span-5 space-y-6">
 
                     {/* 1. Biometrics Card */}
-                    <Card className="p-0 border-4 border-black">
-                        <div className="bg-pink-100 p-4 border-b-4 border-black flex items-center justify-between">
-                            <h2 className="text-lg font-bold flex items-center gap-2 text-black uppercase tracking-tight">
-                                <Activity className="w-5 h-5 text-pink-600" />
-                                Your Biometrics
-                            </h2>
-                        </div>
-                        <div className="p-4 space-y-5">
+                    <Card title="Your Biometrics" icon={Activity} headerColor="bg-pink-100">
+                        <div className="space-y-5">
 
                             {/* Gender Switcher - Only show if NOT using Body Fat (Katch McArdle ignores gender) */}
                             {!formData.useBodyFat && (
@@ -219,38 +213,34 @@ export default function TDEECalculator() {
 
                             {/* Age */}
                             <div>
-                                <label htmlFor="age" className="block text-[10px] font-black uppercase mb-1">Age</label>
-                                <div className="relative">
-                                    <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                                    <Input
-                                        id="age"
-                                        type="number"
-                                        value={formData.age}
-                                        onChange={(e) => handleChange('age', e.target.value)}
-                                        className="pl-9 font-black"
-                                    />
-                                </div>
+                                <Input
+                                    id="age"
+                                    label="Age"
+                                    icon={User}
+                                    type="number"
+                                    value={formData.age}
+                                    onChange={(e) => handleChange('age', e.target.value)}
+                                    className="font-black"
+                                />
                             </div>
 
                             {/* Weight & Goal */}
                             <div className="grid grid-cols-12 gap-2">
                                 <div className="col-span-8">
-                                    <label htmlFor="weight" className="block text-[10px] font-black uppercase mb-1">Current Weight</label>
-                                    <div className="relative">
-                                        <Scale className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                                        <Input
-                                            id="weight"
-                                            type="number"
-                                            value={formData.weight}
-                                            onChange={(e) => handleChange('weight', e.target.value)}
-                                            className="pl-9 font-black"
-                                        />
-                                    </div>
+                                    <Input
+                                        id="weight"
+                                        label="Current Weight"
+                                        icon={Scale}
+                                        type="number"
+                                        value={formData.weight}
+                                        onChange={(e) => handleChange('weight', e.target.value)}
+                                        className="font-black"
+                                    />
                                 </div>
                                 <div className="col-span-4">
-                                    <label htmlFor="weightUnit" className="block text-[10px] font-black uppercase mb-1">Unit</label>
                                     <Select
                                         id="weightUnit"
+                                        label="Unit"
                                         value={formData.weightUnit}
                                         onChange={(e) => handleChange('weightUnit', e.target.value)}
                                     >
@@ -262,64 +252,62 @@ export default function TDEECalculator() {
 
                             {/* Goal Weight (Optional) */}
                             <div>
-                                <label htmlFor="goalWeight" className="block text-[10px] font-black uppercase mb-1 text-gray-500">Goal Weight (Optional)</label>
-                                <div className="relative">
-                                    <Target className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                                    <Input
-                                        id="goalWeight"
-                                        type="number"
-                                        value={formData.goalWeight}
-                                        onChange={(e) => handleChange('goalWeight', e.target.value)}
-                                        className="pl-9 font-black border-dashed border-gray-300 focus:border-black"
-                                        placeholder="Target..."
-                                    />
-                                </div>
+                                <Input
+                                    id="goalWeight"
+                                    label="Goal Weight (Optional)"
+                                    icon={Target}
+                                    type="number"
+                                    value={formData.goalWeight}
+                                    onChange={(e) => handleChange('goalWeight', e.target.value)}
+                                    className="font-black border-dashed border-gray-300 focus:border-black"
+                                    placeholder="Target..."
+                                />
                             </div>
 
                             {/* Height */}
                             <div className="grid grid-cols-12 gap-2">
                                 <div className="col-span-8">
-                                    <label className="block text-[10px] font-black uppercase mb-1" id="height-label">Height</label>
                                     {formData.heightUnit === 'cm' ? (
-                                        <div className="relative">
-                                            <Ruler className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                                            <Input
-                                                id="height"
-                                                aria-labelledby="height-label"
-                                                type="number"
-                                                value={formData.height}
-                                                onChange={(e) => handleChange('height', e.target.value)}
-                                                className="pl-9 font-black"
-                                                placeholder="CM"
-                                            />
-                                        </div>
+                                        <Input
+                                            id="height"
+                                            label="Height"
+                                            icon={Ruler}
+                                            type="number"
+                                            value={formData.height}
+                                            onChange={(e) => handleChange('height', e.target.value)}
+                                            className="font-black"
+                                            placeholder="CM"
+                                        />
                                     ) : (
-                                        <div className="flex gap-2">
-                                            <Input
-                                                id="heightFt"
-                                                aria-label="Height in Feet"
-                                                type="number"
-                                                placeholder="Ft"
-                                                value={formData.heightFt}
-                                                onChange={(e) => handleChange('heightFt', e.target.value)}
-                                                className="font-black"
-                                            />
-                                            <Input
-                                                id="heightIn"
-                                                aria-label="Height in Inches"
-                                                type="number"
-                                                placeholder="In"
-                                                value={formData.heightIn}
-                                                onChange={(e) => handleChange('heightIn', e.target.value)}
-                                                className="font-black"
-                                            />
+                                        <div>
+                                            <label className="block text-[10px] font-black uppercase mb-1">Height</label>
+                                            <div className="flex gap-2">
+                                                <Input
+                                                    id="heightFt"
+                                                    aria-label="Height in Feet"
+                                                    type="number"
+                                                    placeholder="Ft"
+                                                    value={formData.heightFt}
+                                                    onChange={(e) => handleChange('heightFt', e.target.value)}
+                                                    className="font-black"
+                                                />
+                                                <Input
+                                                    id="heightIn"
+                                                    aria-label="Height in Inches"
+                                                    type="number"
+                                                    placeholder="In"
+                                                    value={formData.heightIn}
+                                                    onChange={(e) => handleChange('heightIn', e.target.value)}
+                                                    className="font-black"
+                                                />
+                                            </div>
                                         </div>
                                     )}
                                 </div>
                                 <div className="col-span-4">
-                                    <label htmlFor="heightUnit" className="block text-[10px] font-black uppercase mb-1">Unit</label>
                                     <Select
                                         id="heightUnit"
+                                        label="Unit"
                                         value={formData.heightUnit}
                                         onChange={(e) => handleChange('heightUnit', e.target.value)}
                                     >
@@ -333,14 +321,8 @@ export default function TDEECalculator() {
                     </Card>
 
                     {/* 2. Strategy Card */}
-                    <Card className="p-0 border-4 border-black">
-                        <div className="bg-purple-100 p-4 border-b-4 border-black flex items-center justify-between">
-                            <h2 className="text-lg font-bold flex items-center gap-2 text-black uppercase tracking-tight">
-                                <Target className="w-5 h-5 text-purple-600" />
-                                Advanced Strategy
-                            </h2>
-                        </div>
-                        <div className="p-4 space-y-4">
+                    <Card title="Advanced Strategy" icon={Target} headerColor="bg-purple-100">
+                        <div className="space-y-4">
                             {/* Body Fat Toggle */}
                             <ToggleCard
                                 title={
@@ -352,38 +334,33 @@ export default function TDEECalculator() {
                                 isOpen={formData.useBodyFat}
                                 onToggle={(val) => handleChange('useBodyFat', val)}
                             >
-                                <div className="relative">
-                                    <Percent className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-purple-600 z-10" />
-                                    <Input
-                                        id="bodyFat"
-                                        type="number"
-                                        value={formData.bodyFat}
-                                        onChange={(e) => handleChange('bodyFat', e.target.value)}
-                                        className="pl-9 font-black border-purple-600 text-purple-900"
-                                        placeholder="15"
-                                        aria-label="Body Fat Percentage"
-                                    />
-                                </div>
+                                <Input
+                                    id="bodyFat"
+                                    icon={Percent}
+                                    type="number"
+                                    value={formData.bodyFat}
+                                    onChange={(e) => handleChange('bodyFat', e.target.value)}
+                                    className="font-black border-purple-600 text-purple-900"
+                                    placeholder="15"
+                                    aria-label="Body Fat Percentage"
+                                />
                             </ToggleCard>
 
                             {/* Activity Level */}
                             <div>
-                                <label htmlFor="activityLevel" className="block text-[10px] font-black uppercase mb-1">Activity Level</label>
-                                <div className="relative">
-                                    <Dumbbell className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                                    <Select
-                                        id="activityLevel"
-                                        value={formData.activityLevel}
-                                        onChange={(e) => handleChange('activityLevel', e.target.value)}
-                                        className="pl-9"
-                                    >
-                                        {ACTIVITY_LEVELS.map(level => (
-                                            <option key={level.value} value={level.value}>
-                                                {level.label}
-                                            </option>
-                                        ))}
-                                    </Select>
-                                </div>
+                                <Select
+                                    id="activityLevel"
+                                    label="Activity Level"
+                                    icon={Dumbbell}
+                                    value={formData.activityLevel}
+                                    onChange={(e) => handleChange('activityLevel', e.target.value)}
+                                >
+                                    {ACTIVITY_LEVELS.map(level => (
+                                        <option key={level.value} value={level.value}>
+                                            {level.label}
+                                        </option>
+                                    ))}
+                                </Select>
                                 <p className="text-[10px] font-bold text-gray-400 mt-2 uppercase leading-tight">
                                     <span className="text-red-500 font-black">Warning: </span> Almost everyone overestimates this. If you have a desk job, you are likely Sedentary or Lightly Active, even with gym time.
                                 </p>
@@ -391,22 +368,19 @@ export default function TDEECalculator() {
 
                             {/* Macro Split Selector */}
                             <div>
-                                <label htmlFor="macroSplit" className="block text-[10px] font-black uppercase mb-1">Macro Goal</label>
-                                <div className="relative">
-                                    <Utensils className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                                    <Select
-                                        id="macroSplit"
-                                        value={formData.macroSplit}
-                                        onChange={(e) => handleChange('macroSplit', e.target.value)}
-                                        className="pl-9"
-                                    >
-                                        {Object.entries(MACRO_SPLITS).map(([key, config]) => (
-                                            <option key={key} value={key}>
-                                                {config.label}
-                                            </option>
-                                        ))}
-                                    </Select>
-                                </div>
+                                <Select
+                                    id="macroSplit"
+                                    label="Macro Goal"
+                                    icon={Utensils}
+                                    value={formData.macroSplit}
+                                    onChange={(e) => handleChange('macroSplit', e.target.value)}
+                                >
+                                    {Object.entries(MACRO_SPLITS).map(([key, config]) => (
+                                        <option key={key} value={key}>
+                                            {config.label}
+                                        </option>
+                                    ))}
+                                </Select>
                             </div>
 
                             {/* Custom Macro Sliders */}
@@ -495,13 +469,8 @@ export default function TDEECalculator() {
                     </Card>
 
                     {/* Formula Info Container */}
-                    <Card className="p-0 border-4 border-black">
-                        <div className="bg-yellow-50 p-4 border-b-4 border-black">
-                            <h2 className="text-lg font-bold flex items-center gap-2 text-black">
-                                <Info className="w-5 h-5 text-gray-700" /> How It Works
-                            </h2>
-                        </div>
-                        <div className="p-4 text-sm space-y-2 text-black">
+                    <Card title="How It Works" icon={Info} headerColor="bg-yellow-50">
+                        <div className="text-sm space-y-2 text-black">
                             <p className="text-xs font-medium leading-relaxed">
                                 We use the <strong>Mifflin-St Jeor</strong> equation by default, which is the gold standard for estimated energy expenditure.
                             </p>
@@ -573,8 +542,7 @@ export default function TDEECalculator() {
                                     <span className="text-[10px] font-black bg-blue-200 px-2 py-1 border border-black rounded">-500</span>
                                 </div>
                                 <div className="p-4 text-center">
-                                    <span className="text-4xl font-black block mb-1">{formatNumber(results?.weightLoss)}</span>
-                                    <span className="text-[10px] font-bold text-gray-400 uppercase">kcal / day</span>
+                                    <MetricDisplay value={formatNumber(results?.weightLoss)} subtitle="kcal / day" />
                                 </div>
                             </div>
 
@@ -587,8 +555,7 @@ export default function TDEECalculator() {
                                     <span className="text-[10px] font-black bg-green-200 px-2 py-1 border border-black rounded">+500</span>
                                 </div>
                                 <div className="p-4 text-center">
-                                    <span className="text-4xl font-black block mb-1">{formatNumber(results?.bulking)}</span>
-                                    <span className="text-[10px] font-bold text-gray-400 uppercase">kcal / day</span>
+                                    <MetricDisplay value={formatNumber(results?.bulking)} subtitle="kcal / day" />
                                 </div>
                             </div>
                         </div>
@@ -606,16 +573,14 @@ export default function TDEECalculator() {
                                 </div>
                                 <div className="p-4 flex items-center justify-between gap-4">
                                     <div>
-                                        <p className="text-[10px] text-gray-500 font-bold uppercase mb-1">Est. Time to Goal</p>
-                                        <p className="text-3xl font-black">{results.weeksToGoal} <span className="text-base font-bold text-gray-400">weeks</span></p>
+                                        <MetricDisplay title="Est. Time to Goal" value={results.weeksToGoal} subtitle="weeks" />
                                     </div>
                                     <div className="text-right">
-                                        <p className="text-[10px] text-gray-500 font-bold uppercase mb-1">Daily Target</p>
-                                        <p className="text-xl font-black text-black">
-                                            {results.goalDifference > 0 ? formatNumber(results.weightLoss) : formatNumber(results.bulking)}
-                                            <span className="text-[10px] text-gray-400 ml-1">kcal</span>
-                                        </p>
-                                        <p className="text-[9px] text-gray-400 font-medium italic">(@ 500 kcal deficit/surplus)</p>
+                                        <MetricDisplay 
+                                            title="Daily Target" 
+                                            value={results.goalDifference > 0 ? formatNumber(results.weightLoss) : formatNumber(results.bulking)} 
+                                            subtitle="kcal (@ 500 kcal deficit/surplus)" 
+                                        />
                                     </div>
                                 </div>
                                 <div className="border-t-4 border-black">

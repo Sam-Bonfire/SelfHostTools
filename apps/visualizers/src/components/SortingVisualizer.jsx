@@ -326,8 +326,8 @@ const SortingVisualizer = () => {
         <Card className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-end">
             <div>
-              <label className="block text-sm font-bold uppercase mb-2">Algorithm</label>
               <Select 
+                label="Algorithm"
                 value={algorithm} 
                 onChange={(e) => {
                   setAlgorithm(e.target.value);

@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Card, Input, CalculatorHeader, CalculatorLayout, ResultsAnalysis, Button, DownloadButtons, Footer } from '@packages/styling';
+import { Card, Input, CalculatorHeader, CalculatorLayout, ResultsAnalysis, Button, DownloadButtons, Footer, MetricDisplay } from '@packages/styling';
 import { SEO } from '@packages/components';
 import { Sun, Calendar, AlertOctagon, TrendingUp, ShieldAlert, Award, Download } from 'lucide-react';
 import { calculateRunwayData, generateSVGPath } from '../lib/runwayLandscape';
@@ -93,74 +93,48 @@ export default function RunwayHorizon() {
 
                 {/* LEFT Panel: Financial Inputs */}
                 <div className="lg:col-span-12 xl:col-span-4 space-y-6">
-                    <Card className="p-0 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                        <div className="bg-yellow-300 p-4 border-b-4 border-black font-black uppercase text-black">
-                            <h2>Runway Inputs</h2>
-                        </div>
-                        <div className="p-6 space-y-5">
-                            <div>
-                                <label htmlFor="cashInput" className="block text-[10px] font-black uppercase mb-1">
-                                    Current Liquid Cash (₹)
-                                </label>
-                                <Input
-                                    id="cashInput"
-                                    type="number"
-                                    value={cash}
-                                    onChange={(e) => setCash(Math.max(0, Number(e.target.value)))}
-                                    className="font-black"
-                                />
+                    <Card title="Runway Inputs" headerColor="bg-yellow-300">
+                        <div className="space-y-5">
+                            <Input
+                                id="cashInput"
+                                label="Current Liquid Cash (₹)"
+                                type="number"
+                                value={cash}
+                                onChange={(e) => setCash(Math.max(0, Number(e.target.value)))}
+                                className="font-black"
+                            />
 
-                            </div>
+                            <Input
+                                id="fixedExpensesInput"
+                                label="Fixed Monthly Expenses (₹)"
+                                type="number"
+                                value={fixedExpenses}
+                                onChange={(e) => setFixedExpenses(Math.max(0, Number(e.target.value)))}
+                                className="font-black"
+                            />
 
-                            <div>
-                                <label htmlFor="fixedExpensesInput" className="block text-[10px] font-black uppercase mb-1">
-                                    Fixed Monthly Expenses (₹)
-                                </label>
-                                <Input
-                                    id="fixedExpensesInput"
-                                    type="number"
-                                    value={fixedExpenses}
-                                    onChange={(e) => setFixedExpenses(Math.max(0, Number(e.target.value)))}
-                                    className="font-black"
-                                />
+                            <Input
+                                id="variableExpensesInput"
+                                label="Variable Monthly Expenses (₹)"
+                                type="number"
+                                value={variableExpenses}
+                                onChange={(e) => setVariableExpenses(Math.max(0, Number(e.target.value)))}
+                                className="font-black"
+                            />
 
-                            </div>
-
-                            <div>
-                                <label htmlFor="variableExpensesInput" className="block text-[10px] font-black uppercase mb-1">
-                                    Variable Monthly Expenses (₹)
-                                </label>
-                                <Input
-                                    id="variableExpensesInput"
-                                    type="number"
-                                    value={variableExpenses}
-                                    onChange={(e) => setVariableExpenses(Math.max(0, Number(e.target.value)))}
-                                    className="font-black"
-                                />
-
-                            </div>
-
-                            <div>
-                                <label htmlFor="incomeInput" className="block text-[10px] font-black uppercase mb-1">
-                                    Stable Monthly Income (₹)
-                                </label>
-                                <Input
-                                    id="incomeInput"
-                                    type="number"
-                                    value={income}
-                                    onChange={(e) => setIncome(Math.max(0, Number(e.target.value)))}
-                                    className="font-black"
-                                />
-
-                            </div>
+                            <Input
+                                id="incomeInput"
+                                label="Stable Monthly Income (₹)"
+                                type="number"
+                                value={income}
+                                onChange={(e) => setIncome(Math.max(0, Number(e.target.value)))}
+                                className="font-black"
+                            />
                         </div>
                     </Card>
 
-                    <Card className="p-0 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                        <div className="bg-black p-4 border-b-4 border-black text-white font-black uppercase text-xs tracking-wider">
-                            Scenario Mode
-                        </div>
-                        <div className="p-4 flex gap-0">
+                    <Card title="Scenario Mode" headerColor="bg-black text-white">
+                        <div className="flex gap-0 mb-4">
                             <button
                                 onClick={() => setScenario('comfort')}
                                 className={`flex-1 py-3 px-4 text-xs font-black uppercase border-4 border-black transition-all ${
@@ -182,7 +156,7 @@ export default function RunwayHorizon() {
                                 🏕️ Survival
                             </button>
                         </div>
-                        <div className="px-4 pb-4">
+                        <div>
                             <p className="text-[10px] font-bold text-gray-500 uppercase">
                                 {scenario === 'survival'
                                     ? 'Variable expenses set to ₹0. Only fixed costs apply.'
@@ -203,67 +177,44 @@ export default function RunwayHorizon() {
                         <div ref={resultsRef} className="space-y-6">
                         {/* Runway Metrics grid */}
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <Card className="p-5 border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between">
-                                <div>
-                                    <span className="block text-[9px] font-black uppercase text-gray-500">
-                                        Runway Duration
-                                    </span>
-                                    <span className="block text-2xl font-black text-black">
-                                        {runwayData.isInfinite ? 'Infinite 🚀' : `${runwayData.runwayMonths} Months`}
-                                    </span>
-                                </div>
-                                <span className="text-[10px] text-gray-600 font-bold uppercase mt-2">
-                                    {runwayData.isInfinite ? 'Self-Sufficient Wealth' : 'Until absolute cashout'}
-                                </span>
+                            <Card className="p-5 h-full">
+                                <MetricDisplay
+                                    title="Runway Duration"
+                                    value={runwayData.isInfinite ? 'Infinite 🚀' : `${runwayData.runwayMonths} Months`}
+                                    subtitle={runwayData.isInfinite ? 'Self-Sufficient Wealth' : 'Until absolute cashout'}
+                                />
                             </Card>
 
-                            <Card className="p-5 border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between">
-                                <div>
-                                    <span className="block text-[9px] font-black uppercase text-gray-500">
-                                        Net Monthly Burn
-                                    </span>
-                                    <span className="block text-2xl font-black text-black">
-                                        ₹{runwayData.netBurn.toLocaleString('en-IN')}
-                                    </span>
-                                </div>
-                                <span className="text-[10px] text-gray-600 font-bold uppercase mt-2">
-                                    {runwayData.netBurn > 0 ? 'Total Outflow speed' : 'Surplus Savings / Month'}
-                                </span>
+                            <Card className="p-5 h-full">
+                                <MetricDisplay
+                                    title="Net Monthly Burn"
+                                    value={`₹${runwayData.netBurn.toLocaleString('en-IN')}`}
+                                    subtitle={runwayData.netBurn > 0 ? 'Total Outflow speed' : 'Surplus Savings / Month'}
+                                />
                             </Card>
 
-                            <Card className="p-5 border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between font-bold">
-                                <div>
-                                    <span className="block text-[9px] font-black uppercase text-gray-500">
-                                        Horizon Status
-                                    </span>
-                                    <span className="block text-xl font-black text-black uppercase flex items-center gap-1.5">
-                                        {runwayData.isInfinite ? (
-                                            <>
-                                                <Award className="w-5 h-5 text-green-700" /> Safe Mountain
-                                            </>
-                                        ) : runwayData.runwayMonths < 6 ? (
-                                            <>
-                                                <ShieldAlert className="w-5 h-5 text-red-600" /> Critical Warning
-                                            </>
-                                        ) : (
-                                            <>
-                                                <Calendar className="w-5 h-5 text-blue-700" /> Stable Horizon
-                                            </>
-                                        )}
-                                    </span>
-                                </div>
-                                <span className="text-[10px] text-gray-600 font-bold uppercase mt-2">
-                                    {runwayData.isInfinite ? 'Accumulating Cashflow' : `${runwayData.runwayMonths} months of safety`}
-                                </span>
+                            <Card className="p-5 h-full">
+                                <MetricDisplay
+                                    title="Horizon Status"
+                                    value={
+                                        <div className="flex items-center gap-2">
+                                            {runwayData.isInfinite ? (
+                                                <><Award className="w-8 h-8 text-green-700" /> SAFE</>
+                                            ) : runwayData.runwayMonths < 6 ? (
+                                                <><ShieldAlert className="w-8 h-8 text-red-600" /> CRITICAL</>
+                                            ) : (
+                                                <><Calendar className="w-8 h-8 text-blue-700" /> STABLE</>
+                                            )}
+                                        </div>
+                                    }
+                                    subtitle={runwayData.isInfinite ? 'Accumulating Cashflow' : `${runwayData.runwayMonths} months of safety`}
+                                />
                             </Card>
                         </div>
 
                         {/* Life Event Stress-Test Panel */}
-                        <Card className="p-0 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-white relative overflow-hidden">
-                            <div className="bg-black p-4 border-b-4 border-black text-white font-black uppercase tracking-wider text-xs">
-                                <h2>Life Event Stress-Test (Click to Inject)</h2>
-                            </div>
-                            <div className="p-4 grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <Card title="Life Event Stress-Test (Click to Inject)" headerColor="bg-black text-white" className="relative overflow-hidden">
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                 {presetEvents.map(ev => {
                                     const isActive = lifeEvents.some(e => e.id === ev.id);
                                     return (
@@ -285,11 +236,8 @@ export default function RunwayHorizon() {
                         </Card>
 
                         {/* Interactive SVG Rolling Landscape */}
-                        <Card className="p-0 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-white relative overflow-hidden">
-                            <div className="bg-black p-4 border-b-4 border-black text-white font-black uppercase tracking-wider text-sm flex justify-between items-center">
-                                <h2>24-Month Rolling Horizon</h2>
-                            </div>
-                            <div className="p-4 md:p-6 overflow-x-auto">
+                        <Card title="24-Month Rolling Horizon" headerColor="bg-black text-white" className="relative overflow-hidden">
+                            <div className="overflow-x-auto">
                                 <div className="min-w-[600px] relative">
                                     <svg viewBox="0 0 600 300" className="w-full h-auto block overflow-visible select-none">
                                         {/* Vintage grid mesh lines */}

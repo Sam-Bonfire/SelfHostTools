@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { IndianRupee, Rocket, TrendingDown, TrendingUp, Target, Server, Percent, Briefcase, Zap, Info, Clock } from 'lucide-react';
-import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer } from '@packages/styling';
+import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer, MetricDisplay } from '@packages/styling';
 import { calculateSoloFounderRunway } from '../lib/soloFounderLogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 
@@ -47,7 +47,6 @@ export default function SoloFounderCalculator() {
 
     // Calculate progress towards Freedom MRR
     const freedomProgress = milestones.freedomMRR > 0 && milestones.freedomMRR !== Infinity ? Math.min(100, (mrr / milestones.freedomMRR) * 100) : 0;
-    const breakEvenProgress = milestones.breakEvenMRR > 0 && milestones.breakEvenMRR !== Infinity ? Math.min(100, (mrr / milestones.breakEvenMRR) * 100) : 0;
 
     return (
         <div className="min-h-screen bg-white text-black p-4 md:p-8">
@@ -65,11 +64,7 @@ export default function SoloFounderCalculator() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                 {/* LEFT: Inputs */}
                 <div className="lg:col-span-5 space-y-6">
-                    <Card className="p-6 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-white">
-                        <h2 className="text-xl font-black uppercase flex items-center gap-2 mb-6 border-b-4 border-black pb-4">
-                            <Target className="w-6 h-6" /> Business Metrics
-                        </h2>
-
+                    <Card title="Business Metrics" icon={Target} headerColor="bg-white" className="shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-white">
                         <div className="space-y-4">
                             <Input
                                 id="mrr"
@@ -126,11 +121,7 @@ export default function SoloFounderCalculator() {
                         </div>
                     </Card>
 
-                    <Card className="p-6 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-white">
-                        <h2 className="text-xl font-black uppercase flex items-center gap-2 mb-6 border-b-4 border-black pb-4">
-                            <Server className="w-6 h-6" /> Overhead & Goals
-                        </h2>
-
+                    <Card title="Overhead & Goals" icon={Server} headerColor="bg-white" className="shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-white">
                         <div className="space-y-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <Input
@@ -233,24 +224,25 @@ export default function SoloFounderCalculator() {
                         {/* Core Milestones */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                             <div className={`p-4 border-4 border-black ${milestones.isProfitable ? 'bg-emerald-50' : 'bg-rose-50'}`}>
-                                <p className="text-xs font-bold text-gray-600 uppercase mb-1 flex items-center justify-between">
-                                    Current Net Profit
-                                    {milestones.isProfitable ? <TrendingUp className="w-4 h-4 text-emerald-500" /> : <TrendingDown className="w-4 h-4 text-rose-500" />}
-                                </p>
-                                <p className={`text-2xl font-black ${milestones.isProfitable ? 'text-emerald-600' : 'text-rose-600'}`}>
-                                    {formatCurrency(financials.netProfit)} / mo
-                                </p>
-                                <p className="text-xs font-bold text-gray-500 mt-2">
-                                    Equivalent to {formatCurrency(metrics.trueHourlyRate)}/hour for your time.
-                                </p>
+                                <MetricDisplay 
+                                    title={
+                                        <span className="flex items-center justify-between">
+                                            Current Net Profit
+                                            {milestones.isProfitable ? <TrendingUp className="w-4 h-4 text-emerald-500" /> : <TrendingDown className="w-4 h-4 text-rose-500" />}
+                                        </span>
+                                    }
+                                    value={`${formatCurrency(financials.netProfit)} / mo`}
+                                    color={milestones.isProfitable ? 'text-emerald-600' : 'text-rose-600'}
+                                    subtitle={`Equivalent to ${formatCurrency(metrics.trueHourlyRate)}/hour for your time.`}
+                                />
                             </div>
 
                             <div className="p-4 border-4 border-black bg-purple-50">
-                                <p className="text-xs font-bold text-purple-600 uppercase mb-1">Users Needed for Freedom</p>
-                                <p className="text-2xl font-black">{metrics.customersNeededForFreedom}</p>
-                                <p className="text-xs font-bold text-gray-500 mt-2">
-                                    Active paying users at {formatCurrency(averageRevenuePerUser)} ARPU.
-                                </p>
+                                <MetricDisplay 
+                                    title="Users Needed for Freedom"
+                                    value={metrics.customersNeededForFreedom}
+                                    subtitle={`Active paying users at ${formatCurrency(averageRevenuePerUser)} ARPU.`}
+                                />
                             </div>
                         </div>
 

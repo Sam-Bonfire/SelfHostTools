@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef } from 'react';
-import { Card, Input, CalculatorHeader, CalculatorLayout, ResultsAnalysis, Button, DownloadButtons, Footer } from '@packages/styling';
+import { Card, Input, CalculatorHeader, CalculatorLayout, ResultsAnalysis, Button, DownloadButtons, Footer, MetricDisplay } from '@packages/styling';
 import { SEO } from '@packages/components';
 import { Clock, ShieldAlert, Sparkles, Coffee, AlertTriangle, Download } from 'lucide-react';
 import { calculateFreedomIndex, generateDonutWedge } from '../lib/freedomMath';
@@ -161,11 +161,8 @@ export default function FreedomClock() {
 
                 {/* LEFT Panel: Daily Hour Allocations */}
                 <div className="lg:col-span-12 xl:col-span-4 space-y-6">
-                    <Card className="p-0 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                        <div className="bg-[#FFDE59] p-4 border-b-4 border-black font-black uppercase text-black">
-                            <h2>Time Allocations</h2>
-                        </div>
-                        <div className="p-6 space-y-5">
+                    <Card title="Time Allocations" headerColor="bg-[#FFDE59]">
+                        <div className="space-y-5">
                             {timeBreakdown.isOverlimit && (
                                 <div className="p-4 bg-red-100 border-2 border-red-500 text-red-800 text-xs font-bold uppercase flex gap-2 items-center">
                                     <AlertTriangle className="w-5 h-5 shrink-0" />
@@ -173,120 +170,85 @@ export default function FreedomClock() {
                                 </div>
                             )}
 
-                            <div>
-                                <label htmlFor="sleepInput" className="block text-[10px] font-black uppercase mb-1">
-                                    Sleep Duration (Hours)
-                                </label>
-                                <Input
-                                    id="sleepInput"
-                                    type="number"
-                                    value={sleep}
-                                    step={0.5}
-                                    onChange={(e) => setSleep(Math.max(0, Number(e.target.value)))}
-                                    className="font-black"
-                                />
-                            </div>
+                            <Input
+                                id="sleepInput"
+                                label="Sleep Duration (Hours)"
+                                type="number"
+                                value={sleep}
+                                step={0.5}
+                                onChange={(e) => setSleep(Math.max(0, Number(e.target.value)))}
+                                className="font-black"
+                            />
 
-                            <div>
-                                <label htmlFor="commuteInput" className="block text-[10px] font-black uppercase mb-1">
-                                    Daily Commute (Hours)
-                                </label>
-                                <Input
-                                    id="commuteInput"
-                                    type="number"
-                                    value={commute}
-                                    step={0.5}
-                                    onChange={(e) => setCommute(Math.max(0, Number(e.target.value)))}
-                                    className="font-black"
-                                />
-                            </div>
+                            <Input
+                                id="commuteInput"
+                                label="Daily Commute (Hours)"
+                                type="number"
+                                value={commute}
+                                step={0.5}
+                                onChange={(e) => setCommute(Math.max(0, Number(e.target.value)))}
+                                className="font-black"
+                            />
 
-                            <div>
-                                <label htmlFor="workInput" className="block text-[10px] font-black uppercase mb-1">
-                                    Day Job Core Hours
-                                </label>
-                                <Input
-                                    id="workInput"
-                                    type="number"
-                                    value={work}
-                                    step={0.5}
-                                    onChange={(e) => setWork(Math.max(0, Number(e.target.value)))}
-                                    className="font-black"
-                                />
-                            </div>
+                            <Input
+                                id="workInput"
+                                label="Day Job Core Hours"
+                                type="number"
+                                value={work}
+                                step={0.5}
+                                onChange={(e) => setWork(Math.max(0, Number(e.target.value)))}
+                                className="font-black"
+                            />
 
-                            <div>
-                                <label htmlFor="adminInput" className="block text-[10px] font-black uppercase mb-1">
-                                    Unbilled Admin Tasks
-                                </label>
-                                <Input
-                                    id="adminInput"
-                                    type="number"
-                                    value={admin}
-                                    step={0.5}
-                                    onChange={(e) => setAdmin(Math.max(0, Number(e.target.value)))}
-                                    className="font-black"
-                                />
-                            </div>
+                            <Input
+                                id="adminInput"
+                                label="Unbilled Admin Tasks"
+                                type="number"
+                                value={admin}
+                                step={0.5}
+                                onChange={(e) => setAdmin(Math.max(0, Number(e.target.value)))}
+                                className="font-black"
+                            />
 
-                            <div>
-                                <label htmlFor="choresInput" className="block text-[10px] font-black uppercase mb-1">
-                                    Life Chores & Commits
-                                </label>
-                                <Input
-                                    id="choresInput"
-                                    type="number"
-                                    value={chores}
-                                    step={0.5}
-                                    onChange={(e) => setChores(Math.max(0, Number(e.target.value)))}
-                                    className="font-black"
-                                />
-                            </div>
+                            <Input
+                                id="choresInput"
+                                label="Life Chores & Commits"
+                                type="number"
+                                value={chores}
+                                step={0.5}
+                                onChange={(e) => setChores(Math.max(0, Number(e.target.value)))}
+                                className="font-black"
+                            />
                         </div>
                     </Card>
 
                     {/* Lifetime Strategy Inputs */}
-                    <Card className="p-0 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                        <div className="bg-black p-4 border-b-4 border-black text-white font-black uppercase text-xs tracking-wider">
-                            Lifetime Freedom Strategy
-                        </div>
-                        <div className="p-6 space-y-5">
-                            <div>
-                                <label htmlFor="currentAgeInput" className="block text-[10px] font-black uppercase mb-1">
-                                    Current Age
-                                </label>
-                                <Input
-                                    id="currentAgeInput"
-                                    type="number"
-                                    value={currentAge}
-                                    onChange={(e) => setCurrentAge(Math.max(1, Math.min(100, Number(e.target.value))))}
-                                    className="font-black"
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="retirementAgeInput" className="block text-[10px] font-black uppercase mb-1">
-                                    Desired Retirement Age
-                                </label>
-                                <Input
-                                    id="retirementAgeInput"
-                                    type="number"
-                                    value={retirementAge}
-                                    onChange={(e) => setRetirementAge(Math.max(1, Math.min(100, Number(e.target.value))))}
-                                    className="font-black"
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="monthlyIncomeInput" className="block text-[10px] font-black uppercase mb-1">
-                                    Monthly Income (₹)
-                                </label>
-                                <Input
-                                    id="monthlyIncomeInput"
-                                    type="number"
-                                    value={monthlyIncome}
-                                    onChange={(e) => setMonthlyIncome(Math.max(0, Number(e.target.value)))}
-                                    className="font-black"
-                                />
-                            </div>
+                    <Card title="Lifetime Freedom Strategy" headerColor="bg-black text-white">
+                        <div className="space-y-5">
+                            <Input
+                                id="currentAgeInput"
+                                label="Current Age"
+                                type="number"
+                                value={currentAge}
+                                onChange={(e) => setCurrentAge(Math.max(1, Math.min(100, Number(e.target.value))))}
+                                className="font-black"
+                            />
+                            <Input
+                                id="retirementAgeInput"
+                                label="Desired Retirement Age"
+                                type="number"
+                                value={retirementAge}
+                                onChange={(e) => setRetirementAge(Math.max(1, Math.min(100, Number(e.target.value))))}
+                                className="font-black"
+                            />
+                            <Input
+                                id="monthlyIncomeInput"
+                                label="Monthly Income (₹)"
+                                type="number"
+                                value={monthlyIncome}
+                                onChange={(e) => setMonthlyIncome(Math.max(0, Number(e.target.value)))}
+                                className="font-black"
+                            />
                         </div>
                     </Card>
 
@@ -302,49 +264,42 @@ export default function FreedomClock() {
                         <div ref={resultsRef} className="space-y-6">
                         {/* Clock Metrics summary */}
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <Card className="p-5 border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                                <span className="block text-[9px] font-black uppercase text-gray-500">
-                                    Daily Committed Hours
-                                </span>
-                                <span className="block text-2xl font-black text-black">
-                                    {Math.min(24, timeBreakdown.committedHours).toFixed(1)} Hours
-                                </span>
+                            <Card className="p-5 bg-white">
+                                <MetricDisplay
+                                    title="Daily Committed Hours"
+                                    value={`${Math.min(24, timeBreakdown.committedHours).toFixed(1)} Hours`}
+                                />
                             </Card>
 
-                            <Card className="p-5 border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] font-bold">
-                                <span className="block text-[9px] font-black uppercase text-gray-500">
-                                    Daily Freedom Hours
-                                </span>
-                                <span className="block text-2xl font-black text-black">
-                                    {timeBreakdown.freedomHours.toFixed(1)} Hours
-                                </span>
+                            <Card className="p-5 bg-white font-bold">
+                                <MetricDisplay
+                                    title="Daily Freedom Hours"
+                                    value={`${timeBreakdown.freedomHours.toFixed(1)} Hours`}
+                                />
                             </Card>
 
-                            <Card className="p-5 border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] font-bold">
-                                <span className="block text-[9px] font-black uppercase text-gray-500">
-                                    Daily Freedom Index
-                                </span>
-                                <span className="block text-2xl font-black text-black">
-                                    {timeBreakdown.freedomIndex}%
-                                </span>
+                            <Card className="p-5 bg-white font-bold">
+                                <MetricDisplay
+                                    title="Daily Freedom Index"
+                                    value={`${timeBreakdown.freedomIndex}%`}
+                                />
                             </Card>
                         </div>
 
                         {/* Qualitative Feedback Alert Box */}
-                        <Card className={`p-5 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex gap-4 items-start ${qualitativeFeedback.style}`}>
-                            <FeedbackIcon className="w-8 h-8 shrink-0 mt-0.5" />
-                            <div>
-                                <h3 className="text-lg font-black uppercase mb-1">{qualitativeFeedback.title}</h3>
-                                <p className="text-xs font-bold leading-relaxed">{qualitativeFeedback.description}</p>
+                        <Card className={`p-5 ${qualitativeFeedback.style}`}>
+                            <div className="flex gap-4 items-start">
+                                <FeedbackIcon className="w-8 h-8 shrink-0 mt-0.5" />
+                                <div>
+                                    <h3 className="text-lg font-black uppercase mb-1">{qualitativeFeedback.title}</h3>
+                                    <p className="text-xs font-bold leading-relaxed">{qualitativeFeedback.description}</p>
+                                </div>
                             </div>
                         </Card>
 
                         {/* Custom Donut Clockface */}
-                        <Card className="p-0 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden bg-white">
-                            <div className="bg-black p-4 border-b-4 border-black text-white font-black uppercase text-sm tracking-wider flex justify-between items-center">
-                                <h2>24-Hour Donut Auditor</h2>
-                            </div>
-                            <div className="p-6 flex flex-col md:flex-row gap-8 items-center justify-around">
+                        <Card title="24-Hour Donut Auditor" headerColor="bg-black text-white" className="relative overflow-hidden bg-white">
+                            <div className="flex flex-col md:flex-row gap-8 items-center justify-around">
                                 {/* SVG Donut Dial */}
                                 <svg width="300" height="300" className="block select-none overflow-visible w-full max-w-[280px]">
                                     <g>
@@ -391,54 +346,43 @@ export default function FreedomClock() {
 
                         {/* Lifetime Freedom Metrics */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <Card className="p-5 border-4 border-black bg-yellow-50 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                                <span className="block text-[9px] font-black uppercase text-gray-500">
-                                    Lifetime True Freedom Hours
-                                </span>
-                                <span className="block text-2xl font-black text-black">
-                                    {lifetimeStats.lifetimeFreedomHours.toLocaleString('en-IN')} Hrs
-                                </span>
-                                <span className="block text-[10px] font-bold text-gray-500 uppercase mt-2">
-                                    Over {lifetimeStats.yearsRemaining} years until age {retirementAge}
-                                </span>
+                            <Card className="p-5 bg-yellow-50">
+                                <MetricDisplay
+                                    title="Lifetime True Freedom Hours"
+                                    value={`${lifetimeStats.lifetimeFreedomHours.toLocaleString('en-IN')} Hrs`}
+                                    subtitle={`Over ${lifetimeStats.yearsRemaining} years until age ${retirementAge}`}
+                                />
                             </Card>
 
-                            <Card className="p-5 border-4 border-black bg-green-50 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                                <span className="block text-[9px] font-black uppercase text-gray-500">
-                                    Your Hourly Value
-                                </span>
-                                <span className="block text-2xl font-black text-black">
-                                    ₹{lifetimeStats.hourlyValue.toLocaleString('en-IN')}/hr
-                                </span>
-                                <span className="block text-[10px] font-bold text-gray-500 uppercase mt-2">
-                                    Based on ₹{Number(monthlyIncome).toLocaleString('en-IN')}/mo income
-                                </span>
+                            <Card className="p-5 bg-green-50">
+                                <MetricDisplay
+                                    title="Your Hourly Value"
+                                    value={`₹${lifetimeStats.hourlyValue.toLocaleString('en-IN')}/hr`}
+                                    subtitle={`Based on ₹${Number(monthlyIncome).toLocaleString('en-IN')}/mo income`}
+                                />
                             </Card>
                         </div>
 
                         {/* Time Buy-Back Strategy */}
-                        <Card className="p-5 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-blue-50">
-                            <h3 className="text-xs font-black uppercase mb-3">⏱️ Time Buy-Back Strategy</h3>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <div>
-                                    <span className="block text-[9px] font-black uppercase text-gray-500">Outsourceable Hours/Day</span>
-                                    <span className="block text-lg font-black">{lifetimeStats.outsourcableHours.toFixed(1)} hrs</span>
-                                    <span className="block text-[9px] text-gray-500 font-bold uppercase">Admin + Chores</span>
-                                </div>
-                                <div>
-                                    <span className="block text-[9px] font-black uppercase text-gray-500">Monthly Outsource Cost</span>
-                                    <span className="block text-lg font-black">₹{lifetimeStats.monthlyOutsourceCost.toLocaleString('en-IN')}</span>
-                                    <span className="block text-[9px] text-gray-500 font-bold uppercase">@ ₹300/hr baseline</span>
-                                </div>
-                                <div>
-                                    <span className="block text-[9px] font-black uppercase text-gray-500">Delegation ROI</span>
-                                    <span className={`block text-lg font-black ${lifetimeStats.buyBackROI === 'Positive' ? 'text-green-700' : 'text-red-600'}`}>
-                                        {lifetimeStats.buyBackROI === 'Positive' ? '✅ Worth It' : '⚠️ Break-Even'}
-                                    </span>
-                                    <span className="block text-[9px] text-gray-500 font-bold uppercase">
-                                        Your hr (₹{lifetimeStats.hourlyValue}) vs outsource (₹300)
-                                    </span>
-                                </div>
+                        <Card className="p-5 bg-blue-50">
+                            <h3 className="text-xs font-black uppercase mb-4">⏱️ Time Buy-Back Strategy</h3>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <MetricDisplay
+                                    title="Outsourceable Hours/Day"
+                                    value={`${lifetimeStats.outsourcableHours.toFixed(1)} hrs`}
+                                    subtitle="Admin + Chores"
+                                />
+                                <MetricDisplay
+                                    title="Monthly Outsource Cost"
+                                    value={`₹${lifetimeStats.monthlyOutsourceCost.toLocaleString('en-IN')}`}
+                                    subtitle="@ ₹300/hr baseline"
+                                />
+                                <MetricDisplay
+                                    title="Delegation ROI"
+                                    value={lifetimeStats.buyBackROI === 'Positive' ? '✅ Worth It' : '⚠️ Break-Even'}
+                                    color={lifetimeStats.buyBackROI === 'Positive' ? 'text-green-700' : 'text-red-600'}
+                                    subtitle={`Your hr (₹${lifetimeStats.hourlyValue}) vs outsource (₹300)`}
+                                />
                             </div>
                         </Card>
 

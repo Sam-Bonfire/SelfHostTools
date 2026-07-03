@@ -17,24 +17,20 @@ The project uses `pnpm` workspaces to manage dependencies and link packages loca
     *   **Purpose**: To provide high-fidelity financial planning tools.
     *   **Key Tech**: React, Vite, Vitest.
     *   **Structure**:
-        *   `src/components/`: UI Components.
+        *   `src/components/`: UI Components using `@packages/styling`.
         *   `src/lib/`: Pure JS calculation logic (extracted for testing).
         *   `src/tests/`: Unit tests for calculation logic.
+*   **`visualizers`** (`apps/visualizers`): Interactive visualization tools.
+    *   **Purpose**: Memento Mori and Life Planning tools.
+    *   **Key Tech**: React, Vite, Framer Motion.
 
 #### 2. Packages (`packages/`)
 *   **`@packages/styling`** (`packages/styling`): Shared UI library.
     *   **Design System**: "Neo-Brutalism".
-    *   **Exports**: `Card`, `Button`, `Input`, `Checkbox`, `Tooltip`.
+    *   **Exports**: `CalculatorLayout`, `CalculatorHeader`, `ResultsAnalysis`, `Card`, `MetricDisplay`, `Button`, `Input`, `Select`, `Checkbox`, `Tooltip`.
     
 *   **`@packages/components`** (`packages/components`): Shared React components.
     *   **Purpose**: To share logic-heavy components like `SEO` across apps.
-#### 2. Applications (`apps/`)
-*   **`calculators`** (`apps/calculators`): The flagship application.
-    *   **Purpose**: To provide high-fidelity financial planning tools.
-    *   **Key Tech**: React, Vite, Vitest.
-*   **`visualizers`** (`apps/visualizers`): Interactive visualization tools.
-    *   **Purpose**: Memento Mori and Life Planning tools.
-    *   **Key Tech**: React, Vite, Framer Motion.
 
 
 ## 🛠️ Setup & Development

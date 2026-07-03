@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { IndianRupee, Home, Hammer, AlertTriangle, Calendar, TrendingUp, DollarSign, ArrowLeft, Trash2, Plus, AlertOctagon, Info, Percent, Currency, Table as TableIcon } from 'lucide-react';
-import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer } from '@packages/styling';
+import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer, MetricDisplay } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 import { calculateHomeOwnerRealism, generateTimelineEvents } from '../lib/homeOwnerLogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
@@ -118,122 +118,136 @@ export default function HomeOwnerRealistCalculator() {
                 <div className="lg:col-span-12 xl:col-span-5 space-y-6">
 
                     {/* Property Details */}
-                    <Card className="p-0 border-4 border-black">
-                        <div className="bg-blue-100 p-4 border-b-4 border-black">
-                            <h2 className="text-lg font-bold flex items-center gap-2">
-                                <Currency className="w-5 h-5" /> Financial Inputs
-                            </h2>
-                        </div>
-                        <div className="p-4 space-y-4">
-                            <div>
-                                <label htmlFor="property-price" className="block text-[10px] font-black uppercase mb-1">Property Price</label>
-                                <div className="relative">
-                                    <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                                    <Input id="property-price" type="number" value={propertyPrice} onChange={(e) => setPropertyPrice(parseFloat(e.target.value) || 0)} className="pl-9 font-black" />
-                                </div>
-                            </div>
-                            <div>
-                                <label htmlFor="down-payment" className="block text-[10px] font-black uppercase mb-1">Down Payment</label>
-                                <div className="relative">
-                                    <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                                    <Input id="down-payment" type="number" value={downPayment} onChange={(e) => setDownPayment(parseFloat(e.target.value) || 0)} className="pl-9 font-black" />
-                                </div>
-                            </div>
+                    <Card title="Financial Inputs" icon={Currency} headerColor="bg-blue-100">
+                        <div className="space-y-4">
+                            <Input
+                                id="property-price"
+                                label="Property Price"
+                                icon={IndianRupee}
+                                type="number"
+                                value={propertyPrice}
+                                onChange={(e) => setPropertyPrice(parseFloat(e.target.value) || 0)}
+                                className="font-black"
+                            />
+                            <Input
+                                id="down-payment"
+                                label="Down Payment"
+                                icon={IndianRupee}
+                                type="number"
+                                value={downPayment}
+                                onChange={(e) => setDownPayment(parseFloat(e.target.value) || 0)}
+                                className="font-black"
+                            />
                             <div className="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label htmlFor="interest-rate" className="block text-[10px] font-black uppercase mb-1">Interest Rate (%)</label>
-                                    <div className="relative">
-                                        <Percent className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                                        <Input id="interest-rate" type="number" value={interestRate} onChange={(e) => setInterestRate(e.target.value)} className="pl-9 font-black" />
-                                    </div>
-                                </div>
-                                <div>
-                                    <label htmlFor="loan-term" className="block text-[10px] font-black uppercase mb-1">Loan Term (Yrs)</label>
-                                    <div className="relative">
-                                        <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                                        <Input id="loan-term" type="number" value={loanTerm} onChange={(e) => setLoanTerm(e.target.value)} className="pl-9 font-black" />
-                                    </div>
-                                </div>
+                                <Input
+                                    id="interest-rate"
+                                    label="Interest Rate (%)"
+                                    icon={Percent}
+                                    type="number"
+                                    value={interestRate}
+                                    onChange={(e) => setInterestRate(e.target.value)}
+                                    className="font-black"
+                                />
+                                <Input
+                                    id="loan-term"
+                                    label="Loan Term (Yrs)"
+                                    icon={Calendar}
+                                    type="number"
+                                    value={loanTerm}
+                                    onChange={(e) => setLoanTerm(e.target.value)}
+                                    className="font-black"
+                                />
                             </div>
                             <div className="pt-4 border-t-2 border-black/10 grid grid-cols-2 gap-4">
-                                <div>
-                                    <label htmlFor="opp-cost-rate" className="block text-[10px] font-black uppercase mb-1 text-purple-700">Opp. Cost Rate (%)</label>
-                                    <Tooltip content="Return you could get if you invested the Down Payment in the market instead.">
-                                        <div className="relative">
-                                            <TrendingUp className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-purple-400 z-10" />
-                                            <Input id="opp-cost-rate" type="number" value={opportunityCostRate} onChange={(e) => setOpportunityCostRate(e.target.value)} className="pl-9 font-black border-purple-200 bg-purple-50" />
-                                        </div>
-                                    </Tooltip>
-                                </div>
-                                <div>
-                                    <label htmlFor="appreciation-rate" className="block text-[10px] font-black uppercase mb-1 text-green-700">Appreciation (%)</label>
-                                    <div className="relative">
-                                        <TrendingUp className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-green-400 z-10" />
-                                        <Input id="appreciation-rate" type="number" value={appreciationRate} onChange={(e) => setAppreciationRate(e.target.value)} className="pl-9 font-black border-green-200 bg-green-50" />
-                                    </div>
-                                </div>
-                                <div>
-                                    <label htmlFor="maint-inflation" className="block text-[10px] font-black uppercase mb-1 text-red-700">Maint. Inflation (%)</label>
-                                    <Tooltip content="Annual increase in the cost of labor and materials for repairs.">
-                                        <div className="relative">
-                                            <TrendingUp className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-red-400 z-10" />
-                                            <Input id="maint-inflation" type="number" value={maintenanceInflation} onChange={(e) => setMaintenanceInflation(e.target.value)} className="pl-9 font-black" />
-                                        </div>
-                                    </Tooltip>
-                                </div>
+                                <Tooltip content="Return you could get if you invested the Down Payment in the market instead.">
+                                    <Input
+                                        id="opp-cost-rate"
+                                        label="Opp. Cost Rate (%)"
+                                        icon={TrendingUp}
+                                        type="number"
+                                        value={opportunityCostRate}
+                                        onChange={(e) => setOpportunityCostRate(e.target.value)}
+                                        className="font-black border-purple-200 bg-purple-50"
+                                    />
+                                </Tooltip>
+                                <Input
+                                    id="appreciation-rate"
+                                    label="Appreciation (%)"
+                                    icon={TrendingUp}
+                                    type="number"
+                                    value={appreciationRate}
+                                    onChange={(e) => setAppreciationRate(e.target.value)}
+                                    className="font-black border-green-200 bg-green-50"
+                                />
+                                <Tooltip content="Annual increase in the cost of labor and materials for repairs.">
+                                    <Input
+                                        id="maint-inflation"
+                                        label="Maint. Inflation (%)"
+                                        icon={TrendingUp}
+                                        type="number"
+                                        value={maintenanceInflation}
+                                        onChange={(e) => setMaintenanceInflation(e.target.value)}
+                                        className="font-black"
+                                    />
+                                </Tooltip>
                             </div>
                         </div>
                     </Card>
 
                     {/* The Audit List */}
-                    <Card className="p-0 border-4 border-black">
-                        <div className="bg-red-100 p-4 border-b-4 border-black flex justify-between items-center">
-                            <h2 className="text-lg font-bold flex items-center gap-2">
-                                <Hammer className="w-5 h-5" /> Maintenance Audit
-                            </h2>
+                    <Card
+                        title="Maintenance Audit"
+                        icon={Hammer}
+                        headerColor="bg-red-100"
+                        action={
                             <Button size="sm" onClick={addAuditItem} className="bg-black text-white hover:bg-gray-800 border-2 border-white/20 text-xs uppercase font-bold flex items-center gap-1">
                                 <Plus className="w-3 h-3" /> Add Item
                             </Button>
-                        </div>
-                        <div className="p-4 space-y-4 max-h-[500px] overflow-y-auto">
+                        }
+                    >
+                        <div className="space-y-4 max-h-[500px] overflow-y-auto">
                             <p className="text-[10px] font-bold text-gray-500 uppercase">List major items to calculate their 'Sinking Fund' cost.</p>
                             {auditItems.map((item, index) => (
                                 <div key={item.id} className="p-3 border-2 border-black bg-gray-50 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] relative group">
                                     <button onClick={() => removeAuditItem(item.id)} className="absolute top-2 right-2 text-gray-400 hover:text-red-600 transition-colors"><Trash2 className="w-4 h-4" /></button>
                                     <div className="space-y-3 pr-6">
-                                        <div className="relative">
-                                            <Hammer className="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                                            <Input
-                                                id={`audit-name-${item.id}`}
-                                                value={item.name}
-                                                onChange={(e) => updateAuditItem(item.id, 'name', e.target.value)}
-                                                className="font-black text-sm border-none bg-transparent pl-6 focus:ring-0 placeholder-gray-400 uppercase w-full"
-                                                placeholder="Item Name (e.g. Roof)"
-                                                aria-label="Maintenance Item Name"
-                                            />
-                                        </div>
+                                        <Input
+                                            id={`audit-name-${item.id}`}
+                                            icon={Hammer}
+                                            value={item.name}
+                                            onChange={(e) => updateAuditItem(item.id, 'name', e.target.value)}
+                                            className="font-black text-sm border-none bg-transparent focus:ring-0 placeholder-gray-400 uppercase w-full"
+                                            placeholder="Item Name (e.g. Roof)"
+                                            aria-label="Maintenance Item Name"
+                                        />
                                         <div className="grid grid-cols-3 gap-2">
-                                            <div>
-                                                <label htmlFor={`audit-cost-${item.id}`} className="text-[8px] font-black uppercase text-gray-500">Repl. Cost</label>
-                                                <div className="relative">
-                                                    <IndianRupee className="absolute left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                                    <Input id={`audit-cost-${item.id}`} type="number" value={item.replacementCost} onChange={(e) => updateAuditItem(item.id, 'replacementCost', parseFloat(e.target.value) || 0)} className="h-7 text-xs font-bold pl-5" />
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <label htmlFor={`audit-lifespan-${item.id}`} className="text-[8px] font-black uppercase text-gray-500">Lifespan (Yr)</label>
-                                                <div className="relative">
-                                                    <Calendar className="absolute left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                                    <Input id={`audit-lifespan-${item.id}`} type="number" value={item.lifespanYears} onChange={(e) => updateAuditItem(item.id, 'lifespanYears', parseFloat(e.target.value) || 0)} className="h-7 text-xs font-bold pl-5" />
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <label htmlFor={`audit-age-${item.id}`} className="text-[8px] font-black uppercase text-gray-500">Age (Yr)</label>
-                                                <div className="relative">
-                                                    <Calendar className="absolute left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                                                    <Input id={`audit-age-${item.id}`} type="number" value={item.currentAgeYears} onChange={(e) => updateAuditItem(item.id, 'currentAgeYears', parseFloat(e.target.value) || 0)} className="h-7 text-xs font-bold pl-5" />
-                                                </div>
-                                            </div>
+                                            <Input
+                                                id={`audit-cost-${item.id}`}
+                                                label="Repl. Cost"
+                                                icon={IndianRupee}
+                                                type="number"
+                                                value={item.replacementCost}
+                                                onChange={(e) => updateAuditItem(item.id, 'replacementCost', parseFloat(e.target.value) || 0)}
+                                                className="h-7 text-xs font-bold"
+                                            />
+                                            <Input
+                                                id={`audit-lifespan-${item.id}`}
+                                                label="Lifespan (Yr)"
+                                                icon={Calendar}
+                                                type="number"
+                                                value={item.lifespanYears}
+                                                onChange={(e) => updateAuditItem(item.id, 'lifespanYears', parseFloat(e.target.value) || 0)}
+                                                className="h-7 text-xs font-bold"
+                                            />
+                                            <Input
+                                                id={`audit-age-${item.id}`}
+                                                label="Age (Yr)"
+                                                icon={Calendar}
+                                                type="number"
+                                                value={item.currentAgeYears}
+                                                onChange={(e) => updateAuditItem(item.id, 'currentAgeYears', parseFloat(e.target.value) || 0)}
+                                                className="h-7 text-xs font-bold"
+                                            />
                                         </div>
                                         {/* Warnings */}
                                         {item.currentAgeYears >= item.lifespanYears && (
@@ -258,13 +272,12 @@ export default function HomeOwnerRealistCalculator() {
                 <div className="lg:col-span-12 xl:col-span-7 space-y-6">
                     <ResultsAnalysis>
                         {/* 1. Main Cost Breakdown */}
-                        <Card className="border-4 border-black p-6 bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
-                            <h3 className="text-xs font-black uppercase text-gray-400 mb-2 tracking-widest">The Real Monthly Cost</h3>
+                        <Card className="p-6 bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
                             <div className="flex flex-col md:flex-row items-end gap-4 justify-between border-b-4 border-black pb-6 mb-6">
-                                <div>
-                                    <span className="text-4xl md:text-6xl font-black text-black leading-none">{formatCurrency(results?.financials.trueMonthlyCost || 0)}</span>
-                                    <span className="text-lg font-bold text-gray-500">/mo</span>
-                                </div>
+                                <MetricDisplay
+                                    title="The Real Monthly Cost"
+                                    value={formatCurrency(results?.financials.trueMonthlyCost || 0) + '/mo'}
+                                />
                                 <div className="text-right">
                                     <p className="text-xs font-black uppercase text-red-600">vs Mortgage: {formatCurrency(results?.financials.monthlyMortgage || 0)}</p>
                                     <p className="text-[10px] font-bold text-gray-400 uppercase">You are paying {formatCurrency((results?.financials.trueMonthlyCost || 0) - (results?.financials.monthlyMortgage || 0))} more in hidden costs</p>
@@ -323,7 +336,11 @@ export default function HomeOwnerRealistCalculator() {
                                     <div>
                                         <h3 className="text-xl font-black uppercase mb-1">Warning: Immediate Cash Needed</h3>
                                         <p className="font-bold text-red-100 mb-2">Some items are past their lifespan. You need this cash UPFRONT, not in a mortgage.</p>
-                                        <span className="text-4xl font-black bg-white text-red-600 px-2 py-1 inline-block mt-2">{formatCurrency(results.financials.immediateLiability)}</span>
+                                        <MetricDisplay
+                                            value={formatCurrency(results.financials.immediateLiability)}
+                                            className="bg-white px-2 py-1 inline-block mt-2"
+                                            color="text-red-600"
+                                        />
                                     </div>
                                 </div>
                             </motion.div>
@@ -331,15 +348,19 @@ export default function HomeOwnerRealistCalculator() {
 
                         {/* 2. Wealth Projection Snapshot */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <Card className="border-4 border-black p-4 bg-green-50 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                                <p className="text-[10px] font-black uppercase text-green-700 mb-1">Projected Home Equity ({loanTerm}y)</p>
-                                <p className="text-2xl font-black text-black">{formatCurrency(results?.financials.finalEquity || 0)}</p>
-                                <p className="text-[9px] font-bold text-green-600 uppercase mt-1">Property Value - Loan Balance</p>
+                            <Card className="bg-green-50">
+                                <MetricDisplay
+                                    title={`Projected Home Equity (${loanTerm}y)`}
+                                    value={formatCurrency(results?.financials.finalEquity || 0)}
+                                    subtitle="Property Value - Loan Balance"
+                                />
                             </Card>
-                            <Card className="border-4 border-black p-4 bg-purple-50 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                                <p className="text-[10px] font-black uppercase text-purple-700 mb-1">Opp. Cost Fund ({loanTerm}y)</p>
-                                <p className="text-2xl font-black text-black">{formatCurrency(results?.financials.finalOppCost || 0)}</p>
-                                <p className="text-[9px] font-bold text-purple-600 uppercase mt-1">If Down Payment was invested at {opportunityCostRate}%</p>
+                            <Card className="bg-purple-50">
+                                <MetricDisplay
+                                    title={`Opp. Cost Fund (${loanTerm}y)`}
+                                    value={formatCurrency(results?.financials.finalOppCost || 0)}
+                                    subtitle={`If Down Payment was invested at ${opportunityCostRate}%`}
+                                />
                             </Card>
                         </div>
 
@@ -368,17 +389,17 @@ export default function HomeOwnerRealistCalculator() {
                         </div>
 
                         {/* 3. Timeline of Doom */}
-                        <Card className="border-4 border-black p-0 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                            <div className="bg-gray-100 p-4 border-b-4 border-black flex justify-between items-center text-black">
-                                <h3 className="text-lg font-bold flex items-center gap-2">
-                                    <AlertOctagon className="w-5 h-5 text-red-600" /> Timeline of Doom
-                                </h3>
+                        <Card
+                            title="Timeline of Doom"
+                            icon={<AlertOctagon className="w-5 h-5 text-red-600" />}
+                            headerColor="bg-gray-100"
+                            action={
                                 <Tooltip content="When things are likely to break and hit your wallet">
                                     <Info className="w-4 h-4 text-gray-400" />
                                 </Tooltip>
-                            </div>
-                            <div className="p-6">
-                                <div className="relative border-l-4 border-black ml-4 space-y-8 pb-4">
+                            }
+                        >
+                            <div className="relative border-l-4 border-black ml-4 space-y-8 pb-4">
                                     {timelineEvents.map((event, idx) => (
                                         <div key={idx} className="relative pl-8">
                                             {/* The Dot */}
@@ -399,7 +420,6 @@ export default function HomeOwnerRealistCalculator() {
                                         <div className="text-center py-6 text-gray-400 font-bold uppercase">Great maintenance. No hits in 15 years.</div>
                                     )}
                                 </div>
-                            </div>
                         </Card>
 
                         {/* 4. Detailed Wealth Schedule */}

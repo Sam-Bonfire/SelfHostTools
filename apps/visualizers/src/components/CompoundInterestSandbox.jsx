@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { Card, Input, Button, CalculatorHeader, CalculatorLayout, ResultsAnalysis, Footer } from '@packages/styling';
+import { Card, Input, Button, CalculatorHeader, CalculatorLayout, ResultsAnalysis, Footer, MetricDisplay } from '@packages/styling';
 import { SEO } from '@packages/components';
 import { Landmark, Play, Pause, RotateCcw } from 'lucide-react';
 import { Particle, resolveCollisions, calculateCompoundingSchedules } from '../lib/snowballPhysics';
@@ -194,68 +194,43 @@ export default function CompoundInterestSandbox() {
 
                 {/* LEFT Panel: Simulation Parameters */}
                 <div className="lg:col-span-12 xl:col-span-4 space-y-6">
-                    <Card className="p-0 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                        <div className="bg-yellow-300 p-4 border-b-4 border-black flex justify-between items-center font-['Outfit',sans-serif]">
-                            <h2 className="text-lg font-bold uppercase tracking-tight text-black">
-                                Simulation Parameters
-                            </h2>
-                        </div>
-                        <div className="p-6 space-y-5">
-                            <div>
-                                <label htmlFor="startBalance" className="block text-[10px] font-black uppercase mb-1">
-                                    Initial Balance (₹)
-                                </label>
-                                <Input
-                                    id="startBalance"
-                                    type="number"
-                                    value={startBalance}
-                                    onChange={(e) => setStartBalance(Math.max(0, Number(e.target.value)))}
-                                    className="font-black"
-                                />
+                    <Card title="Simulation Parameters" headerColor="bg-yellow-300">
+                        <div className="space-y-5">
+                            <Input
+                                id="startBalance"
+                                label="Initial Balance (₹)"
+                                type="number"
+                                value={startBalance}
+                                onChange={(e) => setStartBalance(Math.max(0, Number(e.target.value)))}
+                                className="font-black"
+                            />
 
-                            </div>
+                            <Input
+                                id="monthlyDeposit"
+                                label="Monthly Contribution (₹)"
+                                type="number"
+                                value={monthlyDeposit}
+                                onChange={(e) => setMonthlyDeposit(Math.max(0, Number(e.target.value)))}
+                                className="font-black"
+                            />
 
-                            <div>
-                                <label htmlFor="monthlyDeposit" className="block text-[10px] font-black uppercase mb-1">
-                                    Monthly Contribution (₹)
-                                </label>
-                                <Input
-                                    id="monthlyDeposit"
-                                    type="number"
-                                    value={monthlyDeposit}
-                                    onChange={(e) => setMonthlyDeposit(Math.max(0, Number(e.target.value)))}
-                                    className="font-black"
-                                />
+                            <Input
+                                id="expectedReturn"
+                                label="Expected Annual Return (%)"
+                                type="number"
+                                value={expectedReturn}
+                                onChange={(e) => setExpectedReturn(Math.max(0, Number(e.target.value)))}
+                                className="font-black"
+                            />
 
-                            </div>
-
-                            <div>
-                                <label htmlFor="expectedReturn" className="block text-[10px] font-black uppercase mb-1">
-                                    Expected Annual Return (%)
-                                </label>
-                                <Input
-                                    id="expectedReturn"
-                                    type="number"
-                                    value={expectedReturn}
-                                    onChange={(e) => setExpectedReturn(Math.max(0, Number(e.target.value)))}
-                                    className="font-black"
-                                />
-
-                            </div>
-
-                            <div>
-                                <label htmlFor="years" className="block text-[10px] font-black uppercase mb-1">
-                                    Duration (Years)
-                                </label>
-                                <Input
-                                    id="years"
-                                    type="number"
-                                    value={years}
-                                    onChange={(e) => setYears(Math.max(1, Number(e.target.value)))}
-                                    className="font-black"
-                                />
-
-                            </div>
+                            <Input
+                                id="years"
+                                label="Duration (Years)"
+                                type="number"
+                                value={years}
+                                onChange={(e) => setYears(Math.max(1, Number(e.target.value)))}
+                                className="font-black"
+                            />
 
                             <div className="pt-4 border-t-2 border-black/10 flex gap-3">
                                 <Button
@@ -291,36 +266,30 @@ export default function CompoundInterestSandbox() {
                 <div className="lg:col-span-12 xl:col-span-8 space-y-6">
                     <ResultsAnalysis>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <Card className="p-5 border-4 border-black bg-blue-100 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                                <span className="block text-[9px] font-black uppercase text-gray-500">
-                                    Total Contributions
-                                </span>
-                                <span className="block text-2xl font-black text-black">
-                                    ₹{latestYearData.contributions.toLocaleString('en-IN')}
-                                </span>
+                            <Card className="bg-blue-100">
+                                <MetricDisplay
+                                    title="Total Contributions"
+                                    value={`₹${latestYearData.contributions.toLocaleString('en-IN')}`}
+                                />
                             </Card>
 
-                            <Card className="p-5 border-4 border-black bg-yellow-100 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                                <span className="block text-[9px] font-black uppercase text-gray-500">
-                                    Compounded Interest
-                                </span>
-                                <span className="block text-2xl font-black text-black">
-                                    ₹{latestYearData.interest.toLocaleString('en-IN')}
-                                </span>
+                            <Card className="bg-yellow-100">
+                                <MetricDisplay
+                                    title="Compounded Interest"
+                                    value={`₹${latestYearData.interest.toLocaleString('en-IN')}`}
+                                />
                             </Card>
 
-                            <Card className="p-5 border-4 border-black bg-green-100 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] font-bold">
-                                <span className="block text-[9px] font-black uppercase text-gray-500">
-                                    Total Maturity Value
-                                </span>
-                                <span className="block text-2xl font-black text-black">
-                                    ₹{latestYearData.balance.toLocaleString('en-IN')}
-                                </span>
+                            <Card className="bg-green-100 font-bold">
+                                <MetricDisplay
+                                    title="Total Maturity Value"
+                                    value={`₹${latestYearData.balance.toLocaleString('en-IN')}`}
+                                />
                             </Card>
                         </div>
 
                         {/* Interactive Jar Canvas */}
-                        <Card className="p-0 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden">
+                        <Card className="relative overflow-hidden p-0">
                             <div className="bg-black p-4 border-b-4 border-black flex justify-between items-center text-white font-bold">
                                 <h2 className="text-sm uppercase tracking-wider">Physics Compounding Sandbox</h2>
                                 <div className="flex gap-4 text-[10px] tracking-wide uppercase">
@@ -343,7 +312,7 @@ export default function CompoundInterestSandbox() {
                         </Card>
 
                         {/* Dynamic Coin Legend */}
-                        <Card className="p-4 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-gray-50">
+                        <Card className="p-4 bg-gray-50">
                             <div className="flex flex-wrap items-center gap-6 text-xs font-black uppercase">
                                 <span className="text-[10px] text-gray-500">Visual Legend:</span>
                                 <span className="flex items-center gap-1.5">

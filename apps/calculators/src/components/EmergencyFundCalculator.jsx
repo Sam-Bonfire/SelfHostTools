@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { ShieldAlert, DollarSign, Activity, Briefcase, Plus, HeartPulse } from 'lucide-react';
-import { CalculatorLayout, CalculatorHeader, ResultsAnalysis, Input, Card, DownloadButtons, Footer } from '@packages/styling';
+import { CalculatorLayout, CalculatorHeader, ResultsAnalysis, Input, Card, DownloadButtons, Footer, MetricDisplay } from '@packages/styling';
 import { calculateEmergencyFund } from '../lib/emergencyFundLogic.js';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 
@@ -36,7 +36,7 @@ export default function EmergencyFundCalculator() {
   return (
     <div className="min-h-screen bg-white text-black p-4 md:p-8">
       <CalculatorLayout>
-      <div className="lg:col-span-12">
+      <div className="lg:col-span-12 mb-8">
         <CalculatorHeader 
         title="Emergency Fund & Income Shock"
         description="Calculate your multi-tiered cushion based on volatility, job loss, and deductibles."
@@ -44,14 +44,8 @@ export default function EmergencyFundCalculator() {
       />
       </div>
       
-      <div className="lg:col-span-12">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 w-full max-w-7xl">
-        <div className="lg:col-span-2 space-y-8">
-          <Card className="p-6">
-            <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-              <DollarSign className="text-brand-500" />
-              Monthly Expenses
-            </h3>
+        <div className="lg:col-span-8 space-y-8">
+          <Card title="Monthly Expenses" icon={DollarSign}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Input
                 label="Core Living Expenses"
@@ -92,11 +86,7 @@ export default function EmergencyFundCalculator() {
             </div>
           </Card>
 
-          <Card className="p-6">
-            <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-              <Briefcase className="text-brand-500" />
-              Income Shock & Lump Sums
-            </h3>
+          <Card title="Income Shock & Lump Sums" icon={Briefcase}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Input
                 label="Job Search Duration (Months)"
@@ -129,16 +119,14 @@ export default function EmergencyFundCalculator() {
           </Card>
         </div>
 
-        <div className="space-y-6">
+        <div className="lg:col-span-4 space-y-6">
           <ResultsAnalysis aria-live="polite">
             <div className="text-center mb-6">
-              <h4 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-2">Total Fund Needed</h4>
-              <div className="text-5xl font-black text-black">
-                ${results.totalFund.toLocaleString(undefined, { maximumFractionDigits: 0 })}
-              </div>
-              <p className="text-sm text-gray-600 mt-2">
-                Based on ${results.monthlyBurnRate.toLocaleString()} monthly burn rate.
-              </p>
+              <MetricDisplay 
+                title="Total Fund Needed" 
+                value={`$${results.totalFund.toLocaleString(undefined, { maximumFractionDigits: 0 })}`} 
+                subtitle={`Based on $${results.monthlyBurnRate.toLocaleString()} monthly burn rate.`} 
+              />
             </div>
             
             <div className="space-y-4">
@@ -170,8 +158,6 @@ export default function EmergencyFundCalculator() {
           </ResultsAnalysis>
         </div>
       
-      </div>
-    </div>
     </CalculatorLayout>
     <Footer />
     </div>

@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { IndianRupee, TrendingUp, AlertTriangle, Activity, Settings, Info, Briefcase, ChevronRight } from 'lucide-react';
-import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer } from '@packages/styling';
+import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer, MetricDisplay } from '@packages/styling';
 import { calculateLifestyleCreep } from '../lib/lifestyleCreepLogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend } from 'recharts';
@@ -58,23 +58,17 @@ export default function LifestyleCreepCalculator() {
     return (
         <div className="min-h-screen bg-white text-black p-4 md:p-8">
       <CalculatorLayout>
-            <div className="lg:col-span-12">
         <CalculatorHeader
                 title="Lifestyle Creep Simulator"
                 description="The silent wealth destroyer. See what happens when you spend your raise vs. invest it over 20 years."
                 icon={<Activity className="w-8 h-8 md:w-10 md:h-10 text-rose-500" />}
                 color="bg-rose-100"
             />
-      </div>
 
-            <div className="lg:col-span-12">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <>
                 {/* LEFT: Inputs */}
                 <div className="lg:col-span-4 space-y-6">
-                    <Card className="p-6 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-white">
-                        <h2 className="text-xl font-black uppercase flex items-center gap-2 mb-6 border-b-4 border-black pb-4">
-                            <Settings className="w-6 h-6" /> Variables
-                        </h2>
+                    <Card title="Variables" icon={Settings} className="p-6 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-white">
 
                         <div className="space-y-5">
                             <Input
@@ -83,7 +77,7 @@ export default function LifestyleCreepCalculator() {
                                 type="number"
                                 value={monthlyIncome}
                                 onChange={(e) => setMonthlyIncome(e.target.value)}
-                                icon={<IndianRupee className="w-5 h-5 text-gray-500" />}
+                                icon={IndianRupee}
                                 tooltip="Your current net monthly income after taxes."
                             />
 
@@ -93,7 +87,7 @@ export default function LifestyleCreepCalculator() {
                                 type="number"
                                 value={monthlySavings}
                                 onChange={(e) => setMonthlySavings(e.target.value)}
-                                icon={<IndianRupee className="w-5 h-5 text-gray-500" />}
+                                icon={IndianRupee}
                                 tooltip="How much of your current income you already save/invest each month."
                             />
 
@@ -104,7 +98,7 @@ export default function LifestyleCreepCalculator() {
                                     type="number"
                                     value={annualRaisePercent}
                                     onChange={(e) => setAnnualRaisePercent(e.target.value)}
-                                    icon={<TrendingUp className="w-5 h-5 text-gray-500" />}
+                                    icon={TrendingUp}
                                     tooltip="Average % your salary increases each year."
                                 />
 
@@ -183,16 +177,13 @@ export default function LifestyleCreepCalculator() {
                     >
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
                             <div className="p-4 bg-emerald-50 border-2 border-emerald-200 rounded">
-                                <p className="text-xs font-bold text-emerald-600 uppercase mb-1">Scenario A (100% Invested)</p>
-                                <p className="text-xl font-black">{formatCurrency(summary.finalBalanceA)}</p>
+                                <MetricDisplay title="Scenario A (100% Invested)" value={formatCurrency(summary.finalBalanceA)} color="text-emerald-600" />
                             </div>
                             <div className="p-4 bg-blue-50 border-2 border-blue-200 rounded">
-                                <p className="text-xs font-bold text-blue-600 uppercase mb-1">Your Plan ({raiseInvestedPercent}% Invested)</p>
-                                <p className="text-xl font-black">{formatCurrency(summary.finalBalanceB)}</p>
+                                <MetricDisplay title={`Your Plan (${raiseInvestedPercent}% Invested)`} value={formatCurrency(summary.finalBalanceB)} color="text-blue-600" />
                             </div>
                             <div className="p-4 bg-rose-50 border-2 border-rose-200 rounded">
-                                <p className="text-xs font-bold text-rose-600 uppercase mb-1">Scenario C (0% Invested)</p>
-                                <p className="text-xl font-black">{formatCurrency(summary.finalBalanceC)}</p>
+                                <MetricDisplay title="Scenario C (0% Invested)" value={formatCurrency(summary.finalBalanceC)} color="text-rose-600" />
                             </div>
                         </div>
 
@@ -233,8 +224,7 @@ export default function LifestyleCreepCalculator() {
                     </ResultsAnalysis>
                 </div>
             
-      </div>
-    </div>
+      </>
         </CalculatorLayout>
         <Footer />
     </div>

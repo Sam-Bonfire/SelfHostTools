@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { RefreshCw, Zap, Settings2, PackageOpen } from 'lucide-react';
-import { Footer, CalculatorLayout, CalculatorHeader } from '@packages/styling';
+import { Footer, CalculatorLayout, CalculatorHeader, Card } from '@packages/styling';
 import { SEO } from '@packages/components';
 
 export default function AssetJarVisualizer() {
@@ -135,10 +135,7 @@ export default function AssetJarVisualizer() {
             </p>
           </div>
 
-          <div className="bg-[#ffde59] border-4 border-black p-5 rounded-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-            <h3 className="font-black text-2xl mb-5 flex items-center gap-2 uppercase tracking-tight">
-              <Settings2 size={28} strokeWidth={3} /> Drag to Rebalance
-            </h3>
+          <Card title="Drag to Rebalance" icon={Settings2} headerColor="bg-[#ffde59]">
             
             <div className="flex flex-col gap-6">
               {Object.entries(assets).map(([key, asset]) => (
@@ -165,7 +162,7 @@ export default function AssetJarVisualizer() {
                 </div>
               ))}
             </div>
-          </div>
+          </Card>
 
           <div className="flex gap-4 mt-auto">
             <button 

@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { CalculatorLayout, CalculatorHeader, ResultsAnalysis, Input, Card, DownloadButtons, Footer } from '@packages/styling';
+import { CalculatorLayout, CalculatorHeader, ResultsAnalysis, Input, Card, DownloadButtons, Footer, Select, MetricDisplay } from '@packages/styling';
 import { Building2, Receipt, HeartHandshake, Stethoscope, Briefcase, Calculator } from 'lucide-react';
 import { calculateTaxBracketOptimization } from '../lib/taxBracketLogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
@@ -43,26 +43,19 @@ export default function TaxBracketCalculator() {
       />
       </div>
 
-      <div className="lg:col-span-12">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 max-w-7xl mx-auto">
         <div className="lg:col-span-4 space-y-6">
           <Card title="Income & Filing" icon={<Briefcase className="w-5 h-5" />}>
             <div className="space-y-4">
-              <div className="space-y-2">
-                <label htmlFor="filingStatus" className="block text-sm font-bold text-gray-900">
-                  Filing Status
-                </label>
-                <select
-                  id="filingStatus"
-                  value={inputs.filingStatus}
-                  onChange={(e) => handleInputChange('filingStatus', e.target.value)}
-                  className="w-full p-3 border-4 border-black font-medium focus:outline-none focus:ring-4 focus:ring-yellow-400 bg-white"
-                >
-                  <option value="single">Single</option>
-                  <option value="married">Married Filing Jointly</option>
-                  <option value="hoh">Head of Household</option>
-                </select>
-              </div>
+              <Select
+                id="filingStatus"
+                label="Filing Status"
+                value={inputs.filingStatus}
+                onChange={(e) => handleInputChange('filingStatus', e.target.value)}
+              >
+                <option value="single">Single</option>
+                <option value="married">Married Filing Jointly</option>
+                <option value="hoh">Head of Household</option>
+              </Select>
 
               <Input
                 id="grossIncome"
@@ -140,10 +133,16 @@ export default function TaxBracketCalculator() {
                     RECOMMENDED
                   </div>
                 )}
-                <h3 className="text-xl font-bold mb-2">Standard Deduction</h3>
-                <div className="text-4xl font-black mb-4">{formatCurrency(results.standardDeduction)}</div>
-                <div className="text-sm font-medium">Estimated Tax: {formatCurrency(results.comparisons.standard.totalTax)}</div>
-                <div className="text-sm font-medium">Effective Rate: {formatPercent(results.comparisons.standard.effectiveRateGross)}</div>
+                <MetricDisplay
+                  title="Standard Deduction"
+                  value={formatCurrency(results.standardDeduction)}
+                  subtitle={
+                    <span className="block mt-2 space-y-1">
+                      <span className="block">Estimated Tax: {formatCurrency(results.comparisons.standard.totalTax)}</span>
+                      <span className="block">Effective Rate: {formatPercent(results.comparisons.standard.effectiveRateGross)}</span>
+                    </span>
+                  }
+                />
               </div>
 
               <div className={`p-6 border-4 border-black ${results.bestStrategy === 'itemized' ? 'bg-green-300' : 'bg-gray-100 opacity-75'} relative`}>
@@ -152,21 +151,26 @@ export default function TaxBracketCalculator() {
                     RECOMMENDED
                   </div>
                 )}
-                <h3 className="text-xl font-bold mb-2">Itemized Deductions</h3>
-                <div className="text-4xl font-black mb-4">{formatCurrency(results.itemizedDetails.totalItemized)}</div>
-                <div className="text-sm font-medium">Estimated Tax: {formatCurrency(results.comparisons.itemized.totalTax)}</div>
-                <div className="text-sm font-medium">Effective Rate: {formatPercent(results.comparisons.itemized.effectiveRateGross)}</div>
+                <MetricDisplay
+                  title="Itemized Deductions"
+                  value={formatCurrency(results.itemizedDetails.totalItemized)}
+                  subtitle={
+                    <span className="block mt-2 space-y-1">
+                      <span className="block">Estimated Tax: {formatCurrency(results.comparisons.itemized.totalTax)}</span>
+                      <span className="block">Effective Rate: {formatPercent(results.comparisons.itemized.effectiveRateGross)}</span>
+                    </span>
+                  }
+                />
               </div>
             </div>
 
-            <div className="mb-6 p-4 bg-blue-100 border-4 border-black flex items-center justify-between">
-              <div>
-                <h4 className="font-bold text-lg">Tax Savings</h4>
-                <p className="text-sm">By choosing the {results.bestStrategy} deduction strategy.</p>
-              </div>
-              <div className="text-3xl font-black text-blue-700">
-                {formatCurrency(results.taxSavings)}
-              </div>
+            <div className="mb-6 p-4 bg-blue-100 border-4 border-black">
+              <MetricDisplay 
+                title="Tax Savings" 
+                value={formatCurrency(results.taxSavings)} 
+                subtitle={`By choosing the ${results.bestStrategy} deduction strategy.`}
+                color="text-blue-700" 
+              />
             </div>
 
             <ResultsAnalysis
@@ -216,8 +220,6 @@ export default function TaxBracketCalculator() {
           />
         </div>
       
-      </div>
-    </div>
     </CalculatorLayout>
     <Footer />
     </div>

@@ -146,69 +146,53 @@ export default function MementoMori() {
 
                 {/* LEFT: Configuration */}
                 <div className="lg:col-span-12 xl:col-span-4 space-y-6">
-                    <Card className="p-0 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                        <div className="bg-yellow-300 p-4 border-b-4 border-black flex justify-between items-center">
-                            <h2 className="text-lg font-bold flex items-center gap-2 text-black">
-                                <Settings className="w-5 h-5" />
-                                Configuration
-                            </h2>
-                        </div>
-                        <div className="p-6 space-y-5">
+                    <Card title="Configuration" icon={Settings} headerColor="bg-yellow-300">
+                        <div className="space-y-5">
 
                             {/* Basic Inputs */}
                             <div>
-                                <label htmlFor="birthDate" className="block text-[10px] font-black uppercase mb-1">Birth Date</label>
-                                <div className="relative">
-                                    <Input
-                                        id="birthDate"
-                                        type="date"
-                                        value={birthDate}
-                                        onChange={(e) => setBirthDate(e.target.value)}
-                                        className="font-black"
-                                    />
-                                </div>
+                                <Input
+                                    id="birthDate"
+                                    label="Birth Date"
+                                    type="date"
+                                    value={birthDate}
+                                    onChange={(e) => setBirthDate(e.target.value)}
+                                    className="font-black"
+                                />
                             </div>
 
                             <div>
-                                <label htmlFor="lifeExpectancy" className="block text-[10px] font-black uppercase mb-1">Life Expectancy</label>
-                                <div className="relative">
-                                    <Input
-                                        id="lifeExpectancy"
-                                        type="number"
-                                        value={lifeExpectancy}
-                                        onChange={(e) => setLifeExpectancy(Number(e.target.value))}
-                                        className="font-black"
-                                    />
-                                </div>
+                                <Input
+                                    id="lifeExpectancy"
+                                    label="Life Expectancy"
+                                    type="number"
+                                    value={lifeExpectancy}
+                                    onChange={(e) => setLifeExpectancy(Number(e.target.value))}
+                                    className="font-black"
+                                />
                                 <input id="lifeExpectancyRange" type="range" min={50} max={120} value={lifeExpectancy} onChange={(e) => setLifeExpectancy(Number(e.target.value))} className="w-full mt-3 h-2 bg-gray-200 appearance-none cursor-pointer accent-black" aria-label="Life Expectancy Slider" />
                             </div>
 
                             {/* Freedom Mode Toggle */}
                             <div className="pt-4 border-t-2 border-black/10 space-y-4">
-                                <label className="flex items-center gap-3 cursor-pointer">
-                                    <Checkbox id="freedomModeToggle" checked={freedomMode} onChange={(e) => setFreedomMode(e.target.checked)} />
-                                    <div className="flex-1">
-                                        <span className="text-xs font-black uppercase">Enable "True Freedom" Mode</span>
-                                        <p className="text-[9px] font-bold text-gray-400 uppercase leading-none">Visualize actual free time after sleep & work</p>
-                                    </div>
-                                </label>
+                                <div>
+                                    <Checkbox id="freedomModeToggle" label='Enable "True Freedom" Mode' checked={freedomMode} onChange={(e) => setFreedomMode(e.target.checked)} />
+                                    <p className="text-[9px] font-bold text-gray-400 uppercase leading-none mt-1 ml-8">Visualize actual free time after sleep & work</p>
+                                </div>
 
                                 {freedomMode && (
                                     <div className="pl-8 space-y-4">
                                         <div className="p-4 bg-gray-50 border-2 border-dashed border-gray-300">
                                             <div className="space-y-3">
                                                 <div>
-                                                    <label htmlFor="sleepHours" className="block text-[10px] font-bold uppercase mb-1">Sleep (Hrs/Day)</label>
-                                                    <Input id="sleepHours" type="number" value={sleepHours} onChange={(e) => setSleepHours(Number(e.target.value))} className="h-8 font-black bg-white" />
+                                                    <Input id="sleepHours" label="Sleep (Hrs/Day)" type="number" value={sleepHours} onChange={(e) => setSleepHours(Number(e.target.value))} className="h-8 font-black bg-white" />
                                                 </div>
                                                 <div>
-                                                    <label htmlFor="workHours" className="block text-[10px] font-bold uppercase mb-1">Work (Hrs/Week)</label>
-                                                    <Input id="workHours" type="number" value={workHours} onChange={(e) => setWorkHours(Number(e.target.value))} className="h-8 font-black bg-white" />
+                                                    <Input id="workHours" label="Work (Hrs/Week)" type="number" value={workHours} onChange={(e) => setWorkHours(Number(e.target.value))} className="h-8 font-black bg-white" />
                                                     <p className="text-[9px] text-gray-500 mt-1">*Career phase only</p>
                                                 </div>
                                                 <div>
-                                                    <label htmlFor="choreHours" className="block text-[10px] font-bold uppercase mb-1">Commute/Chores (Hrs/Day)</label>
-                                                    <Input id="choreHours" type="number" value={choreHours} onChange={(e) => setChoreHours(Number(e.target.value))} className="h-8 font-black bg-white" />
+                                                    <Input id="choreHours" label="Commute/Chores (Hrs/Day)" type="number" value={choreHours} onChange={(e) => setChoreHours(Number(e.target.value))} className="h-8 font-black bg-white" />
                                                 </div>
                                             </div>
                                         </div>
@@ -245,16 +229,14 @@ export default function MementoMori() {
                     </div>
 
                     <ResultsAnalysis>
-                        <Card className="p-0 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden">
-                            <div className="bg-black p-4 border-b-4 border-black flex justify-between items-center text-white">
-                                <h2 className="text-lg font-bold flex items-center gap-2">
-                                    <Calendar className="w-5 h-5" />
-                                    Life Timeline
-                                </h2>
-                                <span className="text-xs font-mono font-bold">{weeksData.stats.percentPassed}% COMPLETE</span>
-                            </div>
-
-                            <div ref={gridRef} className="bg-white p-4 md:p-6">
+                        <Card 
+                            title="Life Timeline" 
+                            icon={<Calendar className="w-5 h-5 text-white" />} 
+                            headerColor="bg-black !text-white" 
+                            action={<span className="text-xs font-mono font-bold text-white">{weeksData.stats.percentPassed}% COMPLETE</span>}
+                            className="relative overflow-hidden"
+                        >
+                            <div ref={gridRef} className="-m-4 md:-m-6 p-4 md:p-6 bg-white">
                                 {/* Grid Title for Print */}
                                 <div className="hidden print:block mb-4 text-center">
                                     <h1 className="text-3xl font-black uppercase">Memento Mori</h1>

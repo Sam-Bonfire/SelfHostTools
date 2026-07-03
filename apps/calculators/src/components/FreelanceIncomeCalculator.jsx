@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Briefcase, Calculator, IndianRupee, TrendingUp, TrendingDown, ArrowLeft, Settings, Info, Landmark, ShieldCheck, Laptop, Receipt, UserCheck, Clock, AlertCircle, PiggyBank, Palmtree, Target, Building, Users, Megaphone, Wifi, FileText, Table } from 'lucide-react';
-import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer } from '@packages/styling';
+import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer, MetricDisplay } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 
@@ -156,51 +156,31 @@ export default function FreelanceIncomeCalculator() {
         </div>
 
         <div className="lg:col-span-12 xl:col-span-5 space-y-6">
-          <Card className="p-0 border-4 border-black">
-            <div className="bg-blue-100 p-4 border-b-4 border-black">
-              <h2 className="text-lg font-bold flex items-center gap-2 text-black">
-                <Receipt className="w-5 h-5" /> Billed Income
-              </h2>
-            </div>
+          <Card title="Billed Income" icon={Receipt} headerColor="bg-blue-100" className="p-0 border-4 border-black">
             <div className="p-4 space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="hourly-rate" className="text-[10px] font-black uppercase mb-1 block">Hourly Rate</label>
-                  <div className="relative">
-                    <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                    <Input id="hourly-rate" type="number" value={hourlyRate} onChange={e => setHourlyRate(e.target.value)} onBlur={() => !hourlyRate && setHourlyRate(0)} className="pl-8 font-black w-full" />
-                  </div>
+                  <Input id="hourly-rate" label="Hourly Rate" icon={IndianRupee} type="number" value={hourlyRate} onChange={e => setHourlyRate(e.target.value)} onBlur={() => !hourlyRate && setHourlyRate(0)} className="font-black w-full" />
                 </div>
                 <div>
-                  <label htmlFor="billable-hours" className="text-[10px] font-black uppercase mb-1 block">Billable Hrs/Mo</label>
-                  <div className="relative">
-                    <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                    <Input id="billable-hours" type="number" value={billableHours} onChange={e => setBillableHours(e.target.value)} onBlur={() => !billableHours && setBillableHours(0)} className="pl-8 font-black w-full" />
-                  </div>
+                  <Input id="billable-hours" label="Billable Hrs/Mo" icon={Clock} type="number" value={billableHours} onChange={e => setBillableHours(e.target.value)} onBlur={() => !billableHours && setBillableHours(0)} className="font-black w-full" />
                 </div>
               </div>
 
               <div className="mt-4">
-                <label htmlFor="vacation-weeks" className="text-[10px] font-black uppercase mb-1 block text-orange-600">Unpaid Time Off (Weeks/Yr)</label>
                 <Tooltip content="Vacations, Sick days, Public Holidays where you earn ₹0" className="w-full">
-                  <div className="relative">
-                    <Palmtree className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-orange-600 z-10" />
-                    <Input id="vacation-weeks" type="number" value={vacationWeeks} onChange={e => setVacationWeeks(e.target.value)} onBlur={() => !vacationWeeks && setVacationWeeks(0)} className="pl-8 font-black text-orange-600 border-orange-200 w-full" />
-                  </div>
+                  <Input id="vacation-weeks" label="Unpaid Time Off (Weeks/Yr)" icon={Palmtree} type="number" value={vacationWeeks} onChange={e => setVacationWeeks(e.target.value)} onBlur={() => !vacationWeeks && setVacationWeeks(0)} className="font-black text-orange-600 border-orange-200 w-full" />
                 </Tooltip>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <div className="flex items-center justify-between mb-1">
-                    <Tooltip content="Work you do that you can't bill for: Sales, Invoicing, Emails, Learning skills." className="z-20">
-                      <label htmlFor="admin-time-percent" className="text-[10px] font-black uppercase text-red-600 block border-b border-dashed border-red-300 cursor-help">Unbillable Time (%)</label>
+                  <div className="mb-1">
+                    <Tooltip content="Work you do that you can't bill for: Sales, Invoicing, Emails, Learning skills." className="z-20 inline-block">
+                      <span className="text-[10px] font-black uppercase text-red-600 block border-b border-dashed border-red-300 cursor-help">Unbillable Time (%)</span>
                     </Tooltip>
                   </div>
-                  <div className="relative mb-1">
-                    <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-red-600 z-10" />
-                    <Input id="admin-time-percent" type="number" value={adminTimePercent} onChange={e => setAdminTime(e.target.value)} onBlur={() => !adminTimePercent && setAdminTime(0)} className="border-red-600 font-black text-red-600 pl-8 w-full" />
-                  </div>
+                  <Input id="admin-time-percent" icon={Clock} type="number" value={adminTimePercent} onChange={e => setAdminTime(e.target.value)} onBlur={() => !adminTimePercent && setAdminTime(0)} className="border-red-600 font-black text-red-600 w-full mb-1" />
                   <p className="text-[9px] text-red-400 font-bold leading-tight opacity-70">
                     Standard: 20-30%
                   </p>
@@ -212,11 +192,7 @@ export default function FreelanceIncomeCalculator() {
                   </button>
                 </div>
                 <div>
-                  <label htmlFor="tax-rate" className="text-[10px] font-black uppercase mb-1 block">Est. Tax Slab (%)</label>
-                  <div className="relative mb-2">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-black text-gray-400 z-10">%</span>
-                    <Input id="tax-rate" type="number" value={taxRate} onChange={e => setTaxRate(e.target.value)} onBlur={() => !taxRate && setTaxRate(0)} className="pl-8 font-black w-full" />
-                  </div>
+                  <Input id="tax-rate" label="Est. Tax Slab (%)" type="number" value={taxRate} onChange={e => setTaxRate(e.target.value)} onBlur={() => !taxRate && setTaxRate(0)} className="font-black w-full mb-2" />
                 </div>
               </div>
 
@@ -264,43 +240,22 @@ export default function FreelanceIncomeCalculator() {
             </div>
           </Card>
 
-          <Card className="p-0 border-4 border-black">
-            <div className="bg-red-50 p-4 border-b-4 border-black">
-              <h2 className="text-lg font-bold flex items-center gap-2 text-black">
-                <Laptop className="w-5 h-5 text-red-600" /> Business Overheads
-              </h2>
-            </div>
+          <Card title="Business Overheads" icon={Laptop} headerColor="bg-red-50" className="p-0 border-4 border-black">
             <div className="p-4 space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="expense-software" className="text-[10px] font-black uppercase mb-1 block">Software/SaaS</label>
-                  <div className="relative">
-                    <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                    <Input id="expense-software" type="number" value={softwareSaaS} onChange={e => setSoftware(e.target.value)} onBlur={() => !softwareSaaS && setSoftware(0)} className="pl-8 font-black w-full" />
-                  </div>
+                  <Input id="expense-software" label="Software/SaaS" icon={IndianRupee} type="number" value={softwareSaaS} onChange={e => setSoftware(e.target.value)} onBlur={() => !softwareSaaS && setSoftware(0)} className="font-black w-full" />
                 </div>
                 <div>
-                  <label htmlFor="expense-hardware" className="text-[10px] font-black uppercase mb-1 block">Laptop/Gear Fund</label>
-                  <div className="relative">
-                    <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                    <Input id="expense-hardware" type="number" value={hardwareSinkingFund} onChange={e => setHardware(e.target.value)} onBlur={() => !hardwareSinkingFund && setHardware(0)} className="pl-8 font-black w-full" />
-                  </div>
+                  <Input id="expense-hardware" label="Laptop/Gear Fund" icon={IndianRupee} type="number" value={hardwareSinkingFund} onChange={e => setHardware(e.target.value)} onBlur={() => !hardwareSinkingFund && setHardware(0)} className="font-black w-full" />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="expense-health" className="text-[10px] font-black uppercase mb-1 block">Health Insurance</label>
-                  <div className="relative">
-                    <ShieldCheck className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                    <Input id="expense-health" type="number" value={healthInsurance} onChange={e => setHealth(e.target.value)} onBlur={() => !healthInsurance && setHealth(0)} className="pl-8 font-black w-full" />
-                  </div>
+                  <Input id="expense-health" label="Health Insurance" icon={ShieldCheck} type="number" value={healthInsurance} onChange={e => setHealth(e.target.value)} onBlur={() => !healthInsurance && setHealth(0)} className="font-black w-full" />
                 </div>
                 <div>
-                  <label htmlFor="expense-pension" className="text-[10px] font-black uppercase mb-1 block">Pension/NPS</label>
-                  <div className="relative">
-                    <PiggyBank className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                    <Input id="expense-pension" type="number" value={pensionNPS} onChange={e => setPension(e.target.value)} onBlur={() => !pensionNPS && setPension(0)} className="pl-8 font-black w-full" />
-                  </div>
+                  <Input id="expense-pension" label="Pension/NPS" icon={PiggyBank} type="number" value={pensionNPS} onChange={e => setPension(e.target.value)} onBlur={() => !pensionNPS && setPension(0)} className="font-black w-full" />
                 </div>
               </div>
 
@@ -308,51 +263,33 @@ export default function FreelanceIncomeCalculator() {
                 <p className="text-[10px] font-black uppercase text-gray-500 mb-2">Office & Ops</p>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="expense-rent" className="text-[10px] font-black uppercase mb-1 block">Rent/Coworking</label>
-                    <div className="relative">
-                      <Building className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                      <Input id="expense-rent" type="number" value={officeRent} onChange={e => setOfficeRent(e.target.value)} className="pl-8 font-black w-full" />
-                    </div>
+                    <Input id="expense-rent" label="Rent/Coworking" icon={Building} type="number" value={officeRent} onChange={e => setOfficeRent(e.target.value)} className="font-black w-full" />
                   </div>
                   <div>
-                    <label htmlFor="expense-pro-fees" className="text-[10px] font-black uppercase mb-1 block">Professional Fees</label>
-                    <div className="relative">
-                      <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                      <Input id="expense-pro-fees" type="number" value={professionalFees} onChange={e => setProfessionalFees(e.target.value)} className="pl-8 font-black w-full" />
-                    </div>
+                    <Input id="expense-pro-fees" label="Professional Fees" icon={Users} type="number" value={professionalFees} onChange={e => setProfessionalFees(e.target.value)} className="font-black w-full" />
                   </div>
                   <div>
-                    <label htmlFor="expense-marketing" className="text-[10px] font-black uppercase mb-1 block">Marketing/Ads</label>
-                    <div className="relative">
-                      <Megaphone className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                      <Input id="expense-marketing" type="number" value={marketingCosts} onChange={e => setMarketingCosts(e.target.value)} className="pl-8 font-black w-full" />
-                    </div>
+                    <Input id="expense-marketing" label="Marketing/Ads" icon={Megaphone} type="number" value={marketingCosts} onChange={e => setMarketingCosts(e.target.value)} className="font-black w-full" />
                   </div>
                   <div>
-                    <label htmlFor="expense-internet" className="text-[10px] font-black uppercase mb-1 block">Internet/Phone</label>
-                    <div className="relative">
-                      <Wifi className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                      <Input id="expense-internet" type="number" value={internetPhone} onChange={e => setInternetPhone(e.target.value)} className="pl-8 font-black w-full" />
-                    </div>
+                    <Input id="expense-internet" label="Internet/Phone" icon={Wifi} type="number" value={internetPhone} onChange={e => setInternetPhone(e.target.value)} className="font-black w-full" />
                   </div>
                 </div>
               </div>
             </div>
           </Card>
 
-          <Card className="p-0 border-4 border-black">
-            <div className="bg-green-50 p-4 border-b-4 border-black">
-              <h2 className="text-lg font-bold flex items-center gap-2 text-black">
-                <Landmark className="w-5 h-5 text-green-700" /> Tax Strategy
-              </h2>
-            </div>
+          <Card title="Tax Strategy" icon={Landmark} headerColor="bg-green-50" className="p-0 border-4 border-black">
             <div className="p-4">
               <div className={`p-3 border-2 rounded transition-colors ${isPresumptiveTax ? 'bg-green-100 border-green-600' : 'bg-gray-50 border-gray-200'}`}>
-                <label className="flex items-start gap-3 cursor-pointer">
-                  <Checkbox checked={isPresumptiveTax} onChange={e => setIsPresumptiveTax(e.target.checked)} className="mt-1" />
-                  <div>
-                    <span className={`text-sm font-black uppercase leading-tight block ${isPresumptiveTax ? 'text-green-900' : 'text-gray-600'}`}>Apply 44ADA Presumptive Scheme</span>
-                    <p className="text-xs mt-1 text-gray-600 leading-relaxed font-medium">
+                <div className="flex flex-col gap-1">
+                  <Checkbox 
+                    label="Apply 44ADA Presumptive Scheme" 
+                    checked={isPresumptiveTax} 
+                    onChange={e => setIsPresumptiveTax(e.target.checked)} 
+                  />
+                  <div className="ml-7">
+                    <p className="text-xs text-gray-600 leading-relaxed font-medium">
                       Designed for freelancers: You only declare <strong>50% of your gross receipt as taxable income</strong>. The other 50% is treated as automatic expenses (no proofs needed).
                     </p>
                     {isPresumptiveTax && (
@@ -361,7 +298,7 @@ export default function FreelanceIncomeCalculator() {
                       </div>
                     )}
                   </div>
-                </label>
+                </div>
               </div>
             </div>
           </Card>
@@ -374,16 +311,14 @@ export default function FreelanceIncomeCalculator() {
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="bg-white border-4 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                <p className="text-[10px] font-black text-gray-400 uppercase mb-1">Gross Billing</p>
-                <p className="text-xl font-black">{formatCurrency(results.grossMonthly)}</p>
+                <MetricDisplay title="Gross Billing" value={formatCurrency(results.grossMonthly)} />
               </div>
               <div className="bg-blue-50 border-4 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                <p className="text-[10px] font-black text-blue-800 uppercase mb-1">Total Hours Worked</p>
-                <div className="flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-blue-600" />
-                  <p className="text-xl font-black">{results.totalHoursWorked} Hrs</p>
-                </div>
-                <p className="text-[8px] font-bold text-blue-700 uppercase mt-1 italic">Includes {results.totalHoursWorked - billableHours} hrs of unpaid admin</p>
+                <MetricDisplay 
+                  title="Total Hours Worked" 
+                  value={`${results.totalHoursWorked} Hrs`} 
+                  subtitle={`Includes ${results.totalHoursWorked - billableHours} hrs of unpaid admin`} 
+                />
               </div>
             </div>
 
@@ -392,10 +327,7 @@ export default function FreelanceIncomeCalculator() {
                 <div className="p-3 bg-black/20 rounded-full border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
                   <PiggyBank className="w-8 h-8 text-white" />
                 </div>
-                <div>
-                  <p className="text-green-100 text-xs font-black uppercase tracking-widest">Real Take-Home Pay</p>
-                  <p className="text-3xl md:text-4xl font-black tracking-tighter">{formatCurrency(results.netTakeHome)}</p>
-                </div>
+                <MetricDisplay title="Real Take-Home Pay" value={formatCurrency(results.netTakeHome)} />
               </div>
             </div>
 
@@ -406,8 +338,7 @@ export default function FreelanceIncomeCalculator() {
                     <TrendingDown className="w-5 h-5" />
                     The "Real" Hourly Rate
                   </h3>
-                  <p className="text-xs font-bold text-red-700 uppercase mb-4">What you actually earn per hour of work</p>
-                  <p className="text-4xl font-black text-red-900 tracking-tighter">{formatCurrency(results.realHourlyRate)}</p>
+                  <MetricDisplay title="What you actually earn per hour of work" value={formatCurrency(results.realHourlyRate)} />
                 </div>
                 <div className="text-right flex flex-col items-end">
                   <span className="text-[10px] font-black text-red-900/40 uppercase mb-1">Billed Rate</span>
@@ -431,20 +362,13 @@ export default function FreelanceIncomeCalculator() {
                   </div>
                 </div>
                 <div className="text-right">
-                  <label htmlFor="target-monthly-income" className="text-[8px] font-black uppercase mb-1 block text-gray-400">Target Net Income</label>
-                  <div className="relative w-32">
-                    <IndianRupee className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                    <Input id="target-monthly-income" type="number" value={targetMonthlyIncome} onChange={e => setTargetIncome(e.target.value)} className="h-8 text-xs pl-6 font-black border-2" />
-                  </div>
+                  <Input id="target-monthly-income" label="Target Net Income" icon={IndianRupee} type="number" value={targetMonthlyIncome} onChange={e => setTargetIncome(e.target.value)} className="w-32 h-8 text-xs font-black border-2" />
                 </div>
               </div>
             </div>
 
-            <div className="border-4 border-black p-6 bg-gray-50">
-              <h2 className="text-lg font-bold flex items-center gap-2 mb-6 uppercase tracking-tight">
-                <Receipt className="w-5 h-5" /> Cost of Doing Business
-              </h2>
-              <div className="space-y-4">
+            <Card title="Cost of Doing Business" icon={Receipt} headerColor="bg-gray-50" className="border-4 border-black p-0">
+              <div className="p-6 space-y-4">
                 <div className="flex items-center justify-between p-3 bg-white border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
                   <span className="text-xs font-black uppercase text-gray-500">Business Expenses</span>
                   <span className="font-bold text-red-600">-{formatCurrency(results.totalExpenses)}</span>
@@ -454,52 +378,39 @@ export default function FreelanceIncomeCalculator() {
                   <span className="font-bold text-red-600">-{formatCurrency(results.effectiveTaxAmount)}</span>
                 </div>
               </div>
-            </div>
+            </Card>
 
-            <div className="border-4 border-black p-6 bg-blue-50">
-              <h2 className="text-lg font-bold flex items-center gap-2 mb-6 uppercase tracking-tight">
-                <Briefcase className="w-5 h-5" /> Project Fee Estimator
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                <div>
-                  <label htmlFor="project-hours" className="text-[10px] font-black uppercase mb-1 block">Est. Hours</label>
-                  <div className="relative">
-                    <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                    <Input id="project-hours" type="number" value={projectHours} onChange={e => setProjectHours(e.target.value)} className="pl-8 font-black w-full" />
+            <Card title="Project Fee Estimator" icon={Briefcase} headerColor="bg-blue-50" className="border-4 border-black p-0">
+              <div className="p-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                  <div>
+                    <Input id="project-hours" label="Est. Hours" icon={Clock} type="number" value={projectHours} onChange={e => setProjectHours(e.target.value)} className="font-black w-full" />
+                  </div>
+                  <div>
+                    <Input id="project-buffer" label="Buffer (%)" icon={ShieldCheck} type="number" value={projectBuffer} onChange={e => setProjectBuffer(e.target.value)} className="font-black w-full" />
+                  </div>
+                  <div>
+                    <Input id="project-direct-costs" label="Direct Costs" icon={IndianRupee} type="number" value={projectDirectCosts} onChange={e => setProjectDirectCosts(e.target.value)} className="font-black w-full" />
                   </div>
                 </div>
-                <div>
-                  <label htmlFor="project-buffer" className="text-[10px] font-black uppercase mb-1 block">Buffer (%)</label>
-                  <div className="relative">
-                    <ShieldCheck className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                    <Input id="project-buffer" type="number" value={projectBuffer} onChange={e => setProjectBuffer(e.target.value)} className="pl-8 font-black w-full" />
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between p-3 bg-white border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                    <div>
+                      <span className="text-xs font-black uppercase text-gray-500 block">Baseline Quote</span>
+                      <span className="text-[9px] font-bold text-gray-400 uppercase">Based on current real rate</span>
+                    </div>
+                    <span className="font-bold text-lg">{formatCurrency(results.projectEstimates.min)}</span>
                   </div>
-                </div>
-                <div>
-                  <label htmlFor="project-direct-costs" className="text-[10px] font-black uppercase mb-1 block">Direct Costs</label>
-                  <div className="relative">
-                    <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 z-10" />
-                    <Input id="project-direct-costs" type="number" value={projectDirectCosts} onChange={e => setProjectDirectCosts(e.target.value)} className="pl-8 font-black w-full" />
+                  <div className="flex items-center justify-between p-3 bg-[#FFDE59] border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                    <div>
+                      <span className="text-xs font-black uppercase text-black block">Recommended Quote</span>
+                      <span className="text-[9px] font-bold text-black/60 uppercase">To hit income goal</span>
+                    </div>
+                    <span className="font-bold text-xl">{formatCurrency(results.projectEstimates.recommended)}</span>
                   </div>
                 </div>
               </div>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between p-3 bg-white border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                  <div>
-                    <span className="text-xs font-black uppercase text-gray-500 block">Baseline Quote</span>
-                    <span className="text-[9px] font-bold text-gray-400 uppercase">Based on current real rate</span>
-                  </div>
-                  <span className="font-bold text-lg">{formatCurrency(results.projectEstimates.min)}</span>
-                </div>
-                <div className="flex items-center justify-between p-3 bg-[#FFDE59] border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                  <div>
-                    <span className="text-xs font-black uppercase text-black block">Recommended Quote</span>
-                    <span className="text-[9px] font-bold text-black/60 uppercase">To hit income goal</span>
-                  </div>
-                  <span className="font-bold text-xl">{formatCurrency(results.projectEstimates.recommended)}</span>
-                </div>
-              </div>
-            </div>
+            </Card>
 
             <div className="flex flex-col md:flex-row gap-4 mt-6">
               <DownloadButtons 
