@@ -80,7 +80,7 @@ export default function SWRHistoricalVisualizer() {
   const maxPortfolio = Math.max(portfolioValue, ...results.path.map(d => d.portfolio));
 
   return (
-    <>
+    <div className="min-h-screen bg-white text-black p-4 md:p-8">
       <CalculatorLayout>
       <SEO 
         title="SWR Historical Path Visualizer" 
@@ -262,6 +262,6 @@ export default function SWRHistoricalVisualizer() {
     </div>
     </CalculatorLayout>
     <Footer />
-        </>
+    </div>
     );
 }

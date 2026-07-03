@@ -40,7 +40,7 @@ export default function InternationalArbitrageCalculator() {
   };
 
   return (
-    <>
+    <div className="min-h-screen bg-white text-black p-4 md:p-8">
       <CalculatorLayout>
       <div className="lg:col-span-12">
         <div className="lg:col-span-12">
@@ -217,6 +217,6 @@ export default function InternationalArbitrageCalculator() {
       </div>
     </CalculatorLayout>
     <Footer />
-        </>
+    </div>
     );
 }

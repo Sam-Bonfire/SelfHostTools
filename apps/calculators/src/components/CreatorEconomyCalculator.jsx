@@ -66,7 +66,7 @@ const CreatorEconomyCalculator = () => {
   };
 
   return (
-    <>
+    <div className="min-h-screen bg-white text-black p-4 md:p-8">
       <CalculatorLayout>
       <div className="lg:col-span-12">
         <CalculatorHeader 
@@ -206,7 +206,7 @@ const CreatorEconomyCalculator = () => {
     </div>
     </CalculatorLayout>
     <Footer />
-        </>
+    </div>
     );
 };
 

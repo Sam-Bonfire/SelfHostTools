@@ -50,8 +50,8 @@ export default function SoloFounderCalculator() {
     const breakEvenProgress = milestones.breakEvenMRR > 0 && milestones.breakEvenMRR !== Infinity ? Math.min(100, (mrr / milestones.breakEvenMRR) * 100) : 0;
 
     return (
-        <>
-          <CalculatorLayout>
+        <div className="min-h-screen bg-white text-black p-4 md:p-8">
+      <CalculatorLayout>
             <div className="lg:col-span-12">
         <CalculatorHeader
                 title="Solo-Founder Runway & Bootstrapping"
@@ -318,6 +318,6 @@ export default function SoloFounderCalculator() {
     </div>
         </CalculatorLayout>
         <Footer />
-          </>
+    </div>
     );
 }

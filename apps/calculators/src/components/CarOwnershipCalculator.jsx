@@ -43,8 +43,8 @@ export default function CarOwnershipCalculator() {
     }).format(val);
 
     return (
-        <>
-          <CalculatorLayout>
+        <div className="min-h-screen bg-white text-black p-4 md:p-8">
+      <CalculatorLayout>
             <div className="lg:col-span-12">
         <CalculatorHeader
                 title="Car Ownership Realist"
@@ -268,6 +268,6 @@ export default function CarOwnershipCalculator() {
     </div>
         </CalculatorLayout>
         <Footer />
-          </>
+    </div>
     );
 }
