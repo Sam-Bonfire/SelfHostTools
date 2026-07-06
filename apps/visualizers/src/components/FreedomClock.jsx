@@ -5,16 +5,17 @@ import { Clock, ShieldAlert, Sparkles, Coffee, AlertTriangle, Download } from 'l
 import { calculateFreedomIndex, generateDonutWedge } from '../lib/freedomMath';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 export default function FreedomClock() {
-    const [sleep, setSleep] = useState(8);
-    const [commute, setCommute] = useState(1);
-    const [work, setWork] = useState(8);
-    const [admin, setAdmin] = useState(1.5);
-    const [chores, setChores] = useState(2);
-    const [currentAge, setCurrentAge] = useState(28);
-    const [retirementAge, setRetirementAge] = useState(55);
-    const [monthlyIncome, setMonthlyIncome] = useState(80000);
+    const [sleep, setSleep] = usePersistedState('FreedomClock', 'sleep', 8);
+    const [commute, setCommute] = usePersistedState('FreedomClock', 'commute', 1);
+    const [work, setWork] = usePersistedState('FreedomClock', 'work', 8);
+    const [admin, setAdmin] = usePersistedState('FreedomClock', 'admin', 1.5);
+    const [chores, setChores] = usePersistedState('FreedomClock', 'chores', 2);
+    const [currentAge, setCurrentAge] = usePersistedState('FreedomClock', 'currentAge', 28);
+    const [retirementAge, setRetirementAge] = usePersistedState('FreedomClock', 'retirementAge', 55);
+    const [monthlyIncome, setMonthlyIncome] = usePersistedState('FreedomClock', 'monthlyIncome', 80000);
     const resultsRef = useRef(null);
 
     const timeBreakdown = useMemo(() => {
@@ -156,7 +157,8 @@ export default function FreedomClock() {
                         icon={Clock}
                         title="24-Hour Freedom Clock"
                         subtitle="A visual circular time auditor mapping how much of your day is truly yours."
-                    />
+                    
+            onReset={() => { resetPersistedState('FreedomClock'); window.location.reload(); }} />
                 </div>
 
                 {/* LEFT Panel: Daily Hour Allocations */}

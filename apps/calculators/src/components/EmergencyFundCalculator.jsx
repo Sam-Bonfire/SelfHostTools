@@ -3,9 +3,10 @@ import { ShieldAlert, DollarSign, Activity, Briefcase, Plus, HeartPulse } from '
 import { CalculatorLayout, CalculatorHeader, ResultsAnalysis, Input, Card, DownloadButtons, Footer, MetricDisplay } from '@packages/styling';
 import { calculateEmergencyFund } from '../lib/emergencyFundLogic.js';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 export default function EmergencyFundCalculator() {
-  const [inputs, setInputs] = useState({
+  const [inputs, setInputs] = usePersistedState('EmergencyFundCalculator', 'inputs', {
     coreExpenses: 3000,
     discretionaryExpenses: 1500,
     discretionaryRetention: 20,
@@ -40,7 +41,8 @@ export default function EmergencyFundCalculator() {
         <CalculatorHeader 
         title="Emergency Fund & Income Shock"
         description="Calculate your multi-tiered cushion based on volatility, job loss, and deductibles."
-        icon={<ShieldAlert size={32} className="text-white" />}
+        icon={<ShieldAlert size={32} className="text-white" 
+            onReset={() => { resetPersistedState('EmergencyFundCalculator'); window.location.reload(); }} />}
       />
       </div>
       

@@ -6,6 +6,7 @@ import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import SEO from './SEO';
 
 import { calculateTimeBuyBack } from '../lib/buyBackLogic';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 export default function TimeBuyBackCalculator() {
   const structuredData = {
@@ -25,31 +26,31 @@ export default function TimeBuyBackCalculator() {
   };
 
   // --- Core State Variables ---
-  const [jobType, setJobType] = useState('freelance'); // 'freelance' or 'salaried'
+  const [jobType, setJobType] = usePersistedState('TimeBuyBackCalculator', 'jobType', 'freelance'); // 'freelance' or 'salaried'
   
   // Freelance Parameters
-  const [hourlyRate, setHourlyRate] = useState(1500);
-  const [hoursPerWeek, setHoursPerWeek] = useState(30);
-  const [vacationWeeks, setVacationWeeks] = useState(4);
-  const [adminTimePercent, setAdminTimePercent] = useState(20);
-  const [isPresumptiveTax, setIsPresumptiveTax] = useState(true);
-  const [freelanceTaxRate, setFreelanceTaxRate] = useState(20);
+  const [hourlyRate, setHourlyRate] = usePersistedState('TimeBuyBackCalculator', 'hourlyRate', 1500);
+  const [hoursPerWeek, setHoursPerWeek] = usePersistedState('TimeBuyBackCalculator', 'hoursPerWeek', 30);
+  const [vacationWeeks, setVacationWeeks] = usePersistedState('TimeBuyBackCalculator', 'vacationWeeks', 4);
+  const [adminTimePercent, setAdminTimePercent] = usePersistedState('TimeBuyBackCalculator', 'adminTimePercent', 20);
+  const [isPresumptiveTax, setIsPresumptiveTax] = usePersistedState('TimeBuyBackCalculator', 'isPresumptiveTax', true);
+  const [freelanceTaxRate, setFreelanceTaxRate] = usePersistedState('TimeBuyBackCalculator', 'freelanceTaxRate', 20);
 
   // Salaried Parameters
-  const [salariedGross, setSalariedGross] = useState(1500000);
-  const [salariedTaxRate, setSalariedTaxRate] = useState(20);
-  const [salariedHoursPerWeek, setSalariedHoursPerWeek] = useState(40);
-  const [commuteHoursPerWeek, setCommuteHoursPerWeek] = useState(5);
-  const [unpaidOvertimeHours, setUnpaidOvertimeHours] = useState(5);
+  const [salariedGross, setSalariedGross] = usePersistedState('TimeBuyBackCalculator', 'salariedGross', 1500000);
+  const [salariedTaxRate, setSalariedTaxRate] = usePersistedState('TimeBuyBackCalculator', 'salariedTaxRate', 20);
+  const [salariedHoursPerWeek, setSalariedHoursPerWeek] = usePersistedState('TimeBuyBackCalculator', 'salariedHoursPerWeek', 40);
+  const [commuteHoursPerWeek, setCommuteHoursPerWeek] = usePersistedState('TimeBuyBackCalculator', 'commuteHoursPerWeek', 5);
+  const [unpaidOvertimeHours, setUnpaidOvertimeHours] = usePersistedState('TimeBuyBackCalculator', 'unpaidOvertimeHours', 5);
 
   // Task Delegation Parameters
-  const [taskCost, setTaskCost] = useState(1000);
-  const [hoursSaved, setHoursSaved] = useState(4);
-  const [energyMultiplier, setEnergyMultiplier] = useState(1.5);
-  const [reinvestmentType, setReinvestmentType] = useState('leisure'); // 'leisure', 'upskilling', 'work'
+  const [taskCost, setTaskCost] = usePersistedState('TimeBuyBackCalculator', 'taskCost', 1000);
+  const [hoursSaved, setHoursSaved] = usePersistedState('TimeBuyBackCalculator', 'hoursSaved', 4);
+  const [energyMultiplier, setEnergyMultiplier] = usePersistedState('TimeBuyBackCalculator', 'energyMultiplier', 1.5);
+  const [reinvestmentType, setReinvestmentType] = usePersistedState('TimeBuyBackCalculator', 'reinvestmentType', 'leisure'); // 'leisure', 'upskilling', 'work'
 
   // Results State
-  const [results, setResults] = useState({
+  const [results, setResults] = usePersistedState('TimeBuyBackCalculator', 'results', {
     baseline: {
       annualGross: 0,
       annualTax: 0,
@@ -188,7 +189,8 @@ export default function TimeBuyBackCalculator() {
           <CalculatorHeader
             icon={Zap}
             title="Time Buy-Back & Task Delegate Realist"
-          />
+          
+            onReset={() => { resetPersistedState('TimeBuyBackCalculator'); window.location.reload(); }} />
         </div>
 
         {/* LEFT: Inputs Panel */}

@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { LineChart, AlertTriangle, CheckCircle, DollarSign } from 'lucide-react';
 import { SEO } from '@packages/components';
 import { Card, Input, Select, CalculatorLayout, CalculatorHeader, ResultsAnalysis, Footer } from '@packages/styling';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 const SCENARIOS = {
   depression: {
@@ -30,9 +31,9 @@ const SCENARIOS = {
 const formatCurrency = (val) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(val);
 
 export default function SWRHistoricalVisualizer() {
-  const [portfolioValue, setPortfolioValue] = useState(1000000);
-  const [withdrawalRate, setWithdrawalRate] = useState(4);
-  const [selectedScenario, setSelectedScenario] = useState('stagflation');
+  const [portfolioValue, setPortfolioValue] = usePersistedState('SWRHistoricalVisualizer', 'portfolioValue', 1000000);
+  const [withdrawalRate, setWithdrawalRate] = usePersistedState('SWRHistoricalVisualizer', 'withdrawalRate', 4);
+  const [selectedScenario, setSelectedScenario] = usePersistedState('SWRHistoricalVisualizer', 'selectedScenario', 'stagflation');
 
   const scenario = SCENARIOS[selectedScenario];
 
@@ -93,7 +94,8 @@ export default function SWRHistoricalVisualizer() {
           subtitle="Simulate the 'Safe Withdrawal Rate' through historical economic crises."
           icon={LineChart}
           color="bg-blue-300"
-        />
+        
+            onReset={() => { resetPersistedState('SWRHistoricalVisualizer'); window.location.reload(); }} />
       </div>
 
         <div className="col-span-1 lg:col-span-4 space-y-6">

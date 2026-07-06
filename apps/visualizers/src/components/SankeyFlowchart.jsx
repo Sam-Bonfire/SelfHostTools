@@ -4,6 +4,7 @@ import { Card, Button, CalculatorHeader, CalculatorLayout, DownloadButtons, Foot
 import { SEO } from '@packages/components';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 // ─────────────────────────────────────────────
 // CONSTANTS & DEFAULTS
@@ -94,8 +95,8 @@ function NodeRow({ item, onChange, onDelete, prefix, showDelete }) {
 // MAIN COMPONENT
 // ─────────────────────────────────────────────
 export default function SankeyFlowchart() {
-  const [sources, setSources] = useState(DEFAULT_SOURCES);
-  const [destinations, setDestinations] = useState(DEFAULT_DESTINATIONS);
+  const [sources, setSources] = usePersistedState('SankeyFlowchart', 'sources', DEFAULT_SOURCES);
+  const [destinations, setDestinations] = usePersistedState('SankeyFlowchart', 'destinations', DEFAULT_DESTINATIONS);
   const svgRef = useRef(null);
   const chartContainerRef = useRef(null);
 
@@ -283,7 +284,8 @@ export default function SankeyFlowchart() {
             icon={GitFork}
             title="Capital Allocation Flow"
             subtitle="Brutalist Sankey — Where does your income actually go?"
-          />
+          
+            onReset={() => { resetPersistedState('SankeyFlowchart'); window.location.reload(); }} />
         </div>
 
         <div className="lg:col-span-12" ref={chartContainerRef}>

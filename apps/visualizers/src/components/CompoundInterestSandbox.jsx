@@ -3,13 +3,14 @@ import { Card, Input, Button, CalculatorHeader, CalculatorLayout, ResultsAnalysi
 import { SEO } from '@packages/components';
 import { Landmark, Play, Pause, RotateCcw } from 'lucide-react';
 import { Particle, resolveCollisions, calculateCompoundingSchedules } from '../lib/snowballPhysics';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 export default function CompoundInterestSandbox() {
-    const [startBalance, setStartBalance] = useState(10000);
-    const [monthlyDeposit, setMonthlyDeposit] = useState(2000);
-    const [expectedReturn, setExpectedReturn] = useState(12);
-    const [years, setYears] = useState(25);
-    const [isPlaying, setIsPlaying] = useState(true);
+    const [startBalance, setStartBalance] = usePersistedState('CompoundInterestSandbox', 'startBalance', 10000);
+    const [monthlyDeposit, setMonthlyDeposit] = usePersistedState('CompoundInterestSandbox', 'monthlyDeposit', 2000);
+    const [expectedReturn, setExpectedReturn] = usePersistedState('CompoundInterestSandbox', 'expectedReturn', 12);
+    const [years, setYears] = usePersistedState('CompoundInterestSandbox', 'years', 25);
+    const [isPlaying, setIsPlaying] = usePersistedState('CompoundInterestSandbox', 'isPlaying', true);
 
     const canvasRef = useRef(null);
     const particlesRef = useRef([]);
@@ -189,7 +190,8 @@ export default function CompoundInterestSandbox() {
                         icon={Landmark}
                         title="Compound Interest Snowball"
                         subtitle="A physics-based graphical sandbox illustrating the compound velocity of wealth generation."
-                    />
+                    
+            onReset={() => { resetPersistedState('CompoundInterestSandbox'); window.location.reload(); }} />
                 </div>
 
                 {/* LEFT Panel: Simulation Parameters */}

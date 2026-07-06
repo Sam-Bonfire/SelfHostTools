@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, RotateCcw } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Tooltip from './Tooltip';
 
@@ -9,7 +9,7 @@ import Tooltip from './Tooltip';
  * Reverted to the "Previous" Banner Style as requested.
  * Includes Back Button, Icon, and Title in a yellow bar.
  */
-const CalculatorHeader = ({ icon: Icon, title, subtitle, description, color = "bg-yellow-300", backLink = "/" }) => {
+const CalculatorHeader = ({ icon: Icon, title, subtitle, description, color = "bg-yellow-300", backLink = "/", onReset }) => {
     const renderIcon = () => {
         if (!Icon) return null;
         if (React.isValidElement(Icon)) {
@@ -37,6 +37,17 @@ const CalculatorHeader = ({ icon: Icon, title, subtitle, description, color = "b
                     )}
                 </div>
             </div>
+            {onReset && (
+                <Tooltip content="Reset to defaults" position="left">
+                    <button 
+                        onClick={onReset} 
+                        aria-label="Reset"
+                        className="p-2 bg-white border-4 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all block"
+                    >
+                        <RotateCcw className="w-5 h-5 text-black" />
+                    </button>
+                </Tooltip>
+            )}
         </header>
     );
 };

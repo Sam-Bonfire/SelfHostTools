@@ -6,6 +6,7 @@ import { calculateInvestVsLoan } from '../lib/investVsLoanLogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 
 import SEO from './SEO';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 export default function App() {
     const structuredData = {
@@ -20,18 +21,18 @@ export default function App() {
     };
 
     // --- State ---
-    const [loans, setLoans] = useState([
+    const [loans, setLoans] = usePersistedState('InvestVsLoanCalculator', 'loans', [
         { id: 1, name: 'Home Loan', principal: 5000000, rate: 8.5, minPayment: 45000, isTaxDeductible: true, remainingInterest: 0 },
         { id: 2, name: 'Car Loan', principal: 800000, rate: 10.5, minPayment: 15000, isTaxDeductible: false, remainingInterest: 0 }
     ]);
 
-    const [surplus, setSurplus] = useState(20000);
-    const [investmentReturn, setInvestmentReturn] = useState(12);
-    const [investmentTaxRate, setInvestmentTaxRate] = useState(10);
-    const [userTaxBracket, setUserTaxBracket] = useState(30);
+    const [surplus, setSurplus] = usePersistedState('InvestVsLoanCalculator', 'surplus', 20000);
+    const [investmentReturn, setInvestmentReturn] = usePersistedState('InvestVsLoanCalculator', 'investmentReturn', 12);
+    const [investmentTaxRate, setInvestmentTaxRate] = usePersistedState('InvestVsLoanCalculator', 'investmentTaxRate', 10);
+    const [userTaxBracket, setUserTaxBracket] = usePersistedState('InvestVsLoanCalculator', 'userTaxBracket', 30);
 
-    const [results, setResults] = useState(null);
-    const [showSchedule, setShowSchedule] = useState(false);
+    const [results, setResults] = usePersistedState('InvestVsLoanCalculator', 'results', null);
+    const [showSchedule, setShowSchedule] = usePersistedState('InvestVsLoanCalculator', 'showSchedule', false);
 
     // --- Handlers ---
     const addLoan = () => {
@@ -105,7 +106,8 @@ export default function App() {
                     icon={Scale}
                     title="Invest or Pay Off Debt?"
                     description="The eternal financial dilemma, solved with math."
-                />
+                
+            onReset={() => { resetPersistedState('InvestVsLoanCalculator'); window.location.reload(); }} />
 
                 {/* Inputs */}
                 <div className="lg:col-span-12 xl:col-span-5 space-y-6">

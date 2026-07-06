@@ -4,18 +4,19 @@ import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, Calcul
 import { calculateLifestyleCreep } from '../lib/lifestyleCreepLogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend } from 'recharts';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 export default function LifestyleCreepCalculator() {
     // Inputs
-    const [monthlyIncome, setMonthlyIncome] = useState(100000);
-    const [monthlySavings, setMonthlySavings] = useState(20000);
-    const [annualRaisePercent, setAnnualRaisePercent] = useState(10);
-    const [roiPercent, setRoiPercent] = useState(12);
-    const [inflationPercent, setInflationPercent] = useState(6);
-    const [years, setYears] = useState(20);
+    const [monthlyIncome, setMonthlyIncome] = usePersistedState('LifestyleCreepCalculator', 'monthlyIncome', 100000);
+    const [monthlySavings, setMonthlySavings] = usePersistedState('LifestyleCreepCalculator', 'monthlySavings', 20000);
+    const [annualRaisePercent, setAnnualRaisePercent] = usePersistedState('LifestyleCreepCalculator', 'annualRaisePercent', 10);
+    const [roiPercent, setRoiPercent] = usePersistedState('LifestyleCreepCalculator', 'roiPercent', 12);
+    const [inflationPercent, setInflationPercent] = usePersistedState('LifestyleCreepCalculator', 'inflationPercent', 6);
+    const [years, setYears] = usePersistedState('LifestyleCreepCalculator', 'years', 20);
     
     // The main slider
-    const [raiseInvestedPercent, setRaiseInvestedPercent] = useState(50);
+    const [raiseInvestedPercent, setRaiseInvestedPercent] = usePersistedState('LifestyleCreepCalculator', 'raiseInvestedPercent', 50);
 
     // Calculate
     const results = useMemo(() => {
@@ -61,7 +62,8 @@ export default function LifestyleCreepCalculator() {
         <CalculatorHeader
                 title="Lifestyle Creep Simulator"
                 description="The silent wealth destroyer. See what happens when you spend your raise vs. invest it over 20 years."
-                icon={<Activity className="w-8 h-8 md:w-10 md:h-10 text-rose-500" />}
+                icon={<Activity className="w-8 h-8 md:w-10 md:h-10 text-rose-500" 
+            onReset={() => { resetPersistedState('LifestyleCreepCalculator'); window.location.reload(); }} />}
                 color="bg-rose-100"
             />
 

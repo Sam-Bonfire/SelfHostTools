@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { SEO } from '@packages/components';
 import { Button, Card, Select, Footer, CalculatorLayout, CalculatorHeader } from '@packages/styling';
 import { Play, Pause, SkipForward, RotateCcw, Volume2, VolumeX } from 'lucide-react';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 const ARRAY_SIZE = 40;
 const MIN_VALUE = 10;
@@ -147,15 +148,15 @@ const algorithms = {
 };
 
 const SortingVisualizer = () => {
-  const [array, setArray] = useState([]);
-  const [colors, setColors] = useState([]);
-  const [algorithm, setAlgorithm] = useState('bubble');
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [speed, setSpeed] = useState(50); // 1 to 100
-  const [isMuted, setIsMuted] = useState(false);
+  const [array, setArray] = usePersistedState('SortingVisualizer', 'array', []);
+  const [colors, setColors] = usePersistedState('SortingVisualizer', 'colors', []);
+  const [algorithm, setAlgorithm] = usePersistedState('SortingVisualizer', 'algorithm', 'bubble');
+  const [isPlaying, setIsPlaying] = usePersistedState('SortingVisualizer', 'isPlaying', false);
+  const [speed, setSpeed] = usePersistedState('SortingVisualizer', 'speed', 50); // 1 to 100
+  const [isMuted, setIsMuted] = usePersistedState('SortingVisualizer', 'isMuted', false);
   
-  const [animations, setAnimations] = useState([]);
-  const [currentStep, setCurrentStep] = useState(0);
+  const [animations, setAnimations] = usePersistedState('SortingVisualizer', 'animations', []);
+  const [currentStep, setCurrentStep] = usePersistedState('SortingVisualizer', 'currentStep', 0);
   
   const audioCtxRef = useRef(null);
   const timerRef = useRef(null);
@@ -318,7 +319,8 @@ const SortingVisualizer = () => {
             icon={Play}
             title="Sorting Visualizer"
             subtitle="See and hear algorithms in action"
-          />
+          
+            onReset={() => { resetPersistedState('SortingVisualizer'); window.location.reload(); }} />
         </div>
 
         <div className="lg:col-span-12 space-y-8">

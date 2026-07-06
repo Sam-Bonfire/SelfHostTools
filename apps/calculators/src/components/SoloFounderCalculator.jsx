@@ -3,19 +3,20 @@ import { IndianRupee, Rocket, TrendingDown, TrendingUp, Target, Server, Percent,
 import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer, MetricDisplay } from '@packages/styling';
 import { calculateSoloFounderRunway } from '../lib/soloFounderLogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 export default function SoloFounderCalculator() {
     // Inputs
-    const [mrr, setMrr] = useState(50000);
-    const [averageRevenuePerUser, setAverageRevenuePerUser] = useState(1000);
-    const [churnRatePercent, setChurnRatePercent] = useState(5);
-    const [stripeFeePercent, setStripeFeePercent] = useState(2.9);
-    const [stripeFixedFee, setStripeFixedFee] = useState(25);
-    const [serverCosts, setServerCosts] = useState(2000);
-    const [toolCosts, setToolCosts] = useState(3000);
-    const [taxRatePercent, setTaxRatePercent] = useState(10);
-    const [dayJobSalary, setDayJobSalary] = useState(100000);
-    const [weeklyHoursDedicated, setWeeklyHoursDedicated] = useState(20);
+    const [mrr, setMrr] = usePersistedState('SoloFounderCalculator', 'mrr', 50000);
+    const [averageRevenuePerUser, setAverageRevenuePerUser] = usePersistedState('SoloFounderCalculator', 'averageRevenuePerUser', 1000);
+    const [churnRatePercent, setChurnRatePercent] = usePersistedState('SoloFounderCalculator', 'churnRatePercent', 5);
+    const [stripeFeePercent, setStripeFeePercent] = usePersistedState('SoloFounderCalculator', 'stripeFeePercent', 2.9);
+    const [stripeFixedFee, setStripeFixedFee] = usePersistedState('SoloFounderCalculator', 'stripeFixedFee', 25);
+    const [serverCosts, setServerCosts] = usePersistedState('SoloFounderCalculator', 'serverCosts', 2000);
+    const [toolCosts, setToolCosts] = usePersistedState('SoloFounderCalculator', 'toolCosts', 3000);
+    const [taxRatePercent, setTaxRatePercent] = usePersistedState('SoloFounderCalculator', 'taxRatePercent', 10);
+    const [dayJobSalary, setDayJobSalary] = usePersistedState('SoloFounderCalculator', 'dayJobSalary', 100000);
+    const [weeklyHoursDedicated, setWeeklyHoursDedicated] = usePersistedState('SoloFounderCalculator', 'weeklyHoursDedicated', 20);
 
     // Calculate
     const results = useMemo(() => {
@@ -55,7 +56,8 @@ export default function SoloFounderCalculator() {
         <CalculatorHeader
                 title="Solo-Founder Runway & Bootstrapping"
                 description="Find your true Break-Even and Freedom MRR. Deducts Stripe fees, hosting, churn, and taxes to reveal what it actually takes to quit your day job."
-                icon={<Rocket className="w-8 h-8 md:w-10 md:h-10 text-purple-500" />}
+                icon={<Rocket className="w-8 h-8 md:w-10 md:h-10 text-purple-500" 
+            onReset={() => { resetPersistedState('SoloFounderCalculator'); window.location.reload(); }} />}
                 color="bg-purple-100"
             />
       </div>

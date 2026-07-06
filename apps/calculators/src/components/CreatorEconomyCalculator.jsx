@@ -3,9 +3,10 @@ import { CalculatorLayout, CalculatorHeader, ResultsAnalysis, Input, Card, Downl
 import { Users, Target, MousePointerClick, Send, DollarSign, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { calculateCreatorEconomy } from '../lib/creatorEconomyLogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 const CreatorEconomyCalculator = () => {
-  const [inputs, setInputs] = useState({
+  const [inputs, setInputs] = usePersistedState('CreatorEconomyCalculator', 'inputs', {
     desiredIncome: 5000,
     audienceSize: 10000,
     reachRate: 30,
@@ -72,7 +73,8 @@ const CreatorEconomyCalculator = () => {
           title="Creator Economy Quoter" 
           description="Reverse-engineer your sponsor pricing based on your desired income and actual audience engagement."
           icon={Users}
-        />
+        
+            onReset={() => { resetPersistedState('CreatorEconomyCalculator'); window.location.reload(); }} />
 
         <div className="lg:col-span-5 space-y-6">
           <Card title="The Goal">

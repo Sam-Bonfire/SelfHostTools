@@ -6,6 +6,7 @@ import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, Calcul
 import SEO from './SEO';
 import { calculateTrueHourlyWage } from '../lib/trueHourlyLogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 export default function TrueHourlyWageCalculator() {
     const structuredData = {
@@ -17,27 +18,27 @@ export default function TrueHourlyWageCalculator() {
     };
 
     // --- INPUTS ---
-    const [annualGrossSalary, setAnnualGross] = useState(1200000); // 12 LPA default
-    const [annualBonus, setBonus] = useState(0);
-    const [taxRate, setTaxRate] = useState(20);
+    const [annualGrossSalary, setAnnualGross] = usePersistedState('TrueHourlyWageCalculator', 'annualGrossSalary', 1200000); // 12 LPA default
+    const [annualBonus, setBonus] = usePersistedState('TrueHourlyWageCalculator', 'annualBonus', 0);
+    const [taxRate, setTaxRate] = usePersistedState('TrueHourlyWageCalculator', 'taxRate', 20);
 
-    const [workingDaysPerWeek, setWorkingDays] = useState(5);
-    const [vacationWeeksPerYear, setVacationWeeks] = useState(2);
-    const [standardHoursPerWeek, setStandardHours] = useState(40);
+    const [workingDaysPerWeek, setWorkingDays] = usePersistedState('TrueHourlyWageCalculator', 'workingDaysPerWeek', 5);
+    const [vacationWeeksPerYear, setVacationWeeks] = usePersistedState('TrueHourlyWageCalculator', 'vacationWeeksPerYear', 2);
+    const [standardHoursPerWeek, setStandardHours] = usePersistedState('TrueHourlyWageCalculator', 'standardHoursPerWeek', 40);
 
     // Time Leaks
-    const [commuteOneWayMinutes, setCommuteMinutes] = useState(45);
-    const [groomingMinutesDaily, setGroomingMinutes] = useState(20);
-    const [decompressionMinutesDaily, setDecompressionMinutes] = useState(30);
-    const [unpaidOvertimeHoursPerWeek, setUnpaidOvertime] = useState(2);
+    const [commuteOneWayMinutes, setCommuteMinutes] = usePersistedState('TrueHourlyWageCalculator', 'commuteOneWayMinutes', 45);
+    const [groomingMinutesDaily, setGroomingMinutes] = usePersistedState('TrueHourlyWageCalculator', 'groomingMinutesDaily', 20);
+    const [decompressionMinutesDaily, setDecompressionMinutes] = usePersistedState('TrueHourlyWageCalculator', 'decompressionMinutesDaily', 30);
+    const [unpaidOvertimeHoursPerWeek, setUnpaidOvertime] = usePersistedState('TrueHourlyWageCalculator', 'unpaidOvertimeHoursPerWeek', 2);
 
     // Money Leaks
-    const [commuteDailyCost, setCommuteCost] = useState(100);
-    const [monthlyConvenienceRen, setConvenienceCost] = useState(2000); // Takeout etc
-    const [monthlyHealthren, setHealthCost] = useState(1000); // Physio/Therapy
+    const [commuteDailyCost, setCommuteCost] = usePersistedState('TrueHourlyWageCalculator', 'commuteDailyCost', 100);
+    const [monthlyConvenienceRen, setConvenienceCost] = usePersistedState('TrueHourlyWageCalculator', 'monthlyConvenienceRen', 2000); // Takeout etc
+    const [monthlyHealthren, setHealthCost] = usePersistedState('TrueHourlyWageCalculator', 'monthlyHealthren', 1000); // Physio/Therapy
 
     // --- RESULTS ---
-    const [results, setResults] = useState(null);
+    const [results, setResults] = usePersistedState('TrueHourlyWageCalculator', 'results', null);
 
     const calculate = useCallback(() => {
         const res = calculateTrueHourlyWage({
@@ -107,7 +108,8 @@ export default function TrueHourlyWageCalculator() {
                     <CalculatorHeader
                         icon={Briefcase}
                         title="True Hourly Wage"
-                    />
+                    
+            onReset={() => { resetPersistedState('TrueHourlyWageCalculator'); window.location.reload(); }} />
                 </div>
 
                 {/* INPUTS COLUMN */}

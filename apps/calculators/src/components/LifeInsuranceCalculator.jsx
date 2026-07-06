@@ -8,6 +8,7 @@ import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import SEO from './SEO';
 
 import { calculateLifeInsurance, generateLifeInsuranceSchedule } from '../lib/lifeInsuranceLogic';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 export default function LifeInsuranceCalculator() {
   const structuredData = {
@@ -19,27 +20,27 @@ export default function LifeInsuranceCalculator() {
   };
 
   // --- INPUTS ---
-  const [monthlyExpense, setMonthlyExpense] = useState(50000);
-  const [yearsToReplace, setYearsToReplace] = useState(25);
-  const [inflationRate, setInflationRate] = useState(6);
-  const [investmentReturn, setInvestmentReturn] = useState(7); // Safe debt return
-  const [personalShare, setPersonalShare] = useState(20); // Self-consumption deduction %
+  const [monthlyExpense, setMonthlyExpense] = usePersistedState('LifeInsuranceCalculator', 'monthlyExpense', 50000);
+  const [yearsToReplace, setYearsToReplace] = usePersistedState('LifeInsuranceCalculator', 'yearsToReplace', 25);
+  const [inflationRate, setInflationRate] = usePersistedState('LifeInsuranceCalculator', 'inflationRate', 6);
+  const [investmentReturn, setInvestmentReturn] = usePersistedState('LifeInsuranceCalculator', 'investmentReturn', 7); // Safe debt return
+  const [personalShare, setPersonalShare] = usePersistedState('LifeInsuranceCalculator', 'personalShare', 20); // Self-consumption deduction %
 
   // --- LIABILITIES ---
-  const [liabilities, setLiabilities] = useState(5000000); // e.g. Home Loan
+  const [liabilities, setLiabilities] = usePersistedState('LifeInsuranceCalculator', 'liabilities', 5000000); // e.g. Home Loan
 
   // --- GOALS ---
-  const [futureGoals, setGoals] = useState([
+  const [futureGoals, setGoals] = usePersistedState('LifeInsuranceCalculator', 'futureGoals', [
     { id: 1, name: "Child Education", amount: 2000000, yearsAway: 15 },
     { id: 2, name: "Child Marriage", amount: 1500000, yearsAway: 20 }
   ]);
 
   // --- EXISTING ASSETS ---
-  const [existingAssets, setAssets] = useState(1000000);
-  const [currentInsurance, setCurrentInsurance] = useState(2500000);
+  const [existingAssets, setAssets] = usePersistedState('LifeInsuranceCalculator', 'existingAssets', 1000000);
+  const [currentInsurance, setCurrentInsurance] = usePersistedState('LifeInsuranceCalculator', 'currentInsurance', 2500000);
 
   // --- RESULTS ---
-  const [results, setResults] = useState({
+  const [results, setResults] = usePersistedState('LifeInsuranceCalculator', 'results', {
     expenseCover: 0,
     goalCover: 0,
     totalRequired: 0,
@@ -132,7 +133,8 @@ export default function LifeInsuranceCalculator() {
           <CalculatorHeader
             icon={Umbrella}
             title="Life Cover (HLV)"
-          />
+          
+            onReset={() => { resetPersistedState('LifeInsuranceCalculator'); window.location.reload(); }} />
         </div>
 
         <div className="lg:col-span-12 xl:col-span-5 space-y-6">

@@ -8,6 +8,7 @@ import { calculateHomeOwnerRealism, generateTimelineEvents } from '../lib/homeOw
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 
 import SEO from './SEO';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 export default function HomeOwnerRealistCalculator() {
     const structuredData = {
@@ -27,16 +28,16 @@ export default function HomeOwnerRealistCalculator() {
     };
 
     // --- Inputs ---
-    const [propertyPrice, setPropertyPrice] = useState(5000000); // 50L
-    const [downPayment, setDownPayment] = useState(1000000); // 10L
-    const [interestRate, setInterestRate] = useState(8.5);
-    const [loanTerm, setLoanTerm] = useState(20);
-    const [opportunityCostRate, setOpportunityCostRate] = useState(10); // Market return
-    const [appreciationRate, setAppreciationRate] = useState(3);
-    const [maintenanceInflation, setMaintenanceInflation] = useState(7); // Default maintenance inflation rate
+    const [propertyPrice, setPropertyPrice] = usePersistedState('HomeOwnerRealistCalculator', 'propertyPrice', 5000000); // 50L
+    const [downPayment, setDownPayment] = usePersistedState('HomeOwnerRealistCalculator', 'downPayment', 1000000); // 10L
+    const [interestRate, setInterestRate] = usePersistedState('HomeOwnerRealistCalculator', 'interestRate', 8.5);
+    const [loanTerm, setLoanTerm] = usePersistedState('HomeOwnerRealistCalculator', 'loanTerm', 20);
+    const [opportunityCostRate, setOpportunityCostRate] = usePersistedState('HomeOwnerRealistCalculator', 'opportunityCostRate', 10); // Market return
+    const [appreciationRate, setAppreciationRate] = usePersistedState('HomeOwnerRealistCalculator', 'appreciationRate', 3);
+    const [maintenanceInflation, setMaintenanceInflation] = usePersistedState('HomeOwnerRealistCalculator', 'maintenanceInflation', 7); // Default maintenance inflation rate
 
     // --- Audit Items (The Bomb List) ---
-    const [auditItems, setAuditItems] = useState([
+    const [auditItems, setAuditItems] = usePersistedState('HomeOwnerRealistCalculator', 'auditItems', [
         { id: 1, name: 'Roof / Waterproofing', replacementCost: 150000, lifespanYears: 15, currentAgeYears: 10 },
         { id: 2, name: 'HVAC / AC Units', replacementCost: 120000, lifespanYears: 10, currentAgeYears: 5 },
         { id: 3, name: 'Painting (Exterior)', replacementCost: 80000, lifespanYears: 5, currentAgeYears: 3 },
@@ -44,9 +45,9 @@ export default function HomeOwnerRealistCalculator() {
     ]);
 
     // --- Results ---
-    const [results, setResults] = useState(null);
-    const [timelineEvents, setTimelineEvents] = useState([]);
-    const [showSchedule, setShowSchedule] = useState(false);
+    const [results, setResults] = usePersistedState('HomeOwnerRealistCalculator', 'results', null);
+    const [timelineEvents, setTimelineEvents] = usePersistedState('HomeOwnerRealistCalculator', 'timelineEvents', []);
+    const [showSchedule, setShowSchedule] = usePersistedState('HomeOwnerRealistCalculator', 'showSchedule', false);
 
     const calculate = useCallback(() => {
         const res = calculateHomeOwnerRealism({
@@ -111,7 +112,8 @@ export default function HomeOwnerRealistCalculator() {
                     <CalculatorHeader
                         icon={Home}
                         title="The Home Owner Realist"
-                    />
+                    
+            onReset={() => { resetPersistedState('HomeOwnerRealistCalculator'); window.location.reload(); }} />
                 </div>
 
                 {/* LEFT: INPUTS */}

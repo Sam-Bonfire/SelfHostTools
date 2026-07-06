@@ -5,14 +5,15 @@ import { Sun, Calendar, AlertOctagon, TrendingUp, ShieldAlert, Award, Download }
 import { calculateRunwayData, generateSVGPath } from '../lib/runwayLandscape';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 export default function RunwayHorizon() {
-    const [cash, setCash] = useState(250000);
-    const [fixedExpenses, setFixedExpenses] = useState(30000);
-    const [variableExpenses, setVariableExpenses] = useState(15000);
-    const [income, setIncome] = useState(10000);
-    const [scenario, setScenario] = useState('comfort');
-    const [lifeEvents, setLifeEvents] = useState([]);
+    const [cash, setCash] = usePersistedState('RunwayHorizon', 'cash', 250000);
+    const [fixedExpenses, setFixedExpenses] = usePersistedState('RunwayHorizon', 'fixedExpenses', 30000);
+    const [variableExpenses, setVariableExpenses] = usePersistedState('RunwayHorizon', 'variableExpenses', 15000);
+    const [income, setIncome] = usePersistedState('RunwayHorizon', 'income', 10000);
+    const [scenario, setScenario] = usePersistedState('RunwayHorizon', 'scenario', 'comfort');
+    const [lifeEvents, setLifeEvents] = usePersistedState('RunwayHorizon', 'lifeEvents', []);
 
     const resultsRef = React.useRef(null);
 
@@ -88,7 +89,8 @@ export default function RunwayHorizon() {
                         icon={Sun}
                         title="Personal Runway Horizon"
                         subtitle="A rolling interactive 2D landscape charting your financial runway and burnout triggers."
-                    />
+                    
+            onReset={() => { resetPersistedState('RunwayHorizon'); window.location.reload(); }} />
                 </div>
 
                 {/* LEFT Panel: Financial Inputs */}

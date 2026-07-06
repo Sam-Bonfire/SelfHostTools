@@ -6,6 +6,7 @@ import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import SEO from './SEO';
 
 import { calculateSaaSLeak, SUBSCRIPTION_CATEGORIES, USAGE_FREQUENCIES } from '../lib/saasLeakLogic';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 export default function SaasLeakCalculator() {
   const structuredData = {
@@ -25,13 +26,13 @@ export default function SaasLeakCalculator() {
   };
 
   // --- State Variables ---
-  const [calcMode, setCalcMode] = useState('aggregate'); // 'individual' or 'aggregate'
-  const [monthlyInvestment, setMonthlyInvestment] = useState(2500); // flat monthly spend
-  const [expectedReturn, setExpectedReturn] = useState(12); // NIFTY average returns ~12% nominal
-  const [hourlyWage, setHourlyWage] = useState(500); // User net hourly wage (in Rs)
+  const [calcMode, setCalcMode] = usePersistedState('SaasLeakCalculator', 'calcMode', 'aggregate'); // 'individual' or 'aggregate'
+  const [monthlyInvestment, setMonthlyInvestment] = usePersistedState('SaasLeakCalculator', 'monthlyInvestment', 2500); // flat monthly spend
+  const [expectedReturn, setExpectedReturn] = usePersistedState('SaasLeakCalculator', 'expectedReturn', 12); // NIFTY average returns ~12% nominal
+  const [hourlyWage, setHourlyWage] = usePersistedState('SaasLeakCalculator', 'hourlyWage', 500); // User net hourly wage (in Rs)
 
   // Default subscriptions list
-  const [subscriptions, setSubscriptions] = useState([
+  const [subscriptions, setSubscriptions] = usePersistedState('SaasLeakCalculator', 'subscriptions', [
     { id: 'sub-1', name: 'Netflix Premium', cost: 649, active: true, category: 'entertainment', usageFrequency: 'weekly', billingPeriod: 'monthly' },
     { id: 'sub-2', name: 'Spotify Premium', cost: 179, active: true, category: 'entertainment', usageFrequency: 'daily', billingPeriod: 'monthly' },
     { id: 'sub-3', name: 'GitHub Copilot', cost: 850, active: true, category: 'dev_tools', usageFrequency: 'daily', billingPeriod: 'monthly' },
@@ -39,13 +40,13 @@ export default function SaasLeakCalculator() {
     { id: 'sub-5', name: 'Claude Pro', cost: 1800, active: true, category: 'ai_tools', usageFrequency: 'daily', billingPeriod: 'monthly' },
   ]);
 
-  const [newSubName, setNewSubName] = useState('');
-  const [newSubCost, setNewSubCost] = useState('');
-  const [newSubCategory, setNewSubCategory] = useState('other');
-  const [newSubFrequency, setNewSubFrequency] = useState('monthly');
-  const [newSubBillingPeriod, setNewSubBillingPeriod] = useState('monthly');
+  const [newSubName, setNewSubName] = usePersistedState('SaasLeakCalculator', 'newSubName', '');
+  const [newSubCost, setNewSubCost] = usePersistedState('SaasLeakCalculator', 'newSubCost', '');
+  const [newSubCategory, setNewSubCategory] = usePersistedState('SaasLeakCalculator', 'newSubCategory', 'other');
+  const [newSubFrequency, setNewSubFrequency] = usePersistedState('SaasLeakCalculator', 'newSubFrequency', 'monthly');
+  const [newSubBillingPeriod, setNewSubBillingPeriod] = usePersistedState('SaasLeakCalculator', 'newSubBillingPeriod', 'monthly');
 
-  const [results, setResults] = useState({
+  const [results, setResults] = usePersistedState('SaasLeakCalculator', 'results', {
     results: {
       totalMonthlySpend: 0,
       annualSpend: 0,
@@ -60,7 +61,7 @@ export default function SaasLeakCalculator() {
     schedule: []
   });
 
-  const [showSchedule, setShowSchedule] = useState(false);
+  const [showSchedule, setShowSchedule] = usePersistedState('SaasLeakCalculator', 'showSchedule', false);
 
   // --- Calculate Function ---
   const calculate = useCallback(() => {
@@ -181,7 +182,8 @@ export default function SaasLeakCalculator() {
           <CalculatorHeader
             icon={Flame}
             title="SaaS Subscription Leak Realist"
-          />
+          
+            onReset={() => { resetPersistedState('SaasLeakCalculator'); window.location.reload(); }} />
         </div>
 
         {/* LEFT: Inputs Panel */}

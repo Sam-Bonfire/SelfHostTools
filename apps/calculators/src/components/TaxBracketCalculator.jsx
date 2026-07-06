@@ -3,9 +3,10 @@ import { CalculatorLayout, CalculatorHeader, ResultsAnalysis, Input, Card, Downl
 import { Building2, Receipt, HeartHandshake, Stethoscope, Briefcase, Calculator } from 'lucide-react';
 import { calculateTaxBracketOptimization } from '../lib/taxBracketLogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 export default function TaxBracketCalculator() {
-  const [inputs, setInputs] = useState({
+  const [inputs, setInputs] = usePersistedState('TaxBracketCalculator', 'inputs', {
     grossIncome: 75000,
     filingStatus: 'single', // 'single', 'married', 'hoh'
     stateLocalTaxes: 2000,
@@ -39,7 +40,8 @@ export default function TaxBracketCalculator() {
         <CalculatorHeader 
         title="Tax Bracket Optimizer"
         description="Compare standard vs. itemized deductions to maximize your tax savings. 2024 Tax Year."
-        icon={<Building2 className="w-8 h-8" />}
+        icon={<Building2 className="w-8 h-8" 
+            onReset={() => { resetPersistedState('TaxBracketCalculator'); window.location.reload(); }} />}
       />
       </div>
 

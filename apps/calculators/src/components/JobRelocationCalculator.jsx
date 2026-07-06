@@ -8,6 +8,7 @@ import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import SEO from './SEO';
 
 import { calculateRelocationImpact } from '../lib/relocationLogic';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 export default function JobRelocationCalculator() {
     const structuredData = {
@@ -20,14 +21,14 @@ export default function JobRelocationCalculator() {
     };
 
     // --- CURRENT STATE INPUTS ---
-    const [currentSalary, setCurrentSalary] = useState(600000); // Annual
-    const [currentRent, setCurrentRent] = useState(0);
-    const [currentExpenses, setCurrentExpenses] = useState(15000);
-    const [isLivingWithFamily, setIsLivingWithFamily] = useState(true);
+    const [currentSalary, setCurrentSalary] = usePersistedState('JobRelocationCalculator', 'currentSalary', 600000); // Annual
+    const [currentRent, setCurrentRent] = usePersistedState('JobRelocationCalculator', 'currentRent', 0);
+    const [currentExpenses, setCurrentExpenses] = usePersistedState('JobRelocationCalculator', 'currentExpenses', 15000);
+    const [isLivingWithFamily, setIsLivingWithFamily] = usePersistedState('JobRelocationCalculator', 'isLivingWithFamily', true);
 
     // Optional expense breakdown
-    const [showCurrentExpenseBreakdown, setShowCurrentExpenseBreakdown] = useState(false);
-    const [currentExpenseBreakdown, setCurrentExpenseBreakdown] = useState({
+    const [showCurrentExpenseBreakdown, setShowCurrentExpenseBreakdown] = usePersistedState('JobRelocationCalculator', 'showCurrentExpenseBreakdown', false);
+    const [currentExpenseBreakdown, setCurrentExpenseBreakdown] = usePersistedState('JobRelocationCalculator', 'currentExpenseBreakdown', {
         groceries: 8000,
         utilities: 2000,
         transport: 3000,
@@ -37,14 +38,14 @@ export default function JobRelocationCalculator() {
     });
 
     // --- NEW JOB INPUTS ---
-    const [newSalary, setNewSalary] = useState(1000000);
-    const [newRent, setNewRent] = useState(25000);
-    const [newExpenses, setNewExpenses] = useState(20000);
-    const [relocationBonus, setRelocationBonus] = useState(0);
+    const [newSalary, setNewSalary] = usePersistedState('JobRelocationCalculator', 'newSalary', 1000000);
+    const [newRent, setNewRent] = usePersistedState('JobRelocationCalculator', 'newRent', 25000);
+    const [newExpenses, setNewExpenses] = usePersistedState('JobRelocationCalculator', 'newExpenses', 20000);
+    const [relocationBonus, setRelocationBonus] = usePersistedState('JobRelocationCalculator', 'relocationBonus', 0);
 
     // Optional new expense breakdown
-    const [showNewExpenseBreakdown, setShowNewExpenseBreakdown] = useState(false);
-    const [newExpenseBreakdown, setNewExpenseBreakdown] = useState({
+    const [showNewExpenseBreakdown, setShowNewExpenseBreakdown] = usePersistedState('JobRelocationCalculator', 'showNewExpenseBreakdown', false);
+    const [newExpenseBreakdown, setNewExpenseBreakdown] = usePersistedState('JobRelocationCalculator', 'newExpenseBreakdown', {
         groceries: 12000,
         utilities: 3000,
         transport: 5000,
@@ -54,12 +55,12 @@ export default function JobRelocationCalculator() {
     });
 
     // --- FRICTION COSTS ---
-    const [movingCost, setMovingCost] = useState(30000);
-    const [setupCost, setSetupCost] = useState(75000); // Deposit + Brokerage
+    const [movingCost, setMovingCost] = usePersistedState('JobRelocationCalculator', 'movingCost', 30000);
+    const [setupCost, setSetupCost] = usePersistedState('JobRelocationCalculator', 'setupCost', 75000); // Deposit + Brokerage
 
     // Optional friction breakdown
-    const [showFrictionBreakdown, setShowFrictionBreakdown] = useState(false);
-    const [frictionBreakdown, setFrictionBreakdown] = useState({
+    const [showFrictionBreakdown, setShowFrictionBreakdown] = usePersistedState('JobRelocationCalculator', 'showFrictionBreakdown', false);
+    const [frictionBreakdown, setFrictionBreakdown] = usePersistedState('JobRelocationCalculator', 'frictionBreakdown', {
         packers: 30000,
         travel: 10000,
         deposit: 50000,
@@ -69,16 +70,16 @@ export default function JobRelocationCalculator() {
     });
 
     // --- LIFESTYLE FACTORS ---
-    const [commuteTimeDelta, setCommuteTimeDelta] = useState(0); // Minutes per day
-    const [currentCommuteMode, setCurrentCommuteMode] = useState('walk');
-    const [currentCommuteCost, setCurrentCommuteCost] = useState(0);
-    const [newCommuteMode, setNewCommuteMode] = useState('public');
-    const [newCommuteCost, setNewCommuteCost] = useState(0);
+    const [commuteTimeDelta, setCommuteTimeDelta] = usePersistedState('JobRelocationCalculator', 'commuteTimeDelta', 0); // Minutes per day
+    const [currentCommuteMode, setCurrentCommuteMode] = usePersistedState('JobRelocationCalculator', 'currentCommuteMode', 'walk');
+    const [currentCommuteCost, setCurrentCommuteCost] = usePersistedState('JobRelocationCalculator', 'currentCommuteCost', 0);
+    const [newCommuteMode, setNewCommuteMode] = usePersistedState('JobRelocationCalculator', 'newCommuteMode', 'public');
+    const [newCommuteCost, setNewCommuteCost] = usePersistedState('JobRelocationCalculator', 'newCommuteCost', 0);
 
     // --- BENEFITS & PERKS ---
     // Current Job Benefits
-    const [showCurrentBenefits, setShowCurrentBenefits] = useState(false);
-    const [currentBenefits, setCurrentBenefits] = useState({
+    const [showCurrentBenefits, setShowCurrentBenefits] = usePersistedState('JobRelocationCalculator', 'showCurrentBenefits', false);
+    const [currentBenefits, setCurrentBenefits] = usePersistedState('JobRelocationCalculator', 'currentBenefits', {
         healthInsurance: 0, // Company-paid (₹0 out-of-pocket)
         pfMatch: 12, // Percentage
         mealVouchers: 0,
@@ -88,8 +89,8 @@ export default function JobRelocationCalculator() {
     });
 
     // New Job Benefits
-    const [showNewBenefits, setShowNewBenefits] = useState(false);
-    const [newBenefits, setNewBenefits] = useState({
+    const [showNewBenefits, setShowNewBenefits] = usePersistedState('JobRelocationCalculator', 'showNewBenefits', false);
+    const [newBenefits, setNewBenefits] = usePersistedState('JobRelocationCalculator', 'newBenefits', {
         healthInsurance: 0, // Self-paid or company-paid
         pfMatch: 12, // Percentage
         mealVouchers: 0,
@@ -99,7 +100,7 @@ export default function JobRelocationCalculator() {
     });
 
     // --- RESULTS ---
-    const [results, setResults] = useState({
+    const [results, setResults] = usePersistedState('JobRelocationCalculator', 'results', {
         current: { monthlyNet: 0, surplus: 0, expenses: 0 },
         new: { monthlyNet: 0, surplus: 0, adjustedSurplus: 0, expenses: 0 },
         analysis: {
@@ -184,7 +185,8 @@ export default function JobRelocationCalculator() {
                     <CalculatorHeader
                         icon={MapPin}
                         title="Job Relocation Realist"
-                    />
+                    
+            onReset={() => { resetPersistedState('JobRelocationCalculator'); window.location.reload(); }} />
                 </div>
 
                 {/* LEFT COLUMN - INPUTS */}

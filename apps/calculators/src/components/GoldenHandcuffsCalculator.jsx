@@ -7,6 +7,7 @@ import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import { calculateAnnualizedComp, calculateCostOfLeaving, generateProjections, analyzeAlerts } from '../lib/goldenHandcuffsLogic';
 
 import SEO from './SEO';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 export default function GoldenHandcuffsCalculator() {
     const structuredData = {
@@ -20,25 +21,25 @@ export default function GoldenHandcuffsCalculator() {
 
     // --- INPUTS ---
     // Current Job
-    const [currentBase, setCurrentBase] = useState(2500000); // 25L
-    const [currentBonus, setCurrentBonus] = useState(300000); // 3L
-    const [currentEquity, setCurrentEquity] = useState([
+    const [currentBase, setCurrentBase] = usePersistedState('GoldenHandcuffsCalculator', 'currentBase', 2500000); // 25L
+    const [currentBonus, setCurrentBonus] = usePersistedState('GoldenHandcuffsCalculator', 'currentBonus', 300000); // 3L
+    const [currentEquity, setCurrentEquity] = usePersistedState('GoldenHandcuffsCalculator', 'currentEquity', [
         { id: 1, type: 'RSU', count: 1000, price: 150, vestingYears: 4, nextVestDate: '' },
         { id: 2, type: 'Option', count: 5000, price: 20, strike: 5, vestingYears: 4, nextVestDate: '' }
     ]);
 
     // Liabilities
-    const [clawback, setClawback] = useState(0);
+    const [clawback, setClawback] = usePersistedState('GoldenHandcuffsCalculator', 'clawback', 0);
 
     // New Job
-    const [newBase, setNewBase] = useState(3500000); // 35L
-    const [newBonus, setNewBonus] = useState(500000); // 5L
-    const [newEquity, setNewEquity] = useState([
+    const [newBase, setNewBase] = usePersistedState('GoldenHandcuffsCalculator', 'newBase', 3500000); // 35L
+    const [newBonus, setNewBonus] = usePersistedState('GoldenHandcuffsCalculator', 'newBonus', 500000); // 5L
+    const [newEquity, setNewEquity] = usePersistedState('GoldenHandcuffsCalculator', 'newEquity', [
         { id: 1, type: 'Option', count: 20000, price: 10, strike: 2, vestingYears: 4 }
     ]);
 
     // --- RESULTS ---
-    const [results, setResults] = useState({
+    const [results, setResults] = usePersistedState('GoldenHandcuffsCalculator', 'results', {
         currentTC: 0,
         newTC: 0,
         freedomTax: 0,
@@ -174,7 +175,8 @@ export default function GoldenHandcuffsCalculator() {
                     <CalculatorHeader
                         icon={Lock}
                         title="Golden Handcuffs"
-                    />
+                    
+            onReset={() => { resetPersistedState('GoldenHandcuffsCalculator'); window.location.reload(); }} />
                 </div>
 
                 <div className="lg:col-span-12 xl:col-span-6 space-y-8">

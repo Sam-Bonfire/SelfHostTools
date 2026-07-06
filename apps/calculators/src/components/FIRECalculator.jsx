@@ -8,6 +8,7 @@ import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import SEO from './SEO';
 
 import { calculateFIRE } from '../lib/fireLogic';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 export default function FIRECalculator() {
   const structuredData = {
@@ -20,21 +21,21 @@ export default function FIRECalculator() {
   };
 
   // --- INPUTS ---
-  const [currentAge, setCurrentAge] = useState(30);
-  const [retirementAge, setRetirementAge] = useState(50);
-  const [currentMonthlyExpenses, setExpenses] = useState(50000);
-  const [currentSavings, setSavings] = useState(2000000); // Current Corpus
-  const [monthlyInvestment, setMonthlyInv] = useState(50000); // SIP
+  const [currentAge, setCurrentAge] = usePersistedState('FIRECalculator', 'currentAge', 30);
+  const [retirementAge, setRetirementAge] = usePersistedState('FIRECalculator', 'retirementAge', 50);
+  const [currentMonthlyExpenses, setExpenses] = usePersistedState('FIRECalculator', 'currentMonthlyExpenses', 50000);
+  const [currentSavings, setSavings] = usePersistedState('FIRECalculator', 'currentSavings', 2000000); // Current Corpus
+  const [monthlyInvestment, setMonthlyInv] = usePersistedState('FIRECalculator', 'monthlyInvestment', 50000); // SIP
 
   // --- REALITY FACTORS ---
-  const [inflationRate, setInflation] = useState(6);
-  const [medicalInflation, setMedicalInflation] = useState(12); // Healthcare inflation > General
-  const [preRetirementReturn, setPreReturn] = useState(12);
-  const [postRetirementReturn, setPostReturn] = useState(8);
-  const [lifestyleInflation, setLifestyleInflation] = useState(2); // New: Lifestyle inflation rate
+  const [inflationRate, setInflation] = usePersistedState('FIRECalculator', 'inflationRate', 6);
+  const [medicalInflation, setMedicalInflation] = usePersistedState('FIRECalculator', 'medicalInflation', 12); // Healthcare inflation > General
+  const [preRetirementReturn, setPreReturn] = usePersistedState('FIRECalculator', 'preRetirementReturn', 12);
+  const [postRetirementReturn, setPostReturn] = usePersistedState('FIRECalculator', 'postRetirementReturn', 8);
+  const [lifestyleInflation, setLifestyleInflation] = usePersistedState('FIRECalculator', 'lifestyleInflation', 2); // New: Lifestyle inflation rate
 
   // --- RESULTS ---
-  const [results, setResults] = useState({
+  const [results, setResults] = usePersistedState('FIRECalculator', 'results', {
     requiredCorpus: 0,
     estimatedCorpusAtRetirement: 0,
     shortfall: 0,
@@ -125,7 +126,8 @@ export default function FIRECalculator() {
         <CalculatorHeader
           icon={Flame}
           title="FIRE Calculator"
-        />
+        
+            onReset={() => { resetPersistedState('FIRECalculator'); window.location.reload(); }} />
 
         <div className="lg:col-span-12 xl:col-span-5 space-y-6">
           <Card title="The Accumulation Phase" icon={Sunrise} headerColor="bg-blue-100">

@@ -2,9 +2,10 @@ import React, { useState, useMemo } from 'react';
 import { CalculatorLayout, CalculatorHeader, ResultsAnalysis, Input, Card, DownloadButtons, Tooltip, Footer, MetricDisplay } from '@packages/styling';
 import { calculateArbitrage } from '../lib/internationalArbitrageLogic';
 import { Globe, PlaneTakeoff, Percent, DollarSign, Wallet, FileDown, TrendingUp, AlertCircle, Target } from 'lucide-react';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 export default function InternationalArbitrageCalculator() {
-  const [inputs, setInputs] = useState({
+  const [inputs, setInputs] = usePersistedState('InternationalArbitrageCalculator', 'inputs', {
     sourceCurrency: 'USD',
     targetCurrency: 'THB',
     grossIncome: 100000,
@@ -45,7 +46,8 @@ export default function InternationalArbitrageCalculator() {
         <CalculatorHeader 
           title="International Arbitrage"
           icon={Globe}
-        />
+        
+            onReset={() => { resetPersistedState('InternationalArbitrageCalculator'); window.location.reload(); }} />
 
       <div className="lg:col-span-5 space-y-6">
         <Card title="Source Country (Home)" icon={Wallet} headerColor="bg-blue-100">

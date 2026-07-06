@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { SEO } from '@packages/components';
 import { Play, Pause, RotateCcw, Volume2, VolumeX, Activity } from 'lucide-react';
 import { Button, Footer, CalculatorLayout, CalculatorHeader } from '@packages/styling';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 // Web Audio API logic
 class AudioEngine {
@@ -105,10 +106,10 @@ const PomodoroFocusVisualizer = () => {
   const FOCUS_TIME = 25 * 60;
   const BREAK_TIME = 5 * 60;
 
-  const [timeLeft, setTimeLeft] = useState(FOCUS_TIME);
-  const [isActive, setIsActive] = useState(false);
-  const [mode, setMode] = useState('focus'); // focus, break
-  const [soundEnabled, setSoundEnabled] = useState(false);
+  const [timeLeft, setTimeLeft] = usePersistedState('PomodoroFocusVisualizer', 'timeLeft', FOCUS_TIME);
+  const [isActive, setIsActive] = usePersistedState('PomodoroFocusVisualizer', 'isActive', false);
+  const [mode, setMode] = usePersistedState('PomodoroFocusVisualizer', 'mode', 'focus'); // focus, break
+  const [soundEnabled, setSoundEnabled] = usePersistedState('PomodoroFocusVisualizer', 'soundEnabled', false);
   
   const containerRef = useRef(null);
   const engineRef = useRef(null);
@@ -287,7 +288,8 @@ const PomodoroFocusVisualizer = () => {
             icon={Activity}
             title="Pomodoro Focus"
             subtitle="Retro stopwatch pomodoro timer with lo-fi sound waves"
-          />
+          
+            onReset={() => { resetPersistedState('PomodoroFocusVisualizer'); window.location.reload(); }} />
         </div>
 
         <div className="lg:col-span-12 flex justify-center">

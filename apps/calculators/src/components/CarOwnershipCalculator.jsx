@@ -3,19 +3,20 @@ import { IndianRupee, Car, TrendingDown, Clock, Shield, Wrench, Fuel, CarTaxiFro
 import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer, MetricDisplay } from '@packages/styling';
 import { calculateCarOwnership } from '../lib/carOwnershipLogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 export default function CarOwnershipCalculator() {
     // Inputs
-    const [carPrice, setCarPrice] = useState(1500000);
-    const [downPayment, setDownPayment] = useState(300000);
-    const [loanInterestRate, setLoanInterestRate] = useState(9.0);
-    const [loanTermYears, setLoanTermYears] = useState(5);
-    const [ownershipYears, setOwnershipYears] = useState(7);
-    const [annualDepreciationRate, setAnnualDepreciationRate] = useState(15);
-    const [annualInsurance, setAnnualInsurance] = useState(35000);
-    const [annualMaintenance, setAnnualMaintenance] = useState(15000);
-    const [monthlyFuel, setMonthlyFuel] = useState(8000);
-    const [averageRideshareCost, setAverageRideshareCost] = useState(400);
+    const [carPrice, setCarPrice] = usePersistedState('CarOwnershipCalculator', 'carPrice', 1500000);
+    const [downPayment, setDownPayment] = usePersistedState('CarOwnershipCalculator', 'downPayment', 300000);
+    const [loanInterestRate, setLoanInterestRate] = usePersistedState('CarOwnershipCalculator', 'loanInterestRate', 9.0);
+    const [loanTermYears, setLoanTermYears] = usePersistedState('CarOwnershipCalculator', 'loanTermYears', 5);
+    const [ownershipYears, setOwnershipYears] = usePersistedState('CarOwnershipCalculator', 'ownershipYears', 7);
+    const [annualDepreciationRate, setAnnualDepreciationRate] = usePersistedState('CarOwnershipCalculator', 'annualDepreciationRate', 15);
+    const [annualInsurance, setAnnualInsurance] = usePersistedState('CarOwnershipCalculator', 'annualInsurance', 35000);
+    const [annualMaintenance, setAnnualMaintenance] = usePersistedState('CarOwnershipCalculator', 'annualMaintenance', 15000);
+    const [monthlyFuel, setMonthlyFuel] = usePersistedState('CarOwnershipCalculator', 'monthlyFuel', 8000);
+    const [averageRideshareCost, setAverageRideshareCost] = usePersistedState('CarOwnershipCalculator', 'averageRideshareCost', 400);
 
     // Calculate
     const results = useMemo(() => {
@@ -48,7 +49,8 @@ export default function CarOwnershipCalculator() {
         <CalculatorHeader
                 title="Car Ownership Realist"
                 description="Buying a car is emotional. Let's make it mathematical. Expose the hidden costs of depreciation, interest, and maintenance."
-                icon={<Car className="w-8 h-8 md:w-10 md:h-10 text-orange-500" />}
+                icon={<Car className="w-8 h-8 md:w-10 md:h-10 text-orange-500" 
+            onReset={() => { resetPersistedState('CarOwnershipCalculator'); window.location.reload(); }} />}
                 color="bg-orange-100"
             />
 

@@ -8,6 +8,7 @@ import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import SEO from './SEO';
 
 import { calculateEducationLoan } from '../lib/educationLoanLogic';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 
 export default function App() {
@@ -28,30 +29,30 @@ export default function App() {
   };
 
   // --- Basic Inputs ---
-  const [interestRate, setInterestRate] = useState(10.5);
-  const [repaymentTenure, setRepaymentTenure] = useState(10); // in years
+  const [interestRate, setInterestRate] = usePersistedState('EducationLoan', 'interestRate', 10.5);
+  const [repaymentTenure, setRepaymentTenure] = usePersistedState('EducationLoan', 'repaymentTenure', 10); // in years
 
   // --- Simple Mode State ---
-  const [loanAmount, setLoanAmount] = useState(1000000);
-  const [courseDuration, setCourseDuration] = useState(24); // in months
+  const [loanAmount, setLoanAmount] = usePersistedState('EducationLoan', 'loanAmount', 1000000);
+  const [courseDuration, setCourseDuration] = usePersistedState('EducationLoan', 'courseDuration', 24); // in months
 
   // --- Advanced Mode State ---
-  const [isAdvanced, setIsAdvanced] = useState(false);
-  const [courseEndDate, setCourseEndDate] = useState(new Date(new Date().setFullYear(new Date().getFullYear() + 2)).toISOString().split('T')[0]);
-  const [disbursements, setDisbursements] = useState([
+  const [isAdvanced, setIsAdvanced] = usePersistedState('EducationLoan', 'isAdvanced', false);
+  const [courseEndDate, setCourseEndDate] = usePersistedState('EducationLoan', 'courseEndDate', new Date(new Date().setFullYear(new Date().getFullYear() + 2)).toISOString().split('T')[0]);
+  const [disbursements, setDisbursements] = usePersistedState('EducationLoan', 'disbursements', [
     { id: 1, date: new Date().toISOString().split('T')[0], amount: 500000 },
     { id: 2, date: new Date(new Date().setMonth(new Date().getMonth() + 6)).toISOString().split('T')[0], amount: 500000 }
   ]);
 
   // --- Common Settings ---
-  const [gracePeriod, setGracePeriod] = useState(6); // in months
-  const [gracePayment, setGracePayment] = useState(0); // Monthly payment
-  const [graceLumpsum, setGraceLumpsum] = useState(0); // Lumpsum payment
-  const [capitalizeInterest, setCapitalizeInterest] = useState(true);
-  const [extraPayment, setExtraPayment] = useState(0);
+  const [gracePeriod, setGracePeriod] = usePersistedState('EducationLoan', 'gracePeriod', 6); // in months
+  const [gracePayment, setGracePayment] = usePersistedState('EducationLoan', 'gracePayment', 0); // Monthly payment
+  const [graceLumpsum, setGraceLumpsum] = usePersistedState('EducationLoan', 'graceLumpsum', 0); // Lumpsum payment
+  const [capitalizeInterest, setCapitalizeInterest] = usePersistedState('EducationLoan', 'capitalizeInterest', true);
+  const [extraPayment, setExtraPayment] = usePersistedState('EducationLoan', 'extraPayment', 0);
 
   // --- Results State ---
-  const [results, setResults] = useState({
+  const [results, setResults] = usePersistedState('EducationLoan', 'results', {
     monthlyEMI: 0,
     totalInterest: 0,
     totalAmount: 0,
@@ -64,8 +65,8 @@ export default function App() {
     repaymentStartDate: null
   });
 
-  const [schedule, setSchedule] = useState([]);
-  const [showSchedule, setShowSchedule] = useState(false);
+  const [schedule, setSchedule] = usePersistedState('EducationLoan', 'schedule', []);
+  const [showSchedule, setShowSchedule] = usePersistedState('EducationLoan', 'showSchedule', false);
 
   const calculateLoan = useCallback(() => {
     const { results: calcResults, schedule: calcSchedule } = calculateEducationLoan({
@@ -155,7 +156,8 @@ export default function App() {
           <CalculatorHeader
             icon={Calculator}
             title="Education Loan"
-          />
+          
+            onReset={() => { resetPersistedState('EducationLoan'); window.location.reload(); }} />
         </div>
 
         {/* Inputs Section */}

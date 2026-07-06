@@ -2,16 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { RefreshCw, Zap, Settings2, PackageOpen } from 'lucide-react';
 import { Footer, CalculatorLayout, CalculatorHeader, Card } from '@packages/styling';
 import { SEO } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 export default function AssetJarVisualizer() {
-  const [assets, setAssets] = useState({
+  const [assets, setAssets] = usePersistedState('AssetJarVisualizer', 'assets', {
     stocks: { value: 60, color: '#f59e0b', label: 'Stocks', density: 1 },
     bonds: { value: 30, color: '#3b82f6', label: 'Bonds', density: 2 },
     cash: { value: 10, color: '#10b981', label: 'Cash', density: 3 }
   });
 
-  const [isShaking, setIsShaking] = useState(false);
-  const [isRebalancing, setIsRebalancing] = useState(false);
+  const [isShaking, setIsShaking] = usePersistedState('AssetJarVisualizer', 'isShaking', false);
+  const [isRebalancing, setIsRebalancing] = usePersistedState('AssetJarVisualizer', 'isRebalancing', false);
   
   const targetAllocation = {
     stocks: 60,
@@ -88,7 +89,8 @@ export default function AssetJarVisualizer() {
             icon={PackageOpen}
             title="Asset Allocation Jar"
             subtitle="Visualize your portfolio density and market shocks"
-          />
+          
+            onReset={() => { resetPersistedState('AssetJarVisualizer'); window.location.reload(); }} />
         </div>
 
         <div className="lg:col-span-12 flex flex-col md:flex-row gap-12 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-xl p-8">

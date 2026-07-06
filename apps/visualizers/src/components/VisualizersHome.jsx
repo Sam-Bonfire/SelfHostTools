@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Calendar, ArrowRight, GitFork, Landmark, Flame, Sun, Clock, Search, X, ChevronLeft, ChevronRight, MessageSquarePlus, Snowflake, Database, Beaker, Grid, Timer, History } from 'lucide-react';
 import { Card, Footer } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 const VISUALIZERS = [
     {
@@ -122,9 +123,9 @@ const VISUALIZERS = [
 ];
 
 export default function VisualizersHome() {
-    const [searchQuery, setSearchQuery] = useState("");
-    const [selectedCategory, setSelectedCategory] = useState("All");
-    const [isSearchExpanded, setIsSearchExpanded] = useState(() => {
+    const [searchQuery, setSearchQuery] = usePersistedState('VisualizersHome', 'searchQuery', "");
+    const [selectedCategory, setSelectedCategory] = usePersistedState('VisualizersHome', 'selectedCategory', "All");
+    const [isSearchExpanded, setIsSearchExpanded] = usePersistedState('VisualizersHome', 'isSearchExpanded', () => {
         if (typeof window !== "undefined") {
             return window.innerWidth < 768;
         }

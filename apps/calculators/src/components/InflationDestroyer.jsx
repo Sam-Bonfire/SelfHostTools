@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import SEO from './SEO';
 import { calculateInflationDestroyer, HISTORICAL_REGIMES, BASKET_ITEMS } from '../lib/inflationLogic';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 export default function InflationDestroyer() {
   const structuredData = {
@@ -16,16 +17,16 @@ export default function InflationDestroyer() {
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
   };
 
-  const [principal, setPrincipal] = useState(500000);
-  const [years, setYears] = useState(15);
-  const [regimeId, setRegimeId] = useState('india_avg');
-  const [customInflationRate, setCustomInflationRate] = useState(6);
-  const [investmentReturn, setInvestmentReturn] = useState(12);
-  const [investmentTaxRate, setInvestmentTaxRate] = useState(10);
-  const [selectedBasketId, setSelectedBasketId] = useState('groceries');
-  const [showSchedule, setShowSchedule] = useState(false);
+  const [principal, setPrincipal] = usePersistedState('InflationDestroyer', 'principal', 500000);
+  const [years, setYears] = usePersistedState('InflationDestroyer', 'years', 15);
+  const [regimeId, setRegimeId] = usePersistedState('InflationDestroyer', 'regimeId', 'india_avg');
+  const [customInflationRate, setCustomInflationRate] = usePersistedState('InflationDestroyer', 'customInflationRate', 6);
+  const [investmentReturn, setInvestmentReturn] = usePersistedState('InflationDestroyer', 'investmentReturn', 12);
+  const [investmentTaxRate, setInvestmentTaxRate] = usePersistedState('InflationDestroyer', 'investmentTaxRate', 10);
+  const [selectedBasketId, setSelectedBasketId] = usePersistedState('InflationDestroyer', 'selectedBasketId', 'groceries');
+  const [showSchedule, setShowSchedule] = usePersistedState('InflationDestroyer', 'showSchedule', false);
 
-  const [results, setResults] = useState(null);
+  const [results, setResults] = usePersistedState('InflationDestroyer', 'results', null);
 
   const activeRegime = HISTORICAL_REGIMES.find(r => r.id === regimeId) || HISTORICAL_REGIMES[0];
   const inflationRate = regimeId === 'custom' ? customInflationRate : activeRegime.rate;
@@ -117,7 +118,8 @@ export default function InflationDestroyer() {
       />
 
       <CalculatorLayout>
-        <CalculatorHeader icon={Flame} title="Inflation Destroyer" />
+        <CalculatorHeader icon={Flame} title="Inflation Destroyer" 
+            onReset={() => { resetPersistedState('InflationDestroyer'); window.location.reload(); }} />
 
         {/* LEFT: Inputs */}
         <div className="lg:col-span-12 xl:col-span-5 space-y-6">

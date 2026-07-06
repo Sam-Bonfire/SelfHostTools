@@ -8,6 +8,7 @@ import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import SEO from './SEO';
 
 import { calculateSIPReality } from '../lib/sipLogic';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 export default function SIPCalculator() {
   const structuredData = {
@@ -27,29 +28,29 @@ export default function SIPCalculator() {
   };
 
   // --- Mode Toggle ---
-  const [calcMode, setCalcMode] = useState('investment'); // 'investment' or 'goal'
+  const [calcMode, setCalcMode] = usePersistedState('SIPCalculator', 'calcMode', 'investment'); // 'investment' or 'goal'
   const isGoalMode = calcMode === 'goal';
 
   // --- Core Inputs ---
-  const [monthlyInvestment, setMonthlyInvestment] = useState(5000);
-  const [targetCorpus, setTargetCorpus] = useState(10000000);
-  const [expectedReturn, setExpectedReturn] = useState(12);
-  const [timePeriod, setTimePeriod] = useState(10);
-  const [isStepUp, setIsStepUp] = useState(false);
-  const [stepUpPercentage, setStepUpPercentage] = useState(10);
+  const [monthlyInvestment, setMonthlyInvestment] = usePersistedState('SIPCalculator', 'monthlyInvestment', 5000);
+  const [targetCorpus, setTargetCorpus] = usePersistedState('SIPCalculator', 'targetCorpus', 10000000);
+  const [expectedReturn, setExpectedReturn] = usePersistedState('SIPCalculator', 'expectedReturn', 12);
+  const [timePeriod, setTimePeriod] = usePersistedState('SIPCalculator', 'timePeriod', 10);
+  const [isStepUp, setIsStepUp] = usePersistedState('SIPCalculator', 'isStepUp', false);
+  const [stepUpPercentage, setStepUpPercentage] = usePersistedState('SIPCalculator', 'stepUpPercentage', 10);
 
   // --- Reality Factors ---
-  const [useInflation, setUseInflation] = useState(false);
-  const [inflationRate, setInflationRate] = useState(6);
-  const [useFees, setUseFees] = useState(false);
-  const [expenseRatio, setExpenseRatio] = useState(1.0);
-  const [useTax, setUseTax] = useState(false);
+  const [useInflation, setUseInflation] = usePersistedState('SIPCalculator', 'useInflation', false);
+  const [inflationRate, setInflationRate] = usePersistedState('SIPCalculator', 'inflationRate', 6);
+  const [useFees, setUseFees] = usePersistedState('SIPCalculator', 'useFees', false);
+  const [expenseRatio, setExpenseRatio] = usePersistedState('SIPCalculator', 'expenseRatio', 1.0);
+  const [useTax, setUseTax] = usePersistedState('SIPCalculator', 'useTax', false);
 
-  const [assetMix, setAssetMix] = useState({ equity: 100, debt: 0, gold: 0 });
-  const [taxRates, setTaxRates] = useState({ equity: 10, debt: 30, gold: 15 });
+  const [assetMix, setAssetMix] = usePersistedState('SIPCalculator', 'assetMix', { equity: 100, debt: 0, gold: 0 });
+  const [taxRates, setTaxRates] = usePersistedState('SIPCalculator', 'taxRates', { equity: 10, debt: 30, gold: 15 });
 
   // --- Results ---
-  const [results, setResults] = useState({
+  const [results, setResults] = usePersistedState('SIPCalculator', 'results', {
     totalInvested: 0,
     totalReturns: 0,
     maturityValue: 0,
@@ -61,8 +62,8 @@ export default function SIPCalculator() {
     requiredSIP: 0
   });
 
-  const [schedule, setSchedule] = useState([]);
-  const [showSchedule, setShowSchedule] = useState(false);
+  const [schedule, setSchedule] = usePersistedState('SIPCalculator', 'schedule', []);
+  const [showSchedule, setShowSchedule] = usePersistedState('SIPCalculator', 'showSchedule', false);
 
   const calculateSIP = useCallback(() => {
     const { results: calcResults, schedule: calcSchedule } = calculateSIPReality({
@@ -141,7 +142,8 @@ export default function SIPCalculator() {
           <CalculatorHeader
             icon={TrendingUp}
             title="SIP Reality Hub"
-          />
+          
+            onReset={() => { resetPersistedState('SIPCalculator'); window.location.reload(); }} />
         </div>
 
         <div className="lg:col-span-12 xl:col-span-5 space-y-6">

@@ -3,6 +3,7 @@ import { Card, Input, Button, CalculatorHeader, CalculatorLayout, ResultsAnalysi
 import { SEO } from '@packages/components';
 import { Flame, Trash2, Plus, Zap, Award, Sparkles } from 'lucide-react';
 import { calculateDebtRace } from '../lib/debtRaceLogic';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 const PRESETS = {
     graduate: {
@@ -34,15 +35,15 @@ const PRESETS = {
 };
 
 export default function DebtRepaymentRace() {
-    const [debts, setDebts] = useState(PRESETS.graduate.debts);
-    const [totalMonthlyBudget, setTotalMonthlyBudget] = useState(PRESETS.graduate.budget);
-    const [timelineMonth, setTimelineMonth] = useState(0);
+    const [debts, setDebts] = usePersistedState('DebtRepaymentRace', 'debts', PRESETS.graduate.debts);
+    const [totalMonthlyBudget, setTotalMonthlyBudget] = usePersistedState('DebtRepaymentRace', 'totalMonthlyBudget', PRESETS.graduate.budget);
+    const [timelineMonth, setTimelineMonth] = usePersistedState('DebtRepaymentRace', 'timelineMonth', 0);
 
     // Editing Debt Form State
-    const [newDebtName, setNewDebtName] = useState('');
-    const [newDebtBalance, setNewDebtBalance] = useState('');
-    const [newDebtRate, setNewDebtRate] = useState('');
-    const [newDebtMin, setNewDebtMin] = useState('');
+    const [newDebtName, setNewDebtName] = usePersistedState('DebtRepaymentRace', 'newDebtName', '');
+    const [newDebtBalance, setNewDebtBalance] = usePersistedState('DebtRepaymentRace', 'newDebtBalance', '');
+    const [newDebtRate, setNewDebtRate] = usePersistedState('DebtRepaymentRace', 'newDebtRate', '');
+    const [newDebtMin, setNewDebtMin] = usePersistedState('DebtRepaymentRace', 'newDebtMin', '');
 
     const results = useMemo(() => {
         return calculateDebtRace(debts, Number(totalMonthlyBudget));
@@ -140,7 +141,8 @@ export default function DebtRepaymentRace() {
                         icon={Flame}
                         title="Debt Avalanche vs. Snowball"
                         subtitle="A highly visual race tracking which repayment system saves you the most time and cash."
-                    />
+                    
+            onReset={() => { resetPersistedState('DebtRepaymentRace'); window.location.reload(); }} />
                 </div>
 
                 {/* LEFT Panel: Configuration & Debt List */}

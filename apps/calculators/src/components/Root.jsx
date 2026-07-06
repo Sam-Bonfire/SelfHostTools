@@ -5,6 +5,7 @@ import { Card, Button, Input, Footer } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import SEO from './SEO';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 const CALCULATORS = [
   {
@@ -227,9 +228,9 @@ const CALCULATORS = [
 ];
 
 export default function Root() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [isSearchExpanded, setIsSearchExpanded] = useState(() => {
+  const [searchQuery, setSearchQuery] = usePersistedState('Root', 'searchQuery', "");
+  const [selectedCategory, setSelectedCategory] = usePersistedState('Root', 'selectedCategory', "All");
+  const [isSearchExpanded, setIsSearchExpanded] = usePersistedState('Root', 'isSearchExpanded', () => {
     // Default to expanded on mobile (window width < 768px)
     if (typeof window !== "undefined") {
       return window.innerWidth < 768;

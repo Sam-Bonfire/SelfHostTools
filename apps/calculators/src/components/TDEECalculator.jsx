@@ -4,6 +4,7 @@ import { calculateTDEE } from '../lib/tdeeLogic';
 import { Activity, Scale, Ruler, User, Flame, TrendingDown, TrendingUp, Dumbbell, Target, Accessibility, Info, Heart, Percent, Utensils, Calendar, FileText, Table } from 'lucide-react';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import SEO from './SEO';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 
 // Updated Activity Descriptions based on Research
@@ -33,7 +34,7 @@ export default function TDEECalculator() {
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
     };
 
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = usePersistedState('TDEECalculator', 'formData', {
         gender: 'male',
         age: 25,
         weight: 70,
@@ -52,7 +53,7 @@ export default function TDEECalculator() {
         goalWeight: ''
     });
 
-    const [results, setResults] = useState(null);
+    const [results, setResults] = usePersistedState('TDEECalculator', 'results', null);
 
     const handleChange = (field, value) => {
         setFormData(prev => ({
@@ -176,7 +177,8 @@ export default function TDEECalculator() {
                     <CalculatorHeader
                         icon={Flame}
                         title="Smart TDEE Analyzer"
-                    />
+                    
+            onReset={() => { resetPersistedState('TDEECalculator'); window.location.reload(); }} />
                 </div>
 
                 {/* --- LEFT: INPUTS --- */}

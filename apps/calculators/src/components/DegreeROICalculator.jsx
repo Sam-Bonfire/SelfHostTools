@@ -7,6 +7,7 @@ import { calculateDegreeROI } from '../lib/degreeROILogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 
 import SEO from './SEO';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 const NeoLineChart = ({ data }) => {
     if (!data || data.length === 0) return null;
@@ -73,26 +74,26 @@ export default function DegreeROICalculator() {
 
     // --- INPUTS ---
     // Costs
-    const [tuitionPerYear, setTuition] = useState(25000);
-    const [livingExpenses, setLiving] = useState(12000);
-    const [durationYears, setDuration] = useState(4);
-    const [grantsTotal, setGrants] = useState(5000);
+    const [tuitionPerYear, setTuition] = usePersistedState('DegreeROICalculator', 'tuitionPerYear', 25000);
+    const [livingExpenses, setLiving] = usePersistedState('DegreeROICalculator', 'livingExpenses', 12000);
+    const [durationYears, setDuration] = usePersistedState('DegreeROICalculator', 'durationYears', 4);
+    const [grantsTotal, setGrants] = usePersistedState('DegreeROICalculator', 'grantsTotal', 5000);
 
     // Loans
-    const [loanInterestRate, setLoanRate] = useState(7.0);
-    const [loanTermYears, setLoanTerm] = useState(10);
+    const [loanInterestRate, setLoanRate] = usePersistedState('DegreeROICalculator', 'loanInterestRate', 7.0);
+    const [loanTermYears, setLoanTerm] = usePersistedState('DegreeROICalculator', 'loanTermYears', 10);
 
     // Career - Degree
-    const [startingSalaryDegree, setStartSalary] = useState(55000);
-    const [salaryGrowthDegree, setGrowthDegree] = useState(5);
+    const [startingSalaryDegree, setStartSalary] = usePersistedState('DegreeROICalculator', 'startingSalaryDegree', 55000);
+    const [salaryGrowthDegree, setGrowthDegree] = usePersistedState('DegreeROICalculator', 'salaryGrowthDegree', 5);
 
     // Career - Alt
-    const [startingSalaryAlt, setStartSalaryAlt] = useState(30000);
-    const [salaryGrowthAlt, setGrowthAlt] = useState(3);
+    const [startingSalaryAlt, setStartSalaryAlt] = usePersistedState('DegreeROICalculator', 'startingSalaryAlt', 30000);
+    const [salaryGrowthAlt, setGrowthAlt] = usePersistedState('DegreeROICalculator', 'salaryGrowthAlt', 3);
 
     // Computed State
-    const [results, setResults] = useState(null);
-    const [schedule, setSchedule] = useState([]);
+    const [results, setResults] = usePersistedState('DegreeROICalculator', 'results', null);
+    const [schedule, setSchedule] = usePersistedState('DegreeROICalculator', 'schedule', []);
 
     // Calculate Handler
     const calculate = useCallback(() => {
@@ -139,7 +140,8 @@ export default function DegreeROICalculator() {
                     <CalculatorHeader
                         icon={GraduationCap}
                         title="Degree ROI Analyzer"
-                    />
+                    
+            onReset={() => { resetPersistedState('DegreeROICalculator'); window.location.reload(); }} />
                 </div>
 
                 {/* Left: Inputs */}

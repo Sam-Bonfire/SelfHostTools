@@ -8,6 +8,7 @@ import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import SEO from './SEO';
 
 import { calculateFreelanceIncome, calculateAdminTime as getAdminPercent } from '../lib/freelanceLogic';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 export default function FreelanceIncomeCalculator() {
   const structuredData = {
@@ -19,45 +20,45 @@ export default function FreelanceIncomeCalculator() {
   };
 
   // --- INCOME INPUTS ---
-  const [hourlyRate, setHourlyRate] = useState(2500);
-  const [billableHours, setBillableHours] = useState(100); // per month
+  const [hourlyRate, setHourlyRate] = usePersistedState('FreelanceIncomeCalculator', 'hourlyRate', 2500);
+  const [billableHours, setBillableHours] = usePersistedState('FreelanceIncomeCalculator', 'billableHours', 100); // per month
 
   // --- TIME OFF ---
-  const [vacationWeeks, setVacationWeeks] = useState(4); // Weeks off per year
+  const [vacationWeeks, setVacationWeeks] = usePersistedState('FreelanceIncomeCalculator', 'vacationWeeks', 4); // Weeks off per year
 
   // --- REALITY FACTORS ---
-  const [adminTimePercent, setAdminTime] = useState(20); // 20% of time spent on unpaid admin
-  const [showAdminEstimator, setShowAdminEstimator] = useState(false);
-  const [adminBreakdown, setAdminBreakdown] = useState({
+  const [adminTimePercent, setAdminTime] = usePersistedState('FreelanceIncomeCalculator', 'adminTimePercent', 20); // 20% of time spent on unpaid admin
+  const [showAdminEstimator, setShowAdminEstimator] = usePersistedState('FreelanceIncomeCalculator', 'showAdminEstimator', false);
+  const [adminBreakdown, setAdminBreakdown] = usePersistedState('FreelanceIncomeCalculator', 'adminBreakdown', {
     email: { hours: 5, period: 'week' }, // 5 hrs/week on email
     sales: { hours: 2, period: 'week' }, // 2 hrs/week on proposals
     finance: { hours: 1, period: 'month' }, // 1 hr/month on invoicing
     learning: { hours: 2, period: 'week' }, // 2 hrs/week on skill dev
     misc: { hours: 0, period: 'week' } // catch-all
   });
-  const [taxRate, setTaxRate] = useState(20);
-  const [isPresumptiveTax, setIsPresumptiveTax] = useState(true); // 44ADA
+  const [taxRate, setTaxRate] = usePersistedState('FreelanceIncomeCalculator', 'taxRate', 20);
+  const [isPresumptiveTax, setIsPresumptiveTax] = usePersistedState('FreelanceIncomeCalculator', 'isPresumptiveTax', true); // 44ADA
 
   // --- EXPENSES ---
-  const [softwareSaaS, setSoftware] = useState(5000);
-  const [hardwareSinkingFund, setHardware] = useState(3000);
-  const [healthInsurance, setHealth] = useState(2000);
-  const [pensionNPS, setPension] = useState(10000);
-  const [officeRent, setOfficeRent] = useState(0);
-  const [professionalFees, setProfessionalFees] = useState(0); // Accountant/Lawyer
-  const [marketingCosts, setMarketingCosts] = useState(0); // Hosting/Ads
-  const [internetPhone, setInternetPhone] = useState(1000);
+  const [softwareSaaS, setSoftware] = usePersistedState('FreelanceIncomeCalculator', 'softwareSaaS', 5000);
+  const [hardwareSinkingFund, setHardware] = usePersistedState('FreelanceIncomeCalculator', 'hardwareSinkingFund', 3000);
+  const [healthInsurance, setHealth] = usePersistedState('FreelanceIncomeCalculator', 'healthInsurance', 2000);
+  const [pensionNPS, setPension] = usePersistedState('FreelanceIncomeCalculator', 'pensionNPS', 10000);
+  const [officeRent, setOfficeRent] = usePersistedState('FreelanceIncomeCalculator', 'officeRent', 0);
+  const [professionalFees, setProfessionalFees] = usePersistedState('FreelanceIncomeCalculator', 'professionalFees', 0); // Accountant/Lawyer
+  const [marketingCosts, setMarketingCosts] = usePersistedState('FreelanceIncomeCalculator', 'marketingCosts', 0); // Hosting/Ads
+  const [internetPhone, setInternetPhone] = usePersistedState('FreelanceIncomeCalculator', 'internetPhone', 1000);
 
   // --- GOALS ---
-  const [targetMonthlyIncome, setTargetIncome] = useState(150000);
+  const [targetMonthlyIncome, setTargetIncome] = usePersistedState('FreelanceIncomeCalculator', 'targetMonthlyIncome', 150000);
 
   // --- PROJECT ESTIMATOR ---
-  const [projectHours, setProjectHours] = useState(40);
-  const [projectBuffer, setProjectBuffer] = useState(20); // % buffer for scope creep
-  const [projectDirectCosts, setProjectDirectCosts] = useState(0); // outsourcing, assets, etc
+  const [projectHours, setProjectHours] = usePersistedState('FreelanceIncomeCalculator', 'projectHours', 40);
+  const [projectBuffer, setProjectBuffer] = usePersistedState('FreelanceIncomeCalculator', 'projectBuffer', 20); // % buffer for scope creep
+  const [projectDirectCosts, setProjectDirectCosts] = usePersistedState('FreelanceIncomeCalculator', 'projectDirectCosts', 0); // outsourcing, assets, etc
 
   // --- RESULTS ---
-  const [results, setResults] = useState({
+  const [results, setResults] = usePersistedState('FreelanceIncomeCalculator', 'results', {
     grossMonthly: 0,
     netTakeHome: 0,
     realHourlyRate: 0,
@@ -152,7 +153,8 @@ export default function FreelanceIncomeCalculator() {
           <CalculatorHeader
             icon={Briefcase}
             title="Freelance Reality Hub"
-          />
+          
+            onReset={() => { resetPersistedState('FreelanceIncomeCalculator'); window.location.reload(); }} />
         </div>
 
         <div className="lg:col-span-12 xl:col-span-5 space-y-6">

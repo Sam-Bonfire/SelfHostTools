@@ -7,6 +7,7 @@ import { twMerge } from 'tailwind-merge';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { motion } from 'framer-motion';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 // Helper to merge classes
 function cn(...inputs) {
@@ -20,14 +21,14 @@ const PHASES = {
 };
 
 export default function MementoMori() {
-    const [birthDate, setBirthDate] = useState('1990-01-01');
-    const [lifeExpectancy, setLifeExpectancy] = useState(90);
+    const [birthDate, setBirthDate] = usePersistedState('MementoMori', 'birthDate', '1990-01-01');
+    const [lifeExpectancy, setLifeExpectancy] = usePersistedState('MementoMori', 'lifeExpectancy', 90);
 
     // Freedom Mode Inputs
-    const [freedomMode, setFreedomMode] = useState(false);
-    const [sleepHours, setSleepHours] = useState(8);
-    const [workHours, setWorkHours] = useState(40);
-    const [choreHours, setChoreHours] = useState(2);
+    const [freedomMode, setFreedomMode] = usePersistedState('MementoMori', 'freedomMode', false);
+    const [sleepHours, setSleepHours] = usePersistedState('MementoMori', 'sleepHours', 8);
+    const [workHours, setWorkHours] = usePersistedState('MementoMori', 'workHours', 40);
+    const [choreHours, setChoreHours] = usePersistedState('MementoMori', 'choreHours', 2);
 
     const gridRef = useRef(null);
 
@@ -141,7 +142,8 @@ export default function MementoMori() {
                         icon={Calendar}
                         title="Memento Mori"
                         subtitle="Your life in weeks. Visualize what has passed and what remains."
-                    />
+                    
+            onReset={() => { resetPersistedState('MementoMori'); window.location.reload(); }} />
                 </div>
 
                 {/* LEFT: Configuration */}

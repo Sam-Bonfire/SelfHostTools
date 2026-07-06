@@ -5,6 +5,7 @@ import { calculateAlternateROI } from '../lib/alternateInvestmentLogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import SEO from './SEO';
 import { motion, AnimatePresence } from 'framer-motion';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 export default function AlternateInvestmentCalculator() {
     const structuredData = {
@@ -16,24 +17,24 @@ export default function AlternateInvestmentCalculator() {
     };
 
     // --- INPUTS ---
-    const [initialInvestment, setInitial] = useState(1000000);
-    const [monthlyContribution, setMonthly] = useState(0);
-    const [years, setYears] = useState(10);
-    const [estReturnRate, setReturnRate] = useState(15);
+    const [initialInvestment, setInitial] = usePersistedState('AlternateInvestmentCalculator', 'initialInvestment', 1000000);
+    const [monthlyContribution, setMonthly] = usePersistedState('AlternateInvestmentCalculator', 'monthlyContribution', 0);
+    const [years, setYears] = usePersistedState('AlternateInvestmentCalculator', 'years', 10);
+    const [estReturnRate, setReturnRate] = usePersistedState('AlternateInvestmentCalculator', 'estReturnRate', 15);
 
     // --- REALITY CHECKS ---
-    const [isActiveInvestment, setIsActive] = useState(false);
-    const [activeHoursPerWeek, setHours] = useState(5);
-    const [userHourlyRate, setHourlyRate] = useState(2500); // What is your time worth?
+    const [isActiveInvestment, setIsActive] = usePersistedState('AlternateInvestmentCalculator', 'isActiveInvestment', false);
+    const [activeHoursPerWeek, setHours] = usePersistedState('AlternateInvestmentCalculator', 'activeHoursPerWeek', 5);
+    const [userHourlyRate, setHourlyRate] = usePersistedState('AlternateInvestmentCalculator', 'userHourlyRate', 2500); // What is your time worth?
 
     // --- ADVANCED ---
-    const [showAdvanced, setShowAdvanced] = useState(false);
-    const [taxRate, setTaxRate] = useState(10); // LTCG typical
-    const [inflationRate, setInflationRate] = useState(6);
-    const [benchmarkReturn, setBenchmarkReturn] = useState(12);
-    const [marketScenario, setMarketScenario] = useState('normal'); // normal, bull, bear
+    const [showAdvanced, setShowAdvanced] = usePersistedState('AlternateInvestmentCalculator', 'showAdvanced', false);
+    const [taxRate, setTaxRate] = usePersistedState('AlternateInvestmentCalculator', 'taxRate', 10); // LTCG typical
+    const [inflationRate, setInflationRate] = usePersistedState('AlternateInvestmentCalculator', 'inflationRate', 6);
+    const [benchmarkReturn, setBenchmarkReturn] = usePersistedState('AlternateInvestmentCalculator', 'benchmarkReturn', 12);
+    const [marketScenario, setMarketScenario] = usePersistedState('AlternateInvestmentCalculator', 'marketScenario', 'normal'); // normal, bull, bear
 
-    const [results, setResults] = useState(null);
+    const [results, setResults] = usePersistedState('AlternateInvestmentCalculator', 'results', null);
 
     useEffect(() => {
         // Simple Scenario adjustment
@@ -72,7 +73,8 @@ export default function AlternateInvestmentCalculator() {
                     <CalculatorHeader
                         icon={Pickaxe}
                         title="The 'Sweat Equity' Truth"
-                    />
+                    
+            onReset={() => { resetPersistedState('AlternateInvestmentCalculator'); window.location.reload(); }} />
                 </div>
 
                 <div className="lg:col-span-12 xl:col-span-5 space-y-6">

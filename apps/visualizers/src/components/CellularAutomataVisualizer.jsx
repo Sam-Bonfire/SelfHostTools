@@ -4,6 +4,7 @@ import { SEO } from '@packages/components';
 import { Play, Pause, RotateCcw, Box, MousePointer2, FastForward } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { usePersistedState, resetPersistedState } from '@packages/components';
 
 function cn(...inputs) {
     return twMerge(clsx(inputs));
@@ -23,9 +24,9 @@ const GRID_ROWS = 40;
 
 export default function CellularAutomataVisualizer() {
     const canvasRef = useRef(null);
-    const [isRunning, setIsRunning] = useState(false);
-    const [preset, setPreset] = useState(PRESETS[0]);
-    const [speed, setSpeed] = useState(15); // frames per second
+    const [isRunning, setIsRunning] = usePersistedState('CellularAutomataVisualizer', 'isRunning', false);
+    const [preset, setPreset] = usePersistedState('CellularAutomataVisualizer', 'preset', PRESETS[0]);
+    const [speed, setSpeed] = usePersistedState('CellularAutomataVisualizer', 'speed', 15); // frames per second
     
     // We use refs for mutable state that doesn't need to trigger React renders
     const gridRef = useRef(new Uint8Array(GRID_COLS * GRID_ROWS));
@@ -216,7 +217,8 @@ export default function CellularAutomataVisualizer() {
                         icon={Box}
                         title="Cellular Automata"
                         subtitle="Pixel Playground. Place seed cells and watch fractal structures emerge."
-                    />
+                    
+            onReset={() => { resetPersistedState('CellularAutomataVisualizer'); window.location.reload(); }} />
                 </div>
 
                 {/* LEFT: Controls */}
