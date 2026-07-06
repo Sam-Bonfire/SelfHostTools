@@ -287,7 +287,6 @@ const PomodoroFocusVisualizer = () => {
           <CalculatorHeader
             icon={Activity}
             title="Pomodoro Focus"
-            subtitle="Retro stopwatch pomodoro timer with lo-fi sound waves"
           
             onReset={() => { resetPersistedState('PomodoroFocusVisualizer'); window.location.reload(); }} />
         </div>
@@ -386,7 +385,13 @@ const PomodoroFocusVisualizer = () => {
       </div>
       </CalculatorLayout>
     
-      <Footer />
+      <Footer>
+        <p className="text-gray-600 font-medium">
+          <strong>Disclaimer:</strong> The Pomodoro technique leverages time-boxing to prevent cognitive fatigue. 
+          <br className="md:hidden" />
+          By committing to short, unbroken intervals of focus, you overcome the friction of starting and build deep momentum.
+        </p>
+      </Footer>
     </div>
   );
 };

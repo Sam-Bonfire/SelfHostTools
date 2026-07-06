@@ -189,7 +189,6 @@ export default function CompoundInterestSandbox() {
                     <CalculatorHeader
                         icon={Landmark}
                         title="Compound Interest Snowball"
-                        subtitle="A physics-based graphical sandbox illustrating the compound velocity of wealth generation."
                     
             onReset={() => { resetPersistedState('CompoundInterestSandbox'); window.location.reload(); }} />
                 </div>
@@ -334,7 +333,13 @@ export default function CompoundInterestSandbox() {
                 </div>
             </CalculatorLayout>
         
-      <Footer />
+      <Footer>
+        <p className="text-gray-600 font-medium">
+          <strong>Disclaimer:</strong> Compound interest acts like a snowball; early contributions build the core, but it's the compounding momentum over time that creates massive wealth.
+          <br className="md:hidden" />
+          Start early, and let the physics of exponential growth do the heavy lifting.
+        </p>
+      </Footer>
     </div>
     );
 }

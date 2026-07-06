@@ -283,7 +283,6 @@ export default function SankeyFlowchart() {
           <CalculatorHeader
             icon={GitFork}
             title="Capital Allocation Flow"
-            subtitle="Brutalist Sankey — Where does your income actually go?"
           
             onReset={() => { resetPersistedState('SankeyFlowchart'); window.location.reload(); }} />
         </div>
@@ -440,7 +439,13 @@ export default function SankeyFlowchart() {
         </div>
       </CalculatorLayout>
     
-      <Footer />
+      <Footer>
+        <p className="text-gray-600 font-medium">
+          <strong>Disclaimer:</strong> This capital flow map reveals structural leaks. 
+          <br className="md:hidden" />
+          True financial discipline isn't about increasing the left side (income), it's about purposefully directing every unit of flow on the right side.
+        </p>
+      </Footer>
     </div>
   );
 }

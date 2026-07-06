@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { ShieldAlert, DollarSign, Activity, Briefcase, Plus, HeartPulse } from 'lucide-react';
+import { ShieldAlert, IndianRupee, Activity, Briefcase, Plus, HeartPulse } from 'lucide-react';
 import { CalculatorLayout, CalculatorHeader, ResultsAnalysis, Input, Card, DownloadButtons, Footer, MetricDisplay } from '@packages/styling';
 import { calculateEmergencyFund } from '../lib/emergencyFundLogic.js';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
@@ -40,14 +40,13 @@ export default function EmergencyFundCalculator() {
       <div className="lg:col-span-12 mb-8">
         <CalculatorHeader 
         title="Emergency Fund & Income Shock"
-        description="Calculate your multi-tiered cushion based on volatility, job loss, and deductibles."
         icon={<ShieldAlert size={32} className="text-white" 
             onReset={() => { resetPersistedState('EmergencyFundCalculator'); window.location.reload(); }} />}
       />
       </div>
       
         <div className="lg:col-span-8 space-y-8">
-          <Card title="Monthly Expenses" icon={DollarSign}>
+          <Card title="Monthly Expenses" icon={IndianRupee}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Input
                 label="Core Living Expenses"
@@ -56,7 +55,7 @@ export default function EmergencyFundCalculator() {
                 type="number"
                 value={inputs.coreExpenses}
                 onChange={handleInputChange}
-                icon={<DollarSign size={18} />}
+                icon={<IndianRupee size={18} />}
               />
               <Input
                 label="Discretionary Expenses"
@@ -65,7 +64,7 @@ export default function EmergencyFundCalculator() {
                 type="number"
                 value={inputs.discretionaryExpenses}
                 onChange={handleInputChange}
-                icon={<DollarSign size={18} />}
+                icon={<IndianRupee size={18} />}
               />
               <Input
                 label="Keep Discretionary (%)"
@@ -126,7 +125,7 @@ export default function EmergencyFundCalculator() {
             <div className="text-center mb-6">
               <MetricDisplay 
                 title="Total Fund Needed" 
-                value={`$${results.totalFund.toLocaleString(undefined, { maximumFractionDigits: 0 })}`} 
+                value={`₹${results.totalFund.toLocaleString(undefined, { maximumFractionDigits: 0 })}`} 
                 subtitle={`Based on $${results.monthlyBurnRate.toLocaleString()} monthly burn rate.`} 
               />
             </div>
@@ -161,7 +160,13 @@ export default function EmergencyFundCalculator() {
         </div>
       
     </CalculatorLayout>
-    <Footer />
+    <Footer>
+        <p className="text-gray-600 font-medium">
+            <strong>Disclaimer:</strong> Emergencies compound.
+            <br className="md:hidden" />
+            A job loss often happens simultaneously with a medical emergency or market crash. Your fund must cover both income shocks (time) and lump-sum shocks (deductibles) without forcing you to liquidate investments at a loss.
+        </p>
+    </Footer>
     </div>
     );
 }

@@ -88,7 +88,6 @@ export default function AssetJarVisualizer() {
           <CalculatorHeader
             icon={PackageOpen}
             title="Asset Allocation Jar"
-            subtitle="Visualize your portfolio density and market shocks"
           
             onReset={() => { resetPersistedState('AssetJarVisualizer'); window.location.reload(); }} />
         </div>
@@ -196,7 +195,13 @@ export default function AssetJarVisualizer() {
         }
       `}} />
     
-      <Footer />
+      <Footer>
+        <p className="text-gray-600 font-medium">
+          <strong>Disclaimer:</strong> Asset allocation isn't a static choice; it's a dynamic balance.
+          <br className="md:hidden" />
+          Market volatility naturally skews your portfolio, highlighting the mathematical necessity of periodic rebalancing.
+        </p>
+      </Footer>
     </div>
   );
 }

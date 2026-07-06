@@ -61,7 +61,6 @@ export default function LifestyleCreepCalculator() {
       <CalculatorLayout>
         <CalculatorHeader
                 title="Lifestyle Creep Simulator"
-                description="The silent wealth destroyer. See what happens when you spend your raise vs. invest it over 20 years."
                 icon={<Activity className="w-8 h-8 md:w-10 md:h-10 text-rose-500" 
             onReset={() => { resetPersistedState('LifestyleCreepCalculator'); window.location.reload(); }} />}
                 color="bg-rose-100"
@@ -228,7 +227,13 @@ export default function LifestyleCreepCalculator() {
             
       </>
         </CalculatorLayout>
-        <Footer />
+        <Footer>
+            <p className="text-gray-600 font-medium">
+                <strong>Disclaimer:</strong> Small, incremental increases in spending often go unnoticed but compound negatively against your wealth.
+                <br className="md:hidden" />
+                The true cost of lifestyle creep isn't just the money spent, but the future growth that money could have generated.
+            </p>
+        </Footer>
     </div>
     );
 }

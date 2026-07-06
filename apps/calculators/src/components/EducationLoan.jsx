@@ -24,7 +24,7 @@ export default function App() {
     "offers": {
       "@type": "Offer",
       "price": "0",
-      "priceCurrency": "USD"
+      "priceCurrency": 'INR'
     }
   };
 

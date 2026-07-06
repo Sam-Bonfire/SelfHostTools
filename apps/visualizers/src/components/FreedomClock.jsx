@@ -156,7 +156,6 @@ export default function FreedomClock() {
                     <CalculatorHeader
                         icon={Clock}
                         title="24-Hour Freedom Clock"
-                        subtitle="A visual circular time auditor mapping how much of your day is truly yours."
                     
             onReset={() => { resetPersistedState('FreedomClock'); window.location.reload(); }} />
                 </div>
@@ -393,7 +392,13 @@ export default function FreedomClock() {
                 </div>
             </CalculatorLayout>
         
-      <Footer />
+      <Footer>
+        <p className="text-gray-600 font-medium">
+          <strong>Disclaimer:</strong> This calculation is strictly mathematical. Outsourcing chores also preserves your psychological energy, preventing burnout and allowing you to focus on high-leverage tasks.
+          <br className="md:hidden" />
+          Both time and energy are finite.
+        </p>
+      </Footer>
     </div>
     );
 }

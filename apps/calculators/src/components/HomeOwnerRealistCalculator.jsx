@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { IndianRupee, Home, Hammer, AlertTriangle, Calendar, TrendingUp, DollarSign, ArrowLeft, Trash2, Plus, AlertOctagon, Info, Percent, Currency, Table as TableIcon } from 'lucide-react';
+import { IndianRupee, Home, Hammer, AlertTriangle, Calendar, TrendingUp, ArrowLeft, Trash2, Plus, AlertOctagon, Info, Percent, Currency, Table as TableIcon } from 'lucide-react';
 import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer, MetricDisplay } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 import { calculateHomeOwnerRealism, generateTimelineEvents } from '../lib/homeOwnerLogic';

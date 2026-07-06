@@ -30,8 +30,8 @@ export default function TaxBracketCalculator() {
     downloadExcel({ inputs, results, schedule: [] });
   };
 
-  const formatCurrency = (val) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(val);
-  const formatPercent = (val) => new Intl.NumberFormat('en-US', { style: 'percent', maximumFractionDigits: 2 }).format(val);
+  const formatCurrency = (val) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
+  const formatPercent = (val) => new Intl.NumberFormat('en-IN', { style: 'percent', maximumFractionDigits: 2 }).format(val);
 
   return (
     <div className="min-h-screen bg-white text-black p-4 md:p-8">
@@ -39,7 +39,6 @@ export default function TaxBracketCalculator() {
       <div className="lg:col-span-12">
         <CalculatorHeader 
         title="Tax Bracket Optimizer"
-        description="Compare standard vs. itemized deductions to maximize your tax savings. 2024 Tax Year."
         icon={<Building2 className="w-8 h-8" 
             onReset={() => { resetPersistedState('TaxBracketCalculator'); window.location.reload(); }} />}
       />
@@ -80,7 +79,7 @@ export default function TaxBracketCalculator() {
                 value={inputs.stateLocalTaxes}
                 onChange={(val) => handleInputChange('stateLocalTaxes', val)}
                 prefix="$"
-                tooltip="Property taxes, state income taxes, etc. Capped at $10,000."
+                tooltip="Property taxes, state income taxes, etc. Capped at ₹10,000."
               />
               
               <Input
@@ -223,7 +222,13 @@ export default function TaxBracketCalculator() {
         </div>
       
     </CalculatorLayout>
-    <Footer />
+    <Footer>
+        <p className="text-gray-600 font-medium">
+            <strong>Disclaimer:</strong> Getting a raise into a higher tax bracket never results in less take-home pay, because only the money *above* the threshold is taxed at the higher rate.
+            <br className="md:hidden" />
+            Understanding marginal tax rates prevents you from turning down income out of mathematical misunderstanding.
+        </p>
+    </Footer>
     </div>
     );
 }

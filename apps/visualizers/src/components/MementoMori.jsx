@@ -141,7 +141,6 @@ export default function MementoMori() {
                     <CalculatorHeader
                         icon={Calendar}
                         title="Memento Mori"
-                        subtitle="Your life in weeks. Visualize what has passed and what remains."
                     
             onReset={() => { resetPersistedState('MementoMori'); window.location.reload(); }} />
                 </div>
@@ -301,7 +300,13 @@ export default function MementoMori() {
                 </div>
             </CalculatorLayout>
         
-      <Footer />
+      <Footer>
+        <p className="text-gray-600 font-medium">
+          <strong>Disclaimer:</strong> This calendar is a Stoic visualization, not a literal prediction of your lifespan. 
+          <br className="md:hidden" />
+          By confronting the finiteness of time—especially after subtracting sleep and obligations—you can prioritize what truly matters.
+        </p>
+      </Footer>
     </div>
     );
 }

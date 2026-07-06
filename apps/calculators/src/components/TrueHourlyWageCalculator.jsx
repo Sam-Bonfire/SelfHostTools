@@ -323,7 +323,13 @@ export default function TrueHourlyWageCalculator() {
                 </p>
             </div>
         
-      <Footer />
+      <Footer>
+        <p className="text-gray-600 font-medium">
+          <strong>Disclaimer:</strong> Your nominal wage ignores the hidden costs of employment.
+          <br className="md:hidden" />
+          By factoring in unpaid time and work-related expenses, you uncover the true value of your time.
+        </p>
+      </Footer>
     </div>
     );
 }

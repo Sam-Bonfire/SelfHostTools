@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { CalculatorLayout, CalculatorHeader, ResultsAnalysis, Input, Card, DownloadButtons, Footer, MetricDisplay } from '@packages/styling';
-import { Users, Target, MousePointerClick, Send, DollarSign, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { Users, Target, MousePointerClick, Send, IndianRupee, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { calculateCreatorEconomy } from '../lib/creatorEconomyLogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import { usePersistedState, resetPersistedState } from '@packages/components';
@@ -36,7 +36,7 @@ const CreatorEconomyCalculator = () => {
   const reportData = {
     title: 'Creator Economy Sponsor & Ad Quoter',
     summary: [
-      { label: 'Desired Monthly Income', value: `$${inputs.desiredIncome.toLocaleString()}` },
+      { label: 'Desired Monthly Income', value: `₹${inputs.desiredIncome.toLocaleString()}` },
       { label: 'Audience Size', value: inputs.audienceSize.toLocaleString() },
       { label: 'Active Reach', value: results.activeAudience.toLocaleString() },
       { label: 'Estimated Clicks per Post', value: results.estimatedClicks.toLocaleString() },
@@ -45,19 +45,19 @@ const CreatorEconomyCalculator = () => {
       ['Tier Name', 'CPM', 'Flat Rate per Post', 'Monthly Potential'],
       ...results.tiers.map(t => [
         t.name, 
-        `$${t.cpm}`, 
-        `$${t.flatRate.toFixed(2)}`, 
-        `$${t.monthlyRevenue.toFixed(2)}`
+        `₹${t.cpm}`, 
+        `₹${t.flatRate.toFixed(2)}`, 
+        `₹${t.monthlyRevenue.toFixed(2)}`
       ])
     ],
     insights: [
       { 
         label: 'Required CPM to hit goal', 
-        value: `$${results.requiredCPM.toFixed(2)}` 
+        value: `₹${results.requiredCPM.toFixed(2)}` 
       },
       { 
         label: 'Required CPC to hit goal', 
-        value: `$${results.requiredCPC.toFixed(2)}` 
+        value: `₹${results.requiredCPC.toFixed(2)}` 
       },
       { 
         label: 'Reality Check', 
@@ -70,8 +70,7 @@ const CreatorEconomyCalculator = () => {
     <div className="min-h-screen bg-white text-black p-4 md:p-8">
       <CalculatorLayout>
         <CalculatorHeader 
-          title="Creator Economy Quoter" 
-          description="Reverse-engineer your sponsor pricing based on your desired income and actual audience engagement."
+          title="Creator Economy Quoter"
           icon={Users}
         
             onReset={() => { resetPersistedState('CreatorEconomyCalculator'); window.location.reload(); }} />
@@ -85,7 +84,7 @@ const CreatorEconomyCalculator = () => {
               type="number"
               value={inputs.desiredIncome}
               onChange={handleInputChange}
-              icon={DollarSign}
+              icon={IndianRupee}
             />
             <Input
               id="postsPerMonth"
@@ -139,7 +138,7 @@ const CreatorEconomyCalculator = () => {
               />
               <MetricDisplay 
                 title="Target Revenue / Post" 
-                value={`$${results.revenueNeededPerPost.toLocaleString(undefined, { maximumFractionDigits: 0 })}`} 
+                value={`₹${results.revenueNeededPerPost.toLocaleString(undefined, { maximumFractionDigits: 0 })}`} 
               />
             </div>
 
@@ -182,12 +181,12 @@ const CreatorEconomyCalculator = () => {
             <div className="grid grid-cols-2 gap-4">
               <MetricDisplay 
                 title="Required CPM" 
-                value={`$${results.requiredCPM.toLocaleString(undefined, { maximumFractionDigits: 2 })}`} 
+                value={`₹${results.requiredCPM.toLocaleString(undefined, { maximumFractionDigits: 2 })}`} 
                 subtitle="To hit target"
               />
               <MetricDisplay 
                 title="Required CPC" 
-                value={`$${results.requiredCPC.toLocaleString(undefined, { maximumFractionDigits: 2 })}`} 
+                value={`₹${results.requiredCPC.toLocaleString(undefined, { maximumFractionDigits: 2 })}`} 
                 subtitle="Based on clicks"
               />
             </div>
@@ -201,7 +200,13 @@ const CreatorEconomyCalculator = () => {
           </ResultsAnalysis>
         </div>
       </CalculatorLayout>
-      <Footer />
+      <Footer>
+        <p className="text-gray-600 font-medium">
+          <strong>Disclaimer:</strong> Eyeballs don't pay the bills; engagement does.
+          <br className="md:hidden" />
+          Sponsors pay for predictable reach and clicks, not vanity follower counts. If your numbers don't add up to your desired income at standard industry CPMs, you need either a larger audience or a more expensive niche.
+        </p>
+      </Footer>
     </div>
   );
 };

@@ -69,7 +69,7 @@ export default function DegreeROICalculator() {
         "name": "Degree ROI Calculator",
         "description": "Calculate the Return on Investment of your college degree compared to starting work immediately.",
         "brand": { "@type": "Brand", "name": "Calculators Hub" },
-        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": 'INR' }
     };
 
     // --- INPUTS ---
@@ -283,7 +283,13 @@ export default function DegreeROICalculator() {
                     )}
                 </div>
             </CalculatorLayout>
-            <Footer />
+            <Footer>
+                <p className="text-gray-600 font-medium">
+                    <strong>Disclaimer:</strong> Education is an investment, not a guarantee.
+                    <br className="md:hidden" />
+                    If your break-even age is in your 40s or your loan burden is lethal, you are buying an expensive luxury, not a financial asset. Run the numbers before you sign the loans.
+                </p>
+            </Footer>
         </div>
     );
 }

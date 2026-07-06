@@ -216,7 +216,6 @@ export default function CellularAutomataVisualizer() {
                     <CalculatorHeader 
                         icon={Box}
                         title="Cellular Automata"
-                        subtitle="Pixel Playground. Place seed cells and watch fractal structures emerge."
                     
             onReset={() => { resetPersistedState('CellularAutomataVisualizer'); window.location.reload(); }} />
                 </div>
@@ -351,7 +350,13 @@ export default function CellularAutomataVisualizer() {
 
             </CalculatorLayout>
         
-      <Footer />
+      <Footer>
+        <p className="text-gray-600 font-medium">
+          <strong>Disclaimer:</strong> Cellular automata demonstrate how staggering complexity emerges from profoundly simple rules.
+          <br className="md:hidden" />
+          This mirrors many real-world phenomena, where macro-patterns arise purely from micro-interactions.
+        </p>
+      </Footer>
     </div>
     );
 }

@@ -140,7 +140,6 @@ export default function DebtRepaymentRace() {
                     <CalculatorHeader
                         icon={Flame}
                         title="Debt Avalanche vs. Snowball"
-                        subtitle="A highly visual race tracking which repayment system saves you the most time and cash."
                     
             onReset={() => { resetPersistedState('DebtRepaymentRace'); window.location.reload(); }} />
                 </div>
@@ -401,7 +400,13 @@ export default function DebtRepaymentRace() {
                 </div>
             </CalculatorLayout>
         
-      <Footer />
+      <Footer>
+        <p className="text-gray-600 font-medium">
+          <strong>Disclaimer:</strong> Mathematically, the Avalanche method guarantees the lowest total interest paid.
+          <br className="md:hidden" />
+          However, the Snowball method secures early psychological wins, which are often the critical factor in actually staying the course.
+        </p>
+      </Footer>
     </div>
     );
 }

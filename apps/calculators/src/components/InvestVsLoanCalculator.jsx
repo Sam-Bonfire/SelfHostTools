@@ -105,7 +105,6 @@ export default function App() {
                 <CalculatorHeader
                     icon={Scale}
                     title="Invest or Pay Off Debt?"
-                    description="The eternal financial dilemma, solved with math."
                 
             onReset={() => { resetPersistedState('InvestVsLoanCalculator'); window.location.reload(); }} />
 
@@ -420,7 +419,13 @@ export default function App() {
 
             </CalculatorLayout>
 
-            <Footer />
+            <Footer>
+                <p className="text-gray-600 font-medium">
+                    <strong>Disclaimer:</strong> This calculation uses expected market returns, but market returns are volatile while debt interest is guaranteed.
+                    <br className="md:hidden" />
+                    Always consider your psychological comfort—sometimes peace of mind from zero debt outweighs mathematical optimization.
+                </p>
+            </Footer>
         </div>
     );
 }

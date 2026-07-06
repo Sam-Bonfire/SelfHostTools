@@ -55,7 +55,6 @@ export default function SoloFounderCalculator() {
             <div className="lg:col-span-12">
         <CalculatorHeader
                 title="Solo-Founder Runway & Bootstrapping"
-                description="Find your true Break-Even and Freedom MRR. Deducts Stripe fees, hosting, churn, and taxes to reveal what it actually takes to quit your day job."
                 icon={<Rocket className="w-8 h-8 md:w-10 md:h-10 text-purple-500" 
             onReset={() => { resetPersistedState('SoloFounderCalculator'); window.location.reload(); }} />}
                 color="bg-purple-100"
@@ -311,7 +310,13 @@ export default function SoloFounderCalculator() {
       </div>
     </div>
         </CalculatorLayout>
-        <Footer />
+        <Footer>
+            <p className="text-gray-600 font-medium">
+                <strong>Disclaimer:</strong> Revenue is vanity, profit is sanity, but cash is reality.
+                <br className="md:hidden" />
+                Never mistake MRR for personal income. After churn, gateway fees, servers, tools, and taxes, the real money you take home is often less than half of your topline.
+            </p>
+        </Footer>
     </div>
     );
 }

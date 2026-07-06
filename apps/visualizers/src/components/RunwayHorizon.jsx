@@ -88,7 +88,6 @@ export default function RunwayHorizon() {
                     <CalculatorHeader
                         icon={Sun}
                         title="Personal Runway Horizon"
-                        subtitle="A rolling interactive 2D landscape charting your financial runway and burnout triggers."
                     
             onReset={() => { resetPersistedState('RunwayHorizon'); window.location.reload(); }} />
                 </div>
@@ -377,7 +376,13 @@ export default function RunwayHorizon() {
                 </div>
             </CalculatorLayout>
         
-      <Footer />
+      <Footer>
+        <p className="text-gray-600 font-medium">
+          <strong>Disclaimer:</strong> This runway calculation is mathematical. 
+          <br className="md:hidden" />
+          The true lesson is elasticity—your survival runway is always longer than your comfort runway if you are willing to cut variable burn drastically.
+        </p>
+      </Footer>
     </div>
     );
 }

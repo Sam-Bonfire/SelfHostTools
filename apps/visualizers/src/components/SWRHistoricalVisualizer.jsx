@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { LineChart, AlertTriangle, CheckCircle, DollarSign } from 'lucide-react';
+import { LineChart, AlertTriangle, CheckCircle, IndianRupee } from 'lucide-react';
 import { SEO } from '@packages/components';
 import { Card, Input, Select, CalculatorLayout, CalculatorHeader, ResultsAnalysis, Footer } from '@packages/styling';
 import { usePersistedState, resetPersistedState } from '@packages/components';
@@ -28,7 +28,7 @@ const SCENARIOS = {
   }
 };
 
-const formatCurrency = (val) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(val);
+const formatCurrency = (val) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
 
 export default function SWRHistoricalVisualizer() {
   const [portfolioValue, setPortfolioValue] = usePersistedState('SWRHistoricalVisualizer', 'portfolioValue', 1000000);
@@ -91,7 +91,6 @@ export default function SWRHistoricalVisualizer() {
       <div className="lg:col-span-12">
         <CalculatorHeader 
           title="SWR History Visualizer"
-          subtitle="Simulate the 'Safe Withdrawal Rate' through historical economic crises."
           icon={LineChart}
           color="bg-blue-300"
         
@@ -107,7 +106,7 @@ export default function SWRHistoricalVisualizer() {
                 type="number" 
                 value={portfolioValue}
                 onChange={(e) => setPortfolioValue(Number(e.target.value))}
-                icon={DollarSign}
+                icon={IndianRupee}
               />
               
               <div>
@@ -255,7 +254,13 @@ export default function SWRHistoricalVisualizer() {
         </div>
       
     </CalculatorLayout>
-    <Footer />
+    <Footer>
+      <p className="text-gray-600 font-medium">
+        <strong>Disclaimer:</strong> Historical returns do not guarantee future performance. 
+        <br className="md:hidden" />
+        The danger lies in "Sequence of Returns Risk": selling assets during a market crash to fund living expenses permanently destroys your portfolio's ability to compound when the market recovers.
+      </p>
+    </Footer>
     </div>
     );
 }

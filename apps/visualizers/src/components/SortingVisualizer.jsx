@@ -318,7 +318,6 @@ const SortingVisualizer = () => {
           <CalculatorHeader
             icon={Play}
             title="Sorting Visualizer"
-            subtitle="See and hear algorithms in action"
           
             onReset={() => { resetPersistedState('SortingVisualizer'); window.location.reload(); }} />
         </div>
@@ -436,7 +435,13 @@ const SortingVisualizer = () => {
         </div>
       </CalculatorLayout>
     
-      <Footer />
+      <Footer>
+        <p className="text-gray-600 font-medium">
+          <strong>Disclaimer:</strong> This is a visualization of computational efficiency. 
+          <br className="md:hidden" />
+          The audible difference between Bubble Sort and Quick Sort demonstrates why algorithm choice matters—inefficiency compounds exponentially at scale.
+        </p>
+      </Footer>
     </div>
   );
 };

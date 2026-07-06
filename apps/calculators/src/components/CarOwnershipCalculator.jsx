@@ -48,9 +48,8 @@ export default function CarOwnershipCalculator() {
       <CalculatorLayout>
         <CalculatorHeader
                 title="Car Ownership Realist"
-                description="Buying a car is emotional. Let's make it mathematical. Expose the hidden costs of depreciation, interest, and maintenance."
-                icon={<Car className="w-8 h-8 md:w-10 md:h-10 text-orange-500" 
-            onReset={() => { resetPersistedState('CarOwnershipCalculator'); window.location.reload(); }} />}
+                icon={<Car className="w-8 h-8 md:w-10 md:h-10 text-orange-500" />}
+                onReset={() => { resetPersistedState('CarOwnershipCalculator'); window.location.reload(); }}
                 color="bg-orange-100"
             />
 
@@ -250,7 +249,13 @@ export default function CarOwnershipCalculator() {
             
       </>
         </CalculatorLayout>
-        <Footer />
+        <Footer>
+            <p className="text-gray-600 font-medium">
+                <strong>Disclaimer:</strong> A car is a depreciating liability, not an asset.
+                <br className="md:hidden" />
+                The true cost of ownership is hidden in depreciation and interest, not just your monthly EMI or fuel costs. Only buy what your wealth can genuinely sustain.
+            </p>
+        </Footer>
     </div>
     );
 }

@@ -151,7 +151,13 @@ export default function InternationalArbitrageCalculator() {
       
       </div>
       </CalculatorLayout>
-      <Footer />
+      <Footer>
+        <p className="text-gray-600 font-medium">
+          <strong>Disclaimer:</strong> Geo-arbitrage is rarely as profitable as it seems. 
+          <br className="md:hidden" />
+          The true cost of living in a cheaper country is hidden in platform fees, forex spreads, double taxation, and transfer costs. Always calculate the 'Leakage' before booking a one-way flight.
+        </p>
+      </Footer>
     </div>
   );
 }

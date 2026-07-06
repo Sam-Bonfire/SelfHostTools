@@ -31,7 +31,7 @@ export default function TDEECalculator() {
         "description": "Calculate Total Daily Energy Expenditure (TDEE) and BMR. Includes Katch-McArdle formula for athletes.",
         "brand": { "@type": "Brand", "name": "Calculators Hub" },
         "applicationCategory": "HealthApplication",
-        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": 'INR' }
     };
 
     const [formData, setFormData] = usePersistedState('TDEECalculator', 'formData', {
@@ -665,7 +665,13 @@ export default function TDEECalculator() {
                 </div>
             </CalculatorLayout >
 
-            <Footer />
+            <Footer>
+                <p className="text-gray-600 font-medium">
+                    <strong>Disclaimer:</strong> Calculators provide estimates, but your metabolism is dynamic.
+                    <br className="md:hidden" />
+                    If you stop losing weight in a deficit, your body has adapted. You don't need a new calculator, you need a diet break or more activity.
+                </p>
+            </Footer>
         </div >
     );
 }

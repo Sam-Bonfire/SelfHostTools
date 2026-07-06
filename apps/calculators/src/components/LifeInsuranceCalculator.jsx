@@ -387,7 +387,13 @@ export default function LifeInsuranceCalculator() {
         </div>
       </CalculatorLayout>
 
-      <Footer />
+      <Footer>
+        <p className="text-gray-600 font-medium">
+          <strong>Disclaimer:</strong> Human Life Value ensures your dependents maintain their lifestyle, but it is not an investment.
+          <br className="md:hidden" />
+          Always separate insurance from investments (avoid ULIPs/Endowments)—buy pure term insurance and invest the rest.
+        </p>
+      </Footer>
     </div>
   );
 }
