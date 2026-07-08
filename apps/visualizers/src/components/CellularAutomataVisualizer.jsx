@@ -4,7 +4,7 @@ import { SEO } from '@packages/components';
 import { Play, Pause, RotateCcw, Box, MousePointer2, FastForward } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
 
 function cn(...inputs) {
     return twMerge(clsx(inputs));
@@ -213,7 +213,7 @@ export default function CellularAutomataVisualizer() {
             
             <CalculatorLayout>
                 <div className="lg:col-span-12">
-                    <CalculatorHeader 
+                    <CalculatorHeader namespace="CellularAutomataVisualizer" 
                         icon={Box}
                         title="Cellular Automata"
                     

@@ -6,7 +6,7 @@ import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import SEO from './SEO';
 
 import { calculateSaaSLeak, SUBSCRIPTION_CATEGORIES, USAGE_FREQUENCIES } from '../lib/saasLeakLogic';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
 
 export default function SaasLeakCalculator() {
   const structuredData = {
@@ -179,7 +179,7 @@ export default function SaasLeakCalculator() {
 
       <CalculatorLayout>
         <div className="lg:col-span-12">
-          <CalculatorHeader
+          <CalculatorHeader namespace="SaasLeakCalculator"
             icon={Flame}
             title="SaaS Subscription Leak Realist"
           

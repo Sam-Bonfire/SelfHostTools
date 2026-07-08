@@ -8,7 +8,8 @@ import { calculateHomeOwnerRealism, generateTimelineEvents } from '../lib/homeOw
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 
 import SEO from './SEO';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
+import { macroData } from '@packages/macro-data';
 
 export default function HomeOwnerRealistCalculator() {
     const structuredData = {
@@ -30,11 +31,11 @@ export default function HomeOwnerRealistCalculator() {
     // --- Inputs ---
     const [propertyPrice, setPropertyPrice] = usePersistedState('HomeOwnerRealistCalculator', 'propertyPrice', 5000000); // 50L
     const [downPayment, setDownPayment] = usePersistedState('HomeOwnerRealistCalculator', 'downPayment', 1000000); // 10L
-    const [interestRate, setInterestRate] = usePersistedState('HomeOwnerRealistCalculator', 'interestRate', 8.5);
+    const [interestRate, setInterestRate] = usePersistedState('HomeOwnerRealistCalculator', 'interestRate', macroData.interestRates.homeLoan);
     const [loanTerm, setLoanTerm] = usePersistedState('HomeOwnerRealistCalculator', 'loanTerm', 20);
     const [opportunityCostRate, setOpportunityCostRate] = usePersistedState('HomeOwnerRealistCalculator', 'opportunityCostRate', 10); // Market return
     const [appreciationRate, setAppreciationRate] = usePersistedState('HomeOwnerRealistCalculator', 'appreciationRate', 3);
-    const [maintenanceInflation, setMaintenanceInflation] = usePersistedState('HomeOwnerRealistCalculator', 'maintenanceInflation', 7); // Default maintenance inflation rate
+    const [maintenanceInflation, setMaintenanceInflation] = usePersistedState('HomeOwnerRealistCalculator', 'maintenanceInflation', macroData.inflation.maintenance); // Default maintenance inflation rate
 
     // --- Audit Items (The Bomb List) ---
     const [auditItems, setAuditItems] = usePersistedState('HomeOwnerRealistCalculator', 'auditItems', [
@@ -109,7 +110,7 @@ export default function HomeOwnerRealistCalculator() {
 
             <CalculatorLayout>
                 <div className="lg:col-span-12">
-                    <CalculatorHeader
+                    <CalculatorHeader namespace="HomeOwnerRealistCalculator"
                         icon={Home}
                         title="The Home Owner Realist"
                     

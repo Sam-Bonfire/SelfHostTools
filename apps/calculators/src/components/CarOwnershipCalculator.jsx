@@ -3,13 +3,14 @@ import { IndianRupee, Car, TrendingDown, Clock, Shield, Wrench, Fuel, CarTaxiFro
 import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer, MetricDisplay } from '@packages/styling';
 import { calculateCarOwnership } from '../lib/carOwnershipLogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
+import { macroData } from '@packages/macro-data';
 
 export default function CarOwnershipCalculator() {
     // Inputs
     const [carPrice, setCarPrice] = usePersistedState('CarOwnershipCalculator', 'carPrice', 1500000);
     const [downPayment, setDownPayment] = usePersistedState('CarOwnershipCalculator', 'downPayment', 300000);
-    const [loanInterestRate, setLoanInterestRate] = usePersistedState('CarOwnershipCalculator', 'loanInterestRate', 9.0);
+    const [loanInterestRate, setLoanInterestRate] = usePersistedState('CarOwnershipCalculator', 'loanInterestRate', macroData.interestRates.autoLoan);
     const [loanTermYears, setLoanTermYears] = usePersistedState('CarOwnershipCalculator', 'loanTermYears', 5);
     const [ownershipYears, setOwnershipYears] = usePersistedState('CarOwnershipCalculator', 'ownershipYears', 7);
     const [annualDepreciationRate, setAnnualDepreciationRate] = usePersistedState('CarOwnershipCalculator', 'annualDepreciationRate', 15);
@@ -46,7 +47,7 @@ export default function CarOwnershipCalculator() {
     return (
         <div className="min-h-screen bg-white text-black p-4 md:p-8">
       <CalculatorLayout>
-        <CalculatorHeader
+        <CalculatorHeader namespace="CarOwnershipCalculator"
                 title="Car Ownership Realist"
                 icon={<Car className="w-8 h-8 md:w-10 md:h-10 text-orange-500" />}
                 onReset={() => { resetPersistedState('CarOwnershipCalculator'); window.location.reload(); }}

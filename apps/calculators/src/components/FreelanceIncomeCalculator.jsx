@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Briefcase, Calculator, IndianRupee, TrendingUp, TrendingDown, ArrowLeft, Settings, Info, Landmark, ShieldCheck, Laptop, Receipt, UserCheck, Clock, AlertCircle, PiggyBank, Palmtree, Target, Building, Users, Megaphone, Wifi, FileText, Table } from 'lucide-react';
-import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer, MetricDisplay } from '@packages/styling';
+import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer, MetricDisplay , ActionEngine } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 
 import SEO from './SEO';
 
 import { calculateFreelanceIncome, calculateAdminTime as getAdminPercent } from '../lib/freelanceLogic';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
+import { macroData } from '@packages/macro-data';
+import { generateActions } from '../lib/actionEngine';
 
 export default function FreelanceIncomeCalculator() {
   const structuredData = {
@@ -36,7 +38,7 @@ export default function FreelanceIncomeCalculator() {
     learning: { hours: 2, period: 'week' }, // 2 hrs/week on skill dev
     misc: { hours: 0, period: 'week' } // catch-all
   });
-  const [taxRate, setTaxRate] = usePersistedState('FreelanceIncomeCalculator', 'taxRate', 20);
+  const [taxRate, setTaxRate] = usePersistedState('FreelanceIncomeCalculator', 'taxRate', macroData.tax.stcg);
   const [isPresumptiveTax, setIsPresumptiveTax] = usePersistedState('FreelanceIncomeCalculator', 'isPresumptiveTax', true); // 44ADA
 
   // --- EXPENSES ---
@@ -111,6 +113,8 @@ export default function FreelanceIncomeCalculator() {
     }));
   };
 
+  const actions = generateActions('FreelanceIncomeCalculator', { isPresumptiveTax, adminTimePercent, hourlyRate, targetMonthlyIncome }, results);
+
   const checkExports = (type) => {
     const schedule = Array.from({ length: 12 }, (_, i) => ({
       label: `Month ${i + 1}`,
@@ -150,7 +154,7 @@ export default function FreelanceIncomeCalculator() {
 
       <CalculatorLayout>
         <div className="lg:col-span-12">
-          <CalculatorHeader
+          <CalculatorHeader namespace="FreelanceIncomeCalculator"
             icon={Briefcase}
             title="Freelance Reality Hub"
           
@@ -421,6 +425,8 @@ export default function FreelanceIncomeCalculator() {
               />
             </div>
           </ResultsAnalysis>
+
+          <ActionEngine calculatorId="FreelanceIncomeCalculator" actions={actions} />
         </div>
       </CalculatorLayout>
 

@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { CalculatorLayout, CalculatorHeader, ResultsAnalysis, Input, Card, DownloadButtons, Tooltip, Footer, MetricDisplay } from '@packages/styling';
 import { calculateArbitrage } from '../lib/internationalArbitrageLogic';
 import { Globe, PlaneTakeoff, Percent, DollarSign, Wallet, FileDown, TrendingUp, AlertCircle, Target } from 'lucide-react';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
 
 export default function InternationalArbitrageCalculator() {
   const [inputs, setInputs] = usePersistedState('InternationalArbitrageCalculator', 'inputs', {
@@ -43,7 +43,7 @@ export default function InternationalArbitrageCalculator() {
   return (
     <div className="min-h-screen bg-white text-black p-4 md:p-8">
       <CalculatorLayout>
-        <CalculatorHeader 
+        <CalculatorHeader namespace="InternationalArbitrageCalculator" 
           title="International Arbitrage"
           icon={Globe}
         

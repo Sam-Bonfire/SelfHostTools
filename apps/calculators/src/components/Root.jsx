@@ -5,7 +5,7 @@ import { Card, Button, Input, Footer } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import SEO from './SEO';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
 
 const CALCULATORS = [
   {

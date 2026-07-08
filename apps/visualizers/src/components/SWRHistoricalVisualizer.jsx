@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { LineChart, AlertTriangle, CheckCircle, IndianRupee } from 'lucide-react';
 import { SEO } from '@packages/components';
 import { Card, Input, Select, CalculatorLayout, CalculatorHeader, ResultsAnalysis, Footer } from '@packages/styling';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
 
 const SCENARIOS = {
   depression: {
@@ -89,7 +89,7 @@ export default function SWRHistoricalVisualizer() {
       />
       
       <div className="lg:col-span-12">
-        <CalculatorHeader 
+        <CalculatorHeader namespace="SWRHistoricalVisualizer" 
           title="SWR History Visualizer"
           icon={LineChart}
           color="bg-blue-300"

@@ -7,7 +7,7 @@ import { twMerge } from 'tailwind-merge';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { motion } from 'framer-motion';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
 
 // Helper to merge classes
 function cn(...inputs) {
@@ -138,7 +138,7 @@ export default function MementoMori() {
 
             <CalculatorLayout>
                 <div className="lg:col-span-12">
-                    <CalculatorHeader
+                    <CalculatorHeader namespace="MementoMori"
                         icon={Calendar}
                         title="Memento Mori"
                     

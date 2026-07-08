@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { SEO } from '@packages/components';
 import { Button, Card, Select, Footer, CalculatorLayout, CalculatorHeader } from '@packages/styling';
 import { Play, Pause, SkipForward, RotateCcw, Volume2, VolumeX } from 'lucide-react';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
 
 const ARRAY_SIZE = 40;
 const MIN_VALUE = 10;
@@ -315,7 +315,7 @@ const SortingVisualizer = () => {
       
       <CalculatorLayout>
         <div className="lg:col-span-12">
-          <CalculatorHeader
+          <CalculatorHeader namespace="SortingVisualizer"
             icon={Play}
             title="Sorting Visualizer"
           

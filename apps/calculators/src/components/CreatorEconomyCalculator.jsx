@@ -3,7 +3,7 @@ import { CalculatorLayout, CalculatorHeader, ResultsAnalysis, Input, Card, Downl
 import { Users, Target, MousePointerClick, Send, IndianRupee, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { calculateCreatorEconomy } from '../lib/creatorEconomyLogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
 
 const CreatorEconomyCalculator = () => {
   const [inputs, setInputs] = usePersistedState('CreatorEconomyCalculator', 'inputs', {
@@ -69,7 +69,7 @@ const CreatorEconomyCalculator = () => {
   return (
     <div className="min-h-screen bg-white text-black p-4 md:p-8">
       <CalculatorLayout>
-        <CalculatorHeader 
+        <CalculatorHeader namespace="CreatorEconomyCalculator" 
           title="Creator Economy Quoter"
           icon={Users}
         

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { SEO } from '@packages/components';
 import { Play, Pause, RotateCcw, Volume2, VolumeX, Activity } from 'lucide-react';
 import { Button, Footer, CalculatorLayout, CalculatorHeader } from '@packages/styling';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
 
 // Web Audio API logic
 class AudioEngine {
@@ -284,7 +284,7 @@ const PomodoroFocusVisualizer = () => {
 
       <CalculatorLayout>
         <div className="lg:col-span-12">
-          <CalculatorHeader
+          <CalculatorHeader namespace="PomodoroFocusVisualizer"
             icon={Activity}
             title="Pomodoro Focus"
           

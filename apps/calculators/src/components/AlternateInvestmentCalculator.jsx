@@ -5,7 +5,8 @@ import { calculateAlternateROI } from '../lib/alternateInvestmentLogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import SEO from './SEO';
 import { motion, AnimatePresence } from 'framer-motion';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
+import { macroData } from '@packages/macro-data';
 
 export default function AlternateInvestmentCalculator() {
     const structuredData = {
@@ -20,7 +21,7 @@ export default function AlternateInvestmentCalculator() {
     const [initialInvestment, setInitial] = usePersistedState('AlternateInvestmentCalculator', 'initialInvestment', 1000000);
     const [monthlyContribution, setMonthly] = usePersistedState('AlternateInvestmentCalculator', 'monthlyContribution', 0);
     const [years, setYears] = usePersistedState('AlternateInvestmentCalculator', 'years', 10);
-    const [estReturnRate, setReturnRate] = usePersistedState('AlternateInvestmentCalculator', 'estReturnRate', 15);
+    const [estReturnRate, setReturnRate] = usePersistedState('AlternateInvestmentCalculator', 'estReturnRate', macroData.returns.equityBenchmark);
 
     // --- REALITY CHECKS ---
     const [isActiveInvestment, setIsActive] = usePersistedState('AlternateInvestmentCalculator', 'isActiveInvestment', false);
@@ -29,9 +30,9 @@ export default function AlternateInvestmentCalculator() {
 
     // --- ADVANCED ---
     const [showAdvanced, setShowAdvanced] = usePersistedState('AlternateInvestmentCalculator', 'showAdvanced', false);
-    const [taxRate, setTaxRate] = usePersistedState('AlternateInvestmentCalculator', 'taxRate', 10); // LTCG typical
-    const [inflationRate, setInflationRate] = usePersistedState('AlternateInvestmentCalculator', 'inflationRate', 6);
-    const [benchmarkReturn, setBenchmarkReturn] = usePersistedState('AlternateInvestmentCalculator', 'benchmarkReturn', 12);
+    const [taxRate, setTaxRate] = usePersistedState('AlternateInvestmentCalculator', 'taxRate', macroData.tax.ltcg); // LTCG typical
+    const [inflationRate, setInflationRate] = usePersistedState('AlternateInvestmentCalculator', 'inflationRate', macroData.inflation.general);
+    const [benchmarkReturn, setBenchmarkReturn] = usePersistedState('AlternateInvestmentCalculator', 'benchmarkReturn', macroData.returns.equityBenchmark);
     const [marketScenario, setMarketScenario] = usePersistedState('AlternateInvestmentCalculator', 'marketScenario', 'normal'); // normal, bull, bear
 
     const [results, setResults] = usePersistedState('AlternateInvestmentCalculator', 'results', null);
@@ -70,7 +71,7 @@ export default function AlternateInvestmentCalculator() {
 
             <CalculatorLayout>
                 <div className="lg:col-span-12">
-                    <CalculatorHeader
+                    <CalculatorHeader namespace="AlternateInvestmentCalculator"
                         icon={Pickaxe}
                         title="The 'Sweat Equity' Truth"
                     

@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import SEO from './SEO';
 import { calculateInflationDestroyer, HISTORICAL_REGIMES, BASKET_ITEMS } from '../lib/inflationLogic';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
 
 export default function InflationDestroyer() {
   const structuredData = {
@@ -118,7 +118,7 @@ export default function InflationDestroyer() {
       />
 
       <CalculatorLayout>
-        <CalculatorHeader icon={Flame} title="Inflation Destroyer" 
+        <CalculatorHeader namespace="InflationDestroyer" icon={Flame} title="Inflation Destroyer" 
             onReset={() => { resetPersistedState('InflationDestroyer'); window.location.reload(); }} />
 
         {/* LEFT: Inputs */}

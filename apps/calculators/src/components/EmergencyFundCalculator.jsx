@@ -3,7 +3,7 @@ import { ShieldAlert, IndianRupee, Activity, Briefcase, Plus, HeartPulse } from 
 import { CalculatorLayout, CalculatorHeader, ResultsAnalysis, Input, Card, DownloadButtons, Footer, MetricDisplay } from '@packages/styling';
 import { calculateEmergencyFund } from '../lib/emergencyFundLogic.js';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
 
 export default function EmergencyFundCalculator() {
   const [inputs, setInputs] = usePersistedState('EmergencyFundCalculator', 'inputs', {
@@ -38,7 +38,7 @@ export default function EmergencyFundCalculator() {
     <div className="min-h-screen bg-white text-black p-4 md:p-8">
       <CalculatorLayout>
       <div className="lg:col-span-12 mb-8">
-        <CalculatorHeader 
+        <CalculatorHeader namespace="EmergencyFundCalculator" 
         title="Emergency Fund & Income Shock"
         icon={<ShieldAlert size={32} className="text-white" 
             onReset={() => { resetPersistedState('EmergencyFundCalculator'); window.location.reload(); }} />}

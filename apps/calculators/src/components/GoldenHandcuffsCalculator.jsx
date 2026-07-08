@@ -7,7 +7,7 @@ import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import { calculateAnnualizedComp, calculateCostOfLeaving, generateProjections, analyzeAlerts } from '../lib/goldenHandcuffsLogic';
 
 import SEO from './SEO';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
 
 export default function GoldenHandcuffsCalculator() {
     const structuredData = {
@@ -172,7 +172,7 @@ export default function GoldenHandcuffsCalculator() {
 
             <CalculatorLayout>
                 <div className="lg:col-span-12">
-                    <CalculatorHeader
+                    <CalculatorHeader namespace="GoldenHandcuffsCalculator"
                         icon={Lock}
                         title="Golden Handcuffs"
                     

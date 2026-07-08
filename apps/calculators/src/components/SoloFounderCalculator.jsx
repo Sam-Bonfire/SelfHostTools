@@ -3,7 +3,7 @@ import { IndianRupee, Rocket, TrendingDown, TrendingUp, Target, Server, Percent,
 import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer, MetricDisplay } from '@packages/styling';
 import { calculateSoloFounderRunway } from '../lib/soloFounderLogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
 
 export default function SoloFounderCalculator() {
     // Inputs
@@ -53,7 +53,7 @@ export default function SoloFounderCalculator() {
         <div className="min-h-screen bg-white text-black p-4 md:p-8">
       <CalculatorLayout>
             <div className="lg:col-span-12">
-        <CalculatorHeader
+        <CalculatorHeader namespace="SoloFounderCalculator"
                 title="Solo-Founder Runway & Bootstrapping"
                 icon={<Rocket className="w-8 h-8 md:w-10 md:h-10 text-purple-500" 
             onReset={() => { resetPersistedState('SoloFounderCalculator'); window.location.reload(); }} />}

@@ -9,5 +9,7 @@ export { default as ResultsAnalysis } from './components/ResultsAnalysis';
 export { default as CalculatorHeader } from './components/CalculatorHeader';
 export { default as CalculatorLayout } from './components/CalculatorLayout';
 export { default as DownloadButtons } from './components/DownloadButtons';
+export { ActionEngine } from './components/ActionEngine.jsx';
 export { default as Footer } from './components/Footer';
 export { default as MetricDisplay } from './components/MetricDisplay';
+export { default as ScenarioSelector } from './components/ScenarioSelector';

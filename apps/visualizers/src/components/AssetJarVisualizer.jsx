@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { RefreshCw, Zap, Settings2, PackageOpen } from 'lucide-react';
 import { Footer, CalculatorLayout, CalculatorHeader, Card } from '@packages/styling';
 import { SEO } from '@packages/components';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
 
 export default function AssetJarVisualizer() {
   const [assets, setAssets] = usePersistedState('AssetJarVisualizer', 'assets', {
@@ -85,7 +85,7 @@ export default function AssetJarVisualizer() {
       
       <CalculatorLayout>
         <div className="lg:col-span-12">
-          <CalculatorHeader
+          <CalculatorHeader namespace="AssetJarVisualizer"
             icon={PackageOpen}
             title="Asset Allocation Jar"
           

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Download, X } from 'lucide-react';
 import { Button, Footer } from '@packages/styling';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
 
 const PWAInstallPrompt = () => {
     const [deferredPrompt, setDeferredPrompt] = usePersistedState('PWAInstallPrompt', 'deferredPrompt', null);

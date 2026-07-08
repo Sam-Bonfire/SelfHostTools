@@ -5,7 +5,7 @@ import { Sun, Calendar, AlertOctagon, TrendingUp, ShieldAlert, Award, Download }
 import { calculateRunwayData, generateSVGPath } from '../lib/runwayLandscape';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
 
 export default function RunwayHorizon() {
     const [cash, setCash] = usePersistedState('RunwayHorizon', 'cash', 250000);
@@ -85,7 +85,7 @@ export default function RunwayHorizon() {
 
             <CalculatorLayout>
                 <div className="lg:col-span-12">
-                    <CalculatorHeader
+                    <CalculatorHeader namespace="RunwayHorizon"
                         icon={Sun}
                         title="Personal Runway Horizon"
                     

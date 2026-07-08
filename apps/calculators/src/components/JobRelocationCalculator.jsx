@@ -8,7 +8,7 @@ import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import SEO from './SEO';
 
 import { calculateRelocationImpact } from '../lib/relocationLogic';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
 
 export default function JobRelocationCalculator() {
     const structuredData = {
@@ -182,7 +182,7 @@ export default function JobRelocationCalculator() {
 
             <CalculatorLayout>
                 <div className="lg:col-span-12">
-                    <CalculatorHeader
+                    <CalculatorHeader namespace="JobRelocationCalculator"
                         icon={MapPin}
                         title="Job Relocation Realist"
                     

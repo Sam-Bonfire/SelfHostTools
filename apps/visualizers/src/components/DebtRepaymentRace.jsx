@@ -3,7 +3,7 @@ import { Card, Input, Button, CalculatorHeader, CalculatorLayout, ResultsAnalysi
 import { SEO } from '@packages/components';
 import { Flame, Trash2, Plus, Zap, Award, Sparkles } from 'lucide-react';
 import { calculateDebtRace } from '../lib/debtRaceLogic';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
 
 const PRESETS = {
     graduate: {
@@ -137,7 +137,7 @@ export default function DebtRepaymentRace() {
 
             <CalculatorLayout>
                 <div className="lg:col-span-12">
-                    <CalculatorHeader
+                    <CalculatorHeader namespace="DebtRepaymentRace"
                         icon={Flame}
                         title="Debt Avalanche vs. Snowball"
                     

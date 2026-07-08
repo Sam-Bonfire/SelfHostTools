@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Flame, Calculator, IndianRupee, TrendingUp, TrendingDown, ArrowLeft, Settings, Info, Briefcase, GraduationCap, Landmark, Coins, AlertCircle, Sunrise, Sunset, ShieldCheck, FileText, Table } from 'lucide-react';
-import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer, MetricDisplay } from '@packages/styling';
+import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer, MetricDisplay , ActionEngine } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 
 import SEO from './SEO';
 
 import { calculateFIRE } from '../lib/fireLogic';
+import { generateActions } from '../lib/actionEngine';
 import { usePersistedState, resetPersistedState } from '@packages/components';
 
 export default function FIRECalculator() {
@@ -85,6 +86,8 @@ export default function FIRECalculator() {
   useEffect(() => {
     calculate();
   }, [calculate]);
+
+  const actions = generateActions('FIRECalculator', { lifestyleInflation, preRetirementReturn, monthlyInvestment, currentMonthlyExpenses }, results);
 
   const checkExports = (type) => {
     const data = {
@@ -271,6 +274,8 @@ export default function FIRECalculator() {
               />
             </div>
           </ResultsAnalysis>
+
+          <ActionEngine calculatorId="FIRECalculator" actions={actions} />
         </div>
       </CalculatorLayout>
 

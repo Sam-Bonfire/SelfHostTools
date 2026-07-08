@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Calendar, ArrowRight, GitFork, Landmark, Flame, Sun, Clock, Search, X, ChevronLeft, ChevronRight, MessageSquarePlus, Snowflake, Database, Beaker, Grid, Timer, History } from 'lucide-react';
 import { Card, Footer } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
 
 const VISUALIZERS = [
     {

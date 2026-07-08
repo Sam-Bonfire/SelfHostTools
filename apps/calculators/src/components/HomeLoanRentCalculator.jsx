@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Home, Calculator, IndianRupee, TrendingUp, TrendingDown, ArrowLeft, Settings, Info, Building, Key, Landmark, ShieldCheck, LineChart, AlertCircle, Table as TableIcon } from 'lucide-react';
-import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer, MetricDisplay } from '@packages/styling';
+import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer, MetricDisplay , ActionEngine } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 
 import SEO from './SEO';
 
 import { calculateBuyVsRent } from '../lib/homeLoanRentLogic';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
+import { macroData } from '@packages/macro-data';
+import { generateActions } from '../lib/actionEngine';
 
 export default function HomeLoanRentCalculator() {
   const structuredData = {
@@ -22,14 +24,14 @@ export default function HomeLoanRentCalculator() {
   // --- BUYING INPUTS ---
   const [propertyValue, setPropertyValue] = usePersistedState('HomeLoanRentCalculator', 'propertyValue', 8000000);
   const [downPayment, setDownPayment] = usePersistedState('HomeLoanRentCalculator', 'downPayment', 1600000); // 20%
-  const [interestRate, setInterestRate] = usePersistedState('HomeLoanRentCalculator', 'interestRate', 8.5);
+  const [interestRate, setInterestRate] = usePersistedState('HomeLoanRentCalculator', 'interestRate', macroData.interestRates.homeLoan);
   const [loanTenure, setLoanTenure] = usePersistedState('HomeLoanRentCalculator', 'loanTenure', 20);
   const [propertyAppreciation, setPropertyAppreciation] = usePersistedState('HomeLoanRentCalculator', 'propertyAppreciation', 5);
   const [maintenanceCost, setMaintenance] = usePersistedState('HomeLoanRentCalculator', 'maintenanceCost', 1); // 1% of value / yr
 
   // --- RENTING INPUTS ---
   const [monthlyRent, setMonthlyRent] = usePersistedState('HomeLoanRentCalculator', 'monthlyRent', 25000);
-  const [rentInflation, setRentInflation] = usePersistedState('HomeLoanRentCalculator', 'rentInflation', 8);
+  const [rentInflation, setRentInflation] = usePersistedState('HomeLoanRentCalculator', 'rentInflation', macroData.inflation.rent);
 
   // --- REALITY FACTORS ---
   const [investDifference, setInvestDifference] = usePersistedState('HomeLoanRentCalculator', 'investDifference', true);
@@ -73,6 +75,8 @@ export default function HomeLoanRentCalculator() {
     calculate();
   }, [calculate]);
 
+  const actions = generateActions('HomeLoanRentCalculator', { investDifference, loanTenure }, results);
+
   const formatCurrency = (val) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
 
   return (
@@ -88,7 +92,7 @@ export default function HomeLoanRentCalculator() {
 
       <CalculatorLayout>
         <div className="lg:col-span-12">
-          <CalculatorHeader
+          <CalculatorHeader namespace="HomeLoanRentCalculator"
             icon={Home}
             title="Buy vs Rent Hub"
           
@@ -251,6 +255,8 @@ export default function HomeLoanRentCalculator() {
               )}
             </div>
           </ResultsAnalysis>
+
+          <ActionEngine calculatorId="HomeLoanRentCalculator" actions={actions} />
         </div>
       </CalculatorLayout>
 

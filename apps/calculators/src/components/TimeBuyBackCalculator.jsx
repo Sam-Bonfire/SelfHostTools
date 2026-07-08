@@ -6,7 +6,7 @@ import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import SEO from './SEO';
 
 import { calculateTimeBuyBack } from '../lib/buyBackLogic';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
 
 export default function TimeBuyBackCalculator() {
   const structuredData = {
@@ -186,7 +186,7 @@ export default function TimeBuyBackCalculator() {
 
       <CalculatorLayout>
         <div className="lg:col-span-12">
-          <CalculatorHeader
+          <CalculatorHeader namespace="TimeBuyBackCalculator"
             icon={Zap}
             title="Time Buy-Back & Task Delegate Realist"
           

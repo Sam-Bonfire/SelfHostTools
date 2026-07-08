@@ -4,7 +4,7 @@ import { Card, Button, CalculatorHeader, CalculatorLayout, DownloadButtons, Foot
 import { SEO } from '@packages/components';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
 
 // ─────────────────────────────────────────────
 // CONSTANTS & DEFAULTS
@@ -280,7 +280,7 @@ export default function SankeyFlowchart() {
 
       <CalculatorLayout>
         <div className="lg:col-span-12">
-          <CalculatorHeader
+          <CalculatorHeader namespace="SankeyFlowchart"
             icon={GitFork}
             title="Capital Allocation Flow"
           

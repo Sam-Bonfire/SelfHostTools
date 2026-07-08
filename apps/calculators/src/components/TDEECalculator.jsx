@@ -4,7 +4,7 @@ import { calculateTDEE } from '../lib/tdeeLogic';
 import { Activity, Scale, Ruler, User, Flame, TrendingDown, TrendingUp, Dumbbell, Target, Accessibility, Info, Heart, Percent, Utensils, Calendar, FileText, Table } from 'lucide-react';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import SEO from './SEO';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
 
 
 // Updated Activity Descriptions based on Research
@@ -174,7 +174,7 @@ export default function TDEECalculator() {
 
             <CalculatorLayout>
                 <div className="lg:col-span-12">
-                    <CalculatorHeader
+                    <CalculatorHeader namespace="TDEECalculator"
                         icon={Flame}
                         title="Smart TDEE Analyzer"
                     

@@ -6,7 +6,8 @@ import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, Calcul
 import SEO from './SEO';
 import { calculateTrueHourlyWage } from '../lib/trueHourlyLogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
+import { macroData } from '@packages/macro-data';
 
 export default function TrueHourlyWageCalculator() {
     const structuredData = {
@@ -20,7 +21,7 @@ export default function TrueHourlyWageCalculator() {
     // --- INPUTS ---
     const [annualGrossSalary, setAnnualGross] = usePersistedState('TrueHourlyWageCalculator', 'annualGrossSalary', 1200000); // 12 LPA default
     const [annualBonus, setBonus] = usePersistedState('TrueHourlyWageCalculator', 'annualBonus', 0);
-    const [taxRate, setTaxRate] = usePersistedState('TrueHourlyWageCalculator', 'taxRate', 20);
+    const [taxRate, setTaxRate] = usePersistedState('TrueHourlyWageCalculator', 'taxRate', macroData.tax.stcg);
 
     const [workingDaysPerWeek, setWorkingDays] = usePersistedState('TrueHourlyWageCalculator', 'workingDaysPerWeek', 5);
     const [vacationWeeksPerYear, setVacationWeeks] = usePersistedState('TrueHourlyWageCalculator', 'vacationWeeksPerYear', 2);
@@ -105,7 +106,7 @@ export default function TrueHourlyWageCalculator() {
 
             <CalculatorLayout>
                 <div className="lg:col-span-12">
-                    <CalculatorHeader
+                    <CalculatorHeader namespace="TrueHourlyWageCalculator"
                         icon={Briefcase}
                         title="True Hourly Wage"
                     

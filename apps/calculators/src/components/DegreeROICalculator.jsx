@@ -7,7 +7,8 @@ import { calculateDegreeROI } from '../lib/degreeROILogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 
 import SEO from './SEO';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
+import { macroData } from '@packages/macro-data';
 
 const NeoLineChart = ({ data }) => {
     if (!data || data.length === 0) return null;
@@ -80,7 +81,7 @@ export default function DegreeROICalculator() {
     const [grantsTotal, setGrants] = usePersistedState('DegreeROICalculator', 'grantsTotal', 5000);
 
     // Loans
-    const [loanInterestRate, setLoanRate] = usePersistedState('DegreeROICalculator', 'loanInterestRate', 7.0);
+    const [loanInterestRate, setLoanRate] = usePersistedState('DegreeROICalculator', 'loanInterestRate', macroData.interestRates.educationLoan);
     const [loanTermYears, setLoanTerm] = usePersistedState('DegreeROICalculator', 'loanTermYears', 10);
 
     // Career - Degree
@@ -137,7 +138,7 @@ export default function DegreeROICalculator() {
 
             <CalculatorLayout>
                 <div className="lg:col-span-12">
-                    <CalculatorHeader
+                    <CalculatorHeader namespace="DegreeROICalculator"
                         icon={GraduationCap}
                         title="Degree ROI Analyzer"
                     

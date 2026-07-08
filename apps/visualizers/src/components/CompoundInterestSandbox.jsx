@@ -3,7 +3,7 @@ import { Card, Input, Button, CalculatorHeader, CalculatorLayout, ResultsAnalysi
 import { SEO } from '@packages/components';
 import { Landmark, Play, Pause, RotateCcw } from 'lucide-react';
 import { Particle, resolveCollisions, calculateCompoundingSchedules } from '../lib/snowballPhysics';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
 
 export default function CompoundInterestSandbox() {
     const [startBalance, setStartBalance] = usePersistedState('CompoundInterestSandbox', 'startBalance', 10000);
@@ -186,7 +186,7 @@ export default function CompoundInterestSandbox() {
 
             <CalculatorLayout>
                 <div className="lg:col-span-12">
-                    <CalculatorHeader
+                    <CalculatorHeader namespace="CompoundInterestSandbox"
                         icon={Landmark}
                         title="Compound Interest Snowball"
                     

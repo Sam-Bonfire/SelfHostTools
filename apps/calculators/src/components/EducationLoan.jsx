@@ -8,7 +8,8 @@ import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import SEO from './SEO';
 
 import { calculateEducationLoan } from '../lib/educationLoanLogic';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
+import { macroData } from '@packages/macro-data';
 
 
 export default function App() {
@@ -29,7 +30,7 @@ export default function App() {
   };
 
   // --- Basic Inputs ---
-  const [interestRate, setInterestRate] = usePersistedState('EducationLoan', 'interestRate', 10.5);
+  const [interestRate, setInterestRate] = usePersistedState('EducationLoan', 'interestRate', macroData.interestRates.educationLoan);
   const [repaymentTenure, setRepaymentTenure] = usePersistedState('EducationLoan', 'repaymentTenure', 10); // in years
 
   // --- Simple Mode State ---
@@ -153,7 +154,7 @@ export default function App() {
 
       <CalculatorLayout>
         <div className="lg:col-span-12">
-          <CalculatorHeader
+          <CalculatorHeader namespace="EducationLoan"
             icon={Calculator}
             title="Education Loan"
           

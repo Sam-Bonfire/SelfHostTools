@@ -4,7 +4,7 @@ import { Button, Card, Input, Tooltip, ResultsAnalysis, CalculatorHeader, Calcul
 import { calculateLifestyleCreep } from '../lib/lifestyleCreepLogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend } from 'recharts';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
 
 export default function LifestyleCreepCalculator() {
     // Inputs
@@ -59,7 +59,7 @@ export default function LifestyleCreepCalculator() {
     return (
         <div className="min-h-screen bg-white text-black p-4 md:p-8">
       <CalculatorLayout>
-        <CalculatorHeader
+        <CalculatorHeader namespace="LifestyleCreepCalculator"
                 title="Lifestyle Creep Simulator"
                 icon={<Activity className="w-8 h-8 md:w-10 md:h-10 text-rose-500" 
             onReset={() => { resetPersistedState('LifestyleCreepCalculator'); window.location.reload(); }} />}

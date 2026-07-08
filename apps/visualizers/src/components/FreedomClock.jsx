@@ -5,7 +5,7 @@ import { Clock, ShieldAlert, Sparkles, Coffee, AlertTriangle, Download } from 'l
 import { calculateFreedomIndex, generateDonutWedge } from '../lib/freedomMath';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
 
 export default function FreedomClock() {
     const [sleep, setSleep] = usePersistedState('FreedomClock', 'sleep', 8);
@@ -153,7 +153,7 @@ export default function FreedomClock() {
 
             <CalculatorLayout>
                 <div className="lg:col-span-12">
-                    <CalculatorHeader
+                    <CalculatorHeader namespace="FreedomClock"
                         icon={Clock}
                         title="24-Hour Freedom Clock"
                     

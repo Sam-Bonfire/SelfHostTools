@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Calculator, IndianRupee, Percent, Calendar, PieChart as PieChartIcon, Table as TableIcon, TrendingUp, TrendingDown, ArrowLeft, Settings, Coins, PiggyBank, Eye, AlertCircle, Info, Flame, Landmark, ShieldCheck, Target } from 'lucide-react';
-import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer, MetricDisplay } from '@packages/styling';
+import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer, MetricDisplay , ActionEngine } from '@packages/styling';
 import { motion, AnimatePresence } from 'framer-motion';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 
 import SEO from './SEO';
 
 import { calculateSIPReality } from '../lib/sipLogic';
+import { generateActions } from '../lib/actionEngine';
 import { usePersistedState, resetPersistedState } from '@packages/components';
 
 export default function SIPCalculator() {
@@ -91,6 +92,8 @@ export default function SIPCalculator() {
   useEffect(() => {
     calculateSIP();
   }, [calculateSIP]);
+
+  const actions = generateActions('SIPCalculator', { annualStepUp: stepUpPercentage, years: timePeriod }, results);
 
   const updateMix = (asset, val) => {
     const num = val === "" ? "" : Math.max(0, Math.min(100, parseInt(val) || 0));
@@ -412,6 +415,8 @@ export default function SIPCalculator() {
               )}
             </div>
           </ResultsAnalysis>
+
+          <ActionEngine calculatorId="SIPCalculator" actions={actions} />
         </div>
       </CalculatorLayout>
 

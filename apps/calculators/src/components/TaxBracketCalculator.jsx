@@ -3,7 +3,7 @@ import { CalculatorLayout, CalculatorHeader, ResultsAnalysis, Input, Card, Downl
 import { Building2, Receipt, HeartHandshake, Stethoscope, Briefcase, Calculator } from 'lucide-react';
 import { calculateTaxBracketOptimization } from '../lib/taxBracketLogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
 
 export default function TaxBracketCalculator() {
   const [inputs, setInputs] = usePersistedState('TaxBracketCalculator', 'inputs', {
@@ -37,7 +37,7 @@ export default function TaxBracketCalculator() {
     <div className="min-h-screen bg-white text-black p-4 md:p-8">
       <CalculatorLayout>
       <div className="lg:col-span-12">
-        <CalculatorHeader 
+        <CalculatorHeader namespace="TaxBracketCalculator" 
         title="Tax Bracket Optimizer"
         icon={<Building2 className="w-8 h-8" 
             onReset={() => { resetPersistedState('TaxBracketCalculator'); window.location.reload(); }} />}

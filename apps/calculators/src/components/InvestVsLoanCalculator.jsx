@@ -6,7 +6,7 @@ import { calculateInvestVsLoan } from '../lib/investVsLoanLogic';
 import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 
 import SEO from './SEO';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
 
 export default function App() {
     const structuredData = {
@@ -102,7 +102,7 @@ export default function App() {
             />
 
             <CalculatorLayout>
-                <CalculatorHeader
+                <CalculatorHeader namespace="InvestVsLoanCalculator"
                     icon={Scale}
                     title="Invest or Pay Off Debt?"
                 

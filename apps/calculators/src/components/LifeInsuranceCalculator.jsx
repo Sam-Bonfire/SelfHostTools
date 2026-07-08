@@ -8,7 +8,8 @@ import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
 import SEO from './SEO';
 
 import { calculateLifeInsurance, generateLifeInsuranceSchedule } from '../lib/lifeInsuranceLogic';
-import { usePersistedState, resetPersistedState } from '@packages/components';
+import { usePersistedState, resetPersistedState } from '@packages/persistence';
+import { macroData } from '@packages/macro-data';
 
 export default function LifeInsuranceCalculator() {
   const structuredData = {
@@ -22,7 +23,7 @@ export default function LifeInsuranceCalculator() {
   // --- INPUTS ---
   const [monthlyExpense, setMonthlyExpense] = usePersistedState('LifeInsuranceCalculator', 'monthlyExpense', 50000);
   const [yearsToReplace, setYearsToReplace] = usePersistedState('LifeInsuranceCalculator', 'yearsToReplace', 25);
-  const [inflationRate, setInflationRate] = usePersistedState('LifeInsuranceCalculator', 'inflationRate', 6);
+  const [inflationRate, setInflationRate] = usePersistedState('LifeInsuranceCalculator', 'inflationRate', macroData.inflation.general);
   const [investmentReturn, setInvestmentReturn] = usePersistedState('LifeInsuranceCalculator', 'investmentReturn', 7); // Safe debt return
   const [personalShare, setPersonalShare] = usePersistedState('LifeInsuranceCalculator', 'personalShare', 20); // Self-consumption deduction %
 
@@ -130,7 +131,7 @@ export default function LifeInsuranceCalculator() {
 
       <CalculatorLayout>
         <div className="lg:col-span-12">
-          <CalculatorHeader
+          <CalculatorHeader namespace="LifeInsuranceCalculator"
             icon={Umbrella}
             title="Life Cover (HLV)"
           
