@@ -18,7 +18,7 @@ const Tooltip = ({ children, content, position = 'top', className = '' }) => {
   };
 
   return (
-    <div 
+    <div
       className={`relative inline-block ${className}`}
       onMouseEnter={() => setIsVisible(true)}
       onMouseLeave={() => setIsVisible(false)}
@@ -33,7 +33,7 @@ const Tooltip = ({ children, content, position = 'top', className = '' }) => {
             initial="initial"
             animate="animate"
             exit="exit"
-            transition={{ type: "spring", stiffness: 300, damping: 15 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 15 }}
             className={`absolute z-50 w-max min-w-[120px] max-w-[200px] sm:max-w-xs px-3 py-2 text-sm font-bold text-black bg-white border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] whitespace-normal ${positionClasses[position]}`}
           >
             {content}

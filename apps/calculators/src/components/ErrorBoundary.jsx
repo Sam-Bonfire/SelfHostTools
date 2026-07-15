@@ -1,7 +1,6 @@
-import React from 'react';
-import { useRouteError, Link } from 'react-router-dom';
-import { RefreshCw, Home, AlertOctagon } from 'lucide-react';
 import { Button, Card, Footer } from '@packages/styling';
+import { AlertOctagon, Home, RefreshCw } from 'lucide-react';
+import { Link, useRouteError } from 'react-router-dom';
 
 export default function ErrorBoundary() {
   const error = useRouteError();
@@ -33,7 +32,7 @@ export default function ErrorBoundary() {
           </p>
 
           <div className="flex flex-col md:flex-row gap-4 justify-center">
-            <Button 
+            <Button
               onClick={handleReload}
               className="flex items-center gap-2 text-lg px-8 py-3 w-full justify-center md:w-auto hover:-translate-y-1 transition-transform border-4 bg-white text-black border-black"
             >

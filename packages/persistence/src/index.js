@@ -1,12 +1,12 @@
-import { useSyncExternalStore, useCallback } from 'react';
+import { useSyncExternalStore, useCallback, useState } from 'react';
 
 class StorageManager {
   constructor() {
-    this.cache = {}; 
+    this.cache = {};
     this.listeners = new Set();
     this.timeouts = {};
   }
-  
+
   subscribe(listener) {
     this.listeners.add(listener);
     return () => this.listeners.delete(listener);
@@ -73,7 +73,7 @@ class StorageManager {
     this.save(namespace);
     this.notify();
   }
-  
+
   getProfiles(namespace) {
     this.init(namespace);
     return this.cache[namespace];
@@ -92,13 +92,13 @@ class StorageManager {
     this.init(namespace);
     const state = this.cache[namespace];
     if (state.profiles.includes(profileName)) return;
-    
+
     // Start by cloning the current profile's data
     const newData = {
       ...state.data,
       [profileName]: { ...(state.data[state.activeProfile] || {}) }
     };
-    
+
     this.cache[namespace] = {
       ...state,
       profiles: [...state.profiles, profileName],
@@ -113,16 +113,16 @@ class StorageManager {
     this.init(namespace);
     const state = this.cache[namespace];
     if (state.profiles.length <= 1) return; // Cannot delete last profile
-    
-    const newProfiles = state.profiles.filter(p => p !== profileName);
+
+    const newProfiles = state.profiles.filter((p) => p !== profileName);
     const newData = { ...state.data };
     delete newData[profileName];
-    
+
     let newActive = state.activeProfile;
     if (state.activeProfile === profileName) {
       newActive = newProfiles[0];
     }
-    
+
     this.cache[namespace] = {
       ...state,
       profiles: newProfiles,
@@ -136,9 +136,21 @@ class StorageManager {
   reset(namespace) {
     this.init(namespace);
     const state = this.cache[namespace];
+    const currentData = state.data[state.activeProfile] || {};
+    const profileData = {};
+
+    // Preserve derived output values so they don't reset to 0/empty on state reset
+    // when inputs are already at default values.
+    const keysToPreserve = ['results', 'schedule'];
+    for (const key of keysToPreserve) {
+      if (currentData[key] !== undefined) {
+        profileData[key] = currentData[key];
+      }
+    }
+
     const newData = {
       ...state.data,
-      [state.activeProfile]: {}
+      [state.activeProfile]: profileData
     };
     this.cache[namespace] = { ...state, data: newData };
     this.save(namespace);
@@ -149,20 +161,23 @@ class StorageManager {
 const store = new StorageManager();
 
 export function usePersistedState(namespace, key, initialValue) {
-  // We use inline getSnapshot function, but since it's re-created every render,
-  // we must ensure `store.get` itself doesn't cause problems.
-  // Actually, `useSyncExternalStore` will check Object.is() on the result.
+  // Memoize initialValue so it doesn't change on every render, preventing infinite loops in useSyncExternalStore
+  const [stableInitialValue] = useState(() => initialValue);
+
   const value = useSyncExternalStore(
     (listener) => store.subscribe(listener),
-    () => store.get(namespace, key, initialValue)
+    () => store.get(namespace, key, stableInitialValue)
   );
 
-  const setValue = useCallback((newValue) => {
-    // If it's a function update, we read from the store synchronously to apply it
-    const currentValue = store.get(namespace, key, initialValue);
-    const valueToStore = newValue instanceof Function ? newValue(currentValue) : newValue;
-    store.set(namespace, key, valueToStore);
-  }, [namespace, key, initialValue]);
+  const setValue = useCallback(
+    (newValue) => {
+      // If it's a function update, we read from the store synchronously to apply it
+      const currentValue = store.get(namespace, key, stableInitialValue);
+      const valueToStore = newValue instanceof Function ? newValue(currentValue) : newValue;
+      store.set(namespace, key, valueToStore);
+    },
+    [namespace, key, stableInitialValue]
+  );
 
   return [value, setValue];
 }

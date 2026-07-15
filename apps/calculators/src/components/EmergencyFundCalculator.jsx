@@ -1,9 +1,19 @@
-import React, { useState, useMemo } from 'react';
-import { ShieldAlert, IndianRupee, Activity, Briefcase, Plus, HeartPulse } from 'lucide-react';
-import { CalculatorLayout, CalculatorHeader, ResultsAnalysis, Input, Card, DownloadButtons, Footer, MetricDisplay } from '@packages/styling';
+import { resetPersistedState, usePersistedState } from '@packages/persistence';
+import {
+  CalculatorHeader,
+  CalculatorLayout,
+  Card,
+  DownloadButtons,
+  Footer,
+  Input,
+  MetricDisplay,
+  ResultsAnalysis
+} from '@packages/styling';
+import { Activity, Briefcase, HeartPulse, IndianRupee, Plus, ShieldAlert } from 'lucide-react';
+import { useMemo } from 'react';
+
+import { downloadExcel, downloadPDF } from '../lib/downloadUtils';
 import { calculateEmergencyFund } from '../lib/emergencyFundLogic.js';
-import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
-import { usePersistedState, resetPersistedState } from '@packages/persistence';
 
 export default function EmergencyFundCalculator() {
   const [inputs, setInputs] = usePersistedState('EmergencyFundCalculator', 'inputs', {
@@ -18,7 +28,7 @@ export default function EmergencyFundCalculator() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setInputs(prev => ({
+    setInputs((prev) => ({
       ...prev,
       [name]: parseFloat(value) || 0
     }));
@@ -37,14 +47,22 @@ export default function EmergencyFundCalculator() {
   return (
     <div className="min-h-screen bg-white text-black p-4 md:p-8">
       <CalculatorLayout>
-      <div className="lg:col-span-12 mb-8">
-        <CalculatorHeader namespace="EmergencyFundCalculator" 
-        title="Emergency Fund & Income Shock"
-        icon={<ShieldAlert size={32} className="text-white" 
-            onReset={() => { resetPersistedState('EmergencyFundCalculator'); window.location.reload(); }} />}
-      />
-      </div>
-      
+        <div className="lg:col-span-12 mb-8">
+          <CalculatorHeader
+            namespace="EmergencyFundCalculator"
+            title="Emergency Fund & Income Shock"
+            icon={
+              <ShieldAlert
+                size={32}
+                className="text-white"
+                onReset={() => {
+                  resetPersistedState('EmergencyFundCalculator');
+                }}
+              />
+            }
+          />
+        </div>
+
         <div className="lg:col-span-8 space-y-8">
           <Card title="Monthly Expenses" icon={IndianRupee}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -123,50 +141,47 @@ export default function EmergencyFundCalculator() {
         <div className="lg:col-span-4 space-y-6">
           <ResultsAnalysis aria-live="polite">
             <div className="text-center mb-6">
-              <MetricDisplay 
-                title="Total Fund Needed" 
-                value={`₹${results.totalFund.toLocaleString(undefined, { maximumFractionDigits: 0 })}`} 
-                subtitle={`Based on $${results.monthlyBurnRate.toLocaleString()} monthly burn rate.`} 
+              <MetricDisplay
+                title="Total Fund Needed"
+                value={`₹${results.totalFund.toLocaleString(undefined, { maximumFractionDigits: 0 })}`}
+                subtitle={`Based on $${results.monthlyBurnRate.toLocaleString()} monthly burn rate.`}
               />
             </div>
-            
+
             <div className="space-y-4">
               <div className="p-4 border-2 border-black bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
                 <h5 className="font-bold text-sm">Tier 1: Immediate Cash</h5>
                 <p className="text-xs text-gray-600 mb-1">Checking / Cash (1 month)</p>
                 <div className="text-xl font-bold">${results.tiers.tier1Cash.toLocaleString()}</div>
               </div>
-              
+
               <div className="p-4 border-2 border-black bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
                 <h5 className="font-bold text-sm">Tier 2: Bank (HYSA/FD)</h5>
                 <p className="text-xs text-gray-600 mb-1">High Yield Savings (1-2 days)</p>
                 <div className="text-xl font-bold">${results.tiers.tier2Bank.toLocaleString()}</div>
               </div>
-              
+
               <div className="p-4 border-2 border-black bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
                 <h5 className="font-bold text-sm">Tier 3: Investments</h5>
                 <p className="text-xs text-gray-600 mb-1">Liquid Mutual Funds (3-7 days)</p>
                 <div className="text-xl font-bold">${results.tiers.tier3Investments.toLocaleString()}</div>
               </div>
             </div>
-            
+
             <div className="mt-8">
-              <DownloadButtons 
-                onDownloadPDF={handleDownloadPDF} 
-                onDownloadExcel={handleDownloadExcel} 
-              />
+              <DownloadButtons onDownloadPDF={handleDownloadPDF} onDownloadExcel={handleDownloadExcel} />
             </div>
           </ResultsAnalysis>
         </div>
-      
-    </CalculatorLayout>
-    <Footer>
+      </CalculatorLayout>
+      <Footer>
         <p className="text-gray-600 font-medium">
-            <strong>Disclaimer:</strong> Emergencies compound.
-            <br className="md:hidden" />
-            A job loss often happens simultaneously with a medical emergency or market crash. Your fund must cover both income shocks (time) and lump-sum shocks (deductibles) without forcing you to liquidate investments at a loss.
+          <strong>Disclaimer:</strong> Emergencies compound.
+          <br className="md:hidden" />A job loss often happens simultaneously with a medical emergency or market crash.
+          Your fund must cover both income shocks (time) and lump-sum shocks (deductibles) without forcing you to
+          liquidate investments at a loss.
         </p>
-    </Footer>
+      </Footer>
     </div>
-    );
+  );
 }

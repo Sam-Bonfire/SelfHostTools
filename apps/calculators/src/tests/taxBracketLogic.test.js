@@ -1,4 +1,5 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
+
 import { calculateTaxBracketOptimization } from '../lib/taxBracketLogic';
 
 describe('taxBracketLogic', () => {
@@ -12,7 +13,7 @@ describe('taxBracketLogic', () => {
       medicalExpenses: 0,
       otherItemized: 0
     });
-    
+
     expect(result.grossIncome).toBe(50000);
     expect(result.bestStrategy).toBe('standard');
     expect(result.appliedDeduction).toBe(14600);
@@ -39,7 +40,7 @@ describe('taxBracketLogic', () => {
     expect(result.itemizedDetails.totalItemized).toBe(18000); // 10k + 6k + 2k
     expect(result.bestStrategy).toBe('itemized');
     expect(result.appliedDeduction).toBe(18000);
-    
+
     // Taxable = 100000 - 18000 = 82000
     // Standard was 14600. Taxable standard = 85400
     expect(result.taxSavings > 0).toBe(true);

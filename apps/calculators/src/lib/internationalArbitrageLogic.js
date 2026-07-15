@@ -3,13 +3,13 @@ export function calculateArbitrage(inputs) {
     grossIncome = 0,
     sourceTaxRate = 0,
     sourceExpenses = 0,
-    
+
     platformFeeRate = 0,
     transfersPerYear = 12,
     transferFeeFixed = 0,
     forexSpreadRate = 0,
     exchangeRate = 1,
-    
+
     targetTaxRate = 0,
     targetExpenses = 0
   } = inputs;
@@ -23,17 +23,17 @@ export function calculateArbitrage(inputs) {
   // TARGET COUNTRY CALCS
   const platformFee = grossIncome * (platformFeeRate / 100);
   const incomePostPlatform = grossIncome - platformFee;
-  
+
   const totalFixedTransferFees = transferFeeFixed * transfersPerYear;
-  
+
   const amountBeforeForex = Math.max(0, incomePostPlatform - totalFixedTransferFees);
   const forexFee = amountBeforeForex * (forexSpreadRate / 100);
   const amountToConvert = amountBeforeForex - forexFee;
-  
+
   const targetGrossIncomeLocal = amountToConvert * exchangeRate;
   const targetTaxAmountLocal = targetGrossIncomeLocal * (targetTaxRate / 100);
   const targetNetIncomeLocal = targetGrossIncomeLocal - targetTaxAmountLocal;
-  
+
   const targetSavingsLocal = targetNetIncomeLocal - targetExpenses;
   const targetSavingsConverted = exchangeRate > 0 ? targetSavingsLocal / exchangeRate : 0;
 
@@ -42,14 +42,13 @@ export function calculateArbitrage(inputs) {
   const targetTaxAmountConverted = exchangeRate > 0 ? targetTaxAmountLocal / exchangeRate : 0;
   const targetNetIncomeConverted = exchangeRate > 0 ? targetNetIncomeLocal / exchangeRate : 0;
   const targetExpensesConverted = exchangeRate > 0 ? targetExpenses / exchangeRate : 0;
-  
+
   const targetSavingsRate = targetGrossIncomeLocal > 0 ? (targetSavingsLocal / targetGrossIncomeLocal) * 100 : 0;
 
   // COMPARISON
   const savingsDifference = targetSavingsConverted - sourceSavings;
-  const savingsIncreasePercent = sourceSavings > 0 
-    ? (savingsDifference / sourceSavings) * 100 
-    : (savingsDifference > 0 ? Infinity : 0);
+  const savingsIncreasePercent =
+    sourceSavings > 0 ? (savingsDifference / sourceSavings) * 100 : savingsDifference > 0 ? Infinity : 0;
 
   // Velocity (Months to save what used to take a year)
   let monthsToReachSourceAnnual = 0;
@@ -79,14 +78,14 @@ export function calculateArbitrage(inputs) {
       transferFee: totalFixedTransferFees,
       forexFee,
       totalFeesConverted: platformFee + totalFixedTransferFees + forexFee,
-      
+
       grossIncomeLocal: targetGrossIncomeLocal,
       taxAmountLocal: targetTaxAmountLocal,
       netIncomeLocal: targetNetIncomeLocal,
       expensesLocal: targetExpenses,
       savingsLocal: targetSavingsLocal,
       monthlySavingsLocal: monthlyTargetSavingsLocal,
-      
+
       grossIncomeConverted: targetGrossIncomeConverted,
       taxAmountConverted: targetTaxAmountConverted,
       netIncomeConverted: targetNetIncomeConverted,

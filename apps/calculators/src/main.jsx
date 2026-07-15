@@ -1,15 +1,17 @@
+import '../../../packages/styling/src/index.css';
+
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
-import { createHashRouter, RouterProvider, Outlet } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
+import { createHashRouter, Outlet, RouterProvider } from 'react-router-dom';
 import { registerSW } from 'virtual:pwa-register';
-import Root from './components/Root.jsx';
-import PWAInstallPrompt from './components/PWAInstallPrompt.jsx';
-import NotFound from './components/NotFound.jsx';
-import Forbidden from './components/Forbidden.jsx';
-import ScrollToTop from './components/ScrollToTop.jsx';
+
 import ErrorBoundary from './components/ErrorBoundary.jsx';
-import '../../../packages/styling/src/index.css';
+import Forbidden from './components/Forbidden.jsx';
+import NotFound from './components/NotFound.jsx';
+import PWAInstallPrompt from './components/PWAInstallPrompt.jsx';
+import Root from './components/Root.jsx';
+import ScrollToTop from './components/ScrollToTop.jsx';
 
 // Lazy Load Calculators
 const EducationLoan = React.lazy(() => import('./components/EducationLoan.jsx'));
@@ -60,118 +62,118 @@ const router = createHashRouter([
     children: [
       {
         path: '/',
-        element: <Root />,
+        element: <Root />
       },
       {
         path: '/education-loan',
-        element: <EducationLoan />,
+        element: <EducationLoan />
       },
       {
         path: '/sip-calculator',
-        element: <SIPCalculator />,
+        element: <SIPCalculator />
       },
       {
         path: '/home-loan-vs-rent',
-        element: <HomeLoanRentCalculator />,
+        element: <HomeLoanRentCalculator />
       },
       {
         path: '/life-insurance-calculator',
-        element: <LifeInsuranceCalculator />,
+        element: <LifeInsuranceCalculator />
       },
       {
         path: '/fire-calculator',
-        element: <FIRECalculator />,
+        element: <FIRECalculator />
       },
       {
         path: '/freelance-calculator',
-        element: <FreelanceIncomeCalculator />,
+        element: <FreelanceIncomeCalculator />
       },
       {
         path: '/degree-roi',
-        element: <DegreeROICalculator />,
+        element: <DegreeROICalculator />
       },
       {
         path: '/golden-handcuffs',
-        element: <GoldenHandcuffsCalculator />,
+        element: <GoldenHandcuffsCalculator />
       },
       {
         path: '/true-hourly-wage',
-        element: <TrueHourlyWageCalculator />,
+        element: <TrueHourlyWageCalculator />
       },
       {
         path: '/home-owner-realist',
-        element: <HomeOwnerRealistCalculator />,
+        element: <HomeOwnerRealistCalculator />
       },
       {
         path: '/job-relocation',
-        element: <JobRelocationCalculator />,
+        element: <JobRelocationCalculator />
       },
       {
         path: '/tdee-calculator',
-        element: <TDEECalculator />,
+        element: <TDEECalculator />
       },
       {
         path: '/invest-vs-payoff',
-        element: <InvestVsLoanCalculator />,
+        element: <InvestVsLoanCalculator />
       },
       {
         path: '/alternate-investment',
-        element: <AlternateInvestmentCalculator />,
+        element: <AlternateInvestmentCalculator />
       },
       {
         path: '/saas-leak',
-        element: <SaasLeakCalculator />,
+        element: <SaasLeakCalculator />
       },
       {
         path: '/time-buyback',
-        element: <TimeBuyBackCalculator />,
+        element: <TimeBuyBackCalculator />
       },
       {
         path: '/inflation-destroyer',
-        element: <InflationDestroyer />,
+        element: <InflationDestroyer />
       },
       {
         path: '/lifestyle-creep',
-        element: <LifestyleCreepCalculator />,
+        element: <LifestyleCreepCalculator />
       },
       {
         path: '/solo-founder-runway',
-        element: <SoloFounderCalculator />,
+        element: <SoloFounderCalculator />
       },
       {
         path: '/car-ownership',
-        element: <CarOwnershipCalculator />,
+        element: <CarOwnershipCalculator />
       },
       {
         path: '/tax-bracket',
-        element: <TaxBracketCalculator />,
+        element: <TaxBracketCalculator />
       },
       {
         path: '/international-arbitrage',
-        element: <InternationalArbitrageCalculator />,
+        element: <InternationalArbitrageCalculator />
       },
       {
         path: '/creator-economy',
-        element: <CreatorEconomyCalculator />,
+        element: <CreatorEconomyCalculator />
       },
       {
         path: '/emergency-fund',
-        element: <EmergencyFundCalculator />,
+        element: <EmergencyFundCalculator />
       },
       {
         path: '/feedback',
-        element: <Feedback />,
+        element: <Feedback />
       },
       {
         path: '/403',
-        element: <Forbidden />,
+        element: <Forbidden />
       },
       {
         path: '*',
-        element: <NotFound />,
-      },
-    ],
-  },
+        element: <NotFound />
+      }
+    ]
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(

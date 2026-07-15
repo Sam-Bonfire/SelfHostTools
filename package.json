@@ -12,9 +12,12 @@
     "clean": "npx rimraf node_modules apps/*/node_modules packages/*/node_modules apps/*/dist packages/*/dist coverage",
     "dev": "pnpm --filter calculators dev",
     "dev:calc": "pnpm --filter calculators dev",
-    "dev:viz": "pnpm --filter visualizers dev"
+    "dev:viz": "pnpm --filter visualizers dev",
+    "format": "prettier --write .",
+    "lint:fix": "pnpm -r run lint --fix"
   },
   "devDependencies": {
+    "prettier": "^3.2.5",
     "wrangler": "^3.90.0"
   },
   "dependencies": {

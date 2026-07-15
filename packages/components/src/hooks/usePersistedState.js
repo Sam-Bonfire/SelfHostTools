@@ -36,7 +36,7 @@ class StorageManager {
     if (this.timeouts[namespace]) {
       clearTimeout(this.timeouts[namespace]);
     }
-    
+
     this.timeouts[namespace] = setTimeout(() => {
       try {
         window.localStorage.setItem(`sh_${namespace}`, JSON.stringify(this.cache[namespace]));
@@ -61,14 +61,17 @@ export function usePersistedState(namespace, key, initialValue) {
   // Pass a function to useState so store.get is only called on initial mount
   const [value, setValue] = useState(() => store.get(namespace, key, initialValue));
 
-  const setPersistedValue = useCallback((newValue) => {
-    setValue((prev) => {
-      // Handle functional updates (e.g., setCounter(c => c + 1))
-      const valueToStore = newValue instanceof Function ? newValue(prev) : newValue;
-      store.set(namespace, key, valueToStore);
-      return valueToStore;
-    });
-  }, [namespace, key]);
+  const setPersistedValue = useCallback(
+    (newValue) => {
+      setValue((prev) => {
+        // Handle functional updates (e.g., setCounter(c => c + 1))
+        const valueToStore = newValue instanceof Function ? newValue(prev) : newValue;
+        store.set(namespace, key, valueToStore);
+        return valueToStore;
+      });
+    },
+    [namespace, key]
+  );
 
   return [value, setPersistedValue];
 }

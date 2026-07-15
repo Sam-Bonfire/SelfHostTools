@@ -4,7 +4,7 @@ export const calculateCreatorEconomy = (inputs) => {
     audienceSize = 10000,
     reachRate = 30, // %
     clickThroughRate = 3, // % of total audience
-    postsPerMonth = 4,
+    postsPerMonth = 4
   } = inputs;
 
   const activeAudience = audienceSize * (reachRate / 100);
@@ -22,24 +22,24 @@ export const calculateCreatorEconomy = (inputs) => {
   const integrationCpm = 75;
 
   const tiers = [
-    { 
-      name: 'Standard Shoutout', 
-      cpm: standardCpm, 
+    {
+      name: 'Standard Shoutout',
+      cpm: standardCpm,
       flatRate: (safeActiveAudience / 1000) * standardCpm,
-      monthlyRevenue: ((safeActiveAudience / 1000) * standardCpm) * postsPerMonth
+      monthlyRevenue: (safeActiveAudience / 1000) * standardCpm * postsPerMonth
     },
-    { 
-      name: 'Dedicated Ad', 
-      cpm: premiumCpm, 
+    {
+      name: 'Dedicated Ad',
+      cpm: premiumCpm,
       flatRate: (safeActiveAudience / 1000) * premiumCpm,
-      monthlyRevenue: ((safeActiveAudience / 1000) * premiumCpm) * postsPerMonth
+      monthlyRevenue: (safeActiveAudience / 1000) * premiumCpm * postsPerMonth
     },
-    { 
-      name: 'Full Integration', 
-      cpm: integrationCpm, 
+    {
+      name: 'Full Integration',
+      cpm: integrationCpm,
       flatRate: (safeActiveAudience / 1000) * integrationCpm,
-      monthlyRevenue: ((safeActiveAudience / 1000) * integrationCpm) * postsPerMonth
-    },
+      monthlyRevenue: (safeActiveAudience / 1000) * integrationCpm * postsPerMonth
+    }
   ];
 
   const maxRealisticMonthly = tiers[2].monthlyRevenue;
@@ -48,9 +48,10 @@ export const calculateCreatorEconomy = (inputs) => {
   const realityCheck = {
     isRealistic: requiredCPM <= integrationCpm,
     gap: gap > 0 ? gap : 0,
-    message: requiredCPM <= integrationCpm 
-      ? "Your goal is achievable within standard industry rates." 
-      : "You need to increase your audience or post frequency to hit this goal.",
+    message:
+      requiredCPM <= integrationCpm
+        ? 'Your goal is achievable within standard industry rates.'
+        : 'You need to increase your audience or post frequency to hit this goal.',
     requiredAudienceToHitGoal: Math.ceil((revenueNeededPerPost * 1000) / (integrationCpm * (reachRate / 100)))
   };
 

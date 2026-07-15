@@ -1,10 +1,10 @@
 {
-    "name": "@packages/components",
-    "version": "1.0.0",
-    "main": "src/index.js",
-    "peerDependencies": {
-        "react": ">=18.0.0",
-        "react-helmet-async": ">=2.0.0"
-    },
-    "dependencies": {}
+  "name": "@packages/components",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-helmet-async": ">=2.0.0"
+  },
+  "dependencies": {}
 }

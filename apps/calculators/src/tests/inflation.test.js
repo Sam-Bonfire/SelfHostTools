@@ -1,4 +1,5 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
+
 import { calculateInflationDestroyer } from '../lib/inflationLogic';
 
 describe('Inflation Destroyer - Purchasing Power Decay Logic', () => {
@@ -9,7 +10,7 @@ describe('Inflation Destroyer - Purchasing Power Decay Logic', () => {
       years: 10,
       investmentReturn: 10,
       investmentTaxRate: 10,
-      selectedBasketId: 'groceries',
+      selectedBasketId: 'groceries'
     });
     // At 0% inflation, purchasing power should equal the principal
     expect(result.results.finalPurchasingPower).toBe(100000);
@@ -24,7 +25,7 @@ describe('Inflation Destroyer - Purchasing Power Decay Logic', () => {
       years: 10,
       investmentReturn: 12,
       investmentTaxRate: 10,
-      selectedBasketId: 'groceries',
+      selectedBasketId: 'groceries'
     });
     // PP = 100000 / (1.06)^10 = 100000 / 1.79084... ≈ 55839
     expect(result.results.finalPurchasingPower).toBe(55839);
@@ -39,7 +40,7 @@ describe('Inflation Destroyer - Purchasing Power Decay Logic', () => {
       years: 10,
       investmentReturn: 12,
       investmentTaxRate: 10,
-      selectedBasketId: 'petrol',
+      selectedBasketId: 'petrol'
     });
     // Gross Investment: 100000 * (1.12)^10 = 100000 * 3.10585 = 310585
     expect(result.results.grossInvestmentValue).toBe(310585);
@@ -57,7 +58,7 @@ describe('Inflation Destroyer - Purchasing Power Decay Logic', () => {
       years: 10,
       investmentReturn: 12,
       investmentTaxRate: 10,
-      selectedBasketId: 'groceries',
+      selectedBasketId: 'groceries'
     });
     // Basket cost = 8000/month. Units today = 80000 / 8000 = 10
     expect(result.basket.unitsToday).toBe(10);
@@ -73,7 +74,7 @@ describe('Inflation Destroyer - Purchasing Power Decay Logic', () => {
       years: 20,
       investmentReturn: 12,
       investmentTaxRate: 10,
-      selectedBasketId: 'rent',
+      selectedBasketId: 'rent'
     });
     // Schedule should have years 0..20 = 21 entries
     expect(result.schedule.length).toBe(21);

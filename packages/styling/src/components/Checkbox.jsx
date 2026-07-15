@@ -13,15 +13,15 @@ const Checkbox = ({ className = '', label, tooltip, ...props }) => {
   const content = label ? (
     <label className="flex items-center gap-3 cursor-pointer select-none">
       {checkboxElement}
-      <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-black">
-        {label}
-      </span>
+      <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-black">{label}</span>
     </label>
-  ) : checkboxElement;
+  ) : (
+    checkboxElement
+  );
 
   if (tooltip) {
     return (
-      <Tooltip content={tooltip} className={label ? "" : "inline-block"}>
+      <Tooltip content={tooltip} className={label ? '' : 'inline-block'}>
         {content}
       </Tooltip>
     );

@@ -1,17 +1,17 @@
-import React, { useState, useMemo, useCallback, useRef } from 'react';
-import { IndianRupee, Plus, Trash2, GitFork, Download } from 'lucide-react';
-import { Card, Button, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer, Input } from '@packages/styling';
 import { SEO } from '@packages/components';
+import { resetPersistedState, usePersistedState } from '@packages/persistence';
+import { CalculatorHeader, CalculatorLayout, Card, DownloadButtons, Footer, Input } from '@packages/styling';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import { usePersistedState, resetPersistedState } from '@packages/persistence';
+import { GitFork, IndianRupee, Plus, Trash2 } from 'lucide-react';
+import { useCallback, useMemo, useRef } from 'react';
 
 // ─────────────────────────────────────────────
 // CONSTANTS & DEFAULTS
 // ─────────────────────────────────────────────
 const DEFAULT_SOURCES = [
   { id: 'src-1', label: 'Primary Salary', amount: 120000 },
-  { id: 'src-2', label: 'Freelance Income', amount: 30000 },
+  { id: 'src-2', label: 'Freelance Income', amount: 30000 }
 ];
 
 const DEFAULT_DESTINATIONS = [
@@ -21,13 +21,21 @@ const DEFAULT_DESTINATIONS = [
   { id: 'dst-4', label: 'Subscriptions', amount: 3700, color: '#8b5cf6' },
   { id: 'dst-5', label: 'Investments', amount: 30000, color: '#22c55e' },
   { id: 'dst-6', label: 'Emergency Fund', amount: 15000, color: '#06b6d4' },
-  { id: 'dst-7', label: 'Misc / Leisure', amount: 15000, color: '#ec4899' },
+  { id: 'dst-7', label: 'Misc / Leisure', amount: 15000, color: '#ec4899' }
 ];
 
 const PALETTE = [
-  '#ef4444', '#f97316', '#eab308', '#22c55e',
-  '#06b6d4', '#3b82f6', '#8b5cf6', '#ec4899',
-  '#10b981', '#f59e0b', '#6366f1',
+  '#ef4444',
+  '#f97316',
+  '#eab308',
+  '#22c55e',
+  '#06b6d4',
+  '#3b82f6',
+  '#8b5cf6',
+  '#ec4899',
+  '#10b981',
+  '#f59e0b',
+  '#6366f1'
 ];
 
 // ─────────────────────────────────────────────
@@ -64,11 +72,14 @@ const buildPath = (x0, y0, t0, x1, y1, t1) => {
 function NodeRow({ item, onChange, onDelete, prefix, showDelete }) {
   return (
     <div className="flex items-center gap-2 p-2 bg-white border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-      <div className="w-3 h-3 rounded-full border border-black flex-shrink-0" style={{ background: item.color || '#000' }} />
+      <div
+        className="w-3 h-3 rounded-full border border-black flex-shrink-0"
+        style={{ background: item.color || '#000' }}
+      />
       <input
         type="text"
         value={item.label}
-        onChange={e => onChange(item.id, 'label', e.target.value)}
+        onChange={(e) => onChange(item.id, 'label', e.target.value)}
         className="flex-1 text-xs font-bold border-none outline-none bg-transparent min-w-0"
         aria-label={`${prefix} label`}
       />
@@ -77,13 +88,17 @@ function NodeRow({ item, onChange, onDelete, prefix, showDelete }) {
           type="number"
           icon={IndianRupee}
           value={item.amount}
-          onChange={e => onChange(item.id, 'amount', Number(e.target.value))}
+          onChange={(e) => onChange(item.id, 'amount', Number(e.target.value))}
           className="!py-1 font-mono text-xs"
           aria-label={`${prefix} amount`}
         />
       </div>
       {showDelete && (
-        <button onClick={() => onDelete(item.id)} className="p-1 text-red-500 hover:bg-red-50 border border-transparent hover:border-black transition-all" aria-label="Delete node">
+        <button
+          onClick={() => onDelete(item.id)}
+          className="p-1 text-red-500 hover:bg-red-50 border border-transparent hover:border-black transition-all"
+          aria-label="Delete node"
+        >
           <Trash2 className="w-3.5 h-3.5" />
         </button>
       )}
@@ -110,28 +125,28 @@ export default function SankeyFlowchart() {
 
   // ── Node CRUD ──────────────────────────────
   const updateSource = useCallback((id, field, val) => {
-    setSources(prev => prev.map(n => n.id === id ? { ...n, [field]: val } : n));
+    setSources((prev) => prev.map((n) => (n.id === id ? { ...n, [field]: val } : n)));
   }, []);
 
   const addSource = () => {
-    setSources(prev => [...prev, { id: `src-${Date.now()}`, label: 'New Income', amount: 10000 }]);
+    setSources((prev) => [...prev, { id: `src-${Date.now()}`, label: 'New Income', amount: 10000 }]);
   };
 
   const deleteSource = (id) => {
-    setSources(prev => prev.length > 1 ? prev.filter(n => n.id !== id) : prev);
+    setSources((prev) => (prev.length > 1 ? prev.filter((n) => n.id !== id) : prev));
   };
 
   const updateDest = useCallback((id, field, val) => {
-    setDestinations(prev => prev.map(n => n.id === id ? { ...n, [field]: val } : n));
+    setDestinations((prev) => prev.map((n) => (n.id === id ? { ...n, [field]: val } : n)));
   }, []);
 
   const addDest = () => {
     const color = PALETTE[destinations.length % PALETTE.length];
-    setDestinations(prev => [...prev, { id: `dst-${Date.now()}`, label: 'New Category', amount: 5000, color }]);
+    setDestinations((prev) => [...prev, { id: `dst-${Date.now()}`, label: 'New Category', amount: 5000, color }]);
   };
 
   const deleteDest = (id) => {
-    setDestinations(prev => prev.length > 1 ? prev.filter(n => n.id !== id) : prev);
+    setDestinations((prev) => (prev.length > 1 ? prev.filter((n) => n.id !== id) : prev));
   };
 
   // ── SVG Layout ────────────────────────────
@@ -154,7 +169,7 @@ export default function SankeyFlowchart() {
     const availH = usableH - gapsH;
     // Use proportional heights based on amount
     const total = sources.reduce((s, n) => s + Math.max(1, n.amount || 0), 0);
-    return sources.map(s => Math.max(MIN_NODE_H, (Math.max(1, s.amount || 0) / total) * availH));
+    return sources.map((s) => Math.max(MIN_NODE_H, (Math.max(1, s.amount || 0) / total) * availH));
   }, [sources, usableH]);
 
   const dstNodeHeights = useMemo(() => {
@@ -164,7 +179,7 @@ export default function SankeyFlowchart() {
     const gapsH = (N - 1) * minGap;
     const availH = usableH - gapsH;
     const total = destinations.reduce((s, n) => s + Math.max(1, n.amount || 0), 0);
-    return destinations.map(d => Math.max(MIN_NODE_H, (Math.max(1, d.amount || 0) / total) * availH));
+    return destinations.map((d) => Math.max(MIN_NODE_H, (Math.max(1, d.amount || 0) / total) * availH));
   }, [destinations, usableH]);
 
   // Vertical top-Y positions for each node
@@ -236,7 +251,7 @@ export default function SankeyFlowchart() {
           color: dst.color || '#888',
           srcLabel: src.label,
           dstLabel: dst.label,
-          amount: flowAmount,
+          amount: flowAmount
         });
       });
     });
@@ -280,170 +295,236 @@ export default function SankeyFlowchart() {
 
       <CalculatorLayout>
         <div className="lg:col-span-12">
-          <CalculatorHeader namespace="SankeyFlowchart"
+          <CalculatorHeader
+            namespace="SankeyFlowchart"
             icon={GitFork}
             title="Capital Allocation Flow"
-          
-            onReset={() => { resetPersistedState('SankeyFlowchart'); window.location.reload(); }} />
+
+            onReset={() => {
+              resetPersistedState('SankeyFlowchart');
+            }}
+          />
         </div>
 
         <div className="lg:col-span-12" ref={chartContainerRef}>
-        <div className="space-y-6">
-
-        {/* Status Bar */}
-        <div className={`p-3 border-4 border-black flex flex-wrap gap-4 items-center justify-between shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] ${Math.abs(unallocated) < 10 ? 'bg-green-100' : unallocated > 0 ? 'bg-yellow-100' : 'bg-red-100'}`}>
-          <div className="flex gap-6">
-            <div>
-              <p className="text-[9px] font-black uppercase text-gray-500">Total Income In</p>
-              <p className="text-lg font-black text-green-700">{formatCurrency(totalIn)}</p>
-            </div>
-            <div>
-              <p className="text-[9px] font-black uppercase text-gray-500">Total Allocated Out</p>
-              <p className="text-lg font-black text-red-600">{formatCurrency(totalOut)}</p>
-            </div>
-            <div>
-              <p className="text-[9px] font-black uppercase text-gray-500">Unallocated</p>
-              <p className={`text-lg font-black ${Math.abs(unallocated) < 10 ? 'text-green-700' : unallocated > 0 ? 'text-yellow-700' : 'text-red-700'}`}>
-                {unallocated >= 0 ? '+' : ''}{formatCurrency(unallocated)}
+          <div className="space-y-6">
+            {/* Status Bar */}
+            <div
+              className={`p-3 border-4 border-black flex flex-wrap gap-4 items-center justify-between shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] ${Math.abs(unallocated) < 10 ? 'bg-green-100' : unallocated > 0 ? 'bg-yellow-100' : 'bg-red-100'}`}
+            >
+              <div className="flex gap-6">
+                <div>
+                  <p className="text-[9px] font-black uppercase text-gray-500">Total Income In</p>
+                  <p className="text-lg font-black text-green-700">{formatCurrency(totalIn)}</p>
+                </div>
+                <div>
+                  <p className="text-[9px] font-black uppercase text-gray-500">Total Allocated Out</p>
+                  <p className="text-lg font-black text-red-600">{formatCurrency(totalOut)}</p>
+                </div>
+                <div>
+                  <p className="text-[9px] font-black uppercase text-gray-500">Unallocated</p>
+                  <p
+                    className={`text-lg font-black ${Math.abs(unallocated) < 10 ? 'text-green-700' : unallocated > 0 ? 'text-yellow-700' : 'text-red-700'}`}
+                  >
+                    {unallocated >= 0 ? '+' : ''}
+                    {formatCurrency(unallocated)}
+                  </p>
+                </div>
+              </div>
+              <p className="text-[9px] font-black uppercase text-gray-600">
+                {Math.abs(unallocated) < 10
+                  ? '✅ Fully allocated'
+                  : unallocated > 0
+                    ? '⚠️ Surplus — assign it to savings or investments!'
+                    : '🚨 Overspent! Reduce allocations.'}
               </p>
             </div>
-          </div>
-          <p className="text-[9px] font-black uppercase text-gray-600">
-            {Math.abs(unallocated) < 10
-              ? '✅ Fully allocated'
-              : unallocated > 0
-              ? '⚠️ Surplus — assign it to savings or investments!'
-              : '🚨 Overspent! Reduce allocations.'}
-          </p>
-        </div>
 
-        {/* Main Layout: Inputs + Sankey Diagram */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-
-          {/* LEFT: Source Nodes */}
-          <div className="lg:col-span-3 space-y-4">
-            <Card title="Income Sources" icon={IndianRupee} headerColor="bg-green-100">
-              <div className="space-y-2">
-                {sources.map(src => (
-                  <NodeRow key={src.id} item={src} onChange={updateSource} onDelete={deleteSource} prefix="Source" showDelete={sources.length > 1} />
-                ))}
-              </div>
-              <button
-                onClick={addSource}
-                className="mt-3 w-full py-2 border-2 border-dashed border-black text-xs font-black uppercase flex items-center justify-center gap-2 hover:bg-green-50 transition-colors"
-              >
-                <Plus className="w-3.5 h-3.5" /> Add Source
-              </button>
-            </Card>
-
-            {/* Action Buttons */}
-            <div className="pt-2">
-              <DownloadButtons onDownloadPDF={handleDownloadPDF} />
-            </div>
-          </div>
-
-          {/* CENTRE: Sankey SVG */}
-          <div className="lg:col-span-6">
-            <div className="border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] bg-gray-50 overflow-hidden">
-              <div className="bg-black p-3 border-b-4 border-black text-white font-black uppercase text-xs tracking-wider flex justify-between items-center">
-                <span>Income → Allocation Flow</span>
-              </div>
-              <svg
-                ref={svgRef}
-                viewBox={`0 0 ${SVG_W} ${SVG_H}`}
-                width="100%"
-                preserveAspectRatio="xMidYMid meet"
-                xmlns="http://www.w3.org/2000/svg"
-                style={{ background: '#fafafa' }}
-              >
-                {/* Ribbons FIRST (rendered behind nodes for text legibility) */}
-                {ribbons.map(r => (
-                  <path
-                    key={r.key}
-                    d={buildRibbonPath(r.srcTopY, r.srcH, r.dstTopY, r.dstH)}
-                    fill={r.color}
-                    opacity={0.5}
-                    style={{ transition: 'd 0.4s ease' }}
+            {/* Main Layout: Inputs + Sankey Diagram */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              {/* LEFT: Source Nodes */}
+              <div className="lg:col-span-3 space-y-4">
+                <Card title="Income Sources" icon={IndianRupee} headerColor="bg-green-100">
+                  <div className="space-y-2">
+                    {sources.map((src) => (
+                      <NodeRow
+                        key={src.id}
+                        item={src}
+                        onChange={updateSource}
+                        onDelete={deleteSource}
+                        prefix="Source"
+                        showDelete={sources.length > 1}
+                      />
+                    ))}
+                  </div>
+                  <button
+                    onClick={addSource}
+                    className="mt-3 w-full py-2 border-2 border-dashed border-black text-xs font-black uppercase flex items-center justify-center gap-2 hover:bg-green-50 transition-colors"
                   >
-                    <title>{r.srcLabel} → {r.dstLabel}: ₹{Math.round(r.amount).toLocaleString('en-IN')}</title>
-                  </path>
-                ))}
+                    <Plus className="w-3.5 h-3.5" /> Add Source
+                  </button>
+                </Card>
 
-                {/* Source nodes (rendered ON TOP of ribbons) */}
-                {sources.map((src, i) => {
-                  const h = srcNodeHeights[i];
-                  const topY = srcNodeTops[i];
-                  const midY = topY + h / 2;
-                  const pct = totalIn > 0 ? ((src.amount / totalIn) * 100).toFixed(0) : 0;
-                  return (
-                    <g key={src.id}>
-                      <rect x={LEFT_X - NODE_W / 2} y={topY} width={NODE_W} height={h} fill="#1a1a1a" />
-                      <text x={LEFT_X + NODE_W / 2 + 4} y={midY - 2} fontSize="9" fontWeight="bold" fill="#111" fontFamily="Outfit, sans-serif">{src.label}</text>
-                      <text x={LEFT_X + NODE_W / 2 + 4} y={midY + 9} fontSize="8" fill="#555" fontFamily="Outfit, sans-serif">₹{(src.amount || 0).toLocaleString('en-IN')} ({pct}%)</text>
-                    </g>
-                  );
-                })}
-
-                {/* Destination nodes (rendered ON TOP of ribbons) */}
-                {destinations.map((dst, i) => {
-                  const h = dstNodeHeights[i];
-                  const topY = dstNodeTops[i];
-                  const midY = topY + h / 2;
-                  const pct = totalIn > 0 ? ((dst.amount / totalIn) * 100).toFixed(0) : 0;
-                  return (
-                    <g key={dst.id}>
-                      <rect x={RIGHT_X - NODE_W / 2} y={topY} width={NODE_W} height={h} fill={dst.color || '#333'} />
-                      <text x={RIGHT_X - NODE_W / 2 - 4} y={midY - 2} fontSize="9" fontWeight="bold" fill="#111" textAnchor="end" fontFamily="Outfit, sans-serif">{dst.label}</text>
-                      <text x={RIGHT_X - NODE_W / 2 - 4} y={midY + 9} fontSize="8" fill="#555" textAnchor="end" fontFamily="Outfit, sans-serif">₹{(dst.amount || 0).toLocaleString('en-IN')} ({pct}%)</text>
-                    </g>
-                  );
-                })}
-              </svg>
-            </div>
-          </div>
-
-          {/* RIGHT: Destination Nodes */}
-          <div className="lg:col-span-3 space-y-4">
-            <Card title="Allocation Buckets" icon={GitFork} headerColor="bg-red-100">
-              <div className="space-y-2 max-h-[420px] overflow-y-auto pr-1">
-                {destinations.map(dst => (
-                  <NodeRow key={dst.id} item={dst} onChange={updateDest} onDelete={deleteDest} prefix="Destination" showDelete={destinations.length > 1} />
-                ))}
+                {/* Action Buttons */}
+                <div className="pt-2">
+                  <DownloadButtons onDownloadPDF={handleDownloadPDF} />
+                </div>
               </div>
-              <button
-                onClick={addDest}
-                className="mt-3 w-full py-2 border-2 border-dashed border-black text-xs font-black uppercase flex items-center justify-center gap-2 hover:bg-red-50 transition-colors"
-              >
-                <Plus className="w-3.5 h-3.5" /> Add Category
-              </button>
+
+              {/* CENTRE: Sankey SVG */}
+              <div className="lg:col-span-6">
+                <div className="border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] bg-gray-50 overflow-hidden">
+                  <div className="bg-black p-3 border-b-4 border-black text-white font-black uppercase text-xs tracking-wider flex justify-between items-center">
+                    <span>Income → Allocation Flow</span>
+                  </div>
+                  <svg
+                    ref={svgRef}
+                    viewBox={`0 0 ${SVG_W} ${SVG_H}`}
+                    width="100%"
+                    preserveAspectRatio="xMidYMid meet"
+                    xmlns="http://www.w3.org/2000/svg"
+                    style={{ background: '#fafafa' }}
+                  >
+                    {/* Ribbons FIRST (rendered behind nodes for text legibility) */}
+                    {ribbons.map((r) => (
+                      <path
+                        key={r.key}
+                        d={buildRibbonPath(r.srcTopY, r.srcH, r.dstTopY, r.dstH)}
+                        fill={r.color}
+                        opacity={0.5}
+                        style={{ transition: 'd 0.4s ease' }}
+                      >
+                        <title>
+                          {r.srcLabel} → {r.dstLabel}: ₹{Math.round(r.amount).toLocaleString('en-IN')}
+                        </title>
+                      </path>
+                    ))}
+
+                    {/* Source nodes (rendered ON TOP of ribbons) */}
+                    {sources.map((src, i) => {
+                      const h = srcNodeHeights[i];
+                      const topY = srcNodeTops[i];
+                      const midY = topY + h / 2;
+                      const pct = totalIn > 0 ? ((src.amount / totalIn) * 100).toFixed(0) : 0;
+                      return (
+                        <g key={src.id}>
+                          <rect x={LEFT_X - NODE_W / 2} y={topY} width={NODE_W} height={h} fill="#1a1a1a" />
+                          <text
+                            x={LEFT_X + NODE_W / 2 + 4}
+                            y={midY - 2}
+                            fontSize="9"
+                            fontWeight="bold"
+                            fill="#111"
+                            fontFamily="Outfit, sans-serif"
+                          >
+                            {src.label}
+                          </text>
+                          <text
+                            x={LEFT_X + NODE_W / 2 + 4}
+                            y={midY + 9}
+                            fontSize="8"
+                            fill="#555"
+                            fontFamily="Outfit, sans-serif"
+                          >
+                            ₹{(src.amount || 0).toLocaleString('en-IN')} ({pct}%)
+                          </text>
+                        </g>
+                      );
+                    })}
+
+                    {/* Destination nodes (rendered ON TOP of ribbons) */}
+                    {destinations.map((dst, i) => {
+                      const h = dstNodeHeights[i];
+                      const topY = dstNodeTops[i];
+                      const midY = topY + h / 2;
+                      const pct = totalIn > 0 ? ((dst.amount / totalIn) * 100).toFixed(0) : 0;
+                      return (
+                        <g key={dst.id}>
+                          <rect
+                            x={RIGHT_X - NODE_W / 2}
+                            y={topY}
+                            width={NODE_W}
+                            height={h}
+                            fill={dst.color || '#333'}
+                          />
+                          <text
+                            x={RIGHT_X - NODE_W / 2 - 4}
+                            y={midY - 2}
+                            fontSize="9"
+                            fontWeight="bold"
+                            fill="#111"
+                            textAnchor="end"
+                            fontFamily="Outfit, sans-serif"
+                          >
+                            {dst.label}
+                          </text>
+                          <text
+                            x={RIGHT_X - NODE_W / 2 - 4}
+                            y={midY + 9}
+                            fontSize="8"
+                            fill="#555"
+                            textAnchor="end"
+                            fontFamily="Outfit, sans-serif"
+                          >
+                            ₹{(dst.amount || 0).toLocaleString('en-IN')} ({pct}%)
+                          </text>
+                        </g>
+                      );
+                    })}
+                  </svg>
+                </div>
+              </div>
+
+              {/* RIGHT: Destination Nodes */}
+              <div className="lg:col-span-3 space-y-4">
+                <Card title="Allocation Buckets" icon={GitFork} headerColor="bg-red-100">
+                  <div className="space-y-2 max-h-[420px] overflow-y-auto pr-1">
+                    {destinations.map((dst) => (
+                      <NodeRow
+                        key={dst.id}
+                        item={dst}
+                        onChange={updateDest}
+                        onDelete={deleteDest}
+                        prefix="Destination"
+                        showDelete={destinations.length > 1}
+                      />
+                    ))}
+                  </div>
+                  <button
+                    onClick={addDest}
+                    className="mt-3 w-full py-2 border-2 border-dashed border-black text-xs font-black uppercase flex items-center justify-center gap-2 hover:bg-red-50 transition-colors"
+                  >
+                    <Plus className="w-3.5 h-3.5" /> Add Category
+                  </button>
+                </Card>
+              </div>
+            </div>
+
+            {/* Legend */}
+            <Card title="Allocation Breakdown">
+              <div className="flex flex-wrap gap-3">
+                {destinations.map((dst) => {
+                  const pct = totalIn > 0 ? ((dst.amount / totalIn) * 100).toFixed(1) : 0;
+                  return (
+                    <div key={dst.id} className="flex items-center gap-2 border border-gray-200 px-2 py-1 bg-gray-50">
+                      <div className="w-3 h-3 border border-black" style={{ background: dst.color }} />
+                      <span className="text-[10px] font-bold uppercase">{dst.label}</span>
+                      <span className="text-[10px] font-mono font-black">{pct}%</span>
+                    </div>
+                  );
+                })}
+              </div>
             </Card>
           </div>
-        </div>
-
-        {/* Legend */}
-        <Card title="Allocation Breakdown">
-          <div className="flex flex-wrap gap-3">
-            {destinations.map(dst => {
-              const pct = totalIn > 0 ? ((dst.amount / totalIn) * 100).toFixed(1) : 0;
-              return (
-                <div key={dst.id} className="flex items-center gap-2 border border-gray-200 px-2 py-1 bg-gray-50">
-                  <div className="w-3 h-3 border border-black" style={{ background: dst.color }} />
-                  <span className="text-[10px] font-bold uppercase">{dst.label}</span>
-                  <span className="text-[10px] font-mono font-black">{pct}%</span>
-                </div>
-              );
-            })}
-          </div>
-        </Card>
-        </div>
         </div>
       </CalculatorLayout>
-    
+
       <Footer>
         <p className="text-gray-600 font-medium">
-          <strong>Disclaimer:</strong> This capital flow map reveals structural leaks. 
+          <strong>Disclaimer:</strong> This capital flow map reveals structural leaks.
           <br className="md:hidden" />
-          True financial discipline isn't about increasing the left side (income), it's about purposefully directing every unit of flow on the right side.
+          True financial discipline isn't about increasing the left side (income), it's about purposefully directing
+          every unit of flow on the right side.
         </p>
       </Footer>
     </div>

@@ -30,11 +30,13 @@ const Input = ({ className = '', label, icon: Icon, tooltip, ...props }) => {
       </label>
       {inputElement}
     </div>
-  ) : inputElement;
+  ) : (
+    inputElement
+  );
 
   if (tooltip) {
     return (
-      <Tooltip content={tooltip} className={label ? "w-full" : "w-full inline-block"}>
+      <Tooltip content={tooltip} className={label ? 'w-full' : 'w-full inline-block'}>
         {content}
       </Tooltip>
     );

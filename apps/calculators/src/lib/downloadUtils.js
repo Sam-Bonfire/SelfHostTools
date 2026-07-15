@@ -201,7 +201,12 @@ export const downloadPDF = async (data) => {
       ['Salary Growth (Degree)', `${inputs.salaryGrowthDegree}%`],
       ['Starting Salary (Alt)', `INR ${formatCurrency(inputs.startingSalaryAlt, true)}`],
       ['Salary Growth (Alt)', `${inputs.salaryGrowthAlt}%`],
-      ['Break-Even Year (Age)', results.breakEvenYear ? `${18 + parseInt(inputs.durationYears) + (results.breakEvenYear - parseInt(inputs.durationYears))}` : 'NEVER'],
+      [
+        'Break-Even Year (Age)',
+        results.breakEvenYear
+          ? `${18 + parseInt(inputs.durationYears) + (results.breakEvenYear - parseInt(inputs.durationYears))}`
+          : 'NEVER'
+      ],
       ['Slave Ratio', `${results.slaveRatio}%`],
       ['Final Net Worth (Degree)', `INR ${formatCurrency(results.finalDegreeNW, true)}`],
       ['Final Net Worth (Alt)', `INR ${formatCurrency(results.finalAltNW, true)}`]
@@ -225,7 +230,7 @@ export const downloadPDF = async (data) => {
     ];
   } else if (inputs.loans !== undefined) {
     // INVEST VS LOAN
-    const loansDesc = inputs.loans.map(l => `${l.name} (${l.rate}%)`).join(', ');
+    const loansDesc = inputs.loans.map((l) => `${l.name} (${l.rate}%)`).join(', ');
     summaryData = [
       ['Monthly Surplus', `INR ${formatCurrency(inputs.surplus, true)}`],
       ['Invest Return', `${inputs.investmentReturn}%`],
@@ -292,7 +297,7 @@ export const downloadPDF = async (data) => {
   if (inputs.loans !== undefined) {
     // Custom Invest vs Loan Schedule
     tableHeader = [['Year', 'Invest Strategy NW', 'Payoff Strategy NW', 'Difference']];
-    tableBody = schedule.map(row => [
+    tableBody = schedule.map((row) => [
       row.label,
       formatCurrency(row.investNW, true),
       formatCurrency(row.payoffNW, true),
@@ -300,7 +305,7 @@ export const downloadPDF = async (data) => {
     ]);
   } else {
     // Standard Schedule
-    tableBody = schedule.map(row => [
+    tableBody = schedule.map((row) => [
       row.label,
       formatCurrency(row.principal, true),
       formatCurrency(row.interest, true),
@@ -477,7 +482,12 @@ export const downloadExcel = async (data) => {
       ['Salary Growth (Degree)', inputs.salaryGrowthDegree],
       ['Starting Salary (Alt)', inputs.startingSalaryAlt],
       ['Salary Growth (Alt)', inputs.salaryGrowthAlt],
-      ['Break-Even Age', results.breakEvenYear ? (18 + parseInt(inputs.durationYears) + (results.breakEvenYear - parseInt(inputs.durationYears))) : 'NEVER'],
+      [
+        'Break-Even Age',
+        results.breakEvenYear
+          ? 18 + parseInt(inputs.durationYears) + (results.breakEvenYear - parseInt(inputs.durationYears))
+          : 'NEVER'
+      ],
       ['Slave Ratio (%)', results.slaveRatio],
       ['Final Net Worth (Degree)', results.finalDegreeNW],
       ['Final Net Worth (Alt)', results.finalAltNW]
@@ -501,7 +511,7 @@ export const downloadExcel = async (data) => {
     ];
   } else if (inputs.loans !== undefined) {
     // INVEST VS LOAN
-    const loansDesc = inputs.loans.map(l => `${l.name} (${l.rate}%)`).join(', ');
+    const loansDesc = inputs.loans.map((l) => `${l.name} (${l.rate}%)`).join(', ');
     summaryRows = [
       ['Monthly Surplus', inputs.surplus],
       ['Invest Return (%)', inputs.investmentReturn],
@@ -577,19 +587,9 @@ export const downloadExcel = async (data) => {
 
   if (inputs.loans !== undefined) {
     scheduleHeader = ['Year', 'Invest Strategy NW', 'Payoff Strategy NW', 'Difference'];
-    scheduleRows = schedule ? schedule.map(row => [
-      row.label,
-      row.investNW,
-      row.payoffNW,
-      row.diff
-    ]) : [];
+    scheduleRows = schedule ? schedule.map((row) => [row.label, row.investNW, row.payoffNW, row.diff]) : [];
   } else {
-    scheduleRows = schedule ? schedule.map(row => [
-      row.label,
-      row.principal,
-      row.interest,
-      row.balance
-    ]) : [];
+    scheduleRows = schedule ? schedule.map((row) => [row.label, row.principal, row.interest, row.balance]) : [];
   }
 
   const wsSchedule = XLSX.utils.aoa_to_sheet([scheduleHeader, ...scheduleRows]);

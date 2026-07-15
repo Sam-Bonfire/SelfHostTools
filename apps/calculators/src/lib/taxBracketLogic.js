@@ -1,6 +1,6 @@
 export const TAX_BRACKETS_2024 = {
   single: [
-    { rate: 0.10, upTo: 11600 },
+    { rate: 0.1, upTo: 11600 },
     { rate: 0.12, upTo: 47150 },
     { rate: 0.22, upTo: 100525 },
     { rate: 0.24, upTo: 191950 },
@@ -9,7 +9,7 @@ export const TAX_BRACKETS_2024 = {
     { rate: 0.37, upTo: Infinity }
   ],
   married: [
-    { rate: 0.10, upTo: 23200 },
+    { rate: 0.1, upTo: 23200 },
     { rate: 0.12, upTo: 94300 },
     { rate: 0.22, upTo: 201050 },
     { rate: 0.24, upTo: 383900 },
@@ -18,7 +18,7 @@ export const TAX_BRACKETS_2024 = {
     { rate: 0.37, upTo: Infinity }
   ],
   hoh: [
-    { rate: 0.10, upTo: 16550 },
+    { rate: 0.1, upTo: 16550 },
     { rate: 0.12, upTo: 63100 },
     { rate: 0.22, upTo: 100500 },
     { rate: 0.24, upTo: 191950 },
@@ -36,7 +36,7 @@ export const STANDARD_DEDUCTIONS_2024 = {
 
 export function calculateTaxes(taxableIncome, filingStatus) {
   const brackets = TAX_BRACKETS_2024[filingStatus] || TAX_BRACKETS_2024.single;
-  
+
   let remainingIncome = Math.max(0, taxableIncome);
   let totalTax = 0;
   let previousLimit = 0;
@@ -51,7 +51,7 @@ export function calculateTaxes(taxableIncome, filingStatus) {
       const taxForBracket = incomeInBracket * bracket.rate;
       totalTax += taxForBracket;
       marginalTaxRate = bracket.rate;
-      
+
       bracketBreakdown.push({
         rate: bracket.rate,
         income: incomeInBracket,

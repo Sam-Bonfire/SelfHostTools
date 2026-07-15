@@ -1,36 +1,63 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom';
-import { Calculator, IndianRupee, Percent, Calendar, Info, PieChart as PieChartIcon, Table as TableIcon, TrendingDown, Clock, BookOpen, Coffee, Coins, Plus, Trash2, CalendarDays, Settings, ArrowLeft } from 'lucide-react';
-import { Button, Card, Input, Checkbox, Tooltip, ResultsAnalysis, CalculatorHeader, CalculatorLayout, DownloadButtons, Footer, MetricDisplay } from '@packages/styling';
-import { motion, AnimatePresence } from 'framer-motion';
-import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
-
-import SEO from './SEO';
-
-import { calculateEducationLoan } from '../lib/educationLoanLogic';
-import { usePersistedState, resetPersistedState } from '@packages/persistence';
 import { macroData } from '@packages/macro-data';
+import { resetPersistedState, usePersistedState } from '@packages/persistence';
+import {
+  Button,
+  CalculatorHeader,
+  CalculatorLayout,
+  Card,
+  Checkbox,
+  DownloadButtons,
+  Footer,
+  Input,
+  MetricDisplay,
+  ResultsAnalysis,
+  Tooltip
+} from '@packages/styling';
+import {
+  BookOpen,
+  Calculator,
+  Calendar,
+  CalendarDays,
+  Clock,
+  Coffee,
+  IndianRupee,
+  Info,
+  Percent,
+  PieChart as PieChartIcon,
+  Plus,
+  Settings,
+  Table as TableIcon,
+  Trash2,
+  TrendingDown
+} from 'lucide-react';
+import { useCallback, useEffect } from 'react';
 
-
+import { downloadExcel, downloadPDF } from '../lib/downloadUtils';
+import { calculateEducationLoan } from '../lib/educationLoanLogic';
+import SEO from './SEO';
 export default function App() {
   const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "FinancialProduct",
-    "name": "Education Loan Calculator",
-    "description": "Calculate your education loan EMI, interest, and repayment schedule.",
-    "brand": {
-      "@type": "Brand",
-      "name": "Calculators Hub"
+    '@context': 'https://schema.org',
+    '@type': 'FinancialProduct',
+    name: 'Education Loan Calculator',
+    description: 'Calculate your education loan EMI, interest, and repayment schedule.',
+    brand: {
+      '@type': 'Brand',
+      name: 'Calculators Hub'
     },
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": 'INR'
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'INR'
     }
   };
 
   // --- Basic Inputs ---
-  const [interestRate, setInterestRate] = usePersistedState('EducationLoan', 'interestRate', macroData.interestRates.educationLoan);
+  const [interestRate, setInterestRate] = usePersistedState(
+    'EducationLoan',
+    'interestRate',
+    macroData.interestRates.educationLoan
+  );
   const [repaymentTenure, setRepaymentTenure] = usePersistedState('EducationLoan', 'repaymentTenure', 10); // in years
 
   // --- Simple Mode State ---
@@ -39,10 +66,18 @@ export default function App() {
 
   // --- Advanced Mode State ---
   const [isAdvanced, setIsAdvanced] = usePersistedState('EducationLoan', 'isAdvanced', false);
-  const [courseEndDate, setCourseEndDate] = usePersistedState('EducationLoan', 'courseEndDate', new Date(new Date().setFullYear(new Date().getFullYear() + 2)).toISOString().split('T')[0]);
+  const [courseEndDate, setCourseEndDate] = usePersistedState(
+    'EducationLoan',
+    'courseEndDate',
+    new Date(new Date().setFullYear(new Date().getFullYear() + 2)).toISOString().split('T')[0]
+  );
   const [disbursements, setDisbursements] = usePersistedState('EducationLoan', 'disbursements', [
     { id: 1, date: new Date().toISOString().split('T')[0], amount: 500000 },
-    { id: 2, date: new Date(new Date().setMonth(new Date().getMonth() + 6)).toISOString().split('T')[0], amount: 500000 }
+    {
+      id: 2,
+      date: new Date(new Date().setMonth(new Date().getMonth() + 6)).toISOString().split('T')[0],
+      amount: 500000
+    }
   ]);
 
   // --- Common Settings ---
@@ -87,11 +122,18 @@ export default function App() {
 
     setResults(calcResults);
     setSchedule(calcSchedule);
-
   }, [
-    loanAmount, interestRate, repaymentTenure, courseDuration,
-    gracePeriod, gracePayment, capitalizeInterest, extraPayment,
-    isAdvanced, courseEndDate, disbursements
+    loanAmount,
+    interestRate,
+    repaymentTenure,
+    courseDuration,
+    gracePeriod,
+    gracePayment,
+    capitalizeInterest,
+    extraPayment,
+    isAdvanced,
+    courseEndDate,
+    disbursements
   ]);
 
   useEffect(() => {
@@ -99,18 +141,18 @@ export default function App() {
   }, [calculateLoan]);
 
   const addDisbursement = () => {
-    const nextId = Math.max(...disbursements.map(d => d.id), 0) + 1;
+    const nextId = Math.max(...disbursements.map((d) => d.id), 0) + 1;
     setDisbursements([...disbursements, { id: nextId, date: new Date().toISOString().split('T')[0], amount: 0 }]);
   };
 
   const removeDisbursement = (id) => {
     if (disbursements.length > 1) {
-      setDisbursements(disbursements.filter(d => d.id !== id));
+      setDisbursements(disbursements.filter((d) => d.id !== id));
     }
   };
 
   const updateDisbursement = (id, field, value) => {
-    setDisbursements(disbursements.map(d => d.id === id ? { ...d, [field]: value } : d));
+    setDisbursements(disbursements.map((d) => (d.id === id ? { ...d, [field]: value } : d)));
   };
 
   const formatCurrency = (val) => {
@@ -133,9 +175,8 @@ export default function App() {
     return dateObj ? dateObj.toLocaleDateString('en-IN', { month: 'short', year: 'numeric' }) : '-';
   };
 
-  const principalPercentage = (results.totalAmount > 0)
-    ? ((results.totalAmount - results.totalInterest) / results.totalAmount) * 100
-    : 0;
+  const principalPercentage =
+    results.totalAmount > 0 ? ((results.totalAmount - results.totalInterest) / results.totalAmount) * 100 : 0;
 
   const originalDisbursedValue = isAdvanced
     ? disbursements.reduce((sum, d) => sum + parseFloat(d.amount || 0), 0)
@@ -154,23 +195,26 @@ export default function App() {
 
       <CalculatorLayout>
         <div className="lg:col-span-12">
-          <CalculatorHeader namespace="EducationLoan"
+          <CalculatorHeader
+            namespace="EducationLoan"
             icon={Calculator}
             title="Education Loan"
-          
-            onReset={() => { resetPersistedState('EducationLoan'); window.location.reload(); }} />
+
+            onReset={() => {
+              resetPersistedState('EducationLoan');
+            }}
+          />
         </div>
 
         {/* Inputs Section */}
         <div className="lg:col-span-12 xl:col-span-5 space-y-6">
           <Card title="Configuration" icon={Settings} headerColor="bg-blue-100">
             <div className="space-y-4">
-              <Tooltip content="Toggle between basic lump-sum loan and detailed multi-disbursement schedules" className="w-full mb-4">
-                <Button
-                  onClick={() => setIsAdvanced(!isAdvanced)}
-                  variant="secondary"
-                  className="w-full"
-                >
+              <Tooltip
+                content="Toggle between basic lump-sum loan and detailed multi-disbursement schedules"
+                className="w-full mb-4"
+              >
+                <Button onClick={() => setIsAdvanced(!isAdvanced)} variant="secondary" className="w-full">
                   {isAdvanced ? 'Switch to Simple Mode' : 'Switch to Advanced Mode'}
                 </Button>
               </Tooltip>
@@ -202,24 +246,20 @@ export default function App() {
                 <div className="mb-6 space-y-4">
                   <div className="flex justify-between items-center">
                     <label className="text-sm font-bold">Disbursements</label>
-                    <span className="text-xs px-2 py-1 bg-yellow-200 border-2 border-black font-bold" aria-live="polite">
+                    <span
+                      className="text-xs px-2 py-1 bg-yellow-200 border-2 border-black font-bold"
+                      aria-live="polite"
+                    >
                       Total: {formatCurrency(originalDisbursedValue)}
                     </span>
                   </div>
                   <div className="space-y-3">
                     {disbursements.map((d) => (
-                      <div key={d.id} className="flex items-center gap-2">
-                        <div className="w-36 flex-shrink-0">
-                          <Input
-                            id={`disbursement-date-${d.id}`}
-                            aria-label={`Disbursement Date ${d.id}`}
-                            type="date"
-                            value={d.date}
-                            onChange={(e) => updateDisbursement(d.id, 'date', e.target.value)}
-                            className="w-full text-xs"
-                          />
-                        </div>
-                        <div className="flex-1">
+                      <div
+                        key={d.id}
+                        className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 p-2 border-2 border-black/10 bg-zinc-50/50 rounded-sm"
+                      >
+                        <div className="flex-[2] w-full">
                           <Input
                             id={`disbursement-amount-${d.id}`}
                             aria-label={`Disbursement Amount ${d.id}`}
@@ -231,26 +271,32 @@ export default function App() {
                             placeholder="Amount"
                           />
                         </div>
-                        {disbursements.length > 1 && (
-                          <Tooltip content="Remove this tranche" position="top">
-                            <Button
-                              onClick={() => removeDisbursement(d.id)}
-                              variant="destructive"
-                              className="px-3 py-1"
-                              aria-label="Remove tranche"
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </Button>
-                          </Tooltip>
-                        )}
+                        <div className="flex-1 w-full flex items-center gap-2">
+                          <Input
+                            id={`disbursement-date-${d.id}`}
+                            aria-label={`Disbursement Date ${d.id}`}
+                            type="date"
+                            value={d.date}
+                            onChange={(e) => updateDisbursement(d.id, 'date', e.target.value)}
+                            className="w-full text-xs flex-1"
+                          />
+                          {disbursements.length > 1 && (
+                            <Tooltip content="Remove this tranche" position="top">
+                              <Button
+                                onClick={() => removeDisbursement(d.id)}
+                                variant="destructive"
+                                className="px-3 py-1 flex-shrink-0"
+                                aria-label="Remove tranche"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                            </Tooltip>
+                          )}
+                        </div>
                       </div>
                     ))}
                     <Tooltip content="Add another loan disbursement date and amount" className="w-full">
-                      <Button
-                        onClick={addDisbursement}
-                        variant="outline"
-                        className="w-full text-sm"
-                      >
+                      <Button onClick={addDisbursement} variant="outline" className="w-full text-sm">
                         <Plus className="w-4 h-4 mr-1 inline" /> Add Tranche
                       </Button>
                     </Tooltip>
@@ -406,12 +452,12 @@ export default function App() {
               <MetricDisplay
                 title="Total Interest"
                 value={formatCurrency(results.totalInterest)}
-                subtitle={results.totalMoratorium > 0 ? "(Includes moratorium interest)" : undefined}
+                subtitle={results.totalMoratorium > 0 ? '(Includes moratorium interest)' : undefined}
               />
             </div>
 
             {/* Savings Banner */}
-            {(results.savings > 0 || (gracePayment > 0)) && (
+            {(results.savings > 0 || gracePayment > 0) && (
               <div className="bg-green-600 border-4 border-black text-white p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col md:flex-row items-center justify-between gap-4">
                 <div className="flex items-center gap-4">
                   <div className="p-3 bg-black/20 rounded-full border-2 border-black">
@@ -438,13 +484,15 @@ export default function App() {
 
             <Card title="Repayment Breakdown" icon={PieChartIcon} headerColor="bg-gray-50">
               <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-                <div className="relative w-48 h-48 rounded-full flex-shrink-0 border-4 border-black"
+                <div
+                  className="relative w-48 h-48 rounded-full flex-shrink-0 border-4 border-black"
                   style={{
                     background: `conic-gradient(
                           #FFDE59 0% ${principalPercentage}%, 
                           #FF6B6B ${principalPercentage}% 100%
                         )`
-                  }}>
+                  }}
+                >
                   <div className="absolute inset-4 bg-card rounded-full flex items-center justify-center flex-col">
                     <span className="text-[10px] text-muted-foreground uppercase font-bold">Interest %</span>
                     <span className="text-xl font-bold text-foreground">{Math.round(100 - principalPercentage)}%</span>
@@ -487,17 +535,21 @@ export default function App() {
               {showSchedule && (
                 <div className="mt-4 border-4 border-black p-4 bg-white">
                   <div className="flex flex-col md:flex-row gap-4 mb-4 justify-end">
-                    <DownloadButtons 
-                      onDownloadPDF={() => downloadPDF({
-                        inputs: { loanAmount, interestRate, repaymentTenure, courseDuration, gracePeriod },
-                        results,
-                        schedule
-                      })}
-                      onDownloadExcel={() => downloadExcel({
-                        inputs: { loanAmount, interestRate, repaymentTenure, courseDuration, gracePeriod },
-                        results,
-                        schedule
-                      })}
+                    <DownloadButtons
+                      onDownloadPDF={() =>
+                        downloadPDF({
+                          inputs: { loanAmount, interestRate, repaymentTenure, courseDuration, gracePeriod },
+                          results,
+                          schedule
+                        })
+                      }
+                      onDownloadExcel={() =>
+                        downloadExcel({
+                          inputs: { loanAmount, interestRate, repaymentTenure, courseDuration, gracePeriod },
+                          results,
+                          schedule
+                        })
+                      }
                     />
                   </div>
 

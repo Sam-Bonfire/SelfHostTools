@@ -1,9 +1,20 @@
-import React, { useState, useMemo } from 'react';
-import { CalculatorLayout, CalculatorHeader, ResultsAnalysis, Input, Card, DownloadButtons, Footer, Select, MetricDisplay } from '@packages/styling';
-import { Building2, Receipt, HeartHandshake, Stethoscope, Briefcase, Calculator } from 'lucide-react';
+import { resetPersistedState, usePersistedState } from '@packages/persistence';
+import {
+  CalculatorHeader,
+  CalculatorLayout,
+  Card,
+  DownloadButtons,
+  Footer,
+  Input,
+  MetricDisplay,
+  ResultsAnalysis,
+  Select
+} from '@packages/styling';
+import { Briefcase, Building2, Calculator, Receipt } from 'lucide-react';
+import { useMemo } from 'react';
+
+import { downloadExcel, downloadPDF } from '../lib/downloadUtils';
 import { calculateTaxBracketOptimization } from '../lib/taxBracketLogic';
-import { downloadPDF, downloadExcel } from '../lib/downloadUtils';
-import { usePersistedState, resetPersistedState } from '@packages/persistence';
 
 export default function TaxBracketCalculator() {
   const [inputs, setInputs] = usePersistedState('TaxBracketCalculator', 'inputs', {
@@ -17,7 +28,7 @@ export default function TaxBracketCalculator() {
   });
 
   const handleInputChange = (field, value) => {
-    setInputs(prev => ({ ...prev, [field]: value }));
+    setInputs((prev) => ({ ...prev, [field]: value }));
   };
 
   const results = useMemo(() => calculateTaxBracketOptimization(inputs), [inputs]);
@@ -30,19 +41,28 @@ export default function TaxBracketCalculator() {
     downloadExcel({ inputs, results, schedule: [] });
   };
 
-  const formatCurrency = (val) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
-  const formatPercent = (val) => new Intl.NumberFormat('en-IN', { style: 'percent', maximumFractionDigits: 2 }).format(val);
+  const formatCurrency = (val) =>
+    new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
+  const formatPercent = (val) =>
+    new Intl.NumberFormat('en-IN', { style: 'percent', maximumFractionDigits: 2 }).format(val);
 
   return (
     <div className="min-h-screen bg-white text-black p-4 md:p-8">
       <CalculatorLayout>
-      <div className="lg:col-span-12">
-        <CalculatorHeader namespace="TaxBracketCalculator" 
-        title="Tax Bracket Optimizer"
-        icon={<Building2 className="w-8 h-8" 
-            onReset={() => { resetPersistedState('TaxBracketCalculator'); window.location.reload(); }} />}
-      />
-      </div>
+        <div className="lg:col-span-12">
+          <CalculatorHeader
+            namespace="TaxBracketCalculator"
+            title="Tax Bracket Optimizer"
+            icon={
+              <Building2
+                className="w-8 h-8"
+                onReset={() => {
+                  resetPersistedState('TaxBracketCalculator');
+                }}
+              />
+            }
+          />
+        </div>
 
         <div className="lg:col-span-4 space-y-6">
           <Card title="Income & Filing" icon={<Briefcase className="w-5 h-5" />}>
@@ -81,7 +101,7 @@ export default function TaxBracketCalculator() {
                 prefix="$"
                 tooltip="Property taxes, state income taxes, etc. Capped at ₹10,000."
               />
-              
+
               <Input
                 id="mortgageInterest"
                 label="Mortgage Interest"
@@ -128,7 +148,9 @@ export default function TaxBracketCalculator() {
         <div className="lg:col-span-8 space-y-6">
           <Card title="Optimization Results" icon={<Calculator className="w-5 h-5" />}>
             <div aria-live="polite" className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-              <div className={`p-6 border-4 border-black ${results.bestStrategy === 'standard' ? 'bg-yellow-300' : 'bg-gray-100 opacity-75'} relative`}>
+              <div
+                className={`p-6 border-4 border-black ${results.bestStrategy === 'standard' ? 'bg-yellow-300' : 'bg-gray-100 opacity-75'} relative`}
+              >
                 {results.bestStrategy === 'standard' && (
                   <div className="absolute top-0 right-0 bg-black text-white px-3 py-1 text-sm font-bold border-l-4 border-b-4 border-black">
                     RECOMMENDED
@@ -139,14 +161,20 @@ export default function TaxBracketCalculator() {
                   value={formatCurrency(results.standardDeduction)}
                   subtitle={
                     <span className="block mt-2 space-y-1">
-                      <span className="block">Estimated Tax: {formatCurrency(results.comparisons.standard.totalTax)}</span>
-                      <span className="block">Effective Rate: {formatPercent(results.comparisons.standard.effectiveRateGross)}</span>
+                      <span className="block">
+                        Estimated Tax: {formatCurrency(results.comparisons.standard.totalTax)}
+                      </span>
+                      <span className="block">
+                        Effective Rate: {formatPercent(results.comparisons.standard.effectiveRateGross)}
+                      </span>
                     </span>
                   }
                 />
               </div>
 
-              <div className={`p-6 border-4 border-black ${results.bestStrategy === 'itemized' ? 'bg-green-300' : 'bg-gray-100 opacity-75'} relative`}>
+              <div
+                className={`p-6 border-4 border-black ${results.bestStrategy === 'itemized' ? 'bg-green-300' : 'bg-gray-100 opacity-75'} relative`}
+              >
                 {results.bestStrategy === 'itemized' && (
                   <div className="absolute top-0 right-0 bg-black text-white px-3 py-1 text-sm font-bold border-l-4 border-b-4 border-black">
                     RECOMMENDED
@@ -157,8 +185,12 @@ export default function TaxBracketCalculator() {
                   value={formatCurrency(results.itemizedDetails.totalItemized)}
                   subtitle={
                     <span className="block mt-2 space-y-1">
-                      <span className="block">Estimated Tax: {formatCurrency(results.comparisons.itemized.totalTax)}</span>
-                      <span className="block">Effective Rate: {formatPercent(results.comparisons.itemized.effectiveRateGross)}</span>
+                      <span className="block">
+                        Estimated Tax: {formatCurrency(results.comparisons.itemized.totalTax)}
+                      </span>
+                      <span className="block">
+                        Effective Rate: {formatPercent(results.comparisons.itemized.effectiveRateGross)}
+                      </span>
                     </span>
                   }
                 />
@@ -166,18 +198,15 @@ export default function TaxBracketCalculator() {
             </div>
 
             <div className="mb-6 p-4 bg-blue-100 border-4 border-black">
-              <MetricDisplay 
-                title="Tax Savings" 
-                value={formatCurrency(results.taxSavings)} 
+              <MetricDisplay
+                title="Tax Savings"
+                value={formatCurrency(results.taxSavings)}
                 subtitle={`By choosing the ${results.bestStrategy} deduction strategy.`}
-                color="text-blue-700" 
+                color="text-blue-700"
               />
             </div>
 
-            <ResultsAnalysis
-              title="Tax Bracket Breakdown (Recommended Strategy)"
-              aria-live="polite"
-            >
+            <ResultsAnalysis title="Tax Bracket Breakdown (Recommended Strategy)" aria-live="polite">
               <div className="space-y-4">
                 <div className="flex justify-between items-center border-b-2 border-gray-200 pb-2">
                   <span className="font-bold text-gray-600">Gross Income</span>
@@ -195,12 +224,13 @@ export default function TaxBracketCalculator() {
                 <div className="space-y-2 mt-4">
                   <h4 className="font-bold mb-2">Marginal Tax Buckets:</h4>
                   {results.recommendedBreakdown.map((bracket, index) => (
-                    <div key={index} className="flex justify-between items-center p-2 bg-gray-50 border-2 border-gray-200">
+                    <div
+                      key={index}
+                      className="flex justify-between items-center p-2 bg-gray-50 border-2 border-gray-200"
+                    >
                       <span className="font-medium">
                         {formatPercent(bracket.rate)} Bracket
-                        <span className="text-xs text-gray-500 ml-2">
-                          (on {formatCurrency(bracket.income)})
-                        </span>
+                        <span className="text-xs text-gray-500 ml-2">(on {formatCurrency(bracket.income)})</span>
                       </span>
                       <span className="font-bold">{formatCurrency(bracket.tax)}</span>
                     </div>
@@ -215,20 +245,17 @@ export default function TaxBracketCalculator() {
             </ResultsAnalysis>
           </Card>
 
-          <DownloadButtons 
-            onDownloadPDF={handleDownloadPDF}
-            onDownloadExcel={handleDownloadExcel}
-          />
+          <DownloadButtons onDownloadPDF={handleDownloadPDF} onDownloadExcel={handleDownloadExcel} />
         </div>
-      
-    </CalculatorLayout>
-    <Footer>
+      </CalculatorLayout>
+      <Footer>
         <p className="text-gray-600 font-medium">
-            <strong>Disclaimer:</strong> Getting a raise into a higher tax bracket never results in less take-home pay, because only the money *above* the threshold is taxed at the higher rate.
-            <br className="md:hidden" />
-            Understanding marginal tax rates prevents you from turning down income out of mathematical misunderstanding.
+          <strong>Disclaimer:</strong> Getting a raise into a higher tax bracket never results in less take-home pay,
+          because only the money *above* the threshold is taxed at the higher rate.
+          <br className="md:hidden" />
+          Understanding marginal tax rates prevents you from turning down income out of mathematical misunderstanding.
         </p>
-    </Footer>
+      </Footer>
     </div>
-    );
+  );
 }

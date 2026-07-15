@@ -6,10 +6,10 @@
     expenseVolatility = 0,
     jobSearchDuration = 6,
     healthDeductible = 0,
-    propertyDeductible = 0,
+    propertyDeductible = 0
   } = inputs;
 
-  const monthlyBurnRate = coreExpenses + (discretionaryExpenses * (discretionaryRetention / 100)) + expenseVolatility;
+  const monthlyBurnRate = coreExpenses + discretionaryExpenses * (discretionaryRetention / 100) + expenseVolatility;
   const incomeShockBuffer = monthlyBurnRate * jobSearchDuration;
   const lumpSumBuffer = healthDeductible + propertyDeductible;
 

@@ -1,3 +1,3 @@
-import macroData from '../data/latest.json' assert { type: 'json' };
+import macroData from '../data/latest.json';
 
 export { macroData };
