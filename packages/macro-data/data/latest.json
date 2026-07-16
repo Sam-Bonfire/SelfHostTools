@@ -1,27 +1,27 @@
 {
   "inflation": {
-    "general": 6.0,
-    "medical": 14.0,
-    "education": 10.0,
-    "rent": 8.0,
-    "maintenance": 7.0,
-    "lifestyle": 2.0
+    "general": 2.4,
+    "medical": 14,
+    "education": 10,
+    "rent": 8,
+    "maintenance": 7,
+    "lifestyle": 2
   },
   "returns": {
-    "equityBenchmark": 12.0,
-    "safeDebt": 7.0
+    "equityBenchmark": 12,
+    "safeDebt": 7
   },
   "interestRates": {
     "homeLoan": 8.5,
     "educationLoan": 10.5,
-    "autoLoan": 9.0
+    "autoLoan": 9
   },
   "tax": {
     "ltcg": 12.5,
-    "stcg": 20.0,
-    "freelancePresumptive": 20.0
+    "stcg": 20,
+    "freelancePresumptive": 20
   },
   "metadata": {
-    "lastUpdated": "2026-07-08T00:00:00Z"
+    "lastUpdated": "2026-07-16T14:18:23.587Z"
   }
 }
