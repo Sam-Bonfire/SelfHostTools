@@ -39,6 +39,12 @@ export default function MementoMori() {
   const [workHours, setWorkHours] = usePersistedState('MementoMori', 'workHours', 40);
   const [choreHours, setChoreHours] = usePersistedState('MementoMori', 'choreHours', 2);
 
+  // Parent-Time Mode Inputs
+  const [parentTimeMode, setParentTimeMode] = usePersistedState('MementoMori', 'parentTimeMode', false);
+  const [parentAge, setParentAge] = usePersistedState('MementoMori', 'parentAge', 60);
+  const [parentLifeExpectancy, setParentLifeExpectancy] = usePersistedState('MementoMori', 'parentLifeExpectancy', 80);
+  const [daysSeenPerYear, setDaysSeenPerYear] = usePersistedState('MementoMori', 'daysSeenPerYear', 14);
+
   const gridRef = useRef(null);
 
   const weeksData = useMemo(() => {
@@ -57,15 +63,26 @@ export default function MementoMori() {
     const baseFreedomRatio = Math.max(0, (168 - baseCommittedHours) / 168);
     const careerFreedomRatio = Math.max(0, (168 - careerCommittedHours) / 168);
 
+    const parentDaysLeft = Math.max(0, (parentLifeExpectancy - parentAge) * daysSeenPerYear);
+    const parentWeeksLeft = Math.ceil(parentDaysLeft / 7);
+
     // Stats for A11y
     let weeksPassed = 0;
+
+    for (let i = 0; i < totalWeeks; i++) {
+      const start = new Date(birthDate);
+      const weekDate = new Date(start.getTime() + i * 7 * 24 * 60 * 60 * 1000);
+      const isPast = weekDate < now;
+      if (isPast) weeksPassed++;
+    }
+
+    let futureWeekCounter = 0;
 
     for (let i = 0; i < totalWeeks; i++) {
       const yearIndex = Math.floor(i / 52);
       const age = yearIndex;
       const weekDate = new Date(start.getTime() + i * 7 * 24 * 60 * 60 * 1000);
       const isPast = weekDate < now;
-      if (isPast) weeksPassed++;
 
       let phase = 'RETIREMENT';
       if (age < PHASES.CHILDHOOD.end) phase = 'CHILDHOOD';
@@ -81,6 +98,14 @@ export default function MementoMori() {
         isFree = i % modulus < threshold;
       }
 
+      let isParentTime = false;
+      if (parentTimeMode && !isPast) {
+        if (futureWeekCounter < parentWeeksLeft) {
+          isParentTime = true;
+        }
+        futureWeekCounter++;
+      }
+
       weeksList.push({
         index: i,
         age: (i / 52).toFixed(1),
@@ -88,14 +113,26 @@ export default function MementoMori() {
         isPast,
         phase,
         isFree,
-        isRetirementStart
+        isRetirementStart,
+        isParentTime
       });
     }
     return {
       list: weeksList,
-      stats: { totalWeeks, weeksPassed, percentPassed: ((weeksPassed / totalWeeks) * 100).toFixed(1) }
+      stats: { totalWeeks, weeksPassed, percentPassed: ((weeksPassed / totalWeeks) * 100).toFixed(1), parentWeeksLeft }
     };
-  }, [birthDate, lifeExpectancy, freedomMode, sleepHours, workHours, choreHours]);
+  }, [
+    birthDate,
+    lifeExpectancy,
+    freedomMode,
+    sleepHours,
+    workHours,
+    choreHours,
+    parentTimeMode,
+    parentAge,
+    parentLifeExpectancy,
+    daysSeenPerYear
+  ]);
 
   const handleDownloadPDF = async () => {
     if (!gridRef.current) return;
@@ -253,6 +290,63 @@ export default function MementoMori() {
                 )}
               </div>
 
+              {/* Parent-Time Mode Toggle */}
+              <div className="pt-4 border-t-2 border-black/10 space-y-4">
+                <div>
+                  <Checkbox
+                    id="parentTimeModeToggle"
+                    label='Enable "Parent-Time" Mode'
+                    checked={parentTimeMode}
+                    onChange={(e) => {
+                      setParentTimeMode(e.target.checked);
+                      if (e.target.checked) setFreedomMode(false); // Mutually exclusive visual modes
+                    }}
+                  />
+                  <p className="text-[9px] font-bold text-gray-400 uppercase leading-none mt-1 ml-8">
+                    Visualize the finite time left with your parents
+                  </p>
+                </div>
+
+                {parentTimeMode && (
+                  <div className="pl-8 space-y-4">
+                    <div className="p-4 bg-yellow-50 border-2 border-dashed border-yellow-400">
+                      <div className="space-y-3">
+                        <div>
+                          <Input
+                            id="parentAge"
+                            label="Parent's Current Age"
+                            type="number"
+                            value={parentAge}
+                            onChange={(e) => setParentAge(Number(e.target.value))}
+                            className="h-8 font-black bg-white"
+                          />
+                        </div>
+                        <div>
+                          <Input
+                            id="parentLifeExpectancy"
+                            label="Parent's Life Expectancy"
+                            type="number"
+                            value={parentLifeExpectancy}
+                            onChange={(e) => setParentLifeExpectancy(Number(e.target.value))}
+                            className="h-8 font-black bg-white"
+                          />
+                        </div>
+                        <div>
+                          <Input
+                            id="daysSeenPerYear"
+                            label="Days Seen Per Year"
+                            type="number"
+                            value={daysSeenPerYear}
+                            onChange={(e) => setDaysSeenPerYear(Number(e.target.value))}
+                            className="h-8 font-black bg-white"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
               {/* Legend */}
               <div className="pt-4 border-t-2 border-black/10">
                 <p className="text-[10px] font-black uppercase mb-3">Legend</p>
@@ -260,16 +354,29 @@ export default function MementoMori() {
                   <div className="flex items-center gap-1">
                     <div className="w-3 h-3 bg-black"></div> Passed
                   </div>
-                  <div className="flex items-center gap-1">
-                    <div className="w-3 h-3 bg-blue-400"></div> Childhood
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <div className="w-3 h-3 bg-yellow-400"></div> Career
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <div className="w-3 h-3 bg-purple-400"></div> Retirement
-                  </div>
-                  {freedomMode && (
+                  {parentTimeMode ? (
+                    <>
+                      <div className="flex items-center gap-1">
+                        <div className="w-3 h-3 bg-[#FFDE59]"></div> Parent Time
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <div className="w-3 h-3 bg-gray-100 border border-gray-300"></div> Everything Else
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="flex items-center gap-1">
+                        <div className="w-3 h-3 bg-blue-400"></div> Childhood
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <div className="w-3 h-3 bg-yellow-400"></div> Career
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <div className="w-3 h-3 bg-purple-400"></div> Retirement
+                      </div>
+                    </>
+                  )}
+                  {freedomMode && !parentTimeMode && (
                     <div className="flex items-center gap-1">
                       <div className="w-3 h-3 bg-gray-300 border border-gray-400"></div> Committed
                     </div>
@@ -312,6 +419,15 @@ export default function MementoMori() {
                   <p>Weeks of your life</p>
                 </div>
 
+                {parentTimeMode && (
+                  <div className="mb-6 p-4 border-4 border-black bg-yellow-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-center">
+                    <h2 className="text-xl md:text-2xl font-black uppercase tracking-tight">
+                      You have approximately {weeksData.stats.parentWeeksLeft} weeks left with them.
+                    </h2>
+                    <p className="text-sm font-bold mt-1">Make them count.</p>
+                  </div>
+                )}
+
                 <motion.div
                   className="flex flex-wrap gap-[2px] md:gap-[3px] justify-start content-start"
                   variants={containerVariants}
@@ -322,9 +438,13 @@ export default function MementoMori() {
                     let bgColor = 'bg-gray-100';
 
                     if (week.isPast) {
-                      bgColor = 'bg-black';
+                      bgColor = parentTimeMode ? 'bg-gray-100 opacity-20' : 'bg-black';
                     } else {
-                      if (freedomMode && !week.isFree) {
+                      if (parentTimeMode) {
+                        bgColor = week.isParentTime
+                          ? 'bg-[#FFDE59] border-black border-2 relative z-10'
+                          : 'bg-gray-100 opacity-20';
+                      } else if (freedomMode && !week.isFree) {
                         bgColor = 'bg-gray-200/50';
                       } else {
                         if (week.phase === 'CHILDHOOD') bgColor = PHASES.CHILDHOOD.color;

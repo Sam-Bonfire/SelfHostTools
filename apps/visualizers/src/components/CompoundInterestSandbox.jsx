@@ -20,6 +20,7 @@ export default function CompoundInterestSandbox() {
   const [monthlyDeposit, setMonthlyDeposit] = usePersistedState('CompoundInterestSandbox', 'monthlyDeposit', 2000);
   const [expectedReturn, setExpectedReturn] = usePersistedState('CompoundInterestSandbox', 'expectedReturn', 12);
   const [years, setYears] = usePersistedState('CompoundInterestSandbox', 'years', 25);
+  const [yearsDelayed, setYearsDelayed] = usePersistedState('CompoundInterestSandbox', 'yearsDelayed', 0);
   const [isPlaying, setIsPlaying] = usePersistedState('CompoundInterestSandbox', 'isPlaying', true);
 
   const canvasRef = useRef(null);
@@ -27,7 +28,7 @@ export default function CompoundInterestSandbox() {
   const animationFrameRef = useRef(null);
 
   // Calculate historical compounding schedule
-  const compoundingSchedule = useMemo(() => {
+  const baselineSchedule = useMemo(() => {
     return calculateCompoundingSchedules(
       Number(monthlyDeposit),
       Number(expectedReturn),
@@ -36,9 +37,28 @@ export default function CompoundInterestSandbox() {
     );
   }, [monthlyDeposit, expectedReturn, startBalance, years]);
 
+  const delayedSchedule = useMemo(() => {
+    const effectiveYears = Math.max(0, Number(years) - Number(yearsDelayed));
+    if (effectiveYears === 0) return [{ balance: 0, contributions: 0, interest: 0 }];
+    return calculateCompoundingSchedules(
+      Number(monthlyDeposit),
+      Number(expectedReturn),
+      Number(startBalance),
+      effectiveYears
+    );
+  }, [monthlyDeposit, expectedReturn, startBalance, years, yearsDelayed]);
+
+  const latestBaselineData = useMemo(() => {
+    return baselineSchedule[baselineSchedule.length - 1] || { balance: 0, contributions: 0, interest: 0 };
+  }, [baselineSchedule]);
+
   const latestYearData = useMemo(() => {
-    return compoundingSchedule[compoundingSchedule.length - 1] || { balance: 0, contributions: 0, interest: 0 };
-  }, [compoundingSchedule]);
+    return delayedSchedule[delayedSchedule.length - 1] || { balance: 0, contributions: 0, interest: 0 };
+  }, [delayedSchedule]);
+
+  const evaporatedWealth = useMemo(() => {
+    return Math.max(0, latestBaselineData.balance - latestYearData.balance);
+  }, [latestBaselineData, latestYearData]);
 
   // Coin representation value for legend display
   const coinValue = useMemo(() => {
@@ -63,7 +83,7 @@ export default function CompoundInterestSandbox() {
   // Reset physics particles when parameters change
   useEffect(() => {
     particlesRef.current = [];
-  }, [startBalance, monthlyDeposit, expectedReturn, years]);
+  }, [startBalance, monthlyDeposit, expectedReturn, years, yearsDelayed]);
 
   // Handle physics loop
   useEffect(() => {
@@ -138,6 +158,22 @@ export default function CompoundInterestSandbox() {
         ctx.fillStyle = '#000000';
         ctx.fillRect(10, height - 10, width - 20, 6);
 
+        if (yearsDelayed > 0) {
+          ctx.fillStyle = 'rgba(239, 68, 68, 0.1)';
+          ctx.fillRect(15, 15, width - 30, 80);
+          ctx.strokeStyle = '#EF4444';
+          ctx.lineWidth = 2;
+          ctx.setLineDash([5, 5]);
+          ctx.strokeRect(15, 15, width - 30, 80);
+          ctx.setLineDash([]);
+          ctx.fillStyle = '#EF4444';
+          ctx.font = '900 24px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText('₹' + evaporatedWealth.toLocaleString('en-IN') + ' EVAPORATED', width / 2, 55);
+          ctx.font = 'bold 12px sans-serif';
+          ctx.fillText('THE COST OF DELAY', width / 2, 75);
+        }
+
         // Resolve elastic circle collisions
         resolveCollisions(particles);
 
@@ -170,7 +206,7 @@ export default function CompoundInterestSandbox() {
       window.removeEventListener('resize', handleResize);
       cancelAnimationFrame(animationFrameRef.current);
     };
-  }, [latestYearData, isPlaying]);
+  }, [latestYearData, isPlaying, yearsDelayed, evaporatedWealth]);
 
   const resetSandbox = () => {
     particlesRef.current = [];
@@ -234,12 +270,32 @@ export default function CompoundInterestSandbox() {
 
               <Input
                 id="years"
-                label="Duration (Years)"
+                label="Total Time Horizon (Years)"
                 type="number"
                 value={years}
                 onChange={(e) => setYears(Math.max(1, Number(e.target.value)))}
                 className="font-black"
               />
+
+              <div className="pt-4 border-t-2 border-black/10">
+                <Input
+                  id="yearsDelayed"
+                  label="Years Delayed Before Investing"
+                  type="number"
+                  value={yearsDelayed}
+                  onChange={(e) => setYearsDelayed(Math.max(0, Math.min(years, Number(e.target.value))))}
+                  className="font-black border-red-500 bg-red-50 text-red-900"
+                />
+                <input
+                  type="range"
+                  min={0}
+                  max={years}
+                  value={yearsDelayed}
+                  onChange={(e) => setYearsDelayed(Number(e.target.value))}
+                  className="w-full mt-3 h-2 bg-gray-200 appearance-none cursor-pointer accent-red-500"
+                  aria-label="Years Delayed Slider"
+                />
+              </div>
 
               <div className="pt-4 border-t-2 border-black/10 flex gap-3">
                 <Button
@@ -289,10 +345,13 @@ export default function CompoundInterestSandbox() {
                 />
               </Card>
 
-              <Card className="bg-green-100 font-bold">
+              <Card className={yearsDelayed > 0 ? 'bg-red-100 border-red-500 border-4' : 'bg-green-100 font-bold'}>
                 <MetricDisplay
-                  title="Total Maturity Value"
+                  title={yearsDelayed > 0 ? 'Delayed Maturity Value' : 'Total Maturity Value'}
                   value={`₹${latestYearData.balance.toLocaleString('en-IN')}`}
+                  subtitle={
+                    yearsDelayed > 0 ? `Lost ₹${evaporatedWealth.toLocaleString('en-IN')}` : 'Maximum Potential Reached'
+                  }
                 />
               </Card>
             </div>

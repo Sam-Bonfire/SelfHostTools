@@ -33,7 +33,7 @@ const router = createHashRouter([
         element: <SankeyFlowchart />
       },
       {
-        path: '/compound-interest',
+        path: '/compound-sandbox',
         element: (
           <Suspense fallback={<div>Loading...</div>}>
             <CompoundInterestSandbox />

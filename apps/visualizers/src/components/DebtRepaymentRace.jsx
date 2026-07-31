@@ -68,6 +68,11 @@ export default function DebtRepaymentRace() {
     return Math.max(results.snowball.months, results.avalanche.months);
   }, [results]);
 
+  const maxInterest = useMemo(() => {
+    if (results.error) return 0;
+    return Math.max(results.snowball.totalInterestPaid, results.avalanche.totalInterestPaid);
+  }, [results]);
+
   const loadPreset = (presetKey) => {
     const preset = PRESETS[presetKey];
     setDebts(preset.debts);
@@ -129,8 +134,16 @@ export default function DebtRepaymentRace() {
     const sbIndex = Math.min(timelineMonth, sbHist.length - 1);
     const avIndex = Math.min(timelineMonth, avHist.length - 1);
 
-    const sbRecord = sbHist[sbIndex] || { progressPercent: 100, debtBalances: [] };
-    const avRecord = avHist[avIndex] || { progressPercent: 100, debtBalances: [] };
+    const sbRecord = sbHist[sbIndex] || {
+      progressPercent: 100,
+      debtBalances: [],
+      cumulativeInterest: results.snowball.totalInterestPaid
+    };
+    const avRecord = avHist[avIndex] || {
+      progressPercent: 100,
+      debtBalances: [],
+      cumulativeInterest: results.avalanche.totalInterestPaid
+    };
 
     const startingTotalBalance = debts.reduce((sum, d) => sum + Number(d.balance), 0);
 
@@ -141,6 +154,8 @@ export default function DebtRepaymentRace() {
       avRemaining: avRecord.totalRemaining,
       sbBalances: sbRecord.debtBalances || [],
       avBalances: avRecord.debtBalances || [],
+      sbCumulativeInterest: sbRecord.cumulativeInterest || 0,
+      avCumulativeInterest: avRecord.cumulativeInterest || 0,
       startingTotalBalance
     };
   }, [results, timelineMonth, debts]);
@@ -356,8 +371,21 @@ export default function DebtRepaymentRace() {
 
                 {/* Track 1: Avalanche */}
                 <div className="space-y-2">
-                  <div className="flex justify-between text-xs font-black uppercase">
-                    <span>🏔️ Track A: Avalanche (Highest Rate)</span>
+                  <div className="flex justify-between items-end text-xs font-black uppercase mb-2">
+                    <div className="space-y-1">
+                      <div>🏔️ Track A: Avalanche (Highest Rate)</div>
+                      <div className="text-red-500 flex items-center gap-2">
+                        <span
+                          className="inline-block transition-transform duration-200 origin-bottom-left"
+                          style={{
+                            transform: `scale(${maxInterest > 0 ? 0.7 + racePositions.avCumulativeInterest / maxInterest : 1})`
+                          }}
+                        >
+                          🔥
+                        </span>
+                        <span>₹{(racePositions.avCumulativeInterest || 0).toLocaleString('en-IN')} BURNED</span>
+                      </div>
+                    </div>
                     <span>₹{(racePositions.avRemaining || 0).toLocaleString('en-IN')} LEFT</span>
                   </div>
                   <div className="h-14 w-full border-4 border-black bg-white relative flex overflow-hidden">
@@ -393,8 +421,21 @@ export default function DebtRepaymentRace() {
 
                 {/* Track 2: Snowball */}
                 <div className="space-y-2">
-                  <div className="flex justify-between text-xs font-black uppercase">
-                    <span>❄️ Track B: Snowball (Smallest Balance)</span>
+                  <div className="flex justify-between items-end text-xs font-black uppercase mb-2">
+                    <div className="space-y-1">
+                      <div>❄️ Track B: Snowball (Smallest Balance)</div>
+                      <div className="text-red-500 flex items-center gap-2">
+                        <span
+                          className="inline-block transition-transform duration-200 origin-bottom-left"
+                          style={{
+                            transform: `scale(${maxInterest > 0 ? 0.7 + racePositions.sbCumulativeInterest / maxInterest : 1})`
+                          }}
+                        >
+                          🔥
+                        </span>
+                        <span>₹{(racePositions.sbCumulativeInterest || 0).toLocaleString('en-IN')} BURNED</span>
+                      </div>
+                    </div>
                     <span>₹{(racePositions.sbRemaining || 0).toLocaleString('en-IN')} LEFT</span>
                   </div>
                   <div className="h-14 w-full border-4 border-black bg-white relative flex overflow-hidden">

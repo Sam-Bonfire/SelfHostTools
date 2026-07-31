@@ -23,6 +23,7 @@ export default function RunwayHorizon() {
   const [variableExpenses, setVariableExpenses] = usePersistedState('RunwayHorizon', 'variableExpenses', 15000);
   const [income, setIncome] = usePersistedState('RunwayHorizon', 'income', 10000);
   const [scenario, setScenario] = usePersistedState('RunwayHorizon', 'scenario', 'comfort');
+  const [toxicity, setToxicity] = usePersistedState('RunwayHorizon', 'toxicity', 5);
   const [lifeEvents, setLifeEvents] = usePersistedState('RunwayHorizon', 'lifeEvents', []);
 
   const resultsRef = React.useRef(null);
@@ -183,6 +184,28 @@ export default function RunwayHorizon() {
             </div>
           </Card>
 
+          <Card title="Workplace Reality" headerColor="bg-red-400">
+            <div className="space-y-2">
+              <div className="flex justify-between items-center font-black uppercase text-xs">
+                <span>BS / Toxicity Level</span>
+                <span className="bg-black text-white px-2 py-1">{toxicity} / 10</span>
+              </div>
+              <input
+                type="range"
+                min="1"
+                max="10"
+                value={toxicity}
+                onChange={(e) => setToxicity(Number(e.target.value))}
+                className="w-full h-3 bg-gray-200 appearance-none cursor-pointer accent-black border-2 border-black"
+                aria-label="Workplace Toxicity Slider"
+              />
+              <div className="flex justify-between text-[9px] font-bold text-gray-500 uppercase">
+                <span>Tolerable</span>
+                <span>Soul Crushing</span>
+              </div>
+            </div>
+          </Card>
+
           {/* Action Buttons */}
           <div className="pt-2">
             <DownloadButtons onDownloadPDF={handleDownloadPDF} />
@@ -211,31 +234,50 @@ export default function RunwayHorizon() {
                   />
                 </Card>
 
-                <Card className="p-5 h-full">
-                  <MetricDisplay
-                    title="Horizon Status"
-                    value={
-                      <div className="flex items-center gap-2">
-                        {runwayData.isInfinite ? (
-                          <>
-                            <Award className="w-8 h-8 text-green-700" /> SAFE
-                          </>
-                        ) : runwayData.runwayMonths < 6 ? (
-                          <>
-                            <ShieldAlert className="w-8 h-8 text-red-600" /> CRITICAL
-                          </>
-                        ) : (
-                          <>
-                            <Calendar className="w-8 h-8 text-blue-700" /> STABLE
-                          </>
-                        )}
-                      </div>
-                    }
-                    subtitle={
-                      runwayData.isInfinite ? 'Accumulating Cashflow' : `${runwayData.runwayMonths} months of safety`
-                    }
-                  />
-                </Card>
+                {(() => {
+                  let bgColor = 'bg-gray-100';
+                  let statusText = '';
+                  let subtitleText = '';
+                  let Icon = ShieldAlert;
+                  let iconColor = 'text-black';
+
+                  if (runwayData.isInfinite || runwayData.runwayMonths >= 12) {
+                    bgColor = 'bg-green-400';
+                    statusText = 'F*** YOU MONEY ACTIVE';
+                    subtitleText = 'You can afford to walk away today.';
+                    Icon = Award;
+                  } else if (toxicity > 7 && runwayData.runwayMonths < 4) {
+                    bgColor = 'bg-red-500 text-white';
+                    statusText = 'TRAPPED';
+                    subtitleText = 'Toxicity is high, but cash is too low to quit.';
+                    Icon = ShieldAlert;
+                    iconColor = 'text-white';
+                  } else if (runwayData.runwayMonths < 6) {
+                    bgColor = 'bg-yellow-400';
+                    statusText = 'VULNERABLE';
+                    subtitleText = 'Build more cash to buy freedom.';
+                    Icon = ShieldAlert;
+                  } else {
+                    bgColor = 'bg-blue-300';
+                    statusText = 'STABLE';
+                    subtitleText = 'You have options.';
+                    Icon = Calendar;
+                  }
+
+                  return (
+                    <Card className={`p-5 h-full border-4 border-black ${bgColor}`}>
+                      <MetricDisplay
+                        title="BS Tolerance Status"
+                        value={
+                          <div className="flex items-center gap-2 text-sm md:text-base leading-tight">
+                            <Icon className={`w-6 h-6 shrink-0 ${iconColor}`} /> {statusText}
+                          </div>
+                        }
+                        subtitle={subtitleText}
+                      />
+                    </Card>
+                  );
+                })()}
               </div>
 
               {/* Life Event Stress-Test Panel */}

@@ -16,7 +16,6 @@ import {
   Landmark,
   MessageSquarePlus,
   Search,
-  Snowflake,
   Sun,
   Timer,
   X
@@ -55,15 +54,7 @@ const VISUALIZERS = [
     textColor: 'text-black',
     iconColor: 'text-black'
   },
-  {
-    path: '/compound-interest',
-    name: 'Compound Interest Snowball',
-    desc: 'A particle simulator showing how contributions versus interest scales over 30 years.',
-    category: 'Finance',
-    icon: Snowflake,
-    color: 'bg-blue-500',
-    textColor: 'text-white'
-  },
+
   {
     path: '/sorting-visualizer',
     name: 'Sorting Algorithms',
