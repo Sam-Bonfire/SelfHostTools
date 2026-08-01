@@ -8,6 +8,7 @@ const Card = ({
   title,
   icon: Icon,
   headerColor = 'bg-blue-100',
+  bodyClassName = '',
   action,
   ...props
 }) => {
@@ -27,7 +28,7 @@ const Card = ({
           {action && <div>{action}</div>}
         </div>
       )}
-      <div className={title ? 'p-4 md:p-6' : ''}>{children}</div>
+      <div className={`${title ? 'p-4 md:p-6' : ''} ${bodyClassName}`}>{children}</div>
     </div>
   );
 

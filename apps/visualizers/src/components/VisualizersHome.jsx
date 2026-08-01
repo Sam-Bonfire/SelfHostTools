@@ -11,6 +11,7 @@ import {
   Database,
   Flame,
   GitFork,
+  GitMerge,
   Grid,
   History,
   Landmark,
@@ -18,6 +19,7 @@ import {
   Search,
   Sun,
   Timer,
+  TrendingUp,
   X
 } from 'lucide-react';
 import { useEffect, useMemo, useRef } from 'react';
@@ -33,6 +35,26 @@ const VISUALIZERS = [
     color: 'bg-black',
     textColor: 'text-white',
     iconColor: 'text-white'
+  },
+  {
+    path: '/skill-tree',
+    name: 'Skill Tree Architect',
+    desc: 'Treat your life and career goals like an RPG skill tree. Visually map out prerequisites and capacity.',
+    category: 'Perspective',
+    icon: GitMerge,
+    color: 'bg-purple-300',
+    textColor: 'text-black',
+    iconColor: 'text-black'
+  },
+  {
+    path: '/habit-compounder',
+    name: 'The Habit Compounder',
+    desc: 'Visualize the massive divergence between remaining stagnant and changing by just 1% a week over a decade.',
+    category: 'Perspective',
+    icon: TrendingUp,
+    color: 'bg-green-400',
+    textColor: 'text-black',
+    iconColor: 'text-black'
   },
   {
     path: '/sankey-flowchart',
