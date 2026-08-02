@@ -41,32 +41,6 @@ const PALETTE = [
 // ─────────────────────────────────────────────
 // SANKEY MATH
 // ─────────────────────────────────────────────
-const MIN_PATH_THICKNESS = 3; // px minimum to remain visible
-
-/**
- * Logarithmic normalisation: maps value to a thickness in [minT, maxT]
- */
-const logScale = (value, minVal, maxVal, minT, maxT) => {
-  if (maxVal <= minVal || value <= 0) return minT;
-  const logMin = Math.log1p(minVal);
-  const logMax = Math.log1p(maxVal);
-  const logVal = Math.log1p(value);
-  const t = ((logVal - logMin) / (logMax - logMin)) * (maxT - minT) + minT;
-  return Math.max(minT, Math.min(maxT, t));
-};
-
-/**
- * Build SVG path data for a cubic bezier Sankey ribbon
- */
-const buildPath = (x0, y0, t0, x1, y1, t1) => {
-  const mid = (x0 + x1) / 2;
-  // Upper and lower edges of the ribbon
-  const top = `M ${x0} ${y0 - t0 / 2} C ${mid} ${y0 - t0 / 2}, ${mid} ${y1 - t1 / 2}, ${x1} ${y1 - t1 / 2}`;
-  const bottom = `L ${x1} ${y1 + t1 / 2} C ${mid} ${y1 + t1 / 2}, ${mid} ${y0 + t0 / 2}, ${x0} ${y0 + t0 / 2} Z`;
-  return `${top} ${bottom}`;
-};
-
-// ─────────────────────────────────────────────
 // SUB-COMPONENTS
 // ─────────────────────────────────────────────
 function NodeRow({ item, onChange, onDelete, prefix, showDelete }) {
@@ -124,9 +98,12 @@ export default function SankeyFlowchart() {
     new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
 
   // ── Node CRUD ──────────────────────────────
-  const updateSource = useCallback((id, field, val) => {
-    setSources((prev) => prev.map((n) => (n.id === id ? { ...n, [field]: val } : n)));
-  }, []);
+  const updateSource = useCallback(
+    (id, field, val) => {
+      setSources((prev) => prev.map((n) => (n.id === id ? { ...n, [field]: val } : n)));
+    },
+    [setSources]
+  );
 
   const addSource = () => {
     setSources((prev) => [...prev, { id: `src-${Date.now()}`, label: 'New Income', amount: 10000 }]);
@@ -136,9 +113,12 @@ export default function SankeyFlowchart() {
     setSources((prev) => (prev.length > 1 ? prev.filter((n) => n.id !== id) : prev));
   };
 
-  const updateDest = useCallback((id, field, val) => {
-    setDestinations((prev) => prev.map((n) => (n.id === id ? { ...n, [field]: val } : n)));
-  }, []);
+  const updateDest = useCallback(
+    (id, field, val) => {
+      setDestinations((prev) => prev.map((n) => (n.id === id ? { ...n, [field]: val } : n)));
+    },
+    [setDestinations]
+  );
 
   const addDest = () => {
     const color = PALETTE[destinations.length % PALETTE.length];
@@ -523,8 +503,8 @@ export default function SankeyFlowchart() {
         <p className="text-gray-600 font-medium">
           <strong>Disclaimer:</strong> This capital flow map reveals structural leaks.
           <br className="md:hidden" />
-          True financial discipline isn't about increasing the left side (income), it's about purposefully directing
-          every unit of flow on the right side.
+          True financial discipline isn&apos;t about increasing the left side (income), it&apos;s about purposefully
+          directing every unit of flow on the right side.
         </p>
       </Footer>
     </div>

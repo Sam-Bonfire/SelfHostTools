@@ -146,7 +146,6 @@ export default function MementoMori() {
     const imgData = canvas.toDataURL('image/png');
     const pdf = new jsPDF('p', 'mm', 'a4');
     const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = pdf.internal.pageSize.getHeight();
     const imgWidth = pdfWidth - 20; // 10mm margin
     const imgHeight = (canvas.height * imgWidth) / canvas.width;
 

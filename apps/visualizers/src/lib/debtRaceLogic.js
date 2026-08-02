@@ -60,12 +60,10 @@ function amortizeDebts(initialDebts, monthlyBudget, strategy) {
 
     // 2. Pay minimum payments
     let remainingBudget = monthlyBudget;
-    let activeDebtsCount = 0;
 
     // Pay minimums or balances, whichever is less
     debts = debts.map((d) => {
       if (d.balance <= 0) return d;
-      activeDebtsCount++;
       const payment = Math.min(d.balance, d.minPayment);
       remainingBudget -= payment;
       return {

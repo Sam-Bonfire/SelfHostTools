@@ -13,6 +13,7 @@ const PomodoroFocusVisualizer = React.lazy(() => import('./components/PomodoroFo
 const SWRHistoricalVisualizer = React.lazy(() => import('./components/SWRHistoricalVisualizer.jsx'));
 import DebtRepaymentRace from './components/DebtRepaymentRace';
 import FreedomClock from './components/FreedomClock';
+import FunnelArchitect from './components/FunnelArchitect';
 import HabitCompounder from './components/HabitCompounder';
 import RunwayHorizon from './components/RunwayHorizon';
 import SkillTreeArchitect from './components/SkillTreeArchitect';
@@ -101,6 +102,10 @@ const router = createHashRouter([
       {
         path: '/skill-tree',
         element: <SkillTreeArchitect />
+      },
+      {
+        path: '/funnel-architect',
+        element: <FunnelArchitect />
       }
     ]
   }

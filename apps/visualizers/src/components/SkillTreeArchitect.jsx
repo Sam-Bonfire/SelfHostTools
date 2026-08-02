@@ -172,6 +172,7 @@ export default function SkillTreeArchitect() {
     // slight delay to ensure DOM has rendered flexbox layouts
     const timer = setTimeout(drawLines, 50);
     return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nodes, tiers]);
 
   useEffect(() => {

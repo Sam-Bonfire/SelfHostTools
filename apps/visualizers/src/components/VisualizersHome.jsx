@@ -9,6 +9,7 @@ import {
   ChevronRight,
   Clock,
   Database,
+  Filter,
   Flame,
   GitFork,
   GitMerge,
@@ -53,6 +54,16 @@ const VISUALIZERS = [
     category: 'Perspective',
     icon: TrendingUp,
     color: 'bg-green-400',
+    textColor: 'text-black',
+    iconColor: 'text-black'
+  },
+  {
+    path: '/funnel-architect',
+    name: 'Funnel & Flow Architect',
+    desc: 'Map out conversion funnels, user journeys, and complex workflows with top-down tracking.',
+    category: 'Perspective',
+    icon: Filter,
+    color: 'bg-blue-300',
     textColor: 'text-black',
     iconColor: 'text-black'
   },
@@ -181,6 +192,7 @@ export default function VisualizersHome() {
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const filteredVisualizers = useMemo(() => {
