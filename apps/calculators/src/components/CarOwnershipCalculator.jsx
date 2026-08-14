@@ -39,7 +39,7 @@ export default function CarOwnershipCalculator() {
   const [averageRideshareCost, setAverageRideshareCost] = usePersistedState(
     'CarOwnershipCalculator',
     'averageRideshareCost',
-    400
+    macroData.microCosts.rideshareCostPerTrip
   );
 
   // Mode Toggle
@@ -57,24 +57,56 @@ export default function CarOwnershipCalculator() {
   const [usageKMs, setUsageKMs] = usePersistedState('CarOwnershipCalculator', 'usageKMs', 800);
   const [usageType, setUsageType] = usePersistedState('CarOwnershipCalculator', 'usageType', 'monthly');
   const [fuelEfficiency, setFuelEfficiency] = usePersistedState('CarOwnershipCalculator', 'fuelEfficiency', 15);
-  const [fuelPrice, setFuelPrice] = usePersistedState('CarOwnershipCalculator', 'fuelPrice', 100);
-  const [annualServicing, setAnnualServicing] = usePersistedState('CarOwnershipCalculator', 'annualServicing', 10000);
+  const [fuelPrice, setFuelPrice] = usePersistedState(
+    'CarOwnershipCalculator',
+    'fuelPrice',
+    macroData.fuelPrices.petrol
+  );
+  const [annualServicing, setAnnualServicing] = usePersistedState(
+    'CarOwnershipCalculator',
+    'annualServicing',
+    macroData.microCosts.carServicingAnnual
+  );
   const [tireReplacementFund, setTireReplacementFund] = usePersistedState(
     'CarOwnershipCalculator',
     'tireReplacementFund',
-    5000
+    macroData.microCosts.carTireFundAnnual
   );
-  const [monthlyCleaning, setMonthlyCleaning] = usePersistedState('CarOwnershipCalculator', 'monthlyCleaning', 500);
-  const [annualFines, setAnnualFines] = usePersistedState('CarOwnershipCalculator', 'annualFines', 1500);
-  const [monthlyTolls, setMonthlyTolls] = usePersistedState('CarOwnershipCalculator', 'monthlyTolls', 500);
-  const [monthlyParking, setMonthlyParking] = usePersistedState('CarOwnershipCalculator', 'monthlyParking', 1000);
-  const [annualRepairs, setAnnualRepairs] = usePersistedState('CarOwnershipCalculator', 'annualRepairs', 5000);
+  const [monthlyCleaning, setMonthlyCleaning] = usePersistedState(
+    'CarOwnershipCalculator',
+    'monthlyCleaning',
+    macroData.microCosts.carCleaningMonthly
+  );
+  const [annualFines, setAnnualFines] = usePersistedState(
+    'CarOwnershipCalculator',
+    'annualFines',
+    macroData.microCosts.carFinesAnnual
+  );
+  const [monthlyTolls, setMonthlyTolls] = usePersistedState(
+    'CarOwnershipCalculator',
+    'monthlyTolls',
+    macroData.microCosts.carTollsMonthly
+  );
+  const [monthlyParking, setMonthlyParking] = usePersistedState(
+    'CarOwnershipCalculator',
+    'monthlyParking',
+    macroData.microCosts.carParkingMonthly
+  );
+  const [annualRepairs, setAnnualRepairs] = usePersistedState(
+    'CarOwnershipCalculator',
+    'annualRepairs',
+    macroData.microCosts.carRepairsAnnual
+  );
 
   // Trip Simulator State
   const [tripDistance, setTripDistance] = usePersistedState('CarOwnershipCalculator', 'tripDistance', 15);
   const [tripTolls, setTripTolls] = usePersistedState('CarOwnershipCalculator', 'tripTolls', 0);
   const [tripParking, setTripParking] = usePersistedState('CarOwnershipCalculator', 'tripParking', 50);
-  const [cabFare, setCabFare] = usePersistedState('CarOwnershipCalculator', 'cabFare', 350);
+  const [cabFare, setCabFare] = usePersistedState(
+    'CarOwnershipCalculator',
+    'cabFare',
+    macroData.microCosts.rideshareCostPerTrip
+  );
 
   // Calculate
   const results = useMemo(() => {

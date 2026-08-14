@@ -14,7 +14,7 @@
   "interestRates": {
     "homeLoan": 8.5,
     "educationLoan": 10.5,
-    "autoLoan": 9
+    "autoLoan": 9.07
   },
   "tax": {
     "ltcg": 12.5,
@@ -22,6 +22,20 @@
     "freelancePresumptive": 20
   },
   "metadata": {
-    "lastUpdated": "2026-08-13T01:45:38.024Z"
+    "lastUpdated": "2026-08-14T19:34:27.639Z",
+    "inflationMultiplierApplied": 1.0485524387488894
+  },
+  "microCosts": {
+    "carServicingAnnual": 10490,
+    "carTireFundAnnual": 5240,
+    "carFinesAnnual": 1570,
+    "carCleaningMonthly": 520,
+    "carTollsMonthly": 520,
+    "carParkingMonthly": 1050,
+    "carRepairsAnnual": 5240,
+    "rideshareCostPerTrip": 420
+  },
+  "fuelPrices": {
+    "petrol": 100
   }
 }

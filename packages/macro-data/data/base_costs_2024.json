@@ -1,0 +1,16 @@
+{
+  "baseYear": 2024,
+  "microCosts": {
+    "carServicingAnnual": 10000,
+    "carTireFundAnnual": 5000,
+    "carFinesAnnual": 1500,
+    "carCleaningMonthly": 500,
+    "carTollsMonthly": 500,
+    "carParkingMonthly": 1000,
+    "carRepairsAnnual": 5000,
+    "rideshareCostPerTrip": 400
+  },
+  "fuelPrices": {
+    "petrol": 100
+  }
+}
