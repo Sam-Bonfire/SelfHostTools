@@ -1,6 +1,6 @@
-import { afterEach,beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { calculateLines, debounce,getRelativePos } from '../lib/funnelLogic.js';
+import { calculateLines, debounce, getRelativePos } from '../lib/funnelLogic.js';
 
 describe('funnelLogic', () => {
   describe('getRelativePos', () => {

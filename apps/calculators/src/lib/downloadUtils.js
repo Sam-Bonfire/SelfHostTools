@@ -85,6 +85,46 @@ export const downloadPDF = async (data) => {
       ['Net Take-Home Pay', `INR ${formatCurrency(results.netTakeHome, true)}`],
       ['Real Hourly Rate', `INR ${formatCurrency(results.realHourlyRate, true)}`]
     ];
+  } else if (inputs.carPrice !== undefined && inputs.annualDepreciationRate !== undefined) {
+    // CAR OWNERSHIP REALIST
+    summaryData = [
+      ['On-Road Price', `INR ${formatCurrency(inputs.carPrice, true)}`],
+      ['Down Payment', `INR ${formatCurrency(inputs.downPayment, true)}`],
+      ['Loan Term', `${inputs.loanTermYears} Years`],
+      ['Ownership Horizon', `${inputs.ownershipYears} Years`],
+      ['Annual Insurance', `INR ${formatCurrency(inputs.annualInsurance, true)}`]
+    ];
+    if (inputs.isAdvanced) {
+      summaryData.push(
+        ['Mode', 'Advanced (Granular)'],
+        ['Usage', `${inputs.usageKMs} KMs / ${inputs.usageType === 'monthly' ? 'Month' : 'Year'}`],
+        ['Fuel Efficiency', `${inputs.fuelEfficiency} KM/L`],
+        ['Fuel Price', `INR ${formatCurrency(inputs.fuelPrice, true)} / L`],
+        ['Tire Fund (Yr)', `INR ${formatCurrency(inputs.tireReplacementFund, true)}`],
+        ['Servicing (Yr)', `INR ${formatCurrency(inputs.annualServicing, true)}`],
+        ['Fines (Yr)', `INR ${formatCurrency(inputs.annualFines, true)}`],
+        ['Repairs (Yr)', `INR ${formatCurrency(inputs.annualRepairs, true)}`],
+        ['Tolls (Mo)', `INR ${formatCurrency(inputs.monthlyTolls, true)}`],
+        ['Parking (Mo)', `INR ${formatCurrency(inputs.monthlyParking, true)}`],
+        ['Cleaning (Mo)', `INR ${formatCurrency(inputs.monthlyCleaning, true)}`]
+      );
+    } else {
+      summaryData.push(
+        ['Mode', 'Simple'],
+        ['Annual Maintenance', `INR ${formatCurrency(inputs.annualMaintenance, true)}`],
+        ['Monthly Fuel', `INR ${formatCurrency(inputs.monthlyFuel, true)}`]
+      );
+    }
+    summaryData.push(
+      ['Monthly EMI', `INR ${formatCurrency(results.financials.monthlyEMI, true)}`],
+      ['Total Sunk Cost', `INR ${formatCurrency(results.summary.trueCostOfOwnership, true)}`]
+    );
+    if (results.financials.trueCostPerKm > 0) {
+      summaryData.push(['True Cost / KM', `INR ${formatCurrency(results.financials.trueCostPerKm, true)}`]);
+    }
+    if (results.financials.runningCostPerKm > 0) {
+      summaryData.push(['Running Cost / KM', `INR ${formatCurrency(results.financials.runningCostPerKm, true)}`]);
+    }
   } else if (inputs.appreciationRate !== undefined && inputs.maintenanceInflation !== undefined) {
     // HOME OWNER REALIST
     summaryData = [
@@ -412,6 +452,46 @@ export const downloadExcel = async (data) => {
       ['Net Take-Home Pay', results.netTakeHome],
       ['Real Hourly Rate', results.realHourlyRate]
     ];
+  } else if (inputs.carPrice !== undefined && inputs.annualDepreciationRate !== undefined) {
+    // CAR OWNERSHIP REALIST
+    summaryRows = [
+      ['On-Road Price', inputs.carPrice],
+      ['Down Payment', inputs.downPayment],
+      ['Loan Term (Years)', inputs.loanTermYears],
+      ['Ownership Horizon (Years)', inputs.ownershipYears],
+      ['Annual Insurance', inputs.annualInsurance]
+    ];
+    if (inputs.isAdvanced) {
+      summaryRows.push(
+        ['Mode', 'Advanced (Granular)'],
+        ['Usage', `${inputs.usageKMs} KMs / ${inputs.usageType === 'monthly' ? 'Month' : 'Year'}`],
+        ['Fuel Efficiency (KM/L)', inputs.fuelEfficiency],
+        ['Fuel Price (INR/L)', inputs.fuelPrice],
+        ['Tire Fund / Yr', inputs.tireReplacementFund],
+        ['Servicing / Yr', inputs.annualServicing],
+        ['Fines / Yr', inputs.annualFines],
+        ['Repairs / Yr', inputs.annualRepairs],
+        ['Tolls / Mo', inputs.monthlyTolls],
+        ['Parking / Mo', inputs.monthlyParking],
+        ['Cleaning / Mo', inputs.monthlyCleaning]
+      );
+    } else {
+      summaryRows.push(
+        ['Mode', 'Simple'],
+        ['Annual Maintenance', inputs.annualMaintenance],
+        ['Monthly Fuel', inputs.monthlyFuel]
+      );
+    }
+    summaryRows.push(
+      ['Monthly EMI', results.financials.monthlyEMI],
+      ['Total Sunk Cost', results.summary.trueCostOfOwnership]
+    );
+    if (results.financials.trueCostPerKm > 0) {
+      summaryRows.push(['True Cost / KM', results.financials.trueCostPerKm]);
+    }
+    if (results.financials.runningCostPerKm > 0) {
+      summaryRows.push(['Running Cost / KM', results.financials.runningCostPerKm]);
+    }
   } else if (inputs.appreciationRate !== undefined && inputs.maintenanceInflation !== undefined) {
     // HOME OWNER REALIST
     summaryRows = [

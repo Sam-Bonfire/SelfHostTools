@@ -1,6 +1,7 @@
 import { macroData } from '@packages/macro-data';
 import { resetPersistedState, usePersistedState } from '@packages/persistence';
 import {
+  Button,
   CalculatorHeader,
   CalculatorLayout,
   Card,
@@ -8,15 +9,28 @@ import {
   Footer,
   Input,
   MetricDisplay,
-  ResultsAnalysis
+  ResultsAnalysis,
+  Tooltip
 } from '@packages/styling';
-import { Car, CarTaxiFront, Clock, Fuel, IndianRupee, Shield, TrendingDown, Wrench } from 'lucide-react';
+import {
+  Car,
+  CarTaxiFront,
+  Clock,
+  Fuel,
+  IndianRupee,
+  Map,
+  Shield,
+  TrendingDown,
+  Wrench,
+  Zap
+} from 'lucide-react';
 import { useMemo } from 'react';
 
 import { calculateCarOwnership } from '../lib/carOwnershipLogic';
 import { downloadExcel, downloadPDF } from '../lib/downloadUtils';
+
 export default function CarOwnershipCalculator() {
-  // Inputs
+  // Common Inputs
   const [carPrice, setCarPrice] = usePersistedState('CarOwnershipCalculator', 'carPrice', 1500000);
   const [downPayment, setDownPayment] = usePersistedState('CarOwnershipCalculator', 'downPayment', 300000);
   const [loanInterestRate, setLoanInterestRate] = usePersistedState(
@@ -32,21 +46,50 @@ export default function CarOwnershipCalculator() {
     15
   );
   const [annualInsurance, setAnnualInsurance] = usePersistedState('CarOwnershipCalculator', 'annualInsurance', 35000);
-  const [annualMaintenance, setAnnualMaintenance] = usePersistedState(
-    'CarOwnershipCalculator',
-    'annualMaintenance',
-    15000
-  );
-  const [monthlyFuel, setMonthlyFuel] = usePersistedState('CarOwnershipCalculator', 'monthlyFuel', 8000);
   const [averageRideshareCost, setAverageRideshareCost] = usePersistedState(
     'CarOwnershipCalculator',
     'averageRideshareCost',
     400
   );
 
+  // Mode Toggle
+  const [isAdvanced, setIsAdvanced] = usePersistedState('CarOwnershipCalculator', 'isAdvanced', false);
+
+  // Simple Mode Inputs
+  const [annualMaintenance, setAnnualMaintenance] = usePersistedState(
+    'CarOwnershipCalculator',
+    'annualMaintenance',
+    15000
+  );
+  const [monthlyFuel, setMonthlyFuel] = usePersistedState('CarOwnershipCalculator', 'monthlyFuel', 8000);
+
+  // Advanced Mode Inputs
+  const [usageKMs, setUsageKMs] = usePersistedState('CarOwnershipCalculator', 'usageKMs', 800);
+  const [usageType, setUsageType] = usePersistedState('CarOwnershipCalculator', 'usageType', 'monthly');
+  const [fuelEfficiency, setFuelEfficiency] = usePersistedState('CarOwnershipCalculator', 'fuelEfficiency', 15);
+  const [fuelPrice, setFuelPrice] = usePersistedState('CarOwnershipCalculator', 'fuelPrice', 100);
+  const [annualServicing, setAnnualServicing] = usePersistedState('CarOwnershipCalculator', 'annualServicing', 10000);
+  const [tireReplacementFund, setTireReplacementFund] = usePersistedState(
+    'CarOwnershipCalculator',
+    'tireReplacementFund',
+    5000
+  );
+  const [monthlyCleaning, setMonthlyCleaning] = usePersistedState('CarOwnershipCalculator', 'monthlyCleaning', 500);
+  const [annualFines, setAnnualFines] = usePersistedState('CarOwnershipCalculator', 'annualFines', 1500);
+  const [monthlyTolls, setMonthlyTolls] = usePersistedState('CarOwnershipCalculator', 'monthlyTolls', 500);
+  const [monthlyParking, setMonthlyParking] = usePersistedState('CarOwnershipCalculator', 'monthlyParking', 1000);
+  const [annualRepairs, setAnnualRepairs] = usePersistedState('CarOwnershipCalculator', 'annualRepairs', 5000);
+
+  // Trip Simulator State
+  const [tripDistance, setTripDistance] = usePersistedState('CarOwnershipCalculator', 'tripDistance', 15);
+  const [tripTolls, setTripTolls] = usePersistedState('CarOwnershipCalculator', 'tripTolls', 0);
+  const [tripParking, setTripParking] = usePersistedState('CarOwnershipCalculator', 'tripParking', 50);
+  const [cabFare, setCabFare] = usePersistedState('CarOwnershipCalculator', 'cabFare', 350);
+
   // Calculate
   const results = useMemo(() => {
     return calculateCarOwnership({
+      isAdvanced,
       carPrice: Number(carPrice),
       downPayment: Number(downPayment),
       loanInterestRate: Number(loanInterestRate),
@@ -56,9 +99,21 @@ export default function CarOwnershipCalculator() {
       annualInsurance: Number(annualInsurance),
       annualMaintenance: Number(annualMaintenance),
       monthlyFuel: Number(monthlyFuel),
-      averageRideshareCost: Number(averageRideshareCost)
+      averageRideshareCost: Number(averageRideshareCost),
+      usageKMs: Number(usageKMs),
+      usageType,
+      fuelEfficiency: Number(fuelEfficiency),
+      fuelPrice: Number(fuelPrice),
+      annualServicing: Number(annualServicing),
+      tireReplacementFund: Number(tireReplacementFund),
+      monthlyCleaning: Number(monthlyCleaning),
+      annualFines: Number(annualFines),
+      monthlyTolls: Number(monthlyTolls),
+      monthlyParking: Number(monthlyParking),
+      annualRepairs: Number(annualRepairs)
     });
   }, [
+    isAdvanced,
     carPrice,
     downPayment,
     loanInterestRate,
@@ -68,7 +123,18 @@ export default function CarOwnershipCalculator() {
     annualInsurance,
     annualMaintenance,
     monthlyFuel,
-    averageRideshareCost
+    averageRideshareCost,
+    usageKMs,
+    usageType,
+    fuelEfficiency,
+    fuelPrice,
+    annualServicing,
+    tireReplacementFund,
+    monthlyCleaning,
+    annualFines,
+    monthlyTolls,
+    monthlyParking,
+    annualRepairs
   ]);
 
   const { financials, comparisons, summary } = results;
@@ -80,6 +146,40 @@ export default function CarOwnershipCalculator() {
       currency: 'INR',
       maximumFractionDigits: 0
     }).format(val);
+
+  // Trip Simulator Logic
+  const simCarCost = Number(tripDistance) * financials.runningCostPerKm + Number(tripTolls) + Number(tripParking);
+  const simCabCost = Number(cabFare);
+  const simDifference = Math.abs(simCarCost - simCabCost);
+  const simWinner = simCarCost <= simCabCost ? 'Car' : 'Cab';
+
+  const exportData = {
+    inputs: {
+      isAdvanced,
+      carPrice,
+      downPayment,
+      loanInterestRate,
+      loanTermYears,
+      ownershipYears,
+      annualDepreciationRate,
+      annualInsurance,
+      averageRideshareCost,
+      annualMaintenance,
+      monthlyFuel,
+      usageKMs,
+      usageType,
+      fuelEfficiency,
+      fuelPrice,
+      annualServicing,
+      tireReplacementFund,
+      monthlyCleaning,
+      annualFines,
+      monthlyTolls,
+      monthlyParking,
+      annualRepairs
+    },
+    results: { financials, comparisons, summary }
+  };
 
   return (
     <div className="min-h-screen bg-white text-black p-4 md:p-8">
@@ -157,35 +257,143 @@ export default function CarOwnershipCalculator() {
               </div>
             </Card>
 
-            <Card title="Running Costs" icon={Fuel}>
+            <Card title="Running Costs" icon={Fuel} headerColor="bg-orange-100">
               <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <Input
-                    id="annualInsurance"
-                    label="Annual Insurance"
-                    type="number"
-                    value={annualInsurance}
-                    onChange={(e) => setAnnualInsurance(e.target.value)}
-                    icon={Shield}
-                  />
-                  <Input
-                    id="annualMaintenance"
-                    label="Annual Maintenance"
-                    type="number"
-                    value={annualMaintenance}
-                    onChange={(e) => setAnnualMaintenance(e.target.value)}
-                    icon={Wrench}
-                  />
-                </div>
+                <Tooltip
+                  content="Toggle between basic monthly averages and granular real-world expenses"
+                  className="w-full mb-4"
+                >
+                  <Button onClick={() => setIsAdvanced(!isAdvanced)} variant="secondary" className="w-full">
+                    {isAdvanced ? 'Switch to Simple Mode' : 'Switch to Advanced Mode'}
+                  </Button>
+                </Tooltip>
 
                 <Input
-                  id="monthlyFuel"
-                  label="Monthly Fuel / Charging"
+                  id="annualInsurance"
+                  label="Annual Insurance"
                   type="number"
-                  value={monthlyFuel}
-                  onChange={(e) => setMonthlyFuel(e.target.value)}
-                  icon={Fuel}
+                  value={annualInsurance}
+                  onChange={(e) => setAnnualInsurance(e.target.value)}
+                  icon={Shield}
                 />
+
+                {!isAdvanced ? (
+                  <div className="space-y-4">
+                    <Input
+                      id="annualMaintenance"
+                      label="Annual Maintenance"
+                      type="number"
+                      value={annualMaintenance}
+                      onChange={(e) => setAnnualMaintenance(e.target.value)}
+                      icon={Wrench}
+                    />
+                    <Input
+                      id="monthlyFuel"
+                      label="Monthly Fuel / Charging"
+                      type="number"
+                      value={monthlyFuel}
+                      onChange={(e) => setMonthlyFuel(e.target.value)}
+                      icon={Fuel}
+                    />
+                  </div>
+                ) : (
+                  <div className="space-y-6 pt-4 border-t-2 border-black border-dashed">
+                    <div>
+                      <h4 className="font-bold text-sm mb-3">Usage & Fuel</h4>
+                      <div className="grid grid-cols-2 gap-4">
+                        <Input
+                          id="usageKMs"
+                          label={`KMs per ${usageType === 'monthly' ? 'Month' : 'Year'}`}
+                          type="number"
+                          value={usageKMs}
+                          onChange={(e) => setUsageKMs(e.target.value)}
+                        />
+                        <div className="flex items-end">
+                          <select
+                            id="usageType"
+                            value={usageType}
+                            onChange={(e) => setUsageType(e.target.value)}
+                            className="w-full h-10 border-2 border-black font-bold p-2 outline-none focus:ring-2 focus:ring-black"
+                            aria-label="Usage Frequency"
+                          >
+                            <option value="monthly">Monthly</option>
+                            <option value="yearly">Yearly</option>
+                          </select>
+                        </div>
+                        <Input
+                          id="fuelEfficiency"
+                          label="Mileage (KM/L)"
+                          type="number"
+                          value={fuelEfficiency}
+                          onChange={(e) => setFuelEfficiency(e.target.value)}
+                        />
+                        <Input
+                          id="fuelPrice"
+                          label="Fuel/Unit Price"
+                          type="number"
+                          value={fuelPrice}
+                          onChange={(e) => setFuelPrice(e.target.value)}
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <h4 className="font-bold text-sm mb-3">Granular Overheads</h4>
+                      <div className="grid grid-cols-2 gap-4">
+                        <Input
+                          id="annualServicing"
+                          label="Servicing / Yr"
+                          type="number"
+                          value={annualServicing}
+                          onChange={(e) => setAnnualServicing(e.target.value)}
+                        />
+                        <Input
+                          id="annualRepairs"
+                          label="Unexpected Repairs / Yr"
+                          type="number"
+                          value={annualRepairs}
+                          onChange={(e) => setAnnualRepairs(e.target.value)}
+                        />
+                        <Input
+                          id="tireReplacementFund"
+                          label="Tire Fund / Yr"
+                          type="number"
+                          value={tireReplacementFund}
+                          onChange={(e) => setTireReplacementFund(e.target.value)}
+                          tooltip="Cost of 4 tires divided by their lifespan in years."
+                        />
+                        <Input
+                          id="annualFines"
+                          label="Traffic Fines / Yr"
+                          type="number"
+                          value={annualFines}
+                          onChange={(e) => setAnnualFines(e.target.value)}
+                        />
+                        <Input
+                          id="monthlyCleaning"
+                          label="Washing / Mo"
+                          type="number"
+                          value={monthlyCleaning}
+                          onChange={(e) => setMonthlyCleaning(e.target.value)}
+                        />
+                        <Input
+                          id="monthlyTolls"
+                          label="Tolls (FASTag) / Mo"
+                          type="number"
+                          value={monthlyTolls}
+                          onChange={(e) => setMonthlyTolls(e.target.value)}
+                        />
+                        <Input
+                          id="monthlyParking"
+                          label="Parking / Mo"
+                          type="number"
+                          value={monthlyParking}
+                          onChange={(e) => setMonthlyParking(e.target.value)}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 <div className="pt-4 border-t-2 border-black">
                   <Input
@@ -203,40 +411,8 @@ export default function CarOwnershipCalculator() {
 
             <Card className="border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-orange-50">
               <DownloadButtons
-                onDownloadPDF={() =>
-                  downloadPDF({
-                    inputs: {
-                      carPrice,
-                      downPayment,
-                      loanInterestRate,
-                      loanTermYears,
-                      ownershipYears,
-                      annualDepreciationRate,
-                      annualInsurance,
-                      annualMaintenance,
-                      monthlyFuel,
-                      averageRideshareCost
-                    },
-                    results: { financials, comparisons, summary }
-                  })
-                }
-                onDownloadExcel={() =>
-                  downloadExcel({
-                    inputs: {
-                      carPrice,
-                      downPayment,
-                      loanInterestRate,
-                      loanTermYears,
-                      ownershipYears,
-                      annualDepreciationRate,
-                      annualInsurance,
-                      annualMaintenance,
-                      monthlyFuel,
-                      averageRideshareCost
-                    },
-                    results: { financials, comparisons, summary }
-                  })
-                }
+                onDownloadPDF={() => downloadPDF(exportData)}
+                onDownloadExcel={() => downloadExcel(exportData)}
               />
             </Card>
           </div>
@@ -248,6 +424,30 @@ export default function CarOwnershipCalculator() {
               verdict={`You are paying ${formatCurrency(financials.trueMonthlyCost)} per month to own this car.`}
               verdictColor="text-orange-600"
             >
+              {/* Cost Per KM Highlights */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                {financials.trueCostPerKm > 0 && (
+                  <div className="bg-red-50 border-4 border-black p-4">
+                    <p className="text-xs font-bold uppercase text-red-600 mb-1">True Cost Per KM</p>
+                    <p className="text-3xl font-black text-black">
+                      ₹{financials.trueCostPerKm.toFixed(1)}{' '}
+                      <span className="text-lg font-bold text-gray-500">/km</span>
+                    </p>
+                    <p className="text-xs mt-2 font-medium">Includes Sunk Costs (EMI, Depreciation, Insurance)</p>
+                  </div>
+                )}
+                {financials.runningCostPerKm > 0 && (
+                  <div className="bg-green-50 border-4 border-black p-4">
+                    <p className="text-xs font-bold uppercase text-green-700 mb-1">Running Cost Per KM</p>
+                    <p className="text-3xl font-black text-black">
+                      ₹{financials.runningCostPerKm.toFixed(1)}{' '}
+                      <span className="text-lg font-bold text-gray-500">/km</span>
+                    </p>
+                    <p className="text-xs mt-2 font-medium">Only Marginal Costs (Fuel, Wear & Tear, Tolls)</p>
+                  </div>
+                )}
+              </div>
+
               {/* The Big Number */}
               <MetricDisplay
                 title={`Total Sunk Cost Over ${ownershipYears} Years`}
@@ -300,9 +500,9 @@ export default function CarOwnershipCalculator() {
               </div>
 
               {/* Reality Note - Rideshare */}
-              <div className="p-4 bg-yellow-50 border-4 border-black text-black">
+              <div className="p-4 bg-yellow-50 border-4 border-black text-black mb-6">
                 <h3 className="font-black uppercase flex items-center gap-2 mb-2">
-                  <CarTaxiFront className="w-5 h-5 text-yellow-600" /> The Rideshare Equivalent
+                  <CarTaxiFront className="w-5 h-5 text-yellow-600" /> The Rideshare Reality
                 </h3>
                 <p className="text-sm font-medium">
                   Instead of owning this car, you could take{' '}
@@ -311,6 +511,79 @@ export default function CarOwnershipCalculator() {
                   exact same amount of money.
                 </p>
               </div>
+
+              {/* Trip Simulator */}
+              {financials.runningCostPerKm > 0 && (
+                <div className="border-4 border-black bg-white">
+                  <div className="bg-indigo-100 p-3 border-b-4 border-black">
+                    <h3 className="font-black uppercase text-sm flex items-center gap-2 text-indigo-900">
+                      <Map className="w-5 h-5" /> Trip Simulator (Cab vs Own Car)
+                    </h3>
+                  </div>
+                  <div className="p-4 space-y-4">
+                    <p className="text-sm font-medium text-gray-600">
+                      You already own the car. EMI and insurance are sunk costs. Let's see what's cheaper for a specific
+                      trip today.
+                    </p>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                      <Input
+                        id="tripDistance"
+                        label="Trip (KMs)"
+                        type="number"
+                        value={tripDistance}
+                        onChange={(e) => setTripDistance(e.target.value)}
+                      />
+                      <Input
+                        id="tripTolls"
+                        label="Tolls (₹)"
+                        type="number"
+                        value={tripTolls}
+                        onChange={(e) => setTripTolls(e.target.value)}
+                      />
+                      <Input
+                        id="tripParking"
+                        label="Parking (₹)"
+                        type="number"
+                        value={tripParking}
+                        onChange={(e) => setTripParking(e.target.value)}
+                      />
+                      <Input
+                        id="cabFare"
+                        label="Cab Fare (₹)"
+                        type="number"
+                        value={cabFare}
+                        onChange={(e) => setCabFare(e.target.value)}
+                      />
+                    </div>
+
+                    <div className="mt-4 p-4 border-2 border-black flex flex-col md:flex-row items-center justify-between gap-4 bg-gray-50">
+                      <div className="flex-1 text-center border-r-0 md:border-r-2 border-black pb-4 md:pb-0">
+                        <p className="text-xs font-bold uppercase mb-1">Your Car (Running Cost)</p>
+                        <p
+                          className={`text-2xl font-black ${simWinner === 'Car' ? 'text-green-600' : 'text-rose-600'}`}
+                        >
+                          {formatCurrency(simCarCost)}
+                        </p>
+                        <p className="text-[10px] text-gray-500 font-bold mt-1">Marginal Cost + Tolls/Park</p>
+                      </div>
+                      <div className="flex-1 text-center">
+                        <p className="text-xs font-bold uppercase mb-1">Cab Booking</p>
+                        <p
+                          className={`text-2xl font-black ${simWinner === 'Cab' ? 'text-green-600' : 'text-rose-600'}`}
+                        >
+                          {formatCurrency(simCabCost)}
+                        </p>
+                        <p className="text-[10px] text-gray-500 font-bold mt-1">Total Fare Estimate</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 bg-indigo-50 text-indigo-900 p-2 font-bold text-sm border-2 border-indigo-200">
+                      <Zap className="w-4 h-4 text-indigo-500" />
+                      Verdict: Taking the {simWinner} is {formatCurrency(simDifference)} cheaper.
+                    </div>
+                  </div>
+                </div>
+              )}
             </ResultsAnalysis>
           </div>
         </>
