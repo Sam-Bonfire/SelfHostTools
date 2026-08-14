@@ -396,13 +396,6 @@ export default function CarOwnershipCalculator() {
               </div>
             </div>
           </Card>
-
-          <Card className="border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-orange-50">
-            <DownloadButtons
-              onDownloadPDF={() => downloadPDF(exportData)}
-              onDownloadExcel={() => downloadExcel(exportData)}
-            />
-          </Card>
         </div>
 
         {/* RIGHT: Results */}
@@ -559,6 +552,11 @@ export default function CarOwnershipCalculator() {
                 </div>
               </Card>
             )}
+
+            <DownloadButtons
+              onDownloadPDF={() => downloadPDF(exportData)}
+              onDownloadExcel={() => downloadExcel(exportData)}
+            />
           </ResultsAnalysis>
         </div>
       </CalculatorLayout>
