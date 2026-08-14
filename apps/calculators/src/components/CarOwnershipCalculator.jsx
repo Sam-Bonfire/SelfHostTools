@@ -13,7 +13,7 @@ import {
   Select,
   Tooltip
 } from '@packages/styling';
-import { Car, CarTaxiFront, Clock, Fuel, IndianRupee, Map, Shield, TrendingDown, Wrench, Zap } from 'lucide-react';
+import { Car, CarTaxiFront, Clock, Fuel, IndianRupee, Map, Zap } from 'lucide-react';
 import { useMemo } from 'react';
 
 import { calculateCarOwnership } from '../lib/carOwnershipLogic';
