@@ -5,7 +5,7 @@ export function calculateCarOwnership({
   loanInterestRate = 9.0,
   loanTermYears = 5,
   ownershipYears = 7,
-  annualDepreciationRate = 12,
+  expectedResaleValue = 600000,
   annualInsurance = 35000,
 
   // Simple Mode
@@ -41,7 +41,7 @@ export function calculateCarOwnership({
   }
 
   // 2. Depreciation
-  const finalCarValue = carPrice * Math.pow(1 - annualDepreciationRate / 100, ownershipYears);
+  const finalCarValue = Math.min(carPrice, expectedResaleValue);
   const totalDepreciation = carPrice - finalCarValue;
 
   // 3. Operational Costs Over Ownership Period

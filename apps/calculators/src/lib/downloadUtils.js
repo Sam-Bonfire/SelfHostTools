@@ -85,7 +85,7 @@ export const downloadPDF = async (data) => {
       ['Net Take-Home Pay', `INR ${formatCurrency(results.netTakeHome, true)}`],
       ['Real Hourly Rate', `INR ${formatCurrency(results.realHourlyRate, true)}`]
     ];
-  } else if (inputs.carPrice !== undefined && inputs.annualDepreciationRate !== undefined) {
+  } else if (inputs.carPrice !== undefined && inputs.expectedResaleValue !== undefined) {
     // CAR OWNERSHIP REALIST
     summaryData = [
       ['On-Road Price', `INR ${formatCurrency(inputs.carPrice, true)}`],
@@ -452,7 +452,7 @@ export const downloadExcel = async (data) => {
       ['Net Take-Home Pay', results.netTakeHome],
       ['Real Hourly Rate', results.realHourlyRate]
     ];
-  } else if (inputs.carPrice !== undefined && inputs.annualDepreciationRate !== undefined) {
+  } else if (inputs.carPrice !== undefined && inputs.expectedResaleValue !== undefined) {
     // CAR OWNERSHIP REALIST
     summaryRows = [
       ['On-Road Price', inputs.carPrice],

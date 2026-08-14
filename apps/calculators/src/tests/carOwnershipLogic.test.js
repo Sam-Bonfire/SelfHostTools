@@ -11,7 +11,7 @@ describe('Car Ownership Logic', () => {
       loanInterestRate: 10.0,
       loanTermYears: 5,
       ownershipYears: 5,
-      annualDepreciationRate: 10,
+      expectedResaleValue: 590490,
       annualInsurance: 20000,
       annualMaintenance: 10000,
       monthlyFuel: 5000,
@@ -39,7 +39,7 @@ describe('Car Ownership Logic', () => {
       loanInterestRate: 0,
       loanTermYears: 5,
       ownershipYears: 5,
-      annualDepreciationRate: 10,
+      expectedResaleValue: 590490,
       annualInsurance: 20000,
       // Advanced Params
       usageKMs: 1000,

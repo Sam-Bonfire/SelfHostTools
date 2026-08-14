@@ -30,10 +30,10 @@ export default function CarOwnershipCalculator() {
   );
   const [loanTermYears, setLoanTermYears] = usePersistedState('CarOwnershipCalculator', 'loanTermYears', 5);
   const [ownershipYears, setOwnershipYears] = usePersistedState('CarOwnershipCalculator', 'ownershipYears', 7);
-  const [annualDepreciationRate, setAnnualDepreciationRate] = usePersistedState(
+  const [expectedResaleValue, setExpectedResaleValue] = usePersistedState(
     'CarOwnershipCalculator',
-    'annualDepreciationRate',
-    15
+    'expectedResaleValue',
+    600000
   );
   const [annualInsurance, setAnnualInsurance] = usePersistedState('CarOwnershipCalculator', 'annualInsurance', 35000);
   const [averageRideshareCost, setAverageRideshareCost] = usePersistedState(
@@ -85,7 +85,7 @@ export default function CarOwnershipCalculator() {
       loanInterestRate: Number(loanInterestRate),
       loanTermYears: Number(loanTermYears),
       ownershipYears: Number(ownershipYears),
-      annualDepreciationRate: Number(annualDepreciationRate),
+      expectedResaleValue: Number(expectedResaleValue),
       annualInsurance: Number(annualInsurance),
       annualMaintenance: Number(annualMaintenance),
       monthlyFuel: Number(monthlyFuel),
@@ -109,7 +109,7 @@ export default function CarOwnershipCalculator() {
     loanInterestRate,
     loanTermYears,
     ownershipYears,
-    annualDepreciationRate,
+    expectedResaleValue,
     annualInsurance,
     annualMaintenance,
     monthlyFuel,
@@ -151,7 +151,7 @@ export default function CarOwnershipCalculator() {
       loanInterestRate,
       loanTermYears,
       ownershipYears,
-      annualDepreciationRate,
+      expectedResaleValue,
       annualInsurance,
       averageRideshareCost,
       annualMaintenance,
@@ -196,7 +196,7 @@ export default function CarOwnershipCalculator() {
                 type="number"
                 value={carPrice}
                 onChange={(e) => setCarPrice(e.target.value)}
-                icon={Car}
+                icon={IndianRupee}
               />
 
               <div className="grid grid-cols-2 gap-4">
@@ -206,6 +206,7 @@ export default function CarOwnershipCalculator() {
                   type="number"
                   value={downPayment}
                   onChange={(e) => setDownPayment(e.target.value)}
+                  icon={IndianRupee}
                 />
                 <Input
                   id="loanInterestRate"
@@ -237,13 +238,13 @@ export default function CarOwnershipCalculator() {
               </div>
 
               <Input
-                id="annualDepreciationRate"
-                label="Annual Depreciation (%)"
+                id="expectedResaleValue"
+                label="Expected Resale Value"
                 type="number"
-                value={annualDepreciationRate}
-                onChange={(e) => setAnnualDepreciationRate(e.target.value)}
-                icon={TrendingDown}
-                tooltip="Average new car loses 15-20% per year."
+                value={expectedResaleValue}
+                onChange={(e) => setExpectedResaleValue(e.target.value)}
+                icon={IndianRupee}
+                tooltip="What you realistically expect to sell the car for at the end of your ownership."
               />
             </div>
           </Card>
@@ -265,7 +266,7 @@ export default function CarOwnershipCalculator() {
                 type="number"
                 value={annualInsurance}
                 onChange={(e) => setAnnualInsurance(e.target.value)}
-                icon={Shield}
+                icon={IndianRupee}
               />
 
               {!isAdvanced ? (
@@ -276,7 +277,7 @@ export default function CarOwnershipCalculator() {
                     type="number"
                     value={annualMaintenance}
                     onChange={(e) => setAnnualMaintenance(e.target.value)}
-                    icon={Wrench}
+                    icon={IndianRupee}
                   />
                   <Input
                     id="monthlyFuel"
@@ -284,7 +285,7 @@ export default function CarOwnershipCalculator() {
                     type="number"
                     value={monthlyFuel}
                     onChange={(e) => setMonthlyFuel(e.target.value)}
-                    icon={Fuel}
+                    icon={IndianRupee}
                   />
                 </div>
               ) : (
@@ -321,6 +322,7 @@ export default function CarOwnershipCalculator() {
                         type="number"
                         value={fuelPrice}
                         onChange={(e) => setFuelPrice(e.target.value)}
+                        icon={IndianRupee}
                       />
                     </div>
                   </div>
@@ -334,6 +336,7 @@ export default function CarOwnershipCalculator() {
                         type="number"
                         value={annualServicing}
                         onChange={(e) => setAnnualServicing(e.target.value)}
+                        icon={IndianRupee}
                       />
                       <Input
                         id="annualRepairs"
@@ -341,6 +344,7 @@ export default function CarOwnershipCalculator() {
                         type="number"
                         value={annualRepairs}
                         onChange={(e) => setAnnualRepairs(e.target.value)}
+                        icon={IndianRupee}
                       />
                       <Input
                         id="tireReplacementFund"
@@ -348,6 +352,7 @@ export default function CarOwnershipCalculator() {
                         type="number"
                         value={tireReplacementFund}
                         onChange={(e) => setTireReplacementFund(e.target.value)}
+                        icon={IndianRupee}
                         tooltip="Cost of 4 tires divided by their lifespan in years."
                       />
                       <Input
@@ -356,6 +361,7 @@ export default function CarOwnershipCalculator() {
                         type="number"
                         value={annualFines}
                         onChange={(e) => setAnnualFines(e.target.value)}
+                        icon={IndianRupee}
                       />
                       <Input
                         id="monthlyCleaning"
@@ -363,6 +369,7 @@ export default function CarOwnershipCalculator() {
                         type="number"
                         value={monthlyCleaning}
                         onChange={(e) => setMonthlyCleaning(e.target.value)}
+                        icon={IndianRupee}
                       />
                       <Input
                         id="monthlyTolls"
@@ -370,6 +377,7 @@ export default function CarOwnershipCalculator() {
                         type="number"
                         value={monthlyTolls}
                         onChange={(e) => setMonthlyTolls(e.target.value)}
+                        icon={IndianRupee}
                       />
                       <Input
                         id="monthlyParking"
@@ -377,6 +385,7 @@ export default function CarOwnershipCalculator() {
                         type="number"
                         value={monthlyParking}
                         onChange={(e) => setMonthlyParking(e.target.value)}
+                        icon={IndianRupee}
                       />
                     </div>
                   </div>
@@ -390,7 +399,7 @@ export default function CarOwnershipCalculator() {
                   type="number"
                   value={averageRideshareCost}
                   onChange={(e) => setAverageRideshareCost(e.target.value)}
-                  icon={CarTaxiFront}
+                  icon={IndianRupee}
                   tooltip="Used to compare car ownership against just booking cabs everywhere."
                 />
               </div>
@@ -511,6 +520,7 @@ export default function CarOwnershipCalculator() {
                       type="number"
                       value={tripTolls}
                       onChange={(e) => setTripTolls(e.target.value)}
+                      icon={IndianRupee}
                     />
                     <Input
                       id="tripParking"
@@ -518,6 +528,7 @@ export default function CarOwnershipCalculator() {
                       type="number"
                       value={tripParking}
                       onChange={(e) => setTripParking(e.target.value)}
+                      icon={IndianRupee}
                     />
                     <Input
                       id="cabFare"
@@ -525,6 +536,7 @@ export default function CarOwnershipCalculator() {
                       type="number"
                       value={cabFare}
                       onChange={(e) => setCabFare(e.target.value)}
+                      icon={IndianRupee}
                     />
                   </div>
 
