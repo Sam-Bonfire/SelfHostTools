@@ -3,8 +3,10 @@ import { resetPersistedState, usePersistedState } from '@packages/persistence';
 import { CalculatorHeader, CalculatorLayout, Card, DownloadButtons, Footer, Input } from '@packages/styling';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import { GitFork, IndianRupee, Plus, Trash2 } from 'lucide-react';
-import { useCallback, useMemo, useRef } from 'react';
+import { GitFork, IndianRupee, Plus, Trash2, Upload } from 'lucide-react';
+import { useCallback, useMemo, useRef, useState } from 'react';
+
+import { categorizeSpending, parseSpendCSV } from '../lib/spendAutopsy';
 
 // ─────────────────────────────────────────────
 // CONSTANTS & DEFAULTS
@@ -86,8 +88,10 @@ function NodeRow({ item, onChange, onDelete, prefix, showDelete }) {
 export default function SankeyFlowchart() {
   const [sources, setSources] = usePersistedState('SankeyFlowchart', 'sources', DEFAULT_SOURCES);
   const [destinations, setDestinations] = usePersistedState('SankeyFlowchart', 'destinations', DEFAULT_DESTINATIONS);
+  const [importNote, setImportNote] = useState('');
   const svgRef = useRef(null);
   const chartContainerRef = useRef(null);
+  const fileRef = useRef(null);
 
   // Derived totals
   const totalIn = useMemo(() => sources.reduce((s, n) => s + (n.amount || 0), 0), [sources]);
@@ -251,6 +255,28 @@ export default function SankeyFlowchart() {
     return `M ${x0} ${st} C ${mid} ${st}, ${mid} ${dt}, ${x1} ${dt} L ${x1} ${db} C ${mid} ${db}, ${mid} ${sb}, ${x0} ${sb} Z`;
   };
 
+  // ── CSV Import (Spend Autopsy) ─────────
+  const handleCSVFile = useCallback(
+    (file) => {
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const parsed = parseSpendCSV(e.target?.result);
+        if (parsed.error || parsed.rows.length === 0) {
+          setImportNote('Could not read that CSV — need description + amount columns.');
+          return;
+        }
+        const { destinations: imported, uncategorizedCount } = categorizeSpending(parsed.rows);
+        setDestinations(imported);
+        setImportNote(
+          `Imported ${parsed.rows.length} expenses into ${imported.length} buckets` +
+            (uncategorizedCount > 0 ? ` (${uncategorizedCount} uncategorized).` : '.')
+        );
+      };
+      reader.readAsText(file);
+    },
+    [setDestinations]
+  );
   // ── PDF Export ───────────────────────────
   const handleDownloadPDF = async () => {
     const el = chartContainerRef.current;
@@ -476,6 +502,28 @@ export default function SankeyFlowchart() {
                   >
                     <Plus className="w-3.5 h-3.5" /> Add Category
                   </button>
+                  <input
+                    ref={fileRef}
+                    type="file"
+                    accept=".csv,text/csv"
+                    className="hidden"
+                    aria-label="Upload bank statement CSV"
+                    onChange={(e) => {
+                      handleCSVFile(e.target.files?.[0]);
+                      e.target.value = '';
+                    }}
+                  />
+                  <button
+                    onClick={() => fileRef.current?.click()}
+                    className="mt-2 w-full py-2 border-2 border-black bg-yellow-300 text-xs font-black uppercase flex items-center justify-center gap-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all"
+                  >
+                    <Upload className="w-3.5 h-3.5" /> Autopsy a CSV
+                  </button>
+                  {importNote && (
+                    <p className="text-[10px] font-bold text-gray-600 mt-2" role="status">
+                      {importNote}
+                    </p>
+                  )}
                 </Card>
               </div>
             </div>
