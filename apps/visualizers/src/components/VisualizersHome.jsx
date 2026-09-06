@@ -17,6 +17,7 @@ import {
   History,
   Landmark,
   MessageSquarePlus,
+  Scale,
   Search,
   Sun,
   Timer,
@@ -160,6 +161,16 @@ const VISUALIZERS = [
     category: 'Time Audit',
     icon: Clock,
     color: 'bg-[#FFDE59]',
+    textColor: 'text-black',
+    iconColor: 'text-black'
+  },
+  {
+    path: '/net-worth-bridge',
+    name: 'Net-Worth Bridge',
+    desc: 'Assets climb, debts fall. One chart for the whole journey — import live numbers from your SIP and FIRE calculators.',
+    category: 'Finance',
+    icon: Scale,
+    color: 'bg-emerald-400',
     textColor: 'text-black',
     iconColor: 'text-black'
   }

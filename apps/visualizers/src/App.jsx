@@ -15,6 +15,7 @@ import DebtRepaymentRace from './components/DebtRepaymentRace';
 import FreedomClock from './components/FreedomClock';
 import FunnelArchitect from './components/FunnelArchitect';
 import HabitCompounder from './components/HabitCompounder';
+import NetWorthBridge from './components/NetWorthBridge';
 import RunwayHorizon from './components/RunwayHorizon';
 import SkillTreeArchitect from './components/SkillTreeArchitect';
 
@@ -106,6 +107,10 @@ const router = createHashRouter([
       {
         path: '/funnel-architect',
         element: <FunnelArchitect />
+      },
+      {
+        path: '/net-worth-bridge',
+        element: <NetWorthBridge />
       }
     ]
   }
