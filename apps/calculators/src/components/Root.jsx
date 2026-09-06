@@ -24,6 +24,7 @@ import {
   ShieldAlert,
   TrendingUp,
   Umbrella,
+  Wallet,
   X,
   Zap
 } from 'lucide-react';
@@ -249,6 +250,15 @@ const CALCULATORS = [
     icon: ShieldAlert,
     color: 'bg-red-600',
     textColor: 'text-white'
+  },
+  {
+    path: '/salary-decoder',
+    name: 'Salary Decoder',
+    desc: 'CTC is not salary. Decode your offer into real monthly in-hand pay after perks, pre-tax, and taxes.',
+    category: 'Career',
+    icon: Wallet,
+    color: 'bg-amber-400',
+    textColor: 'text-black'
   }
 ];
 
