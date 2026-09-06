@@ -9,7 +9,7 @@ The project uses `pnpm` workspaces to manage dependencies and link packages loca
 ### Root Directory
 
 - **`package.json`**: Definition of workspaces (`apps/*`, `packages/*`) and root-level scripts.
-- **`.env.example`**: Template for environment variables. Create `.env` locally.
+- **`.env.example`**: Template for environment variables. Copy to `.env.local` locally.
 
 ### Workspaces
 
@@ -23,7 +23,7 @@ The project uses `pnpm` workspaces to manage dependencies and link packages loca
     - `src/lib/`: Pure JS calculation logic (extracted for testing).
     - `src/tests/`: Unit tests for calculation logic.
 - **`visualizers`** (`apps/visualizers`): Interactive visualization tools.
-  - **Purpose**: Memento Mori and Life Planning tools.
+  - **Purpose**: Memento Mori and Life Planning tools (Memento Mori, Skill Tree, Sankey, Runway, Habit, Freedom Clock, Debt Race, Compound Sandbox, etc.).
   - **Key Tech**: React, Vite, Framer Motion.
 
 #### 2. Packages (`packages/`)
@@ -35,21 +35,26 @@ The project uses `pnpm` workspaces to manage dependencies and link packages loca
 - **`@packages/components`** (`packages/components`): Shared React components.
   - **Purpose**: To share logic-heavy components like `SEO` across apps.
 
+- **`@packages/macro-data`** (`packages/macro-data`): Shared macro-economic indicators (inflation, market returns).
+  - **Purpose**: Single source of default financial assumptions; refreshed via `pnpm --filter @packages/macro-data run update` (needs `ALPHA_VANTAGE_API_KEY`).
+
+- **`@packages/persistence`** (`packages/persistence`): Shared persisted-state helpers (`usePersistedState`).
+
 ## 🛠️ Setup & Development
 
 ### 1. Installation
 
 ```bash
-# From project root
+# From project root (or: mise run setup)
 pnpm install
 ```
 
 ### 2. Environment Configuration
 
-Copy `.env.example` to `.env` in the root (ignore this if running locally, defaults are provided).
+Copy `.env.example` to `.env.local` in the root (ignore this if running locally, defaults are provided).
 
 ```bash
-cp .env.example .env
+cp .env.example .env.local
 ```
 
 ### 3. Running Locally
@@ -61,25 +66,31 @@ To work on the calculators app:
 pnpm --filter calculators run dev
 ```
 
-This spins up a Vite dev server (usually at `http://localhost:5173`).
+This spins up a Vite dev server (usually at `http://localhost:5173`; visualizers at `http://localhost:5174`).
 
 ### 4. Running Tests
 
-To run the unit test suite for calculators:
+To run the unit test suites for all workspaces:
 
 ```bash
-pnpm --filter calculators exec -- vitest run
+pnpm test
+```
+
+For calculators only:
+
+```bash
+pnpm --filter calculators run test
 ```
 
 ### 5. Building
 
-To build all packages for production:
+To build all workspaces for production:
 
 ```bash
 pnpm -r build
 ```
 
-This generates `dist/` artifacts in each package folder.
+This generates `dist/` artifacts in each app folder (`apps/*/dist`).
 
 ## 🚀 Deployment Strategy
 
@@ -87,10 +98,10 @@ The project's primary deployment pipeline is managed automatically via **GitHub 
 
 ### Automated CI/CD
 
-- **Workflow file**: `.github/workflows/deploy.yml`
+- **Workflow files**: `.github/workflows/deploy.yml` (CI + Cloudflare Pages) and `.github/workflows/update-macro-data.yml` (scheduled macro-data refresh every 3 days).
 - **Process**: Every push to the `main` or `master` branch triggers the GitHub workflow, which:
   1.  Sets up Node.js and caches dependencies (`pnpm`).
-  2.  Runs all workspace unit tests (`pnpm test`) to prevent regressions.
-  3.  Compiles both `apps/calculators` and `apps/visualizers` independently.
+  2.  Runs all workspace unit tests (`pnpm -r --if-present test`) to prevent regressions.
+  3.  Compiles both `apps/calculators` and `apps/visualizers` independently (each with its own `VITE_SITE_URL`).
   4.  Deploys the static assets to Cloudflare Pages under the project names `self-host-calculators` and `self-host-visualizers` respectively.
 - **Prerequisites**: Requires `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` to be configured as secrets on your GitHub repository.

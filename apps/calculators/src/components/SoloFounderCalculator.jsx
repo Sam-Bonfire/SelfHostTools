@@ -154,9 +154,9 @@ export default function SoloFounderCalculator() {
                   </div>
 
                   <div className="p-4 bg-gray-50 border-2 border-dashed border-gray-300">
-                    <label className="block text-sm font-black uppercase text-gray-700 mb-3 flex items-center gap-1">
+                    <span className="block text-sm font-black uppercase text-gray-700 mb-3 flex items-center gap-1">
                       <Zap className="w-4 h-4" /> Gateway Fees (Stripe, Razorpay)
-                    </label>
+                    </span>
                     <div className="grid grid-cols-2 gap-4">
                       <Input
                         id="stripeFeePercent"

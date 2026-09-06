@@ -267,7 +267,7 @@ export default function GoldenHandcuffsCalculator() {
 
               <div className="border-t-2 border-dashed border-gray-300 pt-4">
                 <div className="flex justify-between items-center mb-2">
-                  <label className="text-[10px] font-black uppercase text-blue-700">Equity Grants (Unvested)</label>
+                  <span className="text-[10px] font-black uppercase text-blue-700">Equity Grants (Unvested)</span>
                   <Button
                     size="sm"
                     onClick={() => addEquity(setCurrentEquity)}
@@ -396,7 +396,7 @@ export default function GoldenHandcuffsCalculator() {
               </div>
               <div className="border-t-2 border-dashed border-gray-300 pt-4">
                 <div className="flex justify-between items-center mb-2">
-                  <label className="text-[10px] font-black uppercase text-green-700">New Equity Grants</label>
+                  <span className="text-[10px] font-black uppercase text-green-700">New Equity Grants</span>
                   <Button
                     size="sm"
                     onClick={() => addEquity(setNewEquity)}

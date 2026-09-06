@@ -316,7 +316,7 @@ export default function TDEECalculator() {
                     />
                   ) : (
                     <div>
-                      <label className="block text-[10px] font-black uppercase mb-1">Height</label>
+                      <span className="block text-[10px] font-black uppercase mb-1">Height</span>
                       <div className="flex gap-2">
                         <Input
                           id="heightFt"

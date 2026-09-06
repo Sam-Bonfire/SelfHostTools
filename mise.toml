@@ -1,2 +1,18 @@
 [tools]
 node = "lts"
+
+[tasks.setup]
+description = "Install all workspace dependencies"
+run = "pnpm install"
+
+[tasks.dev]
+description = "Start calculators dev server"
+run = "pnpm dev:calc"
+
+[tasks.test]
+description = "Run all workspace unit tests"
+run = "pnpm test"
+
+[tasks.build]
+description = "Build all workspaces"
+run = "pnpm build"

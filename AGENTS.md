@@ -1,8 +1,8 @@
-# GEMINI Context File
+# Agent Context File
 
 ## 🤖 Project Evolution & Steering Log
 
-This document records the user-driven evolution of the **SelfHostTools** project. It serves as context for the AI agent to understand not just _what_ the code is, but _why_ it is that way.
+This document records the user-driven evolution of the **SelfHostTools** project. It serves as context for any AI agent (Gemini, OpenCode, Jules, etc.) to understand not just _what_ the code is, but _why_ it is that way.
 
 ---
 
@@ -49,9 +49,8 @@ This document records the user-driven evolution of the **SelfHostTools** project
 
 - **Monorepo Hardening**:
   - **Logic Extraction**: Separated pure calculation logic into `apps/calculators/src/lib/` (e.g., `freelanceLogic.js`) to strictly decouple UI from Math.
-  - **Unit Testing**: Implemented 100% logic coverage using coverage using `vitest` in `apps/calculators/src/tests/`. Every calculator now has a corresponding test suite.
-  - **Config Managment**: Moved all hardcoded URLs and secrets to `.env` files, using `import.meta.env`.
-  - **Deployment**: Added a cross-platform `deploy.sh` for Linux/Mac alongside the separate `deploy.ps1`.
+  - **Unit Testing**: Implemented logic coverage using `vitest` in `apps/calculators/src/tests/`. Every calculator has a corresponding test suite.
+  - **Config Managment**: Moved all hardcoded URLs and secrets to `.env.local` files, using `import.meta.env`.
 - **New Tools**:
   - **Education Loan**: Added support for advanced multi-tranche disbursements and moratorium periods.
   - **Buy vs Rent**: Added sophisticated "Opportunity Cost" analysis (investing the difference).
@@ -75,7 +74,7 @@ This document records the user-driven evolution of the **SelfHostTools** project
 ### Phase 8: Accessibility & Build Robustness (The "Inclusive" Era)
 
 - **A11y Overhaul**:
-  - **Label Association**: Systematically reviewed ALL 12 calculators to ensure every `Input`, `Select`, and `Checkbox` has a unique `id` and a corresponding `label` with `htmlFor`.
+  - **Label Association**: Systematically reviewed calculators to ensure every `Input`, `Select`, and `Checkbox` has a unique `id` and a corresponding `label` with `htmlFor` (group headings use `span`, not `label`).
   - **ARIA Live**: Implemented `aria-live="polite"` on the `ResultsAnalysis` component to ensure screen readers announce result updates dynamically.
   - **Dynamic Lists**: Fixed accessibility for dynamic/array-based inputs (e.g., Education Loan Tranches, Freelance Admin Tasks) by generating unique IDs for every mapped item.
 - **Build Pipeline Hardening**:
@@ -85,7 +84,7 @@ This document records the user-driven evolution of the **SelfHostTools** project
 ### Phase 9: Visualizers & Interactive Hub
 
 - **New Workspace: `apps/visualizers`**: Created a dedicated app for non-financial, visual tools.
-  - **Memento Mori**: A life calendar visualizer ("Weeks of Your Life").
+  - **Memento Mori**: A life calendar visualizer ("Weeks of Your Life") alongside 13 other visualizers (Sankey, Skill Tree, Runway, Habit, Freedom Clock, Debt Race, etc.).
   - **Features**: Animated grid filling, "True Freedom" mode (deducting sleep/work), and PDF Export.
 - **Shared Components**: Extracted `SEO` logic to `@packages/components` to share between Calculators and Visualizers.
 - **Calculator Hub 2.0 (`Root.jsx`)**:

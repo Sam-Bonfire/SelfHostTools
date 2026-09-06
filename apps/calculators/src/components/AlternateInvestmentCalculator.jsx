@@ -266,9 +266,9 @@ export default function AlternateInvestmentCalculator() {
                         />
                       </div>
                       <div className="col-span-2 border-t border-yellow-200 pt-3">
-                        <label className="text-[10px] font-black uppercase block mb-2">
+                        <span className="text-[10px] font-black uppercase block mb-2">
                           Market Climate Stress Test
-                        </label>
+                        </span>
                         <div className="grid grid-cols-3 gap-2">
                           {[
                             { id: 'bear', label: 'Bear (-10%)', color: 'bg-red-100 border-red-400 text-red-700' },
