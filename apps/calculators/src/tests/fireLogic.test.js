@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { calculateFIRE } from '../lib/fireLogic';
+import { calculateBaristaFIRE, calculateCoastFIRE, calculateFIRE } from '../lib/fireLogic';
 
 describe('FIRE Calculator Logic', () => {
   it('should calculate required corpus correctly', () => {
@@ -69,5 +69,86 @@ describe('FIRE Calculator Logic', () => {
     // expect(result.results.shortfall).toBeGreaterThanOrEqual(599999);
     // expect(result.results.shortfall).toBeLessThanOrEqual(600001);
     expect(result.results.canRetire).toBe(false);
+  });
+});
+
+describe('Coast FIRE logic', () => {
+  const base = {
+    currentAge: 30,
+    retirementAge: 50, // 20 years
+    currentMonthlyExpenses: 50000,
+    currentSavings: 0,
+    monthlyInvestment: 0,
+    inflationRate: 6,
+    medicalInflation: 12,
+    preRetirementReturn: 12,
+    postRetirementReturn: 8,
+    lifestyleInflation: 2
+  };
+
+  it('should discount the full corpus back at the pre-retirement return', () => {
+    const classic = calculateFIRE(base);
+    const coast = calculateCoastFIRE(base);
+
+    expect(coast.requiredCorpus).toBe(classic.results.requiredCorpus);
+    expect(coast.coastTarget).toBe(Math.round(classic.results.requiredCorpus / Math.pow(1.12, 20)));
+    expect(coast.isCoasted).toBe(false);
+    expect(coast.gap).toBe(coast.coastTarget);
+  });
+
+  it('should report coasted when savings cover the coast target', () => {
+    const coast = calculateCoastFIRE({ ...base, currentSavings: 999999999 });
+    expect(coast.isCoasted).toBe(true);
+    expect(coast.gap).toBe(0);
+    expect(coast.coastAge).toBe(30);
+  });
+
+  it('should report coast age as today once the target is met', () => {
+    const bare = calculateCoastFIRE(base);
+    const atTarget = calculateCoastFIRE({ ...base, currentSavings: bare.coastTarget + 1 });
+    expect(atTarget.isCoasted).toBe(true);
+    expect(atTarget.gap).toBe(0);
+    expect(atTarget.coastAge).toBe(30);
+  });
+
+  it('should surface a coast age past retirement when savings are too small', () => {
+    const coast = calculateCoastFIRE({ ...base, currentSavings: 1000000 });
+    // Growth alone cannot reach the corpus by 50: honest signal, not a bug.
+    expect(coast.coastAge).toBeGreaterThan(50);
+    expect(coast.isCoasted).toBe(false);
+  });
+});
+
+describe('Barista FIRE logic', () => {
+  const base = {
+    currentAge: 30,
+    retirementAge: 50,
+    currentMonthlyExpenses: 50000,
+    currentSavings: 0,
+    monthlyInvestment: 0,
+    inflationRate: 6,
+    medicalInflation: 12,
+    preRetirementReturn: 12,
+    postRetirementReturn: 8,
+    lifestyleInflation: 2
+  };
+
+  it('should shrink the corpus by the part-time covered share', () => {
+    const noBarista = calculateBaristaFIRE({ ...base, partTimeAnnualIncome: 0 });
+    expect(noBarista.baristaCorpus).toBe(noBarista.classicCorpus);
+    expect(noBarista.corpusReduction).toBe(0);
+
+    const classic = calculateFIRE(base);
+    const annualExpense = classic.results.monthlyExpensesAtRetirement * 12;
+    const withBarista = calculateBaristaFIRE({ ...base, partTimeAnnualIncome: annualExpense / 2 });
+    expect(withBarista.baristaCorpus).toBeLessThan(withBarista.classicCorpus);
+    expect(withBarista.corpusReduction).toBeGreaterThan(0);
+    expect(withBarista.coverageRatio).toBeCloseTo(0.5, 2);
+  });
+
+  it('should floor the corpus at zero when part-time covers everything', () => {
+    const result = calculateBaristaFIRE({ ...base, partTimeAnnualIncome: 999999999 });
+    expect(result.baristaCorpus).toBe(0);
+    expect(result.coverageRatio).toBe(1);
   });
 });

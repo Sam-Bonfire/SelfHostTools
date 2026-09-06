@@ -15,7 +15,7 @@ import { useCallback, useEffect } from 'react';
 
 import { generateActions } from '../lib/actionEngine';
 import { downloadExcel, downloadPDF } from '../lib/downloadUtils';
-import { calculateFIRE } from '../lib/fireLogic';
+import { calculateBaristaFIRE, calculateCoastFIRE, calculateFIRE } from '../lib/fireLogic';
 import SEO from './SEO';
 
 export default function FIRECalculator() {
@@ -41,6 +41,14 @@ export default function FIRECalculator() {
   const [preRetirementReturn, setPreReturn] = usePersistedState('FIRECalculator', 'preRetirementReturn', 12);
   const [postRetirementReturn, setPostReturn] = usePersistedState('FIRECalculator', 'postRetirementReturn', 8);
   const [lifestyleInflation, setLifestyleInflation] = usePersistedState('FIRECalculator', 'lifestyleInflation', 2); // New: Lifestyle inflation rate
+
+  // --- FIRE MODE (Classic / Coast / Barista) ---
+  const [fireMode, setFireMode] = usePersistedState('FIRECalculator', 'fireMode', 'classic');
+  const [partTimeAnnualIncome, setPartTimeAnnualIncome] = usePersistedState(
+    'FIRECalculator',
+    'partTimeAnnualIncome',
+    300000
+  );
 
   // --- RESULTS ---
   const [results, setResults] = usePersistedState('FIRECalculator', 'results', {
@@ -121,6 +129,21 @@ export default function FIRECalculator() {
     { lifestyleInflation, preRetirementReturn, monthlyInvestment, currentMonthlyExpenses },
     results
   );
+
+  const fireParams = {
+    currentAge,
+    retirementAge,
+    currentMonthlyExpenses,
+    currentSavings,
+    monthlyInvestment,
+    inflationRate,
+    medicalInflation,
+    preRetirementReturn,
+    postRetirementReturn,
+    lifestyleInflation
+  };
+  const coastResults = calculateCoastFIRE(fireParams);
+  const baristaResults = calculateBaristaFIRE({ ...fireParams, partTimeAnnualIncome });
 
   const checkExports = (type) => {
     const data = {
@@ -316,6 +339,41 @@ export default function FIRECalculator() {
               </div>
             </div>
           </Card>
+
+          <Card title="FIRE Mode" icon={Coins} headerColor="bg-yellow-50">
+            <div className="flex gap-2 mb-3" role="group" aria-label="FIRE Mode">
+              {[
+                { id: 'classic', label: 'Classic' },
+                { id: 'coast', label: 'Coast' },
+                { id: 'barista', label: 'Barista' }
+              ].map((m) => (
+                <button
+                  key={m.id}
+                  aria-pressed={fireMode === m.id}
+                  onClick={() => setFireMode(m.id)}
+                  className={`flex-1 py-2 text-[10px] font-black border-2 border-black uppercase ${fireMode === m.id ? 'bg-black text-white' : 'bg-white text-black hover:bg-gray-100'}`}
+                >
+                  {m.label}
+                </button>
+              ))}
+            </div>
+            {fireMode === 'barista' && (
+              <Input
+                id="partTimeAnnualIncome"
+                label="Part-Time Income (Annual)"
+                icon={IndianRupee}
+                type="number"
+                value={partTimeAnnualIncome}
+                onChange={(e) => setPartTimeAnnualIncome(e.target.value)}
+                onBlur={() => !partTimeAnnualIncome && setPartTimeAnnualIncome(0)}
+                tooltip="Post-FIRE freelance/consulting income that covers part of your expenses."
+                className="font-black"
+              />
+            )}
+            <p className="text-[9px] text-gray-400 font-bold uppercase mt-2 leading-tight">
+              Coast: stop contributing, growth alone finishes the job. Barista: part-time work shrinks the corpus.
+            </p>
+          </Card>
         </div>
 
         <div role="region" aria-live="polite" aria-atomic="true" className="lg:col-span-12 xl:col-span-7 space-y-6">
@@ -384,6 +442,56 @@ export default function FIRECalculator() {
                 </div>
               </div>
             </div>
+
+            {/* COAST / BARISTA CARDS */}
+            {fireMode === 'coast' && (
+              <div
+                className={`border-4 border-black p-6 ${coastResults.isCoasted ? 'bg-green-300' : 'bg-orange-200'}`}
+              >
+                <h2 className="text-lg font-bold flex items-center gap-2 mb-4 uppercase tracking-tight text-black">
+                  <Sunrise className="w-5 h-5" /> Coast FIRE Check
+                </h2>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-3 bg-white border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                    <p className="text-[9px] font-black uppercase text-gray-500 mb-1">Coast Target (Today)</p>
+                    <p className="text-xl font-black">{formatCurrency(coastResults.coastTarget)}</p>
+                  </div>
+                  <div className="p-3 bg-white border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                    <p className="text-[9px] font-black uppercase text-gray-500 mb-1">Your Corpus</p>
+                    <p className="text-xl font-black">{formatCurrency(coastResults.currentSavings)}</p>
+                  </div>
+                </div>
+                <p className="text-sm font-black mt-4">
+                  {coastResults.isCoasted
+                    ? 'You have COASTED. Stop contributing and growth alone hits your corpus.'
+                    : coastResults.coastAge === null
+                      ? 'With zero growth, contributions are the only path. Keep your SIP alive.'
+                      : `Not coasted yet (gap ${formatCurrency(coastResults.gap)}). At this pace, savings alone would only mature around age ${coastResults.coastAge}.`}
+                </p>
+              </div>
+            )}
+
+            {fireMode === 'barista' && (
+              <div className="border-4 border-black p-6 bg-purple-200">
+                <h2 className="text-lg font-bold flex items-center gap-2 mb-4 uppercase tracking-tight text-black">
+                  <Coins className="w-5 h-5" /> Barista FIRE Check
+                </h2>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-3 bg-white border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                    <p className="text-[9px] font-black uppercase text-gray-500 mb-1">Classic Corpus</p>
+                    <p className="text-xl font-black">{formatCurrency(baristaResults.classicCorpus)}</p>
+                  </div>
+                  <div className="p-3 bg-black text-white border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                    <p className="text-[9px] font-black uppercase text-yellow-300 mb-1">Barista Corpus</p>
+                    <p className="text-xl font-black">{formatCurrency(baristaResults.baristaCorpus)}</p>
+                  </div>
+                </div>
+                <p className="text-sm font-black mt-4">
+                  Part-time income covers {Math.round(baristaResults.coverageRatio * 100)}% of retirement expenses,
+                  shrinking your target by {formatCurrency(baristaResults.corpusReduction)}.
+                </p>
+              </div>
+            )}
 
             {/* GOAL CARD */}
             {!results.canRetire && (

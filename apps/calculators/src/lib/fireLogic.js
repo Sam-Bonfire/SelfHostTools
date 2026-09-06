@@ -1,3 +1,37 @@
+/**
+ * Shared base: expenses at retirement + required corpus via real withdrawal rate.
+ * Extracted so Coast/Barista modes reuse the exact same math as classic FIRE.
+ */
+export const computeFIREBase = ({
+  currentAge,
+  retirementAge,
+  currentMonthlyExpenses,
+  inflationRate,
+  medicalInflation,
+  postRetirementReturn,
+  lifestyleInflation = 0
+}) => {
+  const yearsToInvest = parseFloat(retirementAge || 0) - parseFloat(currentAge || 0);
+
+  const medicalExpenseRatio = 0.2;
+  const totalInflation = (parseFloat(inflationRate) || 0) + (parseFloat(lifestyleInflation) || 0);
+  const standardExpenses = (parseFloat(currentMonthlyExpenses) || 0) * (1 - medicalExpenseRatio);
+  const medicalExpenses = (parseFloat(currentMonthlyExpenses) || 0) * medicalExpenseRatio;
+
+  const futureStandardExpenses = standardExpenses * Math.pow(1 + totalInflation / 100, yearsToInvest);
+  const futureMedicalExpenses =
+    medicalExpenses * Math.pow(1 + (parseFloat(medicalInflation) || 0) / 100, yearsToInvest);
+  const totalMonthlyExpenseAtRetirement = futureStandardExpenses + futureMedicalExpenses;
+
+  const realRate =
+    (1 + (parseFloat(postRetirementReturn) || 0) / 100) / (1 + (parseFloat(inflationRate) || 0) / 100) - 1;
+  const effectiveRealRate = isNaN(realRate) ? 0 : realRate;
+  const withdrawalRate = Math.max(0.02, effectiveRealRate); // Floor at 2%
+  const requiredCorpus = (totalMonthlyExpenseAtRetirement * 12) / withdrawalRate;
+
+  return { yearsToInvest, totalMonthlyExpenseAtRetirement, withdrawalRate, requiredCorpus };
+};
+
 export const calculateFIRE = ({
   currentAge,
   retirementAge,
@@ -10,31 +44,16 @@ export const calculateFIRE = ({
   postRetirementReturn,
   lifestyleInflation = 0
 }) => {
-  const yearsToInvest = parseFloat(retirementAge || 0) - parseFloat(currentAge || 0);
+  const { yearsToInvest, totalMonthlyExpenseAtRetirement, withdrawalRate, requiredCorpus } = computeFIREBase({
+    currentAge,
+    retirementAge,
+    currentMonthlyExpenses,
+    inflationRate,
+    medicalInflation,
+    postRetirementReturn,
+    lifestyleInflation
+  });
   const monthsToInvest = yearsToInvest * 12;
-
-  // 1. Calculate Expenses at Retirement
-  const medicalExpenseRatio = 0.2;
-  const totalInflation = (parseFloat(inflationRate) || 0) + (parseFloat(lifestyleInflation) || 0);
-  const standardExpenses = (parseFloat(currentMonthlyExpenses) || 0) * (1 - medicalExpenseRatio);
-  const medicalExpenses = (parseFloat(currentMonthlyExpenses) || 0) * medicalExpenseRatio;
-
-  const futureStandardExpenses = standardExpenses * Math.pow(1 + totalInflation / 100, yearsToInvest);
-  const futureMedicalExpenses =
-    medicalExpenses * Math.pow(1 + (parseFloat(medicalInflation) || 0) / 100, yearsToInvest);
-  const totalMonthlyExpenseAtRetirement = futureStandardExpenses + futureMedicalExpenses;
-
-  // 2. Calculate Required Corpus (using 4% rule or SWR)
-  // SWR = postRetirementReturn - inflation (Real rate of return)
-  // For safety, let's use Real Rate + 1% buffer ?? No, code used formula:
-  // realRate = ((1+post)/(1+inf)) - 1
-  const realRate =
-    (1 + (parseFloat(postRetirementReturn) || 0) / 100) / (1 + (parseFloat(inflationRate) || 0) / 100) - 1;
-  // Prevent division by zero or negative infinite corpus requirement. Use 2% as floor.
-  // If realRate is NaN, default to 0.
-  const effectiveRealRate = isNaN(realRate) ? 0 : realRate;
-  const withdrawalRate = Math.max(0.02, effectiveRealRate); // Floor at 2%
-  const requiredCorpus = (totalMonthlyExpenseAtRetirement * 12) / withdrawalRate;
 
   // 3. Project Savings
   const preRateMonthly = (parseFloat(preRetirementReturn) || 0) / 12 / 100;
@@ -103,5 +122,62 @@ export const calculateFIRE = ({
       extraSIPNeeded: Math.round(Math.max(0, totalSIPRequired - (parseFloat(monthlyInvestment) || 0)))
     },
     schedule
+  };
+};
+
+/**
+ * Coast FIRE: the savings number at which you can stop contributing and
+ * still hit the full corpus by retirement age on growth alone.
+ */
+export const calculateCoastFIRE = (params) => {
+  const { currentAge, currentSavings, preRetirementReturn } = params;
+  const { yearsToInvest, requiredCorpus } = computeFIREBase(params);
+
+  const r = (parseFloat(preRetirementReturn) || 0) / 100;
+  const savings = Math.max(0, parseFloat(currentSavings) || 0);
+
+  const coastTarget = r > 0 ? requiredCorpus / Math.pow(1 + r, Math.max(0, yearsToInvest)) : requiredCorpus;
+  const isCoasted = savings >= coastTarget;
+
+  // Years until current savings alone grow into the full corpus.
+  let yearsToCoast = 0;
+  if (!isCoasted && savings > 0 && r > 0) {
+    yearsToCoast = Math.log(requiredCorpus / savings) / Math.log(1 + r);
+  } else if (!isCoasted) {
+    yearsToCoast = Infinity; // No growth: never coasts without contributions
+  }
+  const coastAge =
+    yearsToCoast === Infinity ? null : Math.round(((parseFloat(currentAge) || 0) + yearsToCoast) * 10) / 10;
+
+  return {
+    requiredCorpus: Math.round(requiredCorpus),
+    coastTarget: Math.round(coastTarget),
+    currentSavings: Math.round(savings),
+    isCoasted,
+    gap: Math.round(Math.max(0, coastTarget - savings)),
+    coastAge
+  };
+};
+
+/**
+ * Barista FIRE: part-time income covers part of retirement expenses,
+ * shrinking the required corpus.
+ */
+export const calculateBaristaFIRE = (params) => {
+  const { partTimeAnnualIncome = 0 } = params;
+  const { totalMonthlyExpenseAtRetirement, withdrawalRate, requiredCorpus } = computeFIREBase(params);
+
+  const annualExpense = totalMonthlyExpenseAtRetirement * 12;
+  const partTime = Math.max(0, parseFloat(partTimeAnnualIncome) || 0);
+  const coveredAnnual = Math.max(0, annualExpense - partTime);
+  const baristaCorpus = coveredAnnual / withdrawalRate;
+  const corpusReduction = requiredCorpus - baristaCorpus;
+
+  return {
+    classicCorpus: Math.round(requiredCorpus),
+    baristaCorpus: Math.round(baristaCorpus),
+    corpusReduction: Math.round(corpusReduction),
+    partTimeAnnual: Math.round(partTime),
+    coverageRatio: annualExpense > 0 ? Math.min(1, partTime / annualExpense) : 0
   };
 };
