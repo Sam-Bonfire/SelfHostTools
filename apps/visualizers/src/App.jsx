@@ -3,6 +3,7 @@ import { createHashRouter, Outlet, RouterProvider } from 'react-router-dom';
 
 import ErrorBoundary from './components/ErrorBoundary';
 import MementoMori from './components/MementoMori';
+import PWAInstallPrompt from './components/PWAInstallPrompt';
 import SankeyFlowchart from './components/SankeyFlowchart';
 import VisualizersHome from './components/VisualizersHome';
 const CompoundInterestSandbox = React.lazy(() => import('./components/CompoundInterestSandbox.jsx'));
@@ -124,6 +125,7 @@ const router = createHashRouter([
 function App() {
   return (
     <div className="min-h-screen bg-[#FFDE59]">
+      <PWAInstallPrompt />
       <RouterProvider router={router} />
     </div>
   );
