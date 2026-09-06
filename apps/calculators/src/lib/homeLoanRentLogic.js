@@ -1,3 +1,5 @@
+import { decideWinner } from '@packages/compare';
+
 export const calculateBuyVsRent = ({
   propertyValue,
   downPayment,
@@ -91,6 +93,10 @@ export const calculateBuyVsRent = ({
 
   const buyNetWealth = currentPropertyValue - Math.max(0, buyBalance);
   const rentNetWealth = investmentBalance;
+  const decision = decideWinner([
+    { id: 'Buy', value: buyNetWealth },
+    { id: 'Rent', value: rentNetWealth }
+  ]);
 
   return {
     buyNetWealth: Math.round(buyNetWealth),
@@ -98,7 +104,7 @@ export const calculateBuyVsRent = ({
     monthlyEMI: Math.round(emi),
     buyTotalOutflow: Math.round(buyOutflow),
     rentTotalOutflow: Math.round(rentOutflow),
-    winner: buyNetWealth > rentNetWealth ? 'Buy' : 'Rent',
+    winner: decision.winnerId,
     schedule
   };
 };

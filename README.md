@@ -40,6 +40,8 @@ The project uses `pnpm` workspaces to manage dependencies and link packages loca
 
 - **`@packages/persistence`** (`packages/persistence`): Shared persisted-state helpers (`usePersistedState`).
 
+- **`@packages/compare`** (`packages/compare`): Shared A-vs-B verdict engine (`decideWinner` — winner, margin, ranking).
+
 ## 🛠️ Setup & Development
 
 ### 1. Installation

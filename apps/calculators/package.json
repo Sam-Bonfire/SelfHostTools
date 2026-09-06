@@ -12,6 +12,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@packages/compare": "workspace:*",
     "@packages/components": "workspace:*",
     "@packages/styling": "workspace:*",
     "autoprefixer": "^10.4.23",

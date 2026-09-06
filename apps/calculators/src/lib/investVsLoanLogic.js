@@ -12,6 +12,8 @@
  * - Inflation: Adjusts future values to present value (optional, but good for "Real" metrics).
  */
 
+import { decideWinner } from '@packages/compare';
+
 export const calculateInvestVsLoan = ({
   loans, // Array of { id, name, principal, rate, minPayment, isTaxDeductible }
   surplus, // Monthly extra cash
@@ -190,24 +192,21 @@ export const calculateInvestVsLoan = ({
   const investResults = simulateStrategy('INVEST');
   const payoffResults = simulateStrategy('PAYOFF');
 
-  // --- COMPARISON VERDICT ---
-  const netWorthDiff = payoffResults.finalNetWorth - investResults.finalNetWorth;
-
-  let verdict = '';
-  if (Math.abs(netWorthDiff) < 100) {
-    verdict = 'Neutral';
-  } else if (netWorthDiff > 0) {
-    verdict = 'Payoff';
-  } else {
-    verdict = 'Invest';
-  }
+  // --- COMPARISON VERDICT (shared engine; <100 difference is noise) ---
+  const decision = decideWinner(
+    [
+      { id: 'Payoff', value: payoffResults.finalNetWorth },
+      { id: 'Invest', value: investResults.finalNetWorth }
+    ],
+    { tolerance: 100 }
+  );
 
   return {
     results: {
       investStrategy: investResults,
       payoffStrategy: payoffResults,
-      netWorthDifference: Math.abs(netWorthDiff),
-      winner: verdict
+      netWorthDifference: decision.margin,
+      winner: decision.isTie ? 'Neutral' : decision.winnerId
     },
     inputs: {
       totalLoans: cleanLoans.length,
