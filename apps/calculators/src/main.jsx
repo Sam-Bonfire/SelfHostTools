@@ -41,6 +41,7 @@ const CreatorEconomyCalculator = React.lazy(() => import('./components/CreatorEc
 const EmergencyFundCalculator = React.lazy(() => import('./components/EmergencyFundCalculator.jsx'));
 const SalaryDecoderCalculator = React.lazy(() => import('./components/SalaryDecoderCalculator.jsx'));
 const RSUDrainCalculator = React.lazy(() => import('./components/RSUDrainCalculator.jsx'));
+const PPPRateCalculator = React.lazy(() => import('./components/PPPRateCalculator.jsx'));
 
 // Loading Spinner
 const Loading = () => (
@@ -169,6 +170,10 @@ const router = createHashRouter([
       {
         path: '/rsu-tax-drain',
         element: <RSUDrainCalculator />
+      },
+      {
+        path: '/ppp-rate-card',
+        element: <PPPRateCalculator />
       },
       {
         path: '/feedback',

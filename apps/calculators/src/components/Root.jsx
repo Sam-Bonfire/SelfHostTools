@@ -269,6 +269,15 @@ const CALCULATORS = [
     icon: Coins,
     color: 'bg-yellow-500',
     textColor: 'text-black'
+  },
+  {
+    path: '/ppp-rate-card',
+    name: 'PPP Rate Card',
+    desc: 'Quote abroad, live at home. Convert a foreign hourly rate into local take-home and PPP power.',
+    category: 'Freelance',
+    icon: Globe,
+    color: 'bg-sky-400',
+    textColor: 'text-black'
   }
 ];
 
