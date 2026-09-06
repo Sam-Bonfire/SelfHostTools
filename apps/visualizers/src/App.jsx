@@ -11,6 +11,7 @@ const AssetJarVisualizer = React.lazy(() => import('./components/AssetJarVisuali
 const CellularAutomataVisualizer = React.lazy(() => import('./components/CellularAutomataVisualizer.jsx'));
 const PomodoroFocusVisualizer = React.lazy(() => import('./components/PomodoroFocusVisualizer.jsx'));
 const SWRHistoricalVisualizer = React.lazy(() => import('./components/SWRHistoricalVisualizer.jsx'));
+import AmortizationArt from './components/AmortizationArt';
 import DebtRepaymentRace from './components/DebtRepaymentRace';
 import FreedomClock from './components/FreedomClock';
 import FunnelArchitect from './components/FunnelArchitect';
@@ -111,6 +112,10 @@ const router = createHashRouter([
       {
         path: '/net-worth-bridge',
         element: <NetWorthBridge />
+      },
+      {
+        path: '/amortization-art',
+        element: <AmortizationArt />
       }
     ]
   }

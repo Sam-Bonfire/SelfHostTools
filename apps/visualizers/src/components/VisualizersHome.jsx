@@ -3,6 +3,7 @@ import { Card, Footer } from '@packages/styling';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   ArrowRight,
+  BarChart3,
   Beaker,
   Calendar,
   ChevronLeft,
@@ -171,6 +172,16 @@ const VISUALIZERS = [
     category: 'Finance',
     icon: Scale,
     color: 'bg-emerald-400',
+    textColor: 'text-black',
+    iconColor: 'text-black'
+  },
+  {
+    path: '/amortization-art',
+    name: 'Amortization Art',
+    desc: 'Every EMI split into principal vs interest, year by year. Watch extra payments kill lifetime interest.',
+    category: 'Finance',
+    icon: BarChart3,
+    color: 'bg-lime-400',
     textColor: 'text-black',
     iconColor: 'text-black'
   }
