@@ -10,6 +10,7 @@ import {
   Car,
   ChevronLeft,
   ChevronRight,
+  Coins,
   FileText,
   Flame,
   Globe,
@@ -258,6 +259,15 @@ const CALCULATORS = [
     category: 'Career',
     icon: Wallet,
     color: 'bg-amber-400',
+    textColor: 'text-black'
+  },
+  {
+    path: '/rsu-tax-drain',
+    name: 'RSU Tax Drain',
+    desc: 'Your grant is not your money. See what each vest actually pays after taxes and sell-to-cover.',
+    category: 'Career',
+    icon: Coins,
+    color: 'bg-yellow-500',
     textColor: 'text-black'
   }
 ];

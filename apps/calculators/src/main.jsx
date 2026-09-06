@@ -40,6 +40,7 @@ const InternationalArbitrageCalculator = React.lazy(() => import('./components/I
 const CreatorEconomyCalculator = React.lazy(() => import('./components/CreatorEconomyCalculator.jsx'));
 const EmergencyFundCalculator = React.lazy(() => import('./components/EmergencyFundCalculator.jsx'));
 const SalaryDecoderCalculator = React.lazy(() => import('./components/SalaryDecoderCalculator.jsx'));
+const RSUDrainCalculator = React.lazy(() => import('./components/RSUDrainCalculator.jsx'));
 
 // Loading Spinner
 const Loading = () => (
@@ -164,6 +165,10 @@ const router = createHashRouter([
       {
         path: '/salary-decoder',
         element: <SalaryDecoderCalculator />
+      },
+      {
+        path: '/rsu-tax-drain',
+        element: <RSUDrainCalculator />
       },
       {
         path: '/feedback',
