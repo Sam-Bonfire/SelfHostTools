@@ -265,6 +265,9 @@ importers:
 
   packages/styling:
     dependencies:
+      '@packages/macro-data':
+        specifier: workspace:*
+        version: link:../macro-data
       '@packages/persistence':
         specifier: workspace:*
         version: link:../persistence

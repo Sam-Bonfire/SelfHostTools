@@ -12,6 +12,7 @@
     "framer-motion": "^12.26.1",
     "lucide-react": "^0.562.0",
     "tailwind-merge": "^3.4.0",
+    "@packages/macro-data": "workspace:*",
     "@packages/persistence": "workspace:*"
   }
 }

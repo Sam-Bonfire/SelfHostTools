@@ -7,6 +7,7 @@ import {
   DownloadButtons,
   Footer,
   Input,
+  MacroDataBadge,
   MetricDisplay,
   ResultsAnalysis
 } from '@packages/styling';
@@ -551,6 +552,7 @@ export default function TrueHourlyWageCalculator() {
           <br className="md:hidden" />
           By factoring in unpaid time and work-related expenses, you uncover the true value of your time.
         </p>
+        <MacroDataBadge />
       </Footer>
     </div>
   );

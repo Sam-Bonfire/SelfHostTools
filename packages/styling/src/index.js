@@ -14,3 +14,4 @@ export { default as Footer } from './components/Footer';
 export { default as MetricDisplay } from './components/MetricDisplay';
 export { default as ScenarioSelector } from './components/ScenarioSelector';
 export { default as Modal } from './components/Modal';
+export { default as MacroDataBadge } from './components/MacroDataBadge';

@@ -23,7 +23,13 @@
   },
   "metadata": {
     "lastUpdated": "2026-09-04T02:52:18.328Z",
-    "inflationMultiplierApplied": 1.0485524387488894
+    "inflationMultiplierApplied": 1.0485524387488894,
+    "sources": [
+      { "key": "inflation", "label": "World Bank CPI (FP.CPI.TOTL.ZG)" },
+      { "key": "interestRates", "label": "World Bank lending rate (FR.INR.LEND)" },
+      { "key": "returns", "label": "Alpha Vantage equity benchmark" },
+      { "key": "microCosts", "label": "Algorithmic extrapolation from 2024 base costs" }
+    ]
   },
   "microCosts": {
     "carServicingAnnual": 10490,

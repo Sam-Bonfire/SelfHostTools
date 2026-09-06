@@ -10,6 +10,7 @@ import {
   DownloadButtons,
   Footer,
   Input,
+  MacroDataBadge,
   MetricDisplay,
   ResultsAnalysis
 } from '@packages/styling';
@@ -401,6 +402,7 @@ export default function HomeLoanRentCalculator() {
           <strong>Disclaimer:</strong> This comparison is strictly financial. Buying provides emotional security and
           stability, while Renting provides mobility and asset diversification. Both involve market risk.
         </p>
+        <MacroDataBadge />
       </Footer>
     </div>
   );

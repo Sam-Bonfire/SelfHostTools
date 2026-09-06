@@ -182,7 +182,13 @@ async function updateMacroData() {
     fuelPrices: baseCosts.fuelPrices,
     metadata: {
       lastUpdated: new Date().toISOString(),
-      inflationMultiplierApplied: inflationFactor
+      inflationMultiplierApplied: inflationFactor,
+      sources: [
+        { key: 'inflation', label: 'World Bank CPI (FP.CPI.TOTL.ZG)' },
+        { key: 'interestRates', label: 'World Bank lending rate (FR.INR.LEND)' },
+        { key: 'returns', label: 'Alpha Vantage equity benchmark' },
+        { key: 'microCosts', label: 'Algorithmic extrapolation from 2024 base costs' }
+      ]
     }
   };
 
