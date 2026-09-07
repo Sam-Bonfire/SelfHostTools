@@ -381,7 +381,7 @@ export default function AlternateInvestmentCalculator() {
                 </div>
                 {results.roi.truePassive < 0 && (
                   <p className="mt-4 text-xs font-black text-red-600 max-w-sm">
-                    ⚠️ Your effort costs more than the asset earns. You assume more risk for less money than a job.
+                    Warning: Your effort costs more than the asset earns. You assume more risk for less money than a job.
                   </p>
                 )}
               </div>
@@ -481,7 +481,7 @@ export default function AlternateInvestmentCalculator() {
                   <MetricDisplay
                     title="The Verdict"
                     value={
-                      results.benchmark.isBeatingMarket ? '🏆 You Beat the Index' : '📉 Underperforming Passive Index'
+                      results.benchmark.isBeatingMarket ? 'You Beat the Index' : 'Underperforming Passive Index'
                     }
                     color={results.benchmark.isBeatingMarket ? 'text-green-800' : 'text-orange-900'}
                   />

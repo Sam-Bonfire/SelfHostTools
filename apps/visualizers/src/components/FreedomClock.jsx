@@ -51,12 +51,12 @@ export default function FreedomClock() {
     }
 
     const categories = [
-      { name: 'Sleep 🛌', hours: finalSleep, color: '#3B82F6' },
-      { name: 'Commute 🚗', hours: finalCommute, color: '#F97316' },
-      { name: 'Core Work 💼', hours: finalWork, color: '#000000' },
-      { name: 'Unbilled Admin 📧', hours: finalAdmin, color: '#EF4444' },
-      { name: 'Chores 🧹', hours: finalChores, color: '#10B981' },
-      { name: 'Pure Freedom 🌟', hours: Math.max(0, Number(finalFreedom.toFixed(1))), color: '#FFDE59' }
+      { name: 'Sleep', hours: finalSleep, color: '#3B82F6' },
+      { name: 'Commute', hours: finalCommute, color: '#F97316' },
+      { name: 'Core Work', hours: finalWork, color: '#000000' },
+      { name: 'Unbilled Admin', hours: finalAdmin, color: '#EF4444' },
+      { name: 'Chores', hours: finalChores, color: '#10B981' },
+      { name: 'Pure Freedom', hours: Math.max(0, Number(finalFreedom.toFixed(1))), color: '#FFDE59' }
     ];
 
     // Convert hours to angles (360 degrees total for 24 hours, so 15 degrees per hour)
@@ -94,7 +94,7 @@ export default function FreedomClock() {
     if (idx < 10) {
       return {
         style: 'bg-red-100 text-red-800 border-red-500',
-        title: 'Living to Work ⚠️',
+        title: 'Living to Work',
         description:
           'Extreme danger of mental fatigue, high stress, and absolute burnout. Your overhead drag is too high. Consider outsourcing chores or automating admin tasks immediately.',
         icon: ShieldAlert
@@ -102,7 +102,7 @@ export default function FreedomClock() {
     } else if (idx < 25) {
       return {
         style: 'bg-yellow-100 text-yellow-800 border-yellow-500',
-        title: 'Survival Mode ⚡',
+        title: 'Survival Mode',
         description:
           'Decent daily baseline, but overhead drag restricts genuine growth, health routines, and personal creative freedom. Seek ways to buy back 1–2 hours.',
         icon: Coffee
@@ -110,7 +110,7 @@ export default function FreedomClock() {
     } else {
       return {
         style: 'bg-green-100 text-green-800 border-green-500',
-        title: 'Wealthy Freedom 🌟',
+        title: 'Wealthy Freedom',
         description:
           'Excellent life balance! You have abundant margin to dedicate to upskilling, fitness, reading, and high-value side ventures.',
         icon: Sparkles
@@ -411,7 +411,7 @@ export default function FreedomClock() {
                   />
                   <MetricDisplay
                     title="Delegation ROI"
-                    value={lifetimeStats.buyBackROI === 'Positive' ? '✅ Worth It' : '⚠️ Break-Even'}
+                    value={lifetimeStats.buyBackROI === 'Positive' ? 'Worth It' : 'Break-Even'}
                     color={lifetimeStats.buyBackROI === 'Positive' ? 'text-green-700' : 'text-red-600'}
                     subtitle={`Your hr (₹${lifetimeStats.hourlyValue}) vs outsource (₹300)`}
                   />

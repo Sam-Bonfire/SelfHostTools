@@ -392,7 +392,7 @@ export default function SkillTreeArchitect() {
           >
             {cycleError && (
               <div className="p-3 bg-red-100 border-2 border-red-500 mb-4 text-xs font-bold text-red-700">
-                ⚠️ {cycleError}
+                Error: {cycleError}
               </div>
             )}
 

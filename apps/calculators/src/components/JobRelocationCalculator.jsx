@@ -11,7 +11,7 @@ import {
   ResultsAnalysis,
   Select
 } from '@packages/styling';
-import { AlertCircle, Briefcase, Clock, Home, IndianRupee, Info, MapPin, TrendingUp } from 'lucide-react';
+import { AlertCircle, Briefcase, Car, Clapperboard, Clock, Dumbbell, FileText, Gift, Home, IndianRupee, Info, Landmark, Lightbulb, MapPin, Package, Pill, Plane, ShoppingCart, Sofa, Sparkles, TrendingUp, UtensilsCrossed } from 'lucide-react';
 import { useCallback, useEffect } from 'react';
 
 import { downloadExcel, downloadPDF } from '../lib/downloadUtils';
@@ -315,19 +315,19 @@ export default function JobRelocationCalculator() {
                   <p className="text-[10px] font-black uppercase text-green-600 mb-2">Expense Breakdown</p>
                   <div className="space-y-2">
                     {[
-                      { id: 'groceries', label: 'Groceries & Food', icon: '🛒' },
-                      { id: 'utilities', label: 'Utilities', icon: '💡' },
-                      { id: 'transport', label: 'Transport', icon: '🚗' },
-                      { id: 'entertainment', label: 'Entertainment', icon: '🎬' },
-                      { id: 'personal', label: 'Personal Care', icon: '💅' },
-                      { id: 'misc', label: 'Miscellaneous', icon: '📝' }
+                      { id: 'groceries', label: 'Groceries & Food', icon: ShoppingCart },
+                      { id: 'utilities', label: 'Utilities', icon: Lightbulb },
+                      { id: 'transport', label: 'Transport', icon: Car },
+                      { id: 'entertainment', label: 'Entertainment', icon: Clapperboard },
+                      { id: 'personal', label: 'Personal Care', icon: Sparkles },
+                      { id: 'misc', label: 'Miscellaneous', icon: FileText }
                     ].map((item) => (
                       <div key={item.id} className="grid grid-cols-12 gap-2 items-center">
                         <label
                           htmlFor={`current-expense-${item.id}`}
                           className="col-span-6 text-[9px] font-bold uppercase flex items-center gap-1"
                         >
-                          <span>{item.icon}</span> {item.label}
+                          <item.icon className="w-3.5 h-3.5" aria-hidden="true" /> {item.label}
                         </label>
                         <div className="col-span-6">
                           <Input
@@ -375,11 +375,11 @@ export default function JobRelocationCalculator() {
                     onChange={(e) => setCurrentCommuteMode(e.target.value)}
                     className="h-9 text-xs font-bold uppercase"
                   >
-                    <option value="walk">🚶 Walk</option>
-                    <option value="bike">🚴 Bike</option>
-                    <option value="car">🚗 Car</option>
-                    <option value="public">🚇 Public Transport</option>
-                    <option value="mixed">🔀 Mixed</option>
+                    <option value="walk">Walk</option>
+                    <option value="bike">Bike</option>
+                    <option value="car">Car</option>
+                    <option value="public">Public Transport</option>
+                    <option value="mixed">Mixed</option>
                   </Select>
                   <Input
                     id="current-commute-cost"
@@ -413,7 +413,7 @@ export default function JobRelocationCalculator() {
                           htmlFor="current-health-insurance"
                           className="col-span-6 text-[9px] font-bold uppercase flex items-center gap-1"
                         >
-                          <span>💊</span> Health Insurance
+                          <Pill className="w-4 h-4" /> Health Insurance
                         </label>
                         <div className="col-span-6 relative">
                           <IndianRupee className="absolute left-2 top-1/2 -translate-y-1/2 w-2 h-2 text-gray-400 z-10" />
@@ -434,7 +434,7 @@ export default function JobRelocationCalculator() {
                           htmlFor="current-pf-match"
                           className="col-span-6 text-[9px] font-bold uppercase flex items-center gap-1"
                         >
-                          <span>🏦</span> PF Match (%)
+                          <Landmark className="w-4 h-4" /> PF Match (%)
                         </label>
                         <div className="col-span-6 relative">
                           <span className="absolute left-2 top-1/2 -translate-y-1/2 text-[10px] font-black text-gray-400 z-10">
@@ -456,7 +456,7 @@ export default function JobRelocationCalculator() {
                           htmlFor="current-meal-vouchers"
                           className="col-span-6 text-[9px] font-bold uppercase flex items-center gap-1"
                         >
-                          <span>🍽️</span> Meal Vouchers
+                          <UtensilsCrossed className="w-4 h-4" /> Meal Vouchers
                         </label>
                         <div className="col-span-6 relative">
                           <IndianRupee className="absolute left-2 top-1/2 -translate-y-1/2 w-2 h-2 text-gray-400 z-10" />
@@ -477,7 +477,7 @@ export default function JobRelocationCalculator() {
                           htmlFor="current-gym-membership"
                           className="col-span-6 text-[9px] font-bold uppercase flex items-center gap-1"
                         >
-                          <span>💪</span> Gym Membership
+                          <Dumbbell className="w-4 h-4" /> Gym Membership
                         </label>
                         <div className="col-span-6 relative">
                           <IndianRupee className="absolute left-2 top-1/2 -translate-y-1/2 w-2 h-2 text-gray-400 z-10" />
@@ -498,7 +498,7 @@ export default function JobRelocationCalculator() {
                           htmlFor="current-stock-options"
                           className="col-span-6 text-[9px] font-bold uppercase flex items-center gap-1"
                         >
-                          <span>📈</span> Stock/RSUs
+                          <TrendingUp className="w-4 h-4" /> Stock/RSUs
                         </label>
                         <div className="col-span-6 relative">
                           <IndianRupee className="absolute left-2 top-1/2 -translate-y-1/2 w-2 h-2 text-gray-400 z-10" />
@@ -519,7 +519,7 @@ export default function JobRelocationCalculator() {
                           htmlFor="current-other-perks"
                           className="col-span-6 text-[9px] font-bold uppercase flex items-center gap-1"
                         >
-                          <span>🎁</span> Other Perks
+                          <Gift className="w-4 h-4" /> Other Perks
                         </label>
                         <div className="col-span-6 relative">
                           <IndianRupee className="absolute left-2 top-1/2 -translate-y-1/2 w-2 h-2 text-gray-400 z-10" />
@@ -606,19 +606,19 @@ export default function JobRelocationCalculator() {
                   <p className="text-[10px] font-black uppercase text-blue-600 mb-2">Expected Expense Breakdown</p>
                   <div className="space-y-2">
                     {[
-                      { id: 'groceries', label: 'Groceries & Food', icon: '🛒' },
-                      { id: 'utilities', label: 'Utilities', icon: '💡' },
-                      { id: 'transport', label: 'Transport', icon: '🚗' },
-                      { id: 'entertainment', label: 'Entertainment', icon: '🎬' },
-                      { id: 'personal', label: 'Personal Care', icon: '💅' },
-                      { id: 'misc', label: 'Miscellaneous', icon: '📝' }
+                      { id: 'groceries', label: 'Groceries & Food', icon: ShoppingCart },
+                      { id: 'utilities', label: 'Utilities', icon: Lightbulb },
+                      { id: 'transport', label: 'Transport', icon: Car },
+                      { id: 'entertainment', label: 'Entertainment', icon: Clapperboard },
+                      { id: 'personal', label: 'Personal Care', icon: Sparkles },
+                      { id: 'misc', label: 'Miscellaneous', icon: FileText }
                     ].map((item) => (
                       <div key={item.id} className="grid grid-cols-12 gap-2 items-center">
                         <label
                           htmlFor={`new-expense-${item.id}`}
                           className="col-span-6 text-[9px] font-bold uppercase flex items-center gap-1"
                         >
-                          <span>{item.icon}</span> {item.label}
+                          <item.icon className="w-3.5 h-3.5" aria-hidden="true" /> {item.label}
                         </label>
                         <div className="col-span-6">
                           <Input
@@ -664,11 +664,11 @@ export default function JobRelocationCalculator() {
                     onChange={(e) => setNewCommuteMode(e.target.value)}
                     className="h-9 text-xs font-bold uppercase"
                   >
-                    <option value="walk">🚶 Walk</option>
-                    <option value="bike">🚴 Bike</option>
-                    <option value="car">🚗 Car</option>
-                    <option value="public">🚇 Public Transport</option>
-                    <option value="mixed">🔀 Mixed</option>
+                    <option value="walk">Walk</option>
+                    <option value="bike">Bike</option>
+                    <option value="car">Car</option>
+                    <option value="public">Public Transport</option>
+                    <option value="mixed">Mixed</option>
                   </Select>
                   <Input
                     id="new-commute-cost"
@@ -702,7 +702,7 @@ export default function JobRelocationCalculator() {
                           htmlFor="new-health-insurance"
                           className="col-span-6 text-[9px] font-bold uppercase flex items-center gap-1"
                         >
-                          <span>💊</span> Health Insurance
+                          <Pill className="w-4 h-4" /> Health Insurance
                         </label>
                         <div className="col-span-6 relative">
                           <IndianRupee className="absolute left-2 top-1/2 -translate-y-1/2 w-2 h-2 text-gray-400 z-10" />
@@ -723,7 +723,7 @@ export default function JobRelocationCalculator() {
                           htmlFor="new-pf-match"
                           className="col-span-6 text-[9px] font-bold uppercase flex items-center gap-1"
                         >
-                          <span>🏦</span> PF Match (%)
+                          <Landmark className="w-4 h-4" /> PF Match (%)
                         </label>
                         <div className="col-span-6 relative">
                           <span className="absolute left-2 top-1/2 -translate-y-1/2 text-[10px] font-black text-gray-400 z-10">
@@ -743,7 +743,7 @@ export default function JobRelocationCalculator() {
                           htmlFor="new-meal-vouchers"
                           className="col-span-6 text-[9px] font-bold uppercase flex items-center gap-1"
                         >
-                          <span>🍽️</span> Meal Vouchers
+                          <UtensilsCrossed className="w-4 h-4" /> Meal Vouchers
                         </label>
                         <div className="col-span-6 relative">
                           <IndianRupee className="absolute left-2 top-1/2 -translate-y-1/2 w-2 h-2 text-gray-400 z-10" />
@@ -764,7 +764,7 @@ export default function JobRelocationCalculator() {
                           htmlFor="new-gym-membership"
                           className="col-span-6 text-[9px] font-bold uppercase flex items-center gap-1"
                         >
-                          <span>💪</span> Gym Membership
+                          <Dumbbell className="w-4 h-4" /> Gym Membership
                         </label>
                         <div className="col-span-6 relative">
                           <IndianRupee className="absolute left-2 top-1/2 -translate-y-1/2 w-2 h-2 text-gray-400 z-10" />
@@ -785,7 +785,7 @@ export default function JobRelocationCalculator() {
                           htmlFor="new-stock-options"
                           className="col-span-6 text-[9px] font-bold uppercase flex items-center gap-1"
                         >
-                          <span>📈</span> Stock/RSUs
+                          <TrendingUp className="w-4 h-4" /> Stock/RSUs
                         </label>
                         <div className="col-span-6 relative">
                           <IndianRupee className="absolute left-2 top-1/2 -translate-y-1/2 w-2 h-2 text-gray-400 z-10" />
@@ -806,7 +806,7 @@ export default function JobRelocationCalculator() {
                           htmlFor="new-other-perks"
                           className="col-span-6 text-[9px] font-bold uppercase flex items-center gap-1"
                         >
-                          <span>🎁</span> Other Perks
+                          <Gift className="w-4 h-4" /> Other Perks
                         </label>
                         <div className="col-span-6 relative">
                           <IndianRupee className="absolute left-2 top-1/2 -translate-y-1/2 w-2 h-2 text-gray-400 z-10" />
@@ -888,19 +888,19 @@ export default function JobRelocationCalculator() {
                   <p className="text-[10px] font-black uppercase text-red-600 mb-2">Detailed Friction Costs</p>
                   <div className="space-y-2">
                     {[
-                      { id: 'packers', label: 'Packers & Movers', icon: '📦' },
-                      { id: 'travel', label: 'Travel (Flight/Train)', icon: '✈️' },
-                      { id: 'deposit', label: 'Security Deposit', icon: '🏦' },
-                      { id: 'brokerage', label: 'Brokerage Fee', icon: '💼' },
-                      { id: 'furniture', label: 'Furniture & Setup', icon: '🛋️' },
-                      { id: 'misc', label: 'Miscellaneous', icon: '📝' }
+                      { id: 'packers', label: 'Packers & Movers', icon: Package },
+                      { id: 'travel', label: 'Travel (Flight/Train)', icon: Plane },
+                      { id: 'deposit', label: 'Security Deposit', icon: Landmark },
+                      { id: 'brokerage', label: 'Brokerage Fee', icon: Briefcase },
+                      { id: 'furniture', label: 'Furniture & Setup', icon: Sofa },
+                      { id: 'misc', label: 'Miscellaneous', icon: FileText }
                     ].map((item) => (
                       <div key={item.id} className="grid grid-cols-12 gap-2 items-center">
                         <label
                           htmlFor={`friction-expense-${item.id}`}
                           className="col-span-6 text-[9px] font-bold uppercase flex items-center gap-1"
                         >
-                          <span>{item.icon}</span> {item.label}
+                          <item.icon className="w-3.5 h-3.5" aria-hidden="true" /> {item.label}
                         </label>
                         <div className="col-span-6">
                           <Input
@@ -1077,7 +1077,7 @@ export default function JobRelocationCalculator() {
                   >
                     <h2 className="text-lg font-bold flex items-center gap-2 mb-4 uppercase tracking-tight">
                       <AlertCircle className={`w-5 h-5 ${isHighRisk ? 'text-red-600' : 'text-yellow-600'}`} />
-                      {isHighRisk ? '⚠️ High Risk Alert' : '💡 Caution'}
+                      {isHighRisk ? 'High Risk Alert' : 'Caution'}
                     </h2>
                     <p className="text-sm font-bold mb-2">
                       Your new expenses will be{' '}
@@ -1088,8 +1088,8 @@ export default function JobRelocationCalculator() {
                     </p>
                     <p className="text-xs font-medium text-gray-700">
                       {isHighRisk
-                        ? '🚨 This is considered high risk. Financial advisors recommend keeping expenses below 50% of income for financial stability.'
-                        : "⚠️ You're approaching the 60% threshold. Consider ways to reduce expenses or increase income."}
+                        ? 'This is considered high risk. Financial advisors recommend keeping expenses below 50% of income for financial stability.'
+                        : "You're approaching the 60% threshold. Consider ways to reduce expenses or increase income."}
                     </p>
                   </div>
                 );
@@ -1100,7 +1100,7 @@ export default function JobRelocationCalculator() {
             {/* VISUAL EXPENSE COMPARISON */}
             <div className="border-4 border-black p-6 bg-white">
               <h2 className="text-lg font-bold flex items-center gap-2 mb-4 uppercase tracking-tight">
-                📊 Expense Breakdown Comparison
+                Expense Breakdown Comparison
               </h2>
               <div className="space-y-4">
                 {/* Current Expenses */}
@@ -1163,7 +1163,7 @@ export default function JobRelocationCalculator() {
                 {/* Reference Line */}
                 <div className="pt-2 border-t border-gray-300">
                   <p className="text-[9px] font-bold text-gray-500 uppercase">
-                    💡 Recommended: Keep expenses below 50% of income
+                    Recommended: Keep expenses below 50% of income
                   </p>
                 </div>
               </div>
@@ -1183,14 +1183,14 @@ export default function JobRelocationCalculator() {
                       <span className="font-bold text-gray-600">Mode</span>
                       <span className="font-black">
                         {currentCommuteMode === 'walk'
-                          ? '🚶 Walk'
+                          ? 'Walk'
                           : currentCommuteMode === 'bike'
-                            ? '🚴 Bike'
+                            ? 'Bike'
                             : currentCommuteMode === 'car'
-                              ? '🚗 Car'
+                              ? 'Car'
                               : currentCommuteMode === 'public'
-                                ? '🚇 Public'
-                                : '🔀 Mixed'}
+                                ? 'Public'
+                                : 'Mixed'}
                       </span>
                     </div>
                     <div className="flex justify-between text-xs">
@@ -1208,14 +1208,14 @@ export default function JobRelocationCalculator() {
                       <span className="font-bold text-gray-600">Mode</span>
                       <span className="font-black">
                         {newCommuteMode === 'walk'
-                          ? '🚶 Walk'
+                          ? 'Walk'
                           : newCommuteMode === 'bike'
-                            ? '🚴 Bike'
+                            ? 'Bike'
                             : newCommuteMode === 'car'
-                              ? '🚗 Car'
+                              ? 'Car'
                               : newCommuteMode === 'public'
-                                ? '🚇 Public'
-                                : '🔀 Mixed'}
+                                ? 'Public'
+                                : 'Mixed'}
                       </span>
                     </div>
                     <div className="flex justify-between text-xs">
@@ -1248,7 +1248,7 @@ export default function JobRelocationCalculator() {
             {(showCurrentBenefits || showNewBenefits) && (
               <div className="border-4 border-black p-6 bg-gradient-to-br from-green-50 to-blue-50">
                 <h2 className="text-lg font-bold flex items-center gap-2 mb-4 uppercase tracking-tight">
-                  💼 Total Compensation Analysis
+                  Total Compensation Analysis
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {/* Current Benefits */}
@@ -1372,7 +1372,7 @@ export default function JobRelocationCalculator() {
                         <p className="text-[9px] font-bold text-gray-600 mt-1 italic">
                           {delta > 0
                             ? '✓ Your total compensation (salary + benefits) will increase'
-                            : '⚠️ Despite salary increase, total compensation may decrease due to benefits'}
+                            : 'Despite salary increase, total compensation may decrease due to benefits'}
                         </p>
                       </div>
                     );
@@ -1398,7 +1398,7 @@ export default function JobRelocationCalculator() {
           >
             <div className="space-y-4">
               <p className="text-sm font-bold leading-relaxed text-black">
-                💡 A spreadsheet cannot calculate the value of a home-cooked meal from a loved one or the peace of mind
+                Note: A spreadsheet cannot calculate the value of a home-cooked meal from a loved one or the peace of mind
                 that comes with zero monthly debt. Sometimes,{' '}
                 <strong>not having new expenses is worth more than a 20% increase in your paycheck.</strong>
               </p>

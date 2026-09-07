@@ -12,7 +12,7 @@ import {
 } from '@packages/styling';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import { Award, Calendar, ShieldAlert, Sun } from 'lucide-react';
+import { Award, Calendar, Car, Coins, ShieldAlert, Stethoscope, Sun, TrendingDown } from 'lucide-react';
 import React, { useMemo } from 'react';
 
 import { calculateRunwayData, generateSVGPath } from '../lib/runwayLandscape';
@@ -30,10 +30,10 @@ export default function RunwayHorizon() {
 
   const presetEvents = useMemo(
     () => [
-      { id: 'e1', name: 'Car Breakdown', amount: -50000, month: 4, icon: '💥' },
-      { id: 'e2', name: 'Medical Hit', amount: -100000, month: 8, icon: '🏥' },
-      { id: 'e3', name: 'Job Loss (3 mo)', amount: -(income * 3), month: 12, icon: '📉' },
-      { id: 'e4', name: 'Year-End Bonus', amount: 50000, month: 12, icon: '💰' }
+      { id: 'e1', name: 'Car Breakdown', amount: -50000, month: 4, icon: Car },
+      { id: 'e2', name: 'Medical Hit', amount: -100000, month: 8, icon: Stethoscope },
+      { id: 'e3', name: 'Job Loss (3 mo)', amount: -(income * 3), month: 12, icon: TrendingDown },
+      { id: 'e4', name: 'Year-End Bonus', amount: 50000, month: 12, icon: Coins }
     ],
     [income]
   );
@@ -162,7 +162,7 @@ export default function RunwayHorizon() {
                     : 'bg-white hover:bg-gray-50'
                 }`}
               >
-                🏡 Comfort
+                Comfort
               </button>
               <button
                 onClick={() => setScenario('survival')}
@@ -172,7 +172,7 @@ export default function RunwayHorizon() {
                     : 'bg-white hover:bg-gray-50'
                 }`}
               >
-                🏕️ Survival
+                Survival
               </button>
             </div>
             <div>
@@ -221,7 +221,7 @@ export default function RunwayHorizon() {
                 <Card className="p-5 h-full">
                   <MetricDisplay
                     title="Runway Duration"
-                    value={runwayData.isInfinite ? 'Infinite 🚀' : `${runwayData.runwayMonths} Months`}
+                    value={runwayData.isInfinite ? 'Infinite' : `${runwayData.runwayMonths} Months`}
                     subtitle={runwayData.isInfinite ? 'Self-Sufficient Wealth' : 'Until absolute cashout'}
                   />
                 </Card>
@@ -299,7 +299,7 @@ export default function RunwayHorizon() {
                             : 'bg-white hover:bg-[#FFDE59] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-0.5'
                         }`}
                       >
-                        <span className="text-2xl">{ev.icon}</span>
+                        <ev.icon className="w-6 h-6" aria-hidden="true" />
                         <span className="text-center">{ev.name}</span>
                       </button>
                     );
@@ -375,12 +375,9 @@ export default function RunwayHorizon() {
                               stroke="#000"
                               strokeWidth="2.5"
                             />
-                            <text x={pt.x} y={pt.y - 35} textAnchor="middle" fontSize="16">
-                              {ev.icon}
-                            </text>
                             <text
                               x={pt.x}
-                              y={pt.y - 55}
+                              y={pt.y - 35}
                               textAnchor="middle"
                               fontSize="10"
                               fontWeight="900"
@@ -420,7 +417,7 @@ export default function RunwayHorizon() {
                             fontSize="10"
                             fontWeight="900"
                           >
-                            ☠️
+                            !
                           </text>
                           <text
                             x={crashPointX + 10}
@@ -439,9 +436,9 @@ export default function RunwayHorizon() {
                       {runwayData.isInfinite && (
                         <g>
                           <circle cx="300" cy="80" r="16" fill="#10B981" stroke="#000000" strokeWidth="2.5" />
-                          <text x="300" y="84" textAnchor="middle" fill="#FFFFFF" fontSize="11" fontWeight="900">
-                            🚀
-                          </text>
+                           <text x="300" y="84" textAnchor="middle" fill="#FFFFFF" fontSize="11" fontWeight="900">
+                             $
+                           </text>
                           <text
                             x="325"
                             y="85"

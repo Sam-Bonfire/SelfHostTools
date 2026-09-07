@@ -339,10 +339,10 @@ export default function SankeyFlowchart() {
               </div>
               <p className="text-[9px] font-black uppercase text-gray-600">
                 {Math.abs(unallocated) < 10
-                  ? '✅ Fully allocated'
+                  ? 'Fully allocated'
                   : unallocated > 0
-                    ? '⚠️ Surplus — assign it to savings or investments!'
-                    : '🚨 Overspent! Reduce allocations.'}
+                    ? 'Surplus — assign it to savings or investments!'
+                    : 'Overspent! Reduce allocations.'}
               </p>
             </div>
 

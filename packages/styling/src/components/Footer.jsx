@@ -1,3 +1,4 @@
+import { Heart } from 'lucide-react';
 import React from 'react';
 
 const Footer = ({ children }) => {
@@ -6,8 +7,8 @@ const Footer = ({ children }) => {
       {children && <div className="mb-6 w-full">{children}</div>}
       <p className="font-bold text-gray-600">
         © {new Date().getFullYear()} Calculators Hub. Built with
-        <span className="mx-1 px-1 bg-[#FF6B6B] text-black border-2 border-black inline-block transform rotate-3">
-          ♥
+        <span className="mx-1 px-1 bg-[#FF6B6B] text-black border-2 border-black inline-flex align-middle transform rotate-3">
+          <Heart className="w-4 h-4" fill="currentColor" aria-label="love" />
         </span>
         and Neo-Brutalism.
       </p>

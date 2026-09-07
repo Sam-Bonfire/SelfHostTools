@@ -509,7 +509,7 @@ export default function FreelanceIncomeCalculator() {
                     </p>
                     {isPresumptiveTax && (
                       <div className="mt-2 text-[10px] font-bold text-green-800 bg-white/50 p-2 rounded inline-block">
-                        ✅ Taxable Income ={' '}
+                        Taxable Income ={' '}
                         {(parseFloat(hourlyRate) * parseFloat(billableHours) * 12 * 0.5).toLocaleString('en-IN', {
                           style: 'currency',
                           currency: 'INR',

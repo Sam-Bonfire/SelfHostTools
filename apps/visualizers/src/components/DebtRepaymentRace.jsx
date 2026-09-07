@@ -10,7 +10,7 @@ import {
   MetricDisplay,
   ResultsAnalysis
 } from '@packages/styling';
-import { Award, Flame, Plus, Trash2 } from 'lucide-react';
+import { Award, Flame, Footprints, GraduationCap, Home, Mountain, Plus, Snowflake, Trash2, Zap } from 'lucide-react';
 import { useMemo } from 'react';
 
 import { calculateDebtRace } from '../lib/debtRaceLogic';
@@ -197,19 +197,19 @@ export default function DebtRepaymentRace() {
                 onClick={() => loadPreset('graduate')}
                 className="px-3 py-1 bg-white border-2 border-black font-bold text-xs uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all"
               >
-                🎓 Graduate
+                <GraduationCap className="w-4 h-4" /> Graduate
               </button>
               <button
                 onClick={() => loadPreset('family')}
                 className="px-3 py-1 bg-white border-2 border-black font-bold text-xs uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all"
               >
-                🏡 Family
+                <Home className="w-4 h-4" /> Family
               </button>
               <button
                 onClick={() => loadPreset('slate')}
                 className="px-3 py-1 bg-white border-2 border-black font-bold text-xs uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all"
               >
-                ⚡ Clean Slate
+                <Zap className="w-4 h-4" /> Clean Slate
               </button>
             </div>
           </Card>
@@ -373,7 +373,9 @@ export default function DebtRepaymentRace() {
                 <div className="space-y-2">
                   <div className="flex justify-between items-end text-xs font-black uppercase mb-2">
                     <div className="space-y-1">
-                      <div>🏔️ Track A: Avalanche (Highest Rate)</div>
+                      <div className="flex items-center gap-1">
+                        <Mountain className="w-4 h-4" /> Track A: Avalanche (Highest Rate)
+                      </div>
                       <div className="text-red-500 flex items-center gap-2">
                         <span
                           className="inline-block transition-transform duration-200 origin-bottom-left"
@@ -381,7 +383,7 @@ export default function DebtRepaymentRace() {
                             transform: `scale(${maxInterest > 0 ? 0.7 + racePositions.avCumulativeInterest / maxInterest : 1})`
                           }}
                         >
-                          🔥
+                          <Flame className="w-5 h-5" />
                         </span>
                         <span>₹{(racePositions.avCumulativeInterest || 0).toLocaleString('en-IN')} BURNED</span>
                       </div>
@@ -394,7 +396,9 @@ export default function DebtRepaymentRace() {
                       className="h-full bg-gray-100 border-r-4 border-black transition-all duration-200 flex items-center justify-end pr-2 shrink-0"
                       style={{ width: `${racePositions.avalancheProgress}%` }}
                     >
-                      <span className="text-xl">🏃</span>
+                      <span className="flex items-center">
+                        <Footprints className="w-5 h-5" />
+                      </span>
                     </div>
                     {/* The dragged weight blocks */}
                     <div className="h-full flex-1 flex transition-all duration-200 shrink-0">
@@ -423,7 +427,9 @@ export default function DebtRepaymentRace() {
                 <div className="space-y-2">
                   <div className="flex justify-between items-end text-xs font-black uppercase mb-2">
                     <div className="space-y-1">
-                      <div>❄️ Track B: Snowball (Smallest Balance)</div>
+                      <div className="flex items-center gap-1">
+                        <Snowflake className="w-4 h-4" /> Track B: Snowball (Smallest Balance)
+                      </div>
                       <div className="text-red-500 flex items-center gap-2">
                         <span
                           className="inline-block transition-transform duration-200 origin-bottom-left"
@@ -431,7 +437,7 @@ export default function DebtRepaymentRace() {
                             transform: `scale(${maxInterest > 0 ? 0.7 + racePositions.sbCumulativeInterest / maxInterest : 1})`
                           }}
                         >
-                          🔥
+                          <Flame className="w-5 h-5" />
                         </span>
                         <span>₹{(racePositions.sbCumulativeInterest || 0).toLocaleString('en-IN')} BURNED</span>
                       </div>
@@ -444,7 +450,9 @@ export default function DebtRepaymentRace() {
                       className="h-full bg-gray-100 border-r-4 border-black transition-all duration-200 flex items-center justify-end pr-2 shrink-0"
                       style={{ width: `${racePositions.snowballProgress}%` }}
                     >
-                      <span className="text-xl">🏃</span>
+                      <span className="flex items-center">
+                        <Footprints className="w-5 h-5" />
+                      </span>
                     </div>
                     {/* The dragged weight blocks */}
                     <div className="h-full flex-1 flex transition-all duration-200 shrink-0">
