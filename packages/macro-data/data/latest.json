@@ -22,13 +22,25 @@
     "freelancePresumptive": 20
   },
   "metadata": {
-    "lastUpdated": "2026-09-04T02:52:18.328Z",
+    "lastUpdated": "2026-09-07T02:50:25.023Z",
     "inflationMultiplierApplied": 1.0485524387488894,
     "sources": [
-      { "key": "inflation", "label": "World Bank CPI (FP.CPI.TOTL.ZG)" },
-      { "key": "interestRates", "label": "World Bank lending rate (FR.INR.LEND)" },
-      { "key": "returns", "label": "Alpha Vantage equity benchmark" },
-      { "key": "microCosts", "label": "Algorithmic extrapolation from 2024 base costs" }
+      {
+        "key": "inflation",
+        "label": "World Bank CPI (FP.CPI.TOTL.ZG)"
+      },
+      {
+        "key": "interestRates",
+        "label": "World Bank lending rate (FR.INR.LEND)"
+      },
+      {
+        "key": "returns",
+        "label": "Alpha Vantage equity benchmark"
+      },
+      {
+        "key": "microCosts",
+        "label": "Algorithmic extrapolation from 2024 base costs"
+      }
     ]
   },
   "microCosts": {
