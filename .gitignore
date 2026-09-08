@@ -6,6 +6,8 @@ dist
 .DS_Store
 coverage
 docs
+scratch/
+fix-footers.js
 
 # Logs
 npm-debug.log*
