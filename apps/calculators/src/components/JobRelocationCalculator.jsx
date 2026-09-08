@@ -103,7 +103,7 @@ export default function JobRelocationCalculator() {
   });
 
   // --- LIFESTYLE FACTORS ---
-  const [commuteTimeDelta, setCommuteTimeDelta] = usePersistedState('JobRelocationCalculator', 'commuteTimeDelta', 0); // Minutes per day
+  const [commuteTimeDelta] = usePersistedState('JobRelocationCalculator', 'commuteTimeDelta', 0); // Minutes per day
   const [currentCommuteMode, setCurrentCommuteMode] = usePersistedState(
     'JobRelocationCalculator',
     'currentCommuteMode',
@@ -205,7 +205,8 @@ export default function JobRelocationCalculator() {
     currentCommuteMode,
     currentCommuteCost,
     newCommuteMode,
-    newCommuteCost
+    newCommuteCost,
+    setResults
   ]);
 
   useEffect(() => {
@@ -1029,7 +1030,7 @@ export default function JobRelocationCalculator() {
                   </div>
                   <p className="text-[9px] font-bold text-gray-500 italic">
                     After {results.analysis.recoveryMonths} months, the new job will have paid off the moving costs and
-                    you'll start seeing real gains.
+                    you&apos;ll start seeing real gains.
                   </p>
                 </div>
               </div>
@@ -1404,7 +1405,7 @@ export default function JobRelocationCalculator() {
               </p>
               <p className="text-sm font-bold leading-relaxed text-black">
                 Finances are a pivot point, but they are not the whole story. Factors like your love for your current
-                city, the psychological safety of your existing social circle, or the specific "flow state" you find in
+                city, the psychological safety of your existing social circle, or the specific &quot;flow state&quot; you find in
                 your current role often outweigh monetary gains.
               </p>
               <p className="text-sm font-black leading-relaxed text-black italic">

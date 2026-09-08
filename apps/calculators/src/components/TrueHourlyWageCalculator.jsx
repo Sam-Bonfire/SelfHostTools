@@ -127,7 +127,8 @@ export default function TrueHourlyWageCalculator() {
     unpaidOvertimeHoursPerWeek,
     commuteDailyCost,
     monthlyConvenienceRen,
-    monthlyHealthren
+    monthlyHealthren,
+    setResults
   ]);
 
   useEffect(() => {
@@ -514,7 +515,7 @@ export default function TrueHourlyWageCalculator() {
                         <span className="text-lg font-black">{results.time.standardHours} hrs</span>
                       </div>
                       <div className="p-3 bg-red-50 border-2 border-black">
-                        <span className="block text-[10px] font-bold uppercase text-red-500">Unpaid "Work"</span>
+                        <span className="block text-[10px] font-bold uppercase text-red-500">Unpaid &quot;Work&quot;</span>
                         <span className="text-lg font-black text-red-600">+{results.time.totalTimeLeaks} hrs</span>
                         <div className="mt-1 text-[9px] font-bold text-gray-500 leading-tight">
                           Commute: {results.leaks.commuteHours}h<br />

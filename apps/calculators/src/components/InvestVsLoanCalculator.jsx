@@ -101,7 +101,7 @@ export default function App() {
       userTaxBracket
     });
     setResults(res);
-  }, [loans, surplus, investmentReturn, investmentTaxRate, userTaxBracket]);
+  }, [loans, surplus, investmentReturn, investmentTaxRate, userTaxBracket, setResults]);
 
   useEffect(() => {
     calculate();
@@ -205,7 +205,7 @@ export default function App() {
           {/* Loans List */}
           <Card title="Your Loans" icon={Landmark} headerColor="bg-red-100">
             <div className="space-y-6">
-              {loans.map((loan, idx) => (
+              {loans.map((loan, _idx) => (
                 <div key={loan.id} className="relative p-4 bg-gray-50 border-2 border-black rounded-sm">
                   {loans.length > 1 && (
                     <button
@@ -423,7 +423,7 @@ export default function App() {
                         We considered your <strong>{userTaxBracket}%</strong> tax bracket for loan deductions.
                       </li>
                       <li>
-                        Inflation reduces the "Real Value" of your future wealth. The numbers above are nominal (today's
+                        Inflation reduces the &quot;Real Value&quot; of your future wealth. The numbers above are nominal (today&apos;s
                         currency value).
                       </li>
                       <li>

@@ -116,7 +116,7 @@ export default function TDEECalculator() {
 
     const res = calculateTDEE(payload);
     setResults(res);
-  }, [formData]);
+  }, [formData, setResults]);
 
   // Format helpers
   const formatNumber = (num) => num?.toLocaleString() || 0;
@@ -530,7 +530,7 @@ export default function TDEECalculator() {
                 estimated energy expenditure.
               </p>
               <p className="text-xs font-medium leading-relaxed">
-                If you enable <strong>"I know my Body Fat %"</strong>, we switch to the <strong>Katch-McArdle</strong>{' '}
+                If you enable <strong>&quot;I know my Body Fat %&quot;</strong>, we switch to the <strong>Katch-McArdle</strong>{' '}
                 formula. This is more accurate for athletes as it accounts for lean body mass rather than just total
                 weight.
               </p>
@@ -704,9 +704,9 @@ export default function TDEECalculator() {
                 <div>
                   <h4 className="text-sm font-black uppercase text-pink-900 mb-2">A Note on Self-Worth</h4>
                   <p className="text-xs font-medium text-pink-800 mb-2 leading-relaxed italic">
-                    "This number is just data, not a definition of who you are. Your body is the vehicle that lets you
+                    &quot;This number is just data, not a definition of who you are. Your body is the vehicle that lets you
                     experience life—treat it with kindness, fuel it with respect, and remember that health is a
-                    marathon, not a sprint."
+                    marathon, not a sprint.&quot;
                   </p>
                   <p className="text-[10px] font-bold text-pink-900/60 uppercase">— The Dev Team</p>
                 </div>
@@ -741,7 +741,7 @@ export default function TDEECalculator() {
         <p className="text-gray-600 font-medium">
           <strong>Disclaimer:</strong> Calculators provide estimates, but your metabolism is dynamic.
           <br className="md:hidden" />
-          If you stop losing weight in a deficit, your body has adapted. You don't need a new calculator, you need a
+          If you stop losing weight in a deficit, your body has adapted. You don&apos;t need a new calculator, you need a
           diet break or more activity.
         </p>
       </Footer>

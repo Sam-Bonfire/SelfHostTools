@@ -160,7 +160,8 @@ export default function FreelanceIncomeCalculator() {
     targetMonthlyIncome,
     projectHours,
     projectBuffer,
-    projectDirectCosts
+    projectDirectCosts,
+    setResults
   ]);
 
   useEffect(() => {
@@ -172,7 +173,7 @@ export default function FreelanceIncomeCalculator() {
     if (!showAdminEstimator) return;
     const newPercent = getAdminPercent(adminBreakdown, billableHours);
     setAdminTime(newPercent);
-  }, [adminBreakdown, billableHours, showAdminEstimator]);
+  }, [adminBreakdown, billableHours, showAdminEstimator, setAdminTime]);
 
   const updateAdminBreakdown = (key, field, value) => {
     setAdminBreakdown((prev) => ({
@@ -561,7 +562,7 @@ export default function FreelanceIncomeCalculator() {
                 <div>
                   <h3 className="text-red-900 font-black text-lg flex items-center gap-2 mb-1 uppercase tracking-tight">
                     <TrendingDown className="w-5 h-5" />
-                    The "Real" Hourly Rate
+                    The &quot;Real&quot; Hourly Rate
                   </h3>
                   <MetricDisplay
                     title="What you actually earn per hour of work"
@@ -702,7 +703,7 @@ export default function FreelanceIncomeCalculator() {
 
       <Footer>
         <p className="text-gray-600 font-medium">
-          <strong>Pro Tip:</strong> Most freelancers underprice because they compare their 'Billed Rate' to a salary. A
+          <strong>Pro Tip:</strong> Most freelancers underprice because they compare their &apos;Billed Rate&apos; to a salary. A
           ₹2,500 hourly rate is often equivalent to a ₹1,200 salary after accounting for benefits, taxes, and overheads.
         </p>
       </Footer>

@@ -126,7 +126,9 @@ export default function SIPCalculator() {
     expenseRatio,
     useTax,
     assetMix,
-    taxRates
+    taxRates,
+    setResults,
+    setSchedule
   ]);
 
   useEffect(() => {

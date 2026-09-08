@@ -150,7 +150,7 @@ const PomodoroFocusVisualizer = () => {
       }
     }
     return () => clearInterval(interval);
-  }, [isActive, timeLeft, mode]);
+  }, [isActive, timeLeft, mode, BREAK_TIME, FOCUS_TIME, setIsActive, setMode, setTimeLeft]);
 
   // Audio interaction logic
   useEffect(() => {

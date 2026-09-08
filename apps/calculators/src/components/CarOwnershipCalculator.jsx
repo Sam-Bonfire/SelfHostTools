@@ -535,7 +535,7 @@ export default function CarOwnershipCalculator() {
               <Card title="Trip Simulator (Cab vs Own Car)" icon={Map} headerColor="bg-indigo-100">
                 <div className="space-y-4">
                   <p className="text-sm font-medium text-gray-600">
-                    You already own the car. EMI and insurance are sunk costs. Let's see what's cheaper for a specific
+                    You already own the car. EMI and insurance are sunk costs. Let&apos;s see what&apos;s cheaper for a specific
                     trip today.
                   </p>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3">

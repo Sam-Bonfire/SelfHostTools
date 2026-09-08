@@ -188,16 +188,15 @@ export default function DegreeROICalculator() {
     startingSalaryDegree,
     salaryGrowthDegree,
     startingSalaryAlt,
-    salaryGrowthAlt
+    salaryGrowthAlt,
+    setResults,
+    setSchedule
   ]);
 
   // Initial Calc
   useEffect(() => {
     calculate();
   }, [calculate]);
-
-  const formatCurrency = (val) =>
-    new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
 
   return (
     <div className="min-h-screen bg-white text-black p-4 md:p-8">

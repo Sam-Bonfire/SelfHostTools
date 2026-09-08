@@ -75,7 +75,7 @@ export default function InflationDestroyer() {
       selectedBasketId
     });
     setResults(data);
-  }, [principal, inflationRate, years, investmentReturn, investmentTaxRate, selectedBasketId]);
+  }, [principal, inflationRate, years, investmentReturn, investmentTaxRate, selectedBasketId, setResults]);
 
   useEffect(() => {
     calculate();

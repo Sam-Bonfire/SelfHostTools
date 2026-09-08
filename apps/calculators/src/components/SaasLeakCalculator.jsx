@@ -146,7 +146,7 @@ export default function SaasLeakCalculator() {
       subscriptions
     });
     setResults(data);
-  }, [calcMode, monthlyInvestment, expectedReturn, hourlyWage, subscriptions]);
+  }, [calcMode, monthlyInvestment, expectedReturn, hourlyWage, subscriptions, setResults]);
 
   useEffect(() => {
     calculate();
@@ -594,7 +594,7 @@ export default function SaasLeakCalculator() {
                     CRITICAL FINANCIAL baseline WARN
                   </h4>
                   <p className="text-xs text-red-800 font-bold uppercase mt-1">
-                    Your True Net Hourly Wage is set to zero or negative! If you aren't earning billable cash,
+                    Your True Net Hourly Wage is set to zero or negative! If you aren&apos;t earning billable cash,
                     subscriptions are a direct erosion of finite savings. Enter a realistic hourly wage to calculate the
                     labor hours required to sustain this spend.
                   </p>
@@ -612,7 +612,7 @@ export default function SaasLeakCalculator() {
               >
                 <div className="space-y-2">
                   <p className="text-[10px] text-red-800 font-bold uppercase tracking-tight leading-tight mb-2">
-                    The following subscriptions are marked as "Rarely Used" but cost more than ₹200/month. Consider
+                    The following subscriptions are marked as &quot;Rarely Used&quot; but cost more than ₹200/month. Consider
                     canceling:
                   </p>
                   <div className="grid grid-cols-1 gap-2">

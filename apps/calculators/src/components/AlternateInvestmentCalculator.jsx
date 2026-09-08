@@ -105,7 +105,9 @@ export default function AlternateInvestmentCalculator() {
     isActiveInvestment,
     activeHoursPerWeek,
     userHourlyRate,
-    benchmarkReturn
+    benchmarkReturn,
+    marketScenario,
+    setResults
   ]);
 
   const formatCurrency = (val) =>
@@ -592,10 +594,10 @@ export default function AlternateInvestmentCalculator() {
             </ResultsAnalysis>
             <Footer>
               <p className="text-gray-600 font-medium">
-                <strong>Disclaimer:</strong> Free time isn't free.
+                <strong>Disclaimer:</strong> Free time isn&apos;t free.
                 <br className="md:hidden" />
                 Active investments require sweat equity. If your real ROI after deducting the value of your time
-                underperforms a passive index fund, you haven't bought an asset—you've bought a second job.
+                underperforms a passive index fund, you haven&apos;t bought an asset—you&apos;ve bought a second job.
               </p>
             </Footer>
           </div>

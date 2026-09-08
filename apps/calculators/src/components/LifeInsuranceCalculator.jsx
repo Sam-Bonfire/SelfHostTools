@@ -101,7 +101,8 @@ export default function LifeInsuranceCalculator() {
     liabilities,
     futureGoals,
     existingAssets,
-    currentInsurance
+    currentInsurance,
+    setResults
   ]);
 
   useEffect(() => {
@@ -539,7 +540,7 @@ export default function LifeInsuranceCalculator() {
 
             <div className="bg-blue-50 border-4 border-black p-6 text-black">
               <h2 className="text-lg font-bold flex items-center gap-2 mb-4 uppercase">
-                <ShieldCheck className="w-5 h-5 text-blue-700" /> Smart Buyer's Checklist
+                <ShieldCheck className="w-5 h-5 text-blue-700" /> Smart Buyer&apos;s Checklist
               </h2>
               <ul className="space-y-2 text-xs font-bold text-gray-700">
                 <li className="flex items-center gap-2">
@@ -558,7 +559,7 @@ export default function LifeInsuranceCalculator() {
                   <div className="w-4 h-4 rounded-full bg-green-500 flex items-center justify-center text-white text-[10px]">
                     ✓
                   </div>
-                  Detailed Medical Declartion (Don't hide habits!)
+                  Detailed Medical Declartion (Don&apos;t hide habits!)
                 </li>
                 <li className="flex items-center gap-2">
                   <div className="w-4 h-4 rounded-full bg-green-500 flex items-center justify-center text-white text-[10px]">
@@ -571,7 +572,7 @@ export default function LifeInsuranceCalculator() {
                     rel="noopener noreferrer"
                     className="underline text-blue-600 hover:text-blue-800"
                   >
-                    MWPA (Married Women's Property Act)
+                    MWPA (Married Women&apos;s Property Act)
                   </a>{' '}
                   addendum
                 </li>

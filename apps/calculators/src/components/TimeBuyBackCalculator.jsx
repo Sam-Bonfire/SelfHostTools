@@ -143,7 +143,8 @@ export default function TimeBuyBackCalculator() {
     taskCost,
     hoursSaved,
     energyMultiplier,
-    reinvestmentType
+    reinvestmentType,
+    setResults
   ]);
 
   useEffect(() => {

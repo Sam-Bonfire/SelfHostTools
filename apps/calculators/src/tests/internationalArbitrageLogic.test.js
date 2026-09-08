@@ -62,7 +62,7 @@ describe('internationalArbitrageLogic', () => {
     const taxAmountLocal = expectedGrossLocal * 0.1; // 13876.8
     const netLocal = expectedGrossLocal - taxAmountLocal; // 124891.2
     const savingsLocal = netLocal - 45000; // 79891.2
-    const savingsConverted = savingsLocal / 1.5; // 53260.8
+    const _savingsConverted = savingsLocal / 1.5; // 53260.8
 
     expect(result.target.savingsLocal).toBeCloseTo(79891.2, 2);
     expect(result.target.savingsConverted).toBeCloseTo(53260.8, 2);

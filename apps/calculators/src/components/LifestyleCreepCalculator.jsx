@@ -36,7 +36,7 @@ export default function LifestyleCreepCalculator() {
   );
   const [roiPercent, setRoiPercent] = usePersistedState('LifestyleCreepCalculator', 'roiPercent', 12);
   const [inflationPercent, setInflationPercent] = usePersistedState('LifestyleCreepCalculator', 'inflationPercent', 6);
-  const [years, setYears] = usePersistedState('LifestyleCreepCalculator', 'years', 20);
+  const [years] = usePersistedState('LifestyleCreepCalculator', 'years', 20);
 
   // The main slider
   const [raiseInvestedPercent, setRaiseInvestedPercent] = usePersistedState(
@@ -314,7 +314,7 @@ export default function LifestyleCreepCalculator() {
                 </h3>
                 <p className="text-sm font-medium">
                   In <strong>real terms (adjusted for {inflationPercent}% inflation)</strong>, your final portfolio
-                  value is actually <strong>{formatCurrency(summary.finalRealBalanceB)}</strong> in today's purchasing
+                  value is actually <strong>{formatCurrency(summary.finalRealBalanceB)}</strong> in today&apos;s purchasing
                   power. By letting lifestyle creep consume {100 - raiseInvestedPercent}% of your raises, you forfeit a
                   massive <strong>{formatCurrency(summary.maxCreepCostReal)}</strong> of real purchasing power compared
                   to being perfectly disciplined.
@@ -329,7 +329,7 @@ export default function LifestyleCreepCalculator() {
           <strong>Disclaimer:</strong> Small, incremental increases in spending often go unnoticed but compound
           negatively against your wealth.
           <br className="md:hidden" />
-          The true cost of lifestyle creep isn't just the money spent, but the future growth that money could have
+          The true cost of lifestyle creep isn&apos;t just the money spent, but the future growth that money could have
           generated.
         </p>
       </Footer>
