@@ -206,7 +206,7 @@ export default function AssetJarVisualizer() {
 
       <Footer>
         <p className="text-gray-600 font-medium">
-          <strong>Disclaimer:</strong> Asset allocation isn't a static choice; it's a dynamic balance.
+          <strong>Disclaimer:</strong> Asset allocation isn&apos;t a static choice; it&apos;s a dynamic balance.
           <br className="md:hidden" />
           Market volatility naturally skews your portfolio, highlighting the mathematical necessity of periodic
           rebalancing.

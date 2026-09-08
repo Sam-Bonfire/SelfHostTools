@@ -11,7 +11,7 @@ export const calculateAlternateROI = ({
 }) => {
   const months = years * 12;
   const monthlyRate = estReturnRate / 100 / 12;
-  const monthlyInflation = inflationRate / 100 / 12;
+  const _monthlyInflation = inflationRate / 100 / 12;
 
   let nominalValue = initialInvestment;
   let totalInvested = initialInvestment;
@@ -41,7 +41,7 @@ export const calculateAlternateROI = ({
   // Simple view: Tax is paid on the Gains at the end
   const taxAmount = Math.max(0, grossProfit * (taxRate / 100));
   const postTaxValue = nominalValue - taxAmount;
-  const postTaxProfit = postTaxValue - totalInvested;
+  const _postTaxProfit = postTaxValue - totalInvested;
 
   // --- INFLATION ADJUSTMENT (Real Value) ---
   // Formula: PresentValue = FutureValue / (1 + inflation)^years

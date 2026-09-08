@@ -34,11 +34,11 @@ export function calculateLifestyleCreep({
     // Wait, does the raise happen at the end of year 1? Yes.
     // So Year 1 is just the base income and base savings.
 
-    let raiseAmount = 0;
+    let _raiseAmount = 0;
     if (year > 1) {
       const previousIncome = currentIncome;
       currentIncome = currentIncome * (1 + raiseRate);
-      raiseAmount = currentIncome - previousIncome;
+      _raiseAmount = currentIncome - previousIncome;
     }
 
     // The base savings should theoretically increase with inflation to maintain the same real saving rate?

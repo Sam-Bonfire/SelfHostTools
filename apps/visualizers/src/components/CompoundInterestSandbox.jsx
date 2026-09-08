@@ -206,7 +206,7 @@ export default function CompoundInterestSandbox() {
       window.removeEventListener('resize', handleResize);
       cancelAnimationFrame(animationFrameRef.current);
     };
-  }, [latestYearData, isPlaying, yearsDelayed, evaporatedWealth]);
+  }, [latestYearData, isPlaying, yearsDelayed, evaporatedWealth, coinValue]);
 
   const resetSandbox = () => {
     particlesRef.current = [];
@@ -402,7 +402,7 @@ export default function CompoundInterestSandbox() {
       <Footer>
         <p className="text-gray-600 font-medium">
           <strong>Disclaimer:</strong> Compound interest acts like a snowball; early contributions build the core, but
-          it's the compounding momentum over time that creates massive wealth.
+          it&apos;s the compounding momentum over time that creates massive wealth.
           <br className="md:hidden" />
           Start early, and let the physics of exponential growth do the heavy lifting.
         </p>

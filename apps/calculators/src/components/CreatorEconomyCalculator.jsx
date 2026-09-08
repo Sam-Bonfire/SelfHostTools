@@ -41,35 +41,6 @@ const CreatorEconomyCalculator = () => {
     downloadExcel({ inputs, results });
   };
 
-  // Preparing data for export
-  const reportData = {
-    title: 'Creator Economy Sponsor & Ad Quoter',
-    summary: [
-      { label: 'Desired Monthly Income', value: `₹${inputs.desiredIncome.toLocaleString()}` },
-      { label: 'Audience Size', value: inputs.audienceSize.toLocaleString() },
-      { label: 'Active Reach', value: results.activeAudience.toLocaleString() },
-      { label: 'Estimated Clicks per Post', value: results.estimatedClicks.toLocaleString() }
-    ],
-    details: [
-      ['Tier Name', 'CPM', 'Flat Rate per Post', 'Monthly Potential'],
-      ...results.tiers.map((t) => [t.name, `₹${t.cpm}`, `₹${t.flatRate.toFixed(2)}`, `₹${t.monthlyRevenue.toFixed(2)}`])
-    ],
-    insights: [
-      {
-        label: 'Required CPM to hit goal',
-        value: `₹${results.requiredCPM.toFixed(2)}`
-      },
-      {
-        label: 'Required CPC to hit goal',
-        value: `₹${results.requiredCPC.toFixed(2)}`
-      },
-      {
-        label: 'Reality Check',
-        value: results.realityCheck.message
-      }
-    ]
-  };
-
   return (
     <div className="min-h-screen bg-white text-black p-4 md:p-8">
       <CalculatorLayout>
@@ -217,9 +188,9 @@ const CreatorEconomyCalculator = () => {
       </CalculatorLayout>
       <Footer>
         <p className="text-gray-600 font-medium">
-          <strong>Disclaimer:</strong> Eyeballs don't pay the bills; engagement does.
+          <strong>Disclaimer:</strong> Eyeballs don&apos;t pay the bills; engagement does.
           <br className="md:hidden" />
-          Sponsors pay for predictable reach and clicks, not vanity follower counts. If your numbers don't add up to
+          Sponsors pay for predictable reach and clicks, not vanity follower counts. If your numbers don&apos;t add up to
           your desired income at standard industry CPMs, you need either a larger audience or a more expensive niche.
         </p>
       </Footer>

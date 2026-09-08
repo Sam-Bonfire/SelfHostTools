@@ -152,14 +152,14 @@ export default function GoldenHandcuffsCalculator() {
       schedule,
       alerts
     });
-  }, [currentBase, currentBonus, currentEquity, clawback, newBase, newBonus, newEquity]);
+  }, [currentBase, currentBonus, currentEquity, clawback, newBase, newBonus, newEquity, setResults]);
 
   useEffect(() => {
     calculate();
     // Auto-save logic could go here
     const data = { currentBase, currentBonus, currentEquity, clawback, newBase, newBonus, newEquity };
     localStorage.setItem('goldenHandcuffsData', JSON.stringify(data));
-  }, [calculate]);
+  }, [calculate, clawback, currentBase, currentBonus, currentEquity, newBase, newBonus, newEquity]);
 
   // Load from local storage on mount
   useEffect(() => {
@@ -178,7 +178,7 @@ export default function GoldenHandcuffsCalculator() {
         console.error('Failed to load saved data', e);
       }
     }
-  }, []);
+  }, [setClawback, setCurrentBase, setCurrentBonus, setCurrentEquity, setNewBase, setNewBonus, setNewEquity]);
 
   const formatCurrency = (val) =>
     new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
@@ -277,7 +277,7 @@ export default function GoldenHandcuffsCalculator() {
                   </Button>
                 </div>
                 <div className="space-y-3">
-                  {currentEquity.map((grant, idx) => (
+                  {currentEquity.map((grant, _idx) => (
                     <div key={grant.id} className="bg-blue-50 p-2 border-2 border-black relative">
                       <button
                         onClick={() => removeEquity(setCurrentEquity, grant.id)}
@@ -406,7 +406,7 @@ export default function GoldenHandcuffsCalculator() {
                   </Button>
                 </div>
                 <div className="space-y-3">
-                  {newEquity.map((grant, idx) => (
+                  {newEquity.map((grant, _idx) => (
                     <div key={grant.id} className="bg-green-50 p-2 border-2 border-black relative">
                       <button
                         onClick={() => removeEquity(setNewEquity, grant.id)}
@@ -586,7 +586,7 @@ export default function GoldenHandcuffsCalculator() {
 
       <Footer>
         <p className="text-gray-600 font-medium">
-          <strong>Strategy Tip:</strong> If the "Freedom Tax" is high, negotiate a <strong>Sign-on Bonus</strong> to
+          <strong>Strategy Tip:</strong> If the &quot;Freedom Tax&quot; is high, negotiate a <strong>Sign-on Bonus</strong> to
           cover the specific clawback amount. Recruiters expect this.
         </p>
       </Footer>

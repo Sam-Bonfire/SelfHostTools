@@ -45,7 +45,7 @@ export default function HomeLoanRentCalculator() {
     'propertyAppreciation',
     5
   );
-  const [maintenanceCost, setMaintenance] = usePersistedState('HomeLoanRentCalculator', 'maintenanceCost', 1); // 1% of value / yr
+  const [maintenanceCost] = usePersistedState('HomeLoanRentCalculator', 'maintenanceCost', 1); // 1% of value / yr
 
   // --- RENTING INPUTS ---
   const [monthlyRent, setMonthlyRent] = usePersistedState('HomeLoanRentCalculator', 'monthlyRent', 25000);
@@ -101,7 +101,9 @@ export default function HomeLoanRentCalculator() {
     rentInflation,
     investDifference,
     equityReturn,
-    taxBenefit
+    taxBenefit,
+    setResults,
+    setSchedule
   ]);
 
   useEffect(() => {

@@ -37,7 +37,7 @@ export const calculateInvestVsLoan = ({
 
   const monthlySurplus = Number(surplus) || 0;
   const annualInvReturn = Number(investmentReturn) || 0;
-  const invTaxRate = Number(investmentTaxRate) || 0;
+  const _invTaxRate = Number(investmentTaxRate) || 0;
   const bracket = Number(userTaxBracket) || 0;
   const annualInflation = Number(inflationRate) || 0;
 
@@ -100,7 +100,7 @@ export const calculateInvestVsLoan = ({
       }
 
       // 3. Handle Surplus
-      let availableSurplus = monthlySurplus; // Start with full surplus
+      let _availableSurplus = monthlySurplus; // Start with full surplus
 
       // If we paid off a loan, its minimum payment is now freed up cash IF we are in PAYOFF strategy
       // Actually, in standard "Snowball/Avalanche", the "freed up minimums" are rolled over to the next loan.

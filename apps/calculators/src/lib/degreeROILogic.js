@@ -53,7 +53,7 @@ export const calculateDegreeROI = ({
   // We strictly simulate year by year.
 
   for (let year = 1; year <= yearsToProject; year++) {
-    let degreeCashFlow = 0;
+    let _degreeCashFlow = 0;
     let altCashFlow = 0;
 
     // --- ALTERNATIVE PATH ---
@@ -132,12 +132,12 @@ export const calculateDegreeROI = ({
       const degreeNetIncome = degreeGross * (1 - tax);
 
       // 3. Cash Flow
-      degreeCashFlow = degreeNetIncome - currentLiving - payment;
+      _degreeCashFlow = degreeNetIncome - currentLiving - payment;
 
       // 4. Net Worth
       // Old accumulated Savings grow + New Savings - Current Debt
       // (degreeNetWorth + degreeDebt) is the "Assets" part
-      let assets = degreeNetWorth + (degreeDebt > 0 ? degreeDebt : 0); // recover asset value from net worth
+      let _assets = degreeNetWorth + (degreeDebt > 0 ? degreeDebt : 0); // recover asset value from net worth
       // Fix: logic error. `degreeNetWorth` is (Assets - Debt).
       // So Assets = degreeNetWorth + Debt.
       // Wait, previous year degreeNetWorth was negative debt. So Assets was 0.
@@ -268,7 +268,7 @@ export const calculateDegreeROI = ({
     }
   }
 
-  const breakEvenAge = Number(durationYears) + 18 + (breakEvenYear ? breakEvenYear - durationYears : 0); // Crude approx
+  const _breakEvenAge = Number(durationYears) + 18 + (breakEvenYear ? breakEvenYear - durationYears : 0); // Crude approx
 
   // Slave Ratio (Monthly Payment / Monthly Net)
   // Use first year of work values

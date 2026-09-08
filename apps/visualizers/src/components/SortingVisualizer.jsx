@@ -212,7 +212,7 @@ const SortingVisualizer = () => {
     setIsPlaying(false);
     setCurrentStep(0);
     setAnimations([]);
-  }, []);
+  }, [setAnimations, setArray, setColors, setCurrentStep, setIsPlaying]);
 
   useEffect(() => {
     generateArray();
@@ -223,7 +223,7 @@ const SortingVisualizer = () => {
       const newAnims = algorithms[algorithm].fn(array);
       setAnimations(newAnims);
     }
-  }, [algorithm, array, animations.length, currentStep]);
+  }, [algorithm, array, animations.length, currentStep, setAnimations]);
 
   const applyStep = useCallback(
     (stepIndex, fw = true) => {
@@ -266,7 +266,7 @@ const SortingVisualizer = () => {
         return newColors;
       });
     },
-    [playNote]
+    [playNote, setArray, setColors]
   );
 
   const stepForward = useCallback(() => {
@@ -277,7 +277,7 @@ const SortingVisualizer = () => {
       }
       return prev;
     });
-  }, [applyStep]);
+  }, [applyStep, setCurrentStep]);
 
   useEffect(() => {
     if (isPlaying) {
@@ -299,7 +299,7 @@ const SortingVisualizer = () => {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [isPlaying, speed, applyStep]);
+  }, [isPlaying, speed, applyStep, setCurrentStep, setIsPlaying]);
 
   const handlePlayPause = () => {
     initAudio();

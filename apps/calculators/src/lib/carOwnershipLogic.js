@@ -46,7 +46,7 @@ export function calculateCarOwnership({
 
   // 3. Operational Costs Over Ownership Period
   const actualMonthsPaid = Math.min(loanTermYears * 12, ownershipYears * 12);
-  const totalLoanPaymentsMade = actualMonthsPaid * monthlyEMI;
+  const _totalLoanPaymentsMade = actualMonthsPaid * monthlyEMI;
 
   let computedAnnualMaintenance = 0;
   let computedMonthlyFuel = 0;

@@ -112,7 +112,9 @@ export default function HomeOwnerRealistCalculator() {
     auditItems,
     appreciationRate,
     opportunityCostRate,
-    maintenanceInflation
+    maintenanceInflation,
+    setResults,
+    setTimelineEvents
   ]);
 
   useEffect(() => {
@@ -270,9 +272,9 @@ export default function HomeOwnerRealistCalculator() {
           >
             <div className="space-y-4 max-h-[500px] overflow-y-auto">
               <p className="text-[10px] font-bold text-gray-500 uppercase">
-                List major items to calculate their 'Sinking Fund' cost.
+                List major items to calculate their &apos;Sinking Fund&apos; cost.
               </p>
-              {auditItems.map((item, index) => (
+              {auditItems.map((item, _index) => (
                 <div
                   key={item.id}
                   className="p-3 border-2 border-black bg-gray-50 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] relative group"

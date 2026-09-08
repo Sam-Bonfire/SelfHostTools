@@ -129,11 +129,14 @@ export default function App() {
     courseDuration,
     gracePeriod,
     gracePayment,
+    graceLumpsum,
     capitalizeInterest,
     extraPayment,
     isAdvanced,
     courseEndDate,
-    disbursements
+    disbursements,
+    setResults,
+    setSchedule
   ]);
 
   useEffect(() => {
@@ -169,10 +172,6 @@ export default function App() {
     if (y > 0 && m > 0) return `${y}y ${m}m`;
     if (y > 0) return `${y} Years`;
     return `${m} Months`;
-  };
-
-  const formatDate = (dateObj) => {
-    return dateObj ? dateObj.toLocaleDateString('en-IN', { month: 'short', year: 'numeric' }) : '-';
   };
 
   const principalPercentage =

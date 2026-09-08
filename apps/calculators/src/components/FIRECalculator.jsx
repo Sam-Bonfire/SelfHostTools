@@ -90,7 +90,8 @@ export default function FIRECalculator() {
     medicalInflation,
     preRetirementReturn,
     postRetirementReturn,
-    lifestyleInflation
+    lifestyleInflation,
+    setResults
   ]);
 
   const generateSchedule = useCallback(() => {

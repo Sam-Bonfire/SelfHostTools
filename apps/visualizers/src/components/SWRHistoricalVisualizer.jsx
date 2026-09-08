@@ -281,7 +281,7 @@ export default function SWRHistoricalVisualizer() {
               The sequence of returns risk is the danger that the timing of withdrawals from a retirement account will
               have a negative impact on the overall rate of return. Even if average returns are positive, withdrawing
               during a prolonged down market (like 1929) or during high inflation (like the 1970s) forces you to sell
-              more shares to meet your living expenses, permanently impairing the portfolio's ability to recover.
+              more shares to meet your living expenses, permanently impairing the portfolio&apos;s ability to recover.
             </p>
           </Card>
         </div>
@@ -290,8 +290,8 @@ export default function SWRHistoricalVisualizer() {
         <p className="text-gray-600 font-medium">
           <strong>Disclaimer:</strong> Historical returns do not guarantee future performance.
           <br className="md:hidden" />
-          The danger lies in "Sequence of Returns Risk": selling assets during a market crash to fund living expenses
-          permanently destroys your portfolio's ability to compound when the market recovers.
+          The danger lies in &quot;Sequence of Returns Risk&quot;: selling assets during a market crash to fund living expenses
+          permanently destroys your portfolio&apos;s ability to compound when the market recovers.
         </p>
       </Footer>
     </div>
